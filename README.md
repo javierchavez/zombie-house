@@ -4,6 +4,7 @@
 
 ---
 **Authors**
-Alexander Baker <alexebaker@unm.edu>
-Erin Sosebee <esosebee@unm.edu>
-Javier Chavez <javierc@cs.unm.edu>
+
+- Alexander Baker <alexebaker@unm.edu>
+- Erin Sosebee <esosebee@unm.edu>
+- Javier Chavez <javierc@cs.unm.edu>

@@ -5,11 +5,11 @@
 
 If you are using Intellij:
 
-1. On the startup screen, click the option, "Check out form Version Control"
-2. Choose git from the dropdown menu
-3. Paste the Git repo URL git@github.com:javierchavez/zombie-house.git
+1. On the startup screen, click the option, **Check out from Version Control**
+2. Choose **git** from the dropdown menu
+3. Paste the Git repo URL **git@github.com:javierchavez/zombie-house.git**
 4. Choose the dir. for the repo to live.
-5. Select 'yes' when it asks if you want to create a intellij proj.
+5. Select yes when it asks if you want to **create an intellij proj.**
 
 ---
 **Authors**

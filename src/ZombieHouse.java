@@ -1,8 +1,5 @@
-
-
 /**
- *
- * Enterence of the program.
+ * Entrance of the program.
  */
 
 

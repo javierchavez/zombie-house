@@ -40,13 +40,13 @@ public class Zombie implements Path, LifeTaker, Movable
   }
 
   @Override
-  public float getX ()
+  public float getCurrentX ()
   {
     return 0;
   }
 
   @Override
-  public float getY ()
+  public float getCurrentY ()
   {
     return 0;
   }

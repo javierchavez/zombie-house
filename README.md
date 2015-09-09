@@ -11,6 +11,21 @@ If you are using Intellij:
 4. Choose the dir. for the repo to live.
 5. Select yes when it asks if you want to **create an intellij proj.**
 
+
+## Models
+The character controlled by the player
+The house where the character moves
+obstacles
+zombies
+
+## Controllers
+Main loop
+player input
+Controller to perform actions on the player’s character (move, attack)
+
+## Views
+Renderer – Render the objects onto the screen
+
 ---
 **Authors**
 

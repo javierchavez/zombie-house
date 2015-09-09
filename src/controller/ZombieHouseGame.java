@@ -40,6 +40,11 @@ public class ZombieHouseGame
     // events
   }
 
+  public void update(float deltaTime)
+  {
+    controller.update(deltaTime);
+  }
+
   public void render (Graphics graphics)
   {
     renderer.render(graphics);

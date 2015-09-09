@@ -1,7 +1,7 @@
 package model;
 
 
-public interface Moveable
+public interface Movable
 {
   float x = 0;
   float y = 0;

@@ -3,10 +3,6 @@ package model;
 
 public interface Movable
 {
-  float x = 0;
-  float y = 0;
-  float speed = 2f;
-  float rotation = 0f;
 
   float getX();
 

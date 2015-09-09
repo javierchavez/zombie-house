@@ -1,7 +1,7 @@
 package model;
 
 
-public class Obstacle implements Stationary, LifeTaker
+public class Obstacle implements Tile, LifeTaker
 {
   // life or energy points to deduct
   private float points;

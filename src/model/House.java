@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class House
@@ -10,8 +11,8 @@ public class House
   public static final int WIDTH = 11;
   public static final int HEIGHT = 11;
 
-  private List<List<Object>> board = new ArrayList<>();
-  private List<Stationary> obstacles = new ArrayList<>();
+  private List<List<Object>> boerd = new ArrayList<>();
+  private List<Tile> tiles = new ArrayList<>();
   private List<Zombie> zombies = new ArrayList<>();
   private Character player;
 
@@ -21,9 +22,11 @@ public class House
   }
 
 
-  public List<Stationary> getObstacles()
+  public List<Tile> getObstacles ()
   {
-    return obstacles;
+    return tiles.stream().filter(tile ->
+      tile instanceof Obstacle
+    ).collect(Collectors.toList());
   }
 
   public List<Zombie> getZombies ()

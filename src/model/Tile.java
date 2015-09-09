@@ -1,7 +1,7 @@
 package model;
 
 
-public interface Stationary
+public interface Tile
 {
   float x = 0;
   float y = 0;

@@ -2,6 +2,8 @@
 
 [Project (pdf)](http://cs.unm.edu/~joel/cs351/notes/CS-351-05-ZombieHouse.pdf)
 
+## Documentation
+The JavaDocs can be found [here](http://javierchavez.github.io/zombie-house/)
 
 **If you are using Intellij:**
 

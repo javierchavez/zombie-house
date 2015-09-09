@@ -6,6 +6,7 @@ import view.HouseRenderer;
 import view.Renderer;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 
 public class ZombieHouseGame
@@ -30,6 +31,12 @@ public class ZombieHouseGame
 
   public void processEvent (AWTEvent e)
   {
+    if (e.getID() == WindowEvent.WINDOW_CLOSING)
+    {
+      // persist some data about the session.
+      System.exit(0);
+    }
+
     // events
   }
 

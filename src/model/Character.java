@@ -2,7 +2,7 @@ package model;
 
 
 
-public class Character implements Moveable
+public class Character implements Movable
 {
   @Override
   public float getX ()
@@ -47,7 +47,7 @@ public class Character implements Moveable
   }
 
   @Override
-  public float setRoatation (float rotation)
+  public float setRotation (float rotation)
   {
     return 0;
   }

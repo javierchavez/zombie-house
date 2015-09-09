@@ -22,6 +22,6 @@ public interface Movable
 
   float setSpeed(float speed);
 
-  float setRoatation(float rotation);
+  float setRotation (float rotation);
 
 }

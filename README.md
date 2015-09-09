@@ -4,7 +4,6 @@
 
 
 If you are using Intellij:
-
 1. On the startup screen, click the option, **Check out from Version Control**
 2. Choose **git** from the dropdown menu
 3. Paste the Git repo URL **git@github.com:javierchavez/zombie-house.git**
@@ -13,18 +12,20 @@ If you are using Intellij:
 
 
 ## Models
-The character controlled by the player
-The house where the character moves
-obstacles
-zombies
+- The character controlled by the player
+- The house where the character moves
+- obstacles
+- zombies
 
 ## Controllers
-Main loop
-player input
-Controller to perform actions on the player’s character (move, attack)
+- player input
+- Controller to perform actions on the player’s character (move, attack)
 
 ## Views
-Renderer – Render the objects onto the screen
+- Renderer – Render the objects onto the screen
+
+
+- Main loop is in `ZombieHouse.java` events are passed from here to controller
 
 ---
 **Authors**

@@ -1,19 +1,11 @@
 # Zombie House
 
-[Project (pdf)](http://cs.unm.edu/~joel/cs351/notes/CS-351-05-ZombieHouse.pdf)
+This is a game. we need more description.
 
 ## Documentation
 The JavaDocs can be found [here](http://javierchavez.github.io/zombie-house/)
-
-**If you are using Intellij:**
-
-1. On the startup screen, click the option, **Check out from Version Control**
-2. Choose **git** from the dropdown menu
-3. Paste the Git repo URL [git@github.com:javierchavez/zombie-house.git]
-4. Choose the dir. for the repo to live.
-5. Select yes when it asks if you want to **create an intellij proj.**
-
-
+The Project specification can be found [here](http://cs.unm
+.edu/~joel/cs351/notes/CS-351-05-ZombieHouse.pdf)
 ## Models
 - The character controlled by the player
 - The house where the character moves
@@ -29,6 +21,16 @@ The JavaDocs can be found [here](http://javierchavez.github.io/zombie-house/)
 
 ## Main
 - Main loop is in `ZombieHouse.java` events are passed from here to controller
+
+
+**Setting up IDE**
+1. On the startup screen, click the option, **Check out from Version Control**
+2. Choose **git** from the dropdown menu
+3. Paste the Git repo URL [git@github.com:javierchavez/zombie-house.git]
+4. Choose the dir. for the repo to live.
+5. Select yes when it asks if you want to **create an intellij proj.**
+
+
 
 ---
 ######Authors

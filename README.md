@@ -23,7 +23,7 @@ The Project specification can be found [here](http://cs.unm
 - Main loop is in `ZombieHouse.java` events are passed from here to controller
 
 
-**Setting up IDE**
+####Setting up Intellij
 1. On the startup screen, click the option, **Check out from Version Control**
 2. Choose **git** from the dropdown menu
 3. Paste the Git repo URL [git@github.com:javierchavez/zombie-house.git]

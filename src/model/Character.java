@@ -4,6 +4,28 @@ package model;
 
 public class Character implements Movable
 {
+  private float
+          stamina,
+          hearing,
+          sight,
+          speed,
+          regen,
+          x, y,
+          rotation;
+
+  public Character()
+  {
+
+    rotation = 0;
+    hearing = 10;
+    stamina = 5;
+    sight = 5;
+    speed = 1;
+    regen = .2f;
+    x = 0;
+    y = 0;
+  }
+
   @Override
   public float getX ()
   {
@@ -50,5 +72,23 @@ public class Character implements Movable
   public float setRotation (float rotation)
   {
     return 0;
+  }
+
+  /**
+   * Euclidean distance of tiles
+   * @return
+   */
+  public float getSight ()
+  {
+    return sight;
+  }
+
+  /**
+   * Euclidean distance of tiles
+   * @return
+   */
+  public float getHearing ()
+  {
+    return hearing;
   }
 }

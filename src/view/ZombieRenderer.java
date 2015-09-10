@@ -1,10 +1,14 @@
 package view;
 
+import model.Sound;
+
 import java.awt.*;
 
 
 public class ZombieRenderer implements Renderer
 {
+
+  Sound sound;
 
   @Override
   public void render (Graphics g)

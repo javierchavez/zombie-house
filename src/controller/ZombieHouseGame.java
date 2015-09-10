@@ -27,6 +27,7 @@ public class ZombieHouseGame
     houseRenderer = new HouseRenderer(house);
     playerRenderer = new CharacterRenderer(player);
 
+
     controller = new HouseController(house);
   }
 

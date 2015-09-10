@@ -1,7 +1,7 @@
 package model;
 
 
-public interface Finder
+public interface Finder<T extends Tile>
 {
   /**
    * Find a path. This is the API for the controller to call once a vicinity
@@ -10,5 +10,5 @@ public interface Finder
    * @param start start position (tile)
    * @param end end position (title that *Character is standing on*)
    */
-  void find (House board, Object start, Object end);
+  void find (House board, T start, T end);
 }

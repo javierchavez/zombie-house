@@ -25,6 +25,7 @@ public class Character implements Mover
     regen = .2f;
     x = 0;
     y = 0;
+    traps = 0;
   }
 
   @Override
@@ -94,7 +95,7 @@ public class Character implements Mover
 
   public void getTrap(Tile t)
   {
-    t.popTrap();
-    traps++;
+    Tile.Trap trap = t.popTrap();
+    if(trap == Tile.Trap.FIRE) traps++;
   }
 }

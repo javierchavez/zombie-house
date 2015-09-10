@@ -21,7 +21,7 @@ public class Zombie implements LifeTaker, Mover
     speed = .5f;
     x = 0;
     y = 0;
-    finder = new Dijkstra();
+    finder = new BFS();
   }
 
 

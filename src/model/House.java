@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import model.Tile.Trap;
 
 public class House
 {
@@ -37,5 +37,15 @@ public class House
   public Character getPlayer ()
   {
     return player;
+  }
+
+  public List<Tile> neighbors (Tile current)
+  {
+    return null;
+  }
+
+  public void placeTrap(Tile tile, Trap trap)
+  {
+    tile.setTrap(trap);
   }
 }

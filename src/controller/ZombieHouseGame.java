@@ -2,6 +2,7 @@ package controller;
 
 import model.Character;
 import model.House;
+import view.CharacterRenderer;
 import view.HouseRenderer;
 import view.Renderer;
 
@@ -13,8 +14,9 @@ public class ZombieHouseGame
 {
   private House house;
   private Character player;
-  private Renderer renderer;
+  private Renderer houseRenderer;
   private HouseController controller;
+  private Renderer playerRenderer;
 
   public ZombieHouseGame()
   {
@@ -22,7 +24,8 @@ public class ZombieHouseGame
     player.move(House.WIDTH / 2, House.HEIGHT / 2);
     house = new House(player);
 
-    renderer = new HouseRenderer(house);
+    houseRenderer = new HouseRenderer(house);
+    playerRenderer = new CharacterRenderer(player);
 
     controller = new HouseController(house);
   }
@@ -34,9 +37,18 @@ public class ZombieHouseGame
     {
       // persist some data about the session.
       System.exit(0);
+      return;
     }
 
-    // events
+    switch (e.getID()) {
+      // update player speed when r pressed
+      case Event.KEY_PRESS:
+      case Event.KEY_ACTION:
+        break;
+      case Event.KEY_RELEASE:
+        break;
+    }
+
   }
 
   public void update(float deltaTime)
@@ -46,6 +58,7 @@ public class ZombieHouseGame
 
   public void render (Graphics graphics)
   {
-    renderer.render(graphics);
+    houseRenderer.render(graphics);
+    playerRenderer.render(graphics);
   }
 }

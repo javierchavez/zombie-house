@@ -31,6 +31,22 @@ The Project specification can be found [here](http://cs.unm
 5. Select yes when it asks if you want to **create an intellij proj.**
 
 
+## Other
+
+Create the files.txt (if out of date)
+```bash
+    find . -name "*.java" > files.txt
+```
+
+Permission fix (if not already set)
+```bash
+    chmod u+rwx make.bash run.bash
+```
+
+Run
+```bash
+    ./make.bash && ./run.bash
+```
 
 ---
 ######Authors

@@ -18,5 +18,6 @@ public class HouseController
   {
     Character player = house.getPlayer();
     // change the player's x and y
+    deltaTime* player.getSpeed() player.move();
   }
 }

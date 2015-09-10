@@ -45,6 +45,7 @@ public class ZombieHouseGame
       // update player speed when r pressed
       case Event.KEY_PRESS:
       case Event.KEY_ACTION:
+        
         break;
       case Event.KEY_RELEASE:
         break;

@@ -19,8 +19,7 @@ public class ZombieHouseGame
   public ZombieHouseGame()
   {
     player = new Character();
-    player.setX(House.WIDTH / 2);
-    player.setY(House.HEIGHT / 2);
+    player.move(House.WIDTH / 2, House.HEIGHT / 2);
     house = new House(player);
 
     renderer = new HouseRenderer(house);

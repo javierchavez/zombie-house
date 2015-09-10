@@ -33,18 +33,11 @@ public interface Movable
   float getRotation();
 
   /**
-   * Position in the left and right direction
+   * Move object from current location to new location
    * @param x column
-   * @return new column
-   */
-  float setX(float x);
-
-  /**
-   * Position in the up and down direction
    * @param y row
-   * @return new row
    */
-  float setY(float y);
+  void move(float x, float y);
 
   /**
    * Set the speed at which to move the object

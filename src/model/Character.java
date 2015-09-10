@@ -27,13 +27,13 @@ public class Character implements Movable
   }
 
   @Override
-  public float getX ()
+  public float getCurrentX ()
   {
     return 0;
   }
 
   @Override
-  public float getY ()
+  public float getCurrentY ()
   {
     return 0;
   }
@@ -51,15 +51,9 @@ public class Character implements Movable
   }
 
   @Override
-  public float setX (float x)
+  public void move (float x, float y)
   {
-    return 0;
-  }
-
-  @Override
-  public float setY (float y)
-  {
-    return 0;
+    return;
   }
 
   @Override

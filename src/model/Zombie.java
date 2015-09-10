@@ -64,15 +64,9 @@ public class Zombie implements Path, LifeTaker, Movable
   }
 
   @Override
-  public float setX (float x)
+  public void move (float x, float y)
   {
-    return 0;
-  }
-
-  @Override
-  public float setY (float y)
-  {
-    return 0;
+    return;
   }
 
   @Override

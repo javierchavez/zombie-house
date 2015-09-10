@@ -11,8 +11,9 @@ public class Character implements Mover
           speed,
           regen,
           x, y,
+          traps,
           rotation;
-
+      
   public Character()
   {
 
@@ -84,5 +85,16 @@ public class Character implements Mover
   public float getHearing ()
   {
     return hearing;
+  }
+
+  public int trapsAvailable()
+  {
+    return (int) traps;
+  }
+
+  public void getTrap(Tile t)
+  {
+    t.popTrap();
+    traps++;
   }
 }

@@ -1,7 +1,7 @@
 package model;
 
 
-public class Obstacle implements Tile, LifeTaker
+public class Obstacle extends Tile
 {
   // life or energy points to deduct
   private float points;
@@ -18,15 +18,4 @@ public class Obstacle implements Tile, LifeTaker
     return 0;
   }
 
-  @Override
-  public void setTakePoints (float points)
-  {
-    this.points = points;
-  }
-
-  @Override
-  public float getTakePoints ()
-  {
-    return points;
-  }
 }

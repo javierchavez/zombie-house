@@ -1,7 +1,7 @@
 package model;
 
 
-public class Wall implements Tile
+public class Wall extends Tile
 {
   @Override
   public float getX ()
@@ -14,4 +14,5 @@ public class Wall implements Tile
   {
     return 0;
   }
+
 }

@@ -1,7 +1,7 @@
 package model;
 
 
-public class Exit implements Tile
+public class Exit extends Tile
 {
   @Override
   public float getX ()
@@ -14,4 +14,5 @@ public class Exit implements Tile
   {
     return 0;
   }
+
 }

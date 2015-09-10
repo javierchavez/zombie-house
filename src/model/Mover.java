@@ -1,7 +1,7 @@
 package model;
 
 
-public interface Movable
+public interface Mover
 {
 
   /**

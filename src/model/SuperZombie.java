@@ -4,9 +4,8 @@ package model;
 
 public class SuperZombie extends Zombie
 {
-  @Override
-  public void find (House board, Object start, Object end)
+  public SuperZombie()
   {
-    // since this is the Super zombie use the A*
+    finder = new AStar();
   }
 }

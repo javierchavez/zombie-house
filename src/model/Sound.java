@@ -3,7 +3,6 @@ package model;
 
 public interface Sound
 {
-  float volume = 10;
 
   /**
    * Get the volume of this sound
@@ -17,4 +16,14 @@ public interface Sound
    * @param volume volume to be set to
    */
   void setVolume (float volume);
+
+  /**
+   *
+   */
+  AudioChannel getChannel();
+
+  enum AudioChannel
+  {
+      LEFT, RIGHT, STEREO
+  }
 }

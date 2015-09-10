@@ -2,7 +2,7 @@ package model;
 
 
 
-public class Character implements Movable
+public class Character implements Mover
 {
   private float
           stamina,

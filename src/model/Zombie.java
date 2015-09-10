@@ -2,14 +2,16 @@ package model;
 
 
 
-public class Zombie implements Path, LifeTaker, Movable
+public class Zombie implements LifeTaker, Mover
 {
-  private float
+  protected float
           zombieDecisionRate,
           rotation,
           smell,
           speed,
           x, y;
+
+  protected Finder finder;
 
   public Zombie()
   {
@@ -19,13 +21,9 @@ public class Zombie implements Path, LifeTaker, Movable
     speed = .5f;
     x = 0;
     y = 0;
+    finder = new Dijkstra();
   }
 
-  @Override
-  public void find (House board, Object start, Object end)
-  {
-    // since this is Zombie we can use the BFS or Dijkstra alg
-  }
 
   @Override
   public void setTakePoints (float points)

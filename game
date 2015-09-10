@@ -1,0 +1,34 @@
+#!/bin/bash
+
+make_sources () {
+    find . -name "*.java" > files.txt
+}
+
+build () {
+    mkdir dist
+    make_sources
+    javac -classpath . @files.txt -d ./dist
+    rm files.txt
+}
+
+run () {
+    build
+    java -classpath ./dist ZombieHouse
+}
+
+clean () {
+    rm -rf dist/
+}
+
+if [ "$1" == "build" ]
+then
+    build
+elif [ "$1" == "run" ]
+then
+    run
+elif [ "$1" == "clean" ]
+then
+    clean
+fi
+
+

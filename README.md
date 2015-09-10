@@ -23,6 +23,26 @@ The Project specification can be found [here](http://cs.unm
 - Main loop is in `ZombieHouse.java` events are passed from here to controller
 
 
+## Other
+
+
+Permission fix (if not already set)
+```bash
+    chmod u+rwx game
+```
+
+Run
+```bash
+    ./game run
+```
+
+Other commands
+```bash
+    ./game build
+
+    ./game clean
+```
+
 ####Setting up Intellij
 1. On the startup screen, click the option, **Check out from Version Control**
 2. Choose **git** from the dropdown menu
@@ -30,23 +50,6 @@ The Project specification can be found [here](http://cs.unm
 4. Choose the dir. for the repo to live.
 5. Select yes when it asks if you want to **create an intellij proj.**
 
-
-## Other
-
-Create the files.txt (if out of date)
-```bash
-    find . -name "*.java" > files.txt
-```
-
-Permission fix (if not already set)
-```bash
-    chmod u+rwx make.bash run.bash
-```
-
-Run
-```bash
-    ./make.bash && ./run.bash
-```
 
 ---
 ######Authors

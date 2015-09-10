@@ -3,7 +3,7 @@
  */
 
 
-import controller.ZombieHouseGame;
+import controller.GameEngine;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 public class ZombieHouse extends JFrame implements Runnable
 {
-  private ZombieHouseGame game = new ZombieHouseGame();
+  private GameEngine game = new GameEngine();
   private JPanel gamePanel = new JPanel(true);
   private BufferedImage screen;
   private Graphics panelGraphics;
@@ -31,9 +31,12 @@ public class ZombieHouse extends JFrame implements Runnable
   public void run ()
   {
     init();
+    long delta = 0l;
 
     while (true)
     {
+      long lastTime = System.nanoTime();
+
       volatileGraphics.setColor(Color.black);
       volatileGraphics.fillRect(0, 0, 1920, 1080);
 
@@ -41,6 +44,19 @@ public class ZombieHouse extends JFrame implements Runnable
 
       panelGraphics.drawImage(screen, 0, 0, this);
 
+      // convert milliseconds to seconds and update
+      game.update((float) (delta / 1000000000.0));
+
+      // set to 60fps
+      delta = System.nanoTime() - lastTime;
+      if (delta < 10000000L) {
+        try {
+          Thread.sleep((10000000L - delta) / 1000000L);
+        } catch (Exception e) {
+        }
+      }
+
+      delta = System.nanoTime() - lastTime;
 
       if (!isActive()) {
         return;

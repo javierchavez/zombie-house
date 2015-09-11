@@ -97,14 +97,13 @@ public class Character implements Mover
     return (int) traps;
   }
 
-  public void pickupTrap(Tile t)
+  public void pickupTrap()
   {
-    Tile.Trap trap = t.popTrap();
-    if(trap == Tile.Trap.FIRE) traps++;
+    traps++;
   }
 
-  public void dropTrap(Tile t)
+  public void dropTrap()
   {
-    if (traps > 0) { t.setTrap(Tile.Trap.FIRE); traps--; }
+    traps--;
   }
 }

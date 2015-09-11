@@ -9,7 +9,7 @@ public abstract class Tile
 
   // The cost to travel over a tile (for pathfinding algorithms)
   int cost;
-  Trap trap = Trap.NONE;
+  private Trap trap = Trap.NONE;
 
   /**
    * Get the column position of the tile
@@ -58,9 +58,10 @@ public abstract class Tile
    * Set the trap on this tile
    * @param trap can either be NONE or FIRE
    */
-  void setTrap(Trap trap)
+  Tile setTrap (Trap trap)
   {
     this.trap = trap;
+    return this;
   }
 
   /**

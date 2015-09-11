@@ -1,6 +1,6 @@
 package model;
 
-
+import model.Tile.Trap;
 
 public class Character implements Mover
 {
@@ -97,13 +97,22 @@ public class Character implements Mover
     return (int) traps;
   }
 
-  public void pickupTrap()
+  public void pickupTrap(Tile tile)
   {
-    traps++;
+    if (tile.getTrap() == Trap.FIRE)
+    {
+      traps++;
+    }
   }
 
-  public void dropTrap()
+  public void dropTrap(Tile tile)
   {
-    traps--;
+    if (traps > 0)
+    {
+      traps--;
+      tile.setTrap(Trap.FIRE);
+    }
+    tile.setTrap(Trap.NONE);
   }
+
 }

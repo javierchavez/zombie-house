@@ -30,6 +30,9 @@ public class House
   public House(Character player)
   {
     this.player = player;
+
+    // random location with no obstacles
+    this.player.move(0, 1);
   }
 
   /**
@@ -180,5 +183,15 @@ public class House
   public void placeTrap(Tile tile, Trap trap)
   {
     tile.setTrap(trap);
+  }
+
+  public Tile getPlayerTile()
+  {
+    return house[(int) player.getCurrentX()][(int) player.getCurrentX()];
+  }
+
+  public boolean isTrap(Tile tile)
+  {
+    return tile.getTrap() == Trap.FIRE;
   }
 }

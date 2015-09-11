@@ -4,11 +4,11 @@ package model;
 public abstract class Tile
 {
   // row and col are the tiles location in the house array
-  private int row = 0;
-  private int col = 0;
+  int row = 0;
+  int col = 0;
 
   // The cost to travel over a tile (for pathfinding algorithms)
-  private int cost;
+  int cost;
   Trap trap = Trap.NONE;
 
   /**
@@ -17,7 +17,7 @@ public abstract class Tile
    */
   float getX()
   {
-    return 0f;
+    return (float) col;
   }
 
   /**
@@ -26,7 +26,16 @@ public abstract class Tile
    */
   float getY()
   {
-    return 0f;
+    return (float) row;
+  }
+
+  /**
+   * Get the cost of the tile
+   * @return cost
+   */
+  int getCost()
+  {
+    return cost;
   }
 
   /**

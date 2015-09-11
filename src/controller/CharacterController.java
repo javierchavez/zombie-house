@@ -3,10 +3,12 @@ package controller;
 
 import model.Character;
 import model.House;
+import model.Tile;
 
 public class CharacterController
 {
   private final House house;
+  Character player;
   private boolean isMoving = false;
   private int direction;
 
@@ -33,7 +35,9 @@ public class CharacterController
 
   public void update (float deltaTime)
   {
-    Character player = house.getPlayer();
+//    Character player = house.getPlayer();
+    player = house.getPlayer();
+//    Character tile = house.getPlayerTile();
     // change the player's x and y
     // the distance of the player is dependant on time...
     // the player's x and y are in Pixels
@@ -48,31 +52,20 @@ public class CharacterController
   }
 
   /**
-   * To pick up a trap.
+   * If 'P' is pressed.
    */
-  public void pickup()
+  public void trapInteraction()
   {
-    if (pickup)
+    Tile tile = house.getPlayerTile();
+    if (house.isTrap(tile))
     {
-      // pick up trap
-      traps++;
+      player.pickupTrap(tile);
     }
+    else player.dropTrap(tile);
   }
 
   /**
-   * To set a trap.
-   */
-  public void setTrap()
-  {
-    if (!pickup)
-    {
-      // set trap
-      traps--;
-    }
-  }
-
-  /**
-   * If w or up arrow is pressed.
+   * If 'W' or up arrow is pressed.
    */
   public void moveUp()
   {
@@ -80,7 +73,7 @@ public class CharacterController
   }
 
   /**
-   * If a or left arrow is pressed.
+   * If 'A' or left arrow is pressed.
    */
   public void moveLeft()
   {
@@ -88,7 +81,7 @@ public class CharacterController
   }
 
   /**
-   * If s or down arrow is pressed.
+   * If 'S' or down arrow is pressed.
    */
   public void moveDown()
   {
@@ -96,7 +89,7 @@ public class CharacterController
   }
 
   /**
-   * If d or right arrow is pressed.
+   * If 'D' or right arrow is pressed.
    */
   public void moveRight()
   {

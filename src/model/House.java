@@ -14,7 +14,7 @@ public class House
   private static int rows = 21;
   private static int cols = 36;
 
-  private Tile[][] board = new Tile[rows][cols];
+  private Tile[][] house = new Tile[rows][cols];
 
   private List<Zombie> zombies = new ArrayList<>();
   private Character player;
@@ -23,57 +23,105 @@ public class House
   private int minRooms = 6;
   private int minHallways = 4;
 
-  // how many rooms and hallways are in the generated board
+  // how many rooms and hallways are in the generated house
   private int numRooms = 0;
   private int numHallways = 0;
 
-
-  public House (Character player)
+  public House(Character player)
   {
     this.player = player;
   }
 
-
   /**
-   * Sets the size of the board
-   * NOTE: This will re-initialize the board
+   * Sets the size of the house
+   * NOTE: This will re-initialize the house
    *
-   * @param rows number of rows for the new board
-   * @param cols number of columns for the new board
+   * @param rows number of rows for the new house
+   * @param cols number of columns for the new house
    */
-  public void setSize (int rows, int cols)
+  public void setSize(int rows, int cols)
   {
     this.rows = rows;
     this.cols = cols;
-    board = new Tile[rows][cols];
+    house = new Tile[rows][cols];
   }
 
   /**
    * Gets the width of the house
    *
-   * @return Number of columns in the board (int)
+   * @return columns
    */
-  public int getWidth ()
+  public int getWidth()
   {
     return cols;
   }
 
   /**
-   * Gets the height of the board
+   * Gets the height of the house (rows)
    *
-   * @return Number of rows in the board (int)
+   * @return rows
    */
-  public int getHeight ()
+  public int getHeight()
   {
     return rows;
   }
 
   /**
+   * Get the current house layout
+   *
+   * @return house[][]
+   */
+  public Tile[][] getHouse()
+  {
+    return house;
+  }
+
+  /**
+   * Gets the number of rooms in the current house
+   *
+   * @return numRooms
+   */
+  public int getNumRooms()
+  {
+    return numRooms;
+  }
+
+  /**
+   * gets the number of hallways in the current house
+   *
+   * @return numHallways
+   */
+  public int getNumHallways()
+  {
+    return numHallways;
+  }
+
+  /**
+   * Sets the minimum number of rooms in the generated house
+   *
+   * @param minRooms minimum number of rooms
+   */
+  public void setMinRooms(int minRooms)
+  {
+    this.minRooms = minRooms;
+  }
+
+  /**
+   * Sets the minimum number of hallways in the generated house
+   *
+   * @param minHallways minimum number of hallways
+   */
+  public void setMinHallways(int minHallways)
+  {
+    this.minHallways = minHallways;
+  }
+
+  /**
    * Gets all of the obstacles in the house
    *
-   * @return A List<Tile> of Obstacles which are inside the house
+   * @return List<Tile>
    */
-  public List<Tile> getObstacles ()
+  public List<Tile> getObstacles()
   {
     List<Tile> obstacles = new ArrayList<>();
     Tile tile;
@@ -81,7 +129,7 @@ public class House
     {
       for (int col = 0; col < cols; col++)
       {
-        tile = board[row][col];
+        tile = house[row][col];
         if (tile instanceof Obstacle)
         {
           obstacles.add(tile);
@@ -94,9 +142,9 @@ public class House
   /**
    * Gets all of the zombies inside the house
    *
-   * @return A List<Zombie> which are inside the house
+   * @return List<Zombie>
    */
-  public List<Zombie> getZombies ()
+  public List<Zombie> getZombies()
   {
     return zombies;
   }
@@ -104,20 +152,21 @@ public class House
   /**
    * Gets the player inside the house
    *
-   * @return The player object inside the house
+   * @return player
    */
-  public Character getPlayer ()
+  public Character getPlayer()
   {
     return player;
   }
 
   /**
    * Gets the neighboring tiles around the current tile
+   * i.e. tiles which are touching the current tile
    *
    * @param current The tile to get neighbors around
-   * @return A List<Tile> which are touching the current tile
+   * @return List<Tile>
    */
-  public List<Tile> neighbors (Tile current)
+  public List<Tile> neighbors(Tile current)
   {
     return null;
   }
@@ -128,7 +177,7 @@ public class House
    * @param tile Tile to set the trap on
    * @param trap Type of trap to place on the tile (NONE, FIRE)
    */
-  public void placeTrap (Tile tile, Trap trap)
+  public void placeTrap(Tile tile, Trap trap)
   {
     tile.setTrap(trap);
   }

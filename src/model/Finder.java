@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.List;
+
 public interface Finder<T extends Tile>
 {
   /**
@@ -11,4 +13,6 @@ public interface Finder<T extends Tile>
    * @param end end position (title that *Character is standing on*)
    */
   void find (House board, T start, T end);
+
+  List<T> getPath ();
 }

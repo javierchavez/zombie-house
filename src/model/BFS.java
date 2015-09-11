@@ -38,6 +38,12 @@ public class BFS implements Finder
     path = reconstructPath(cameFrom, start, end);
   }
 
+  @Override
+  public List getPath ()
+  {
+    return path;
+  }
+
   private List<Tile> reconstructPath (HashMap<Tile, Tile> cameFrom, Tile start,
                                       Tile end)
   {

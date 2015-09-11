@@ -171,7 +171,30 @@ public class House
    */
   public List<Tile> neighbors(Tile current)
   {
-    return null;
+    List<Tile> neighbors = new ArrayList<>();
+    int row = (int) current.getY();
+    int col = (int) current.getX();
+    Tile neighbor;
+
+    if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+    return neighbors;
+  }
+
+  public Tile getTile(int row, int col)
+  {
+    Tile tile;
+    try
+    {
+      tile = house[row][col];
+    }
+    catch (ArrayIndexOutOfBoundsException ex)
+    {
+      tile = null;
+    }
+    return tile;
   }
 
   /**

@@ -1,7 +1,7 @@
 package model;
 
 
-import java.util.List;
+import java.util.*;
 
 public class AStar implements Finder
 {

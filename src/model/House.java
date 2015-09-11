@@ -2,73 +2,77 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.stream.Collectors;
 import model.Tile.Trap;
 
 public class House
 {
+  // Dependency in GameEngine line 27
+  public static final int WIDTH = 80;
+  public static final int HEIGHT = 80;
 
-  // These should are tile sizes right?
-  // Tile size should probably be defined in Tile?
-  //public static final int WIDTH = 80;
-  //public static final int HEIGHT = 80;
+  // defaults specified in requirements
+  private static int rows = 21;
+  private static int cols = 36;
 
-  // going to use an array
-  // private List<List<Object>> board = new ArrayList<>();
-  // private List<Tile> tiles = new ArrayList<>();
+  private Tile[][] board = new Tile[rows][cols];
+
   private List<Zombie> zombies = new ArrayList<>();
   private Character player;
 
-  // new stuff
+  // min defaults from requirements
+  private int minRooms = 6;
+  private int minHallways = 4;
 
-  // we can change the scale factor if we want larger levels
-  // while still maintaining AR (aspect ratio)
-  private static float displayScaleFactor = 1.5f;
+  // how many rooms and hallways are in the generated board
+  private int numRooms = 0;
+  private int numHallways = 0;
 
-  // assume a 1920 by 1080 screen
-  // assume tiles are 80 by 80
-  // given the requirements, these shouldn't need to be changed for the project
-  // these default setting will give a 36 by 21 board
-  private static final int MAX_TILE_SIZE = 80;
-  private static final int MAX_SCREEN_WIDTH = 1920;
-  private static final int MAX_SCREEN_HEIGHT = 1080;
-
-  private static int rows;
-  private static int cols;
-
-  private Tile[][] board;
 
   public House (Character player)
   {
     this.player = player;
-    setSize();
   }
 
-
-  public void setDisplayScaleFactor(float displayScaleFactor)
-  {
-    this.displayScaleFactor = displayScaleFactor;
-  }
 
   /**
-   * Resets the board dimensions based on the new displayScaleFactor
-   *
+   * Sets the size of the board
    * NOTE: This will re-initialize the board
+   *
+   * @param rows number of rows for the new board
+   * @param cols number of columns for the new board
    */
-  public void setSize ()
+  public void setSize (int rows, int cols)
   {
-    rows = (int) Math.ceil(MAX_SCREEN_HEIGHT / MAX_TILE_SIZE * displayScaleFactor);
-    cols = (int) Math.ceil(MAX_SCREEN_WIDTH / MAX_TILE_SIZE * displayScaleFactor);
+    this.rows = rows;
+    this.cols = cols;
     board = new Tile[rows][cols];
   }
 
-  //public List<Tile> getObstacles ()
-  //{
-  // return tiles.stream().filter(tile ->
-  //    tile instanceof Obstacle
-  //  ).collect(Collectors.toList());
-  //}
+  /**
+   * Gets the width of the house
+   *
+   * @return Number of columns in the board (int)
+   */
+  public int getWidth ()
+  {
+    return cols;
+  }
 
+  /**
+   * Gets the height of the board
+   *
+   * @return Number of rows in the board (int)
+   */
+  public int getHeight ()
+  {
+    return rows;
+  }
+
+  /**
+   * Gets all of the obstacles in the house
+   *
+   * @return A List<Tile> of Obstacles which are inside the house
+   */
   public List<Tile> getObstacles ()
   {
     List<Tile> obstacles = new ArrayList<>();
@@ -87,21 +91,43 @@ public class House
     return obstacles;
   }
 
+  /**
+   * Gets all of the zombies inside the house
+   *
+   * @return A List<Zombie> which are inside the house
+   */
   public List<Zombie> getZombies ()
   {
     return zombies;
   }
 
+  /**
+   * Gets the player inside the house
+   *
+   * @return The player object inside the house
+   */
   public Character getPlayer ()
   {
     return player;
   }
 
+  /**
+   * Gets the neighboring tiles around the current tile
+   *
+   * @param current The tile to get neighbors around
+   * @return A List<Tile> which are touching the current tile
+   */
   public List<Tile> neighbors (Tile current)
   {
     return null;
   }
 
+  /**
+   * Place a trap on the tile
+   *
+   * @param tile Tile to set the trap on
+   * @param trap Type of trap to place on the tile (NONE, FIRE)
+   */
   public void placeTrap (Tile tile, Trap trap)
   {
     tile.setTrap(trap);

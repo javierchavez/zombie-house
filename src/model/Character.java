@@ -23,51 +23,55 @@ public class Character implements Mover
     sight = 5;
     speed = 1;
     regen = .2f;
-    x = 0;
-    y = 0;
+    x = 0f;
+    y = 0f;
     traps = 0;
   }
 
   @Override
   public float getCurrentX ()
   {
-    return 0;
+    return x;
   }
 
   @Override
   public float getCurrentY ()
   {
-    return 0;
+    return y;
   }
 
   @Override
   public float getSpeed ()
   {
-    return 0;
+    return speed;
   }
 
   @Override
   public float getRotation ()
   {
-    return 0;
+    return rotation;
   }
 
   @Override
   public void move (float x, float y)
   {
-    return;
+    System.out.println("moved to (" + x + ", " + y + ")");
+    this.x = x;
+    this.y = y;
   }
 
   @Override
   public float setSpeed (float speed)
   {
-    return 0;
+    this.speed = speed;
+    return speed;
   }
 
   @Override
   public float setRotation (float rotation)
   {
-    return 0;
+    this.rotation = rotation;
+    return rotation;
   }
 
   /**
@@ -93,9 +97,14 @@ public class Character implements Mover
     return (int) traps;
   }
 
-  public void getTrap(Tile t)
+  public void pickupTrap(Tile t)
   {
     Tile.Trap trap = t.popTrap();
     if(trap == Tile.Trap.FIRE) traps++;
+  }
+
+  public void dropTrap(Tile t)
+  {
+    if (traps > 0) { t.setTrap(Tile.Trap.FIRE); traps--; }
   }
 }

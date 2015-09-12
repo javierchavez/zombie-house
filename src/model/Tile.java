@@ -13,6 +13,7 @@ public abstract class Tile
 
   /**
    * Create a tile with cost 1
+   *
    * @param x column
    * @param y row
    */
@@ -22,7 +23,8 @@ public abstract class Tile
   }
 
   /**
-   * Create a a tile
+   * Create a Tile
+   *
    * @param x column
    * @param y row
    * @param cost amount it take to pass this tile.
@@ -36,6 +38,7 @@ public abstract class Tile
 
   /**
    * Get the column position of the tile
+   *
    * @return column
    */
   int getX()
@@ -44,7 +47,8 @@ public abstract class Tile
   }
 
   /**
-   * Get the row position of the tile
+   * Get the row position of the Tile
+   *
    * @return row
    */
   int getY()
@@ -53,7 +57,8 @@ public abstract class Tile
   }
 
   /**
-   * Get the cost of the tile
+   * Get the cost of the Tile
+   *
    * @return cost
    */
   int getCost()
@@ -62,7 +67,7 @@ public abstract class Tile
   }
 
   /**
-   * Types of Traps.
+   * Types of Traps that a tile can house
    */
   enum Trap {
     NONE, FIRE
@@ -70,6 +75,7 @@ public abstract class Tile
 
   /**
    * Get the trap on this square
+   *
    * @return trap
    */
   Trap getTrap()
@@ -79,6 +85,7 @@ public abstract class Tile
 
   /**
    * Set the trap on this tile
+   *
    * @param trap can either be NONE or FIRE
    */
   Tile setTrap (Trap trap)
@@ -89,6 +96,7 @@ public abstract class Tile
 
   /**
    * Get the trap and remove it from current tile
+   *
    * @return trap
    */
   Trap popTrap()

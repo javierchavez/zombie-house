@@ -2,7 +2,7 @@ package model;
 
 
 
-public class Zombie implements LifeTaker, Mover
+public class Zombie implements Deadly, Mover
 {
   protected float
           zombieDecisionRate,

@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.tools.javac.util.ArrayUtils;
+//import com.sun.tools.javac.util.ArrayUtils;
 import model.Tile.Trap;
 
 public class House
@@ -36,6 +36,8 @@ public class House
     this.setSize(rows, cols);
 
     // random location with no obstacles
+    // player will need to be placed after the house is generated
+    // leaving this here for now so as not to break things.
     this.player.move(0, 1);
   }
 
@@ -53,14 +55,22 @@ public class House
 
     house = new Tile[rows][cols];
 
-    // just initializing to prevent null pointers on other parts of the app
+    // Initialize the house to Empty tiles with random costs
     for (int row = 0; row < rows; row++)
     {
       for (int col = 0; col < cols; col++)
       {
-        house[row][col] = new Floor(col, row, 1);
+        house[row][col] = new Empty(col, row);
       }
     }
+  }
+
+  /**
+   * Generates a random house based on class parameters
+   */
+  public void generateRandomHouse()
+  {
+
   }
 
   /**
@@ -242,7 +252,6 @@ public class House
   {
     return tile.getTrap() == Trap.FIRE;
   }
-
 
   private boolean validate(int row, int col)
   {

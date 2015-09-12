@@ -321,10 +321,10 @@ public class House
 
     public void generateHouse()
     {
-      placeRooms();
+      addRooms();
     }
 
-    public void placeRooms()
+    public void addRooms()
     {
       int row;
       int col;
@@ -360,13 +360,19 @@ public class House
       }
       else
       {
-        for (int i = row; i <= height; i++)
+        for (int i = (row-1); i <= (row+height+1); i++)
         {
-          for (int j = col; j <= width; j++)
+          if ((i > 0) && (i < rows))
           {
-            if (!(house[i][j] instanceof Empty))
+            for (int j = (col-1); j <= (col+width+1); j++)
             {
-              return false;
+              if ((j > 0) && (j < cols))
+              {
+                if (!(house[i][j] instanceof Empty))
+                {
+                  return false;
+                }
+              }
             }
           }
         }
@@ -389,9 +395,9 @@ public class House
       this.width = width;
       this.height = height;
 
-      for (int i = row; i <= height; i++)
+      for (int i = row; i <= (row+height); i++)
       {
-        for (int j = col; j <= width; j++)
+        for (int j = col; j <= (col+width); j++)
         {
           house[i][j] = new Floor(j, i, 10);
         }
@@ -430,5 +436,12 @@ public class House
       }
       return room;
     }
+  }
+
+  public static void main(String[] args)
+  {
+    House house = new House(new Character());
+    house.generateRandomHouse();
+    System.out.println(house);
   }
 }

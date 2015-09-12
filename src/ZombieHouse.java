@@ -54,15 +54,13 @@ public class ZombieHouse extends JFrame implements Runnable
       if (delta < 10000000L) {
         try {
           Thread.sleep((10000000L - delta) / 1000000L);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
+          System.out.println(e);
         }
       }
 
       delta = System.nanoTime() - lastTime;
-
-      if (!isActive()) {
-        return;
-      }
     }
   }
 
@@ -70,6 +68,8 @@ public class ZombieHouse extends JFrame implements Runnable
   private void init(){
     setVisible(true);
     setSize(1920, 1080);
+    setMaximumSize(new Dimension(1920, 1080));
+    System.out.println(getBounds());
     setLocationRelativeTo(null);
     addKeyListener(game);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

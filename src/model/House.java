@@ -115,7 +115,7 @@ public class House
    */
   public int getNumRooms()
   {
-    return numRooms;
+    return rooms.size();
   }
 
   /**
@@ -209,6 +209,32 @@ public class House
     if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
     if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
     if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+    return neighbors;
+  }
+
+  /**
+   * Gets all of the neighboring tiles around the current tile (including corner tiles)
+   * i.e. tiles which are touching the current tile
+   *
+   * @param current The tile to get neighbors around
+   * @return List<Tile>
+   */
+  public List<Tile> getAllNeighbors(Tile current)
+  {
+    List<Tile> neighbors = new ArrayList<>(4);
+    int row = current.getY();
+    int col = current.getX();
+    Tile neighbor;
+
+    if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+
+    if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
     return neighbors;
   }
 
@@ -312,15 +338,20 @@ public class House
   private class HouseGenerator
   {
     Random rand;
+    AStar pathfinder;
+
     public HouseGenerator()
     {
       rooms = new ArrayList<>();
       rand = new Random();
+      pathfinder = new AStar();
     }
 
     public void generateHouse()
     {
       addRooms();
+      addHallways();
+      addWalls();
     }
 
     public void addRooms()
@@ -345,6 +376,66 @@ public class House
           rooms.add(new Room(row, col, width, height));
         }
       }
+    }
+
+    private void addHallways()
+    {
+      Tile startTile;
+      Tile endTile;
+      List<Tile> path;
+
+      for (Room fromRoom : rooms)
+      {
+        startTile = house[fromRoom.getRow()][fromRoom.getCol()];
+        for (Room toRoom : rooms)
+        {
+          if (fromRoom == toRoom)
+          {
+            continue;
+          }
+          else
+          {
+            endTile = house[toRoom.getRow()][toRoom.getCol()];
+            pathfinder.find(House.this, startTile, endTile);
+            path = pathfinder.getPath();
+            for (Tile tile : path)
+            {
+              if (tile instanceof Empty)
+              {
+                house[tile.getY()][tile.getX()] = new Floor(tile.getX(), tile.getY(), 10);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    private void addWalls()
+    {
+      Tile current;
+      for (int i = 0; i < rows; i++)
+      {
+        for (int j = 0; j < cols; j++)
+        {
+          current = house[i][j];
+          if ((current instanceof Empty) && touchesFloor(current))
+          {
+            house[i][j] = new Wall(j, i);
+          }
+        }
+      }
+    }
+
+    private boolean touchesFloor(Tile current)
+    {
+      for (Tile tile : getAllNeighbors(current))
+      {
+        if (tile instanceof Floor)
+        {
+          return true;
+        }
+      }
+      return false;
     }
 
     private boolean validRoom(int row, int col, int width, int height)

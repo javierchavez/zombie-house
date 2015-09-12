@@ -30,6 +30,8 @@ public class House
   public House(Character player)
   {
     this.player = player;
+    // initialization of matrix
+    this.setSize(rows, cols);
 
     // random location with no obstacles
     this.player.move(0, 1);

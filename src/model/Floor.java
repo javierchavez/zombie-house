@@ -3,16 +3,15 @@ package model;
 
 public class Floor extends Tile
 {
-  @Override
-  public float getX ()
-  {
-    return 0;
-  }
 
-  @Override
-  public float getY ()
+  /**
+   * Create a new floor tile.
+   * @param x column
+   * @param y row
+   * @param cost amount it takes to pass this tile, for A*
+   */
+  Floor (int x, int y, int cost)
   {
-    return 0;
+    super(x, y, cost);
   }
-
 }

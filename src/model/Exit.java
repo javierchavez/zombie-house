@@ -3,16 +3,8 @@ package model;
 
 public class Exit extends Tile
 {
-  @Override
-  public float getX ()
+  Exit (int x, int y)
   {
-    return 0;
+    super(x, y);
   }
-
-  @Override
-  public float getY ()
-  {
-    return 0;
-  }
-
 }

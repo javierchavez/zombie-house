@@ -4,29 +4,52 @@ package model;
 public abstract class Tile
 {
   // row and col are the tiles location in the house array
-  int row = 0;
-  int col = 0;
+  private int row = 0;
+  private int col = 0;
 
   // The cost to travel over a tile (for pathfinding algorithms)
-  int cost;
+  private int cost;
   private Trap trap = Trap.NONE;
+
+  /**
+   * Create a tile with cost 1
+   * @param x column
+   * @param y row
+   */
+  Tile(int x, int y)
+  {
+    this(x, y, 1);
+  }
+
+  /**
+   * Create a a tile
+   * @param x column
+   * @param y row
+   * @param cost amount it take to pass this tile.
+   */
+  Tile(int x, int y, int cost)
+  {
+    this.col = x;
+    this.row = y;
+    this.cost = cost;
+  }
 
   /**
    * Get the column position of the tile
    * @return column
    */
-  float getX()
+  int getX()
   {
-    return (float) col;
+    return col;
   }
 
   /**
    * Get the row position of the tile
    * @return row
    */
-  float getY()
+  int getY()
   {
-    return (float) row;
+    return row;
   }
 
   /**

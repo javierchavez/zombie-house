@@ -44,9 +44,19 @@ public class House
    */
   public void setSize(int rows, int cols)
   {
-    this.rows = rows;
-    this.cols = cols;
+    House.rows = rows;
+    House.cols = cols;
+
     house = new Tile[rows][cols];
+
+    // just initializing to prevent null pointers on other parts of the app
+    for (int row = 0; row < rows; row++)
+    {
+      for (int col = 0; col < cols; col++)
+      {
+        house[row][col] = new Floor(col, row, 1);
+      }
+    }
   }
 
   /**
@@ -172,8 +182,8 @@ public class House
   public List<Tile> neighbors(Tile current)
   {
     List<Tile> neighbors = new ArrayList<>();
-    int row = (int) current.getY();
-    int col = (int) current.getX();
+    int row = current.getY();
+    int col = current.getX();
     Tile neighbor;
 
     if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
@@ -210,7 +220,7 @@ public class House
 
   public Tile getPlayerTile()
   {
-    return house[(int) player.getCurrentX()][(int) player.getCurrentX()];
+    return house[(int) player.getCurrentY()][(int) player.getCurrentX()];
   }
 
   public boolean isTrap(Tile tile)

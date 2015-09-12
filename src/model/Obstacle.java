@@ -6,16 +6,15 @@ public class Obstacle extends Tile
   // life or energy points to deduct
   private float points;
 
-  @Override
-  public float getX ()
+  /**
+   * New obstacle, cost is already set to something absurd so A* never
+   * chooses it
+   * @param x column
+   * @param y row
+   */
+  Obstacle (int x, int y)
   {
-    return 0;
-  }
-
-  @Override
-  public float getY ()
-  {
-    return 0;
+    super(x, y, 999999999);
   }
 
 }

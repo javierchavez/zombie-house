@@ -67,6 +67,16 @@ public abstract class Tile
   }
 
   /**
+   * Set the travel cost of the tile.
+   *
+   * @param cost cost to travel over the tile
+   */
+  void setCost(int cost)
+  {
+    this.cost = cost;
+  }
+
+  /**
    * Types of Traps that a tile can house
    */
   enum Trap {

@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.tools.javac.util.ArrayUtils;
 import model.Tile.Trap;
 
 public class House
@@ -183,7 +185,7 @@ public class House
    */
   public List<Tile> neighbors(Tile current)
   {
-    List<Tile> neighbors = new ArrayList<>();
+    List<Tile> neighbors = new ArrayList<>(4);
     int row = current.getY();
     int col = current.getX();
     Tile neighbor;
@@ -195,18 +197,18 @@ public class House
     return neighbors;
   }
 
+  /**
+   * Get a tile
+   *
+   * @param row row
+   * @param col column
+   * @return Tile retrieved from matrix
+   */
   public Tile getTile(int row, int col)
   {
-    Tile tile;
-    try
-    {
-      tile = house[row][col];
-    }
-    catch (ArrayIndexOutOfBoundsException ex)
-    {
-      tile = null;
-    }
-    return tile;
+    // for some reason the exception was holding the java unit tests, so I
+    // had to do something like this.
+    return validate(row, col) ? house[row][col] : null;
   }
 
   /**
@@ -220,13 +222,31 @@ public class House
     tile.setTrap(trap);
   }
 
+  /**
+   * Get the tile the player is standing on
+   *
+   * @return Tile containing the player
+   */
   public Tile getPlayerTile()
   {
     return house[(int) player.getCurrentY()][(int) player.getCurrentX()];
   }
 
+  /**
+   * Check a given tile if it contains a trap
+   *
+   * @param tile Must be a Tile retrieved from model.
+   * @return True if trap present
+   */
   public boolean isTrap(Tile tile)
   {
     return tile.getTrap() == Trap.FIRE;
+  }
+
+
+  private boolean validate(int row, int col)
+  {
+    return (col >= 0 && col < this.getWidth())
+            && (row >= 0 && row < this.getHeight());
   }
 }

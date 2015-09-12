@@ -21,12 +21,14 @@ public class GameEngine implements KeyListener
   private Renderer houseRenderer;
   private CharacterController controller;
   private Renderer playerRenderer;
+  // private boolean upPressed = false;
 
   public GameEngine ()
   {
     player = new Character();
-    player.move(House.WIDTH / 2, House.HEIGHT / 2);
     house = new House(player);
+
+    player.move(House.WIDTH / 2, House.HEIGHT / 2);
 
     houseRenderer = new HouseRenderer(house);
     playerRenderer = new CharacterRenderer(player);
@@ -36,6 +38,10 @@ public class GameEngine implements KeyListener
 
   public void update(float deltaTime)
   {
+//    if (upPressed)
+//    {
+//      controller.moveUp();
+//    }
     controller.update(deltaTime);
   }
 
@@ -51,7 +57,14 @@ public class GameEngine implements KeyListener
   @Override
   public void keyPressed (KeyEvent e)
   {
-    if (e.getID() == KeyEvent.VK_R)
+//    switch (e.getKeyCode())
+//    {
+//      case KeyEvent.VK_UP:
+//        upPressed = true;
+//        break;
+//      default:
+//    }
+    if (e.getKeyCode() == KeyEvent.VK_R)
     {
       controller.characterRun();
     }
@@ -72,12 +85,14 @@ public class GameEngine implements KeyListener
     // check if player has firetraps and and also if the current tile has a
     // trap to pickup in trap there is enum class of fire traps.
 
-    switch (e.getID()) {
+//      case KeyEvent.VK_UP:
+//        upPressed = false;
+//        break;
+//      default:
+
+    switch (e.getKeyCode()) {
       // PLAYER DIRECTION //
       // Arrow keys
-      case KeyEvent.VK_UP:
-        controller.moveUp();
-        break;
       case KeyEvent.VK_LEFT:
         controller.moveLeft();
         break;
@@ -109,6 +124,7 @@ public class GameEngine implements KeyListener
       case KeyEvent.VK_P:
         controller.trapInteraction();
         break;
+
     }
   }
 }

@@ -43,7 +43,6 @@ public class House
     // random location with no obstacles
     // player will need to be placed after the house is generated
     // leaving this here for now so as not to break things.
-    this.player.move(0, 1);
   }
 
   /**

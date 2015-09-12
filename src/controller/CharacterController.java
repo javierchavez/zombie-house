@@ -9,14 +9,9 @@ public class CharacterController
 {
   private final House house;
   Character player;
-  private boolean isMoving = false;
+  private boolean isMoving, running = false;
   private int direction;
-
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  // Placeholder variables until I know how to get this information from the other classes //
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  private boolean pickup = false;
-  private int traps = 0;
+  private float x, y;
 
   public CharacterController (House house)
   {
@@ -45,16 +40,34 @@ public class CharacterController
 
     if (isMoving)
     {
-      // TODO: do stuff
-      // playerSpeed * deltaTime determines how many tiles/second player will move across??
       player.setRotation(direction);
+      player.setSpeed(playerSpeed * deltaTime); // Determines how many tiles/second the player will move across
+
+      // Update player's x and y
+      x += player.getSpeed() * Math.sin(direction);
+      y += player.getSpeed() * Math.cos(direction);
+      player.move(x, y);
+
       isMoving = false;
     }
   }
 
+  /**
+   * If 'R' is pressed, player's speed is updated to 2.0, making them two times faster.
+   */
   public void characterRun()
   {
-    // TODO
+    isMoving = true;
+    player.setSpeed(2.0f);
+  }
+
+  /**
+   * When 'R' is released, player's speed drops back down to 1.0, the default speed.
+   */
+  public void characterWalk()
+  {
+    isMoving = true;
+    player.setSpeed(1.0f);
   }
 
   /**
@@ -79,7 +92,8 @@ public class CharacterController
    */
   public void moveUp()
   {
-    direction = 90;
+    isMoving = true;
+    direction = 90; // Change player's direction
   }
 
   /**
@@ -87,6 +101,7 @@ public class CharacterController
    */
   public void moveLeft()
   {
+    isMoving = true;
     direction = 180;
   }
 
@@ -95,6 +110,7 @@ public class CharacterController
    */
   public void moveDown()
   {
+    isMoving = true;
     direction = 270;
   }
 
@@ -103,7 +119,7 @@ public class CharacterController
    */
   public void moveRight()
   {
+    isMoving = true;
     direction = 0;
   }
-
 }

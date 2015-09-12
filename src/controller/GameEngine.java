@@ -71,10 +71,45 @@ public class GameEngine implements KeyListener
 
     // much easier!!
     switch (e.getID()) {
+      // PLAYER DIRECTION //
+      // Arrow keys
       case KeyEvent.VK_UP:
+        System.out.println("VK_UP");
+        controller.moveUp();
+        break;
+      case KeyEvent.VK_LEFT:
+        System.out.println("VK_LEFT");
+        controller.moveLeft();
+        break;
+      case KeyEvent.VK_DOWN:
+        System.out.println("VK_DOWN");
+        controller.moveDown();
         break;
       case KeyEvent.VK_RIGHT:
+        System.out.println("VK_RIGHT");
         controller.moveRight();
+        break;
+
+      // WASD controls
+      case KeyEvent.VK_W:
+        controller.moveUp();
+        break;
+      case KeyEvent.VK_A:
+        controller.moveLeft();
+        break;
+      case KeyEvent.VK_S:
+        controller.moveDown();
+        break;
+      case KeyEvent.VK_D:
+        controller.moveRight();
+        break;
+
+      // PLAYER ACTIONS //
+      case KeyEvent.VK_R:
+         controller.characterRun();
+        break;
+      case KeyEvent.VK_P:
+        controller.trapInteraction();
         break;
     }
   }

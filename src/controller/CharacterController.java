@@ -37,7 +37,8 @@ public class CharacterController
   {
 //    Character player = house.getPlayer();
     player = house.getPlayer();
-//    Character tile = house.getPlayerTile();
+    float playerSpeed = player.getSpeed();
+
     // change the player's x and y
     // the distance of the player is dependant on time...
     // the player's x and y are in Pixels
@@ -51,6 +52,11 @@ public class CharacterController
     }
   }
 
+  public void characterRun()
+  {
+    // TODO
+  }
+
   /**
    * If 'P' is pressed.
    */
@@ -61,7 +67,11 @@ public class CharacterController
     {
       player.pickupTrap(tile);
     }
-    else player.dropTrap(tile);
+    else
+    {
+      int numTraps = player.trapsAvailable();
+      if (numTraps > 0) player.dropTrap(tile);
+    }
   }
 
   /**

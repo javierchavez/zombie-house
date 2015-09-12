@@ -1,7 +1,7 @@
 package model;
 
 
-public interface LifeTaker
+public interface Deadly
 {
 
   void setTakePoints(float points);

@@ -51,7 +51,10 @@ public class GameEngine implements KeyListener
   @Override
   public void keyPressed (KeyEvent e)
   {
-    // only if we want to handle holding down of the keys
+    if (e.getID() == KeyEvent.VK_R)
+    {
+      controller.characterRun();
+    }
   }
 
   @Override
@@ -69,24 +72,19 @@ public class GameEngine implements KeyListener
     // check if player has firetraps and and also if the current tile has a
     // trap to pickup in trap there is enum class of fire traps.
 
-    // much easier!!
     switch (e.getID()) {
       // PLAYER DIRECTION //
       // Arrow keys
       case KeyEvent.VK_UP:
-        System.out.println("VK_UP");
         controller.moveUp();
         break;
       case KeyEvent.VK_LEFT:
-        System.out.println("VK_LEFT");
         controller.moveLeft();
         break;
       case KeyEvent.VK_DOWN:
-        System.out.println("VK_DOWN");
         controller.moveDown();
         break;
       case KeyEvent.VK_RIGHT:
-        System.out.println("VK_RIGHT");
         controller.moveRight();
         break;
 
@@ -106,7 +104,7 @@ public class GameEngine implements KeyListener
 
       // PLAYER ACTIONS //
       case KeyEvent.VK_R:
-         controller.characterRun();
+        controller.characterWalk();
         break;
       case KeyEvent.VK_P:
         controller.trapInteraction();

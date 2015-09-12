@@ -12,11 +12,7 @@ import java.awt.image.BufferedImage;
 public class ZombieHouse extends JFrame implements Runnable
 {
   private GameEngine game = new GameEngine();
-  private JPanel gamePanel = new JPanel(true);
   private BufferedImage screen;
-  private Graphics panelGraphics;
-  private Graphics volatileGraphics;
-
 
   public void start() {
     new Thread(this).start();
@@ -32,20 +28,26 @@ public class ZombieHouse extends JFrame implements Runnable
   {
     init();
     long delta = 0l;
+    screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
+
+    Graphics g = screen.getGraphics();
+    Graphics jFrameGraphics = getGraphics();
 
     while (true)
     {
       long lastTime = System.nanoTime();
 
-      volatileGraphics.setColor(Color.black);
-      volatileGraphics.fillRect(0, 0, 1920, 1080);
+      g.setColor(Color.black);
+      g.fillRect(0, 0, 1920, 1080);
 
-      game.render(volatileGraphics);
-
-      panelGraphics.drawImage(screen, 0, 0, this);
 
       // convert milliseconds to seconds and update
       game.update((float) (delta / 1000000000.0));
+
+      game.render(g);
+
+
+      jFrameGraphics.drawImage(screen, 0, 0, null);
 
       // set to 60fps
       delta = System.nanoTime() - lastTime;
@@ -66,20 +68,11 @@ public class ZombieHouse extends JFrame implements Runnable
 
 
   private void init(){
-    // create a jPanel and add it to this frame
     setVisible(true);
     setSize(1920, 1080);
-    setLocationRelativeTo(null); //center on screen
-    add(gamePanel);
+    setLocationRelativeTo(null);
     addKeyListener(game);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-    // image
-    screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
-    // image that is passed so others can render
-    volatileGraphics = screen.getGraphics();
-    // where the graphics will be displayed
-    panelGraphics = gamePanel.getGraphics();
   }
 }

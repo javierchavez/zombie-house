@@ -64,11 +64,6 @@ public class ZombieHouse extends JFrame implements Runnable
     }
   }
 
-  @Override
-  protected void processEvent (AWTEvent e)
-  {
-    game.processEvent(e);
-  }
 
   private void init(){
     // create a jPanel and add it to this frame
@@ -76,6 +71,9 @@ public class ZombieHouse extends JFrame implements Runnable
     setSize(1920, 1080);
     setLocationRelativeTo(null); //center on screen
     add(gamePanel);
+    addKeyListener(game);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
     // image
     screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);

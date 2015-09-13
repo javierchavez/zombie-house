@@ -8,8 +8,8 @@ import java.util.Random;
  */
 public class Empty extends Tile
 {
-  int minCost = 5;
-  int maxCost = 16;
+  int minCost = 11;
+  int maxCost = 20;
 
   public Empty(int x, int y, int cost)
   {

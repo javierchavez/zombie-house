@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//import com.sun.tools.javac.util.ArrayUtils;
 import model.Tile.Trap;
+
 
 public class House
 {
@@ -37,12 +37,8 @@ public class House
   public House(Character player)
   {
     this.player = player;
-    // initialization of matrix
+    // initialization of house
     this.setSize(rows, cols);
-
-    // random location with no obstacles
-    // player will need to be placed after the house is generated
-    // leaving this here for now so as not to break things.
   }
 
   /**
@@ -66,10 +62,12 @@ public class House
       {
         if (row == 0 || row == rows-1 || col == 0 || col == cols-1)
         {
+          // Tile is on the boarder so set high cost so hallways aren't drawn there
           house[row][col] = new Empty(col, row, 999999999);
         }
         else
         {
+          // Create an empty tile with a random cost
           house[row][col] = new Empty(col, row);
         }
       }
@@ -86,6 +84,9 @@ public class House
     placePlayer();
   }
 
+  /**
+   * Places the player in a random room on a random tile
+   */
   public void placePlayer()
   {
     Random rand = new Random();
@@ -93,6 +94,7 @@ public class House
     int row;
     int col;
 
+    // only place the player on a floor tile
     do
     {
       row = room.getRow() + rand.nextInt(room.getHeight());
@@ -389,19 +391,28 @@ public class House
       int col;
       int width;
       int height;
+
+      // Weights for how big a room can be
+      // Don't want rooms to be too big or
+      // there won't be enough space to fit
+      // in minRooms in the house.
       int minWidth = (int) (cols * .1);
       int maxWidth = (int) (cols * .15);
       int minHeight = (int) (rows * .15);
       int maxHeight = (int) (rows * .25);
 
+      // Create the minimum number of rooms
       while (rooms.size() < minRooms)
       {
         row = rand.nextInt(rows);
         col = rand.nextInt(cols);
+
+        // creates the width and height a random value bertween minWidth/Height and maxWidth/Height
         width = minWidth + rand.nextInt(maxWidth-minWidth);
         height = minHeight + rand.nextInt(maxHeight-minHeight);
         if (validRoom(row, col, width, height))
         {
+          // Add a room to the house if it does not overlap any other rooms or is out of bounds of the house
           rooms.add(new Room(row, col, width, height));
         }
       }
@@ -413,13 +424,18 @@ public class House
       Tile endTile;
       List<Tile> path;
 
+      // The nest loop finds a path from every room
+      // to every other room
+      // This ensures the house is connected
       for (Room fromRoom : rooms)
       {
+        // just choose the upper left tile in the room to start and end at (arbitrary)
         startTile = house[fromRoom.getRow()][fromRoom.getCol()];
         for (Room toRoom : rooms)
         {
           if (fromRoom == toRoom)
           {
+            // Don't find a path to the same room
             continue;
           }
           else
@@ -429,6 +445,8 @@ public class House
             path = pathfinder.getPath();
             for (Tile tile : path)
             {
+              // Draw floor tiles on the path between the two rooms
+              // don't create a new tile if it is already a floor
               if (tile instanceof Empty)
               {
                 house[tile.getY()][tile.getX()] = new Floor(tile.getX(), tile.getY(), 10);
@@ -441,6 +459,8 @@ public class House
 
     private void addWalls()
     {
+      // Adds a wall to a tile if the tile is Empty
+      // and is touching a Floor tile
       Tile current;
       for (int i = 0; i < rows; i++)
       {
@@ -455,6 +475,9 @@ public class House
             }
             else
             {
+              // Tile is Empty so set a high travel cost
+              // so there aren't weird cases where a zombie
+              // travels through empty space
               house[i][j].setCost(999999999);
             }
           }
@@ -476,6 +499,8 @@ public class House
 
     private boolean validRoom(int row, int col, int width, int height)
     {
+      // First, check if the room if in bounds of the house
+      // and not right at the edge (leave space for a wall)
       if ((row < 1) || ((row+height) >= (rows-1)))
       {
         return false;
@@ -486,6 +511,9 @@ public class House
       }
       else
       {
+        // Make sure there is at least one space for a wall between rooms
+        // (two rooms adjacent would just look like one big room)
+        // Make sure the room isn't overlapping any other rooms or obstacles
         for (int i = (row-1); i <= (row+height+1); i++)
         {
           if ((i > 0) && (i < rows))

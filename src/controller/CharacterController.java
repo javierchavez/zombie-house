@@ -9,11 +9,13 @@ public class CharacterController
 {
   private final House house;
   Character player;
-  private boolean isMoving, running = false;
+  private boolean isMoving = false;
   private int direction;
   private float x, y;
 
   private boolean DEBUG = true;
+
+  // TODO: update object's stamina when running/after running
 
   public CharacterController (House house)
   {
@@ -35,16 +37,15 @@ public class CharacterController
 //    Character player = house.getPlayer();
     player = house.getPlayer();
     float playerSpeed = player.getSpeed();
-
-    // change the player's x and y
-    // the distance of the player is dependant on time...
-    // the player's x and y are in Pixels
-
+    x = player.getCurrentX();
+    y = player.getCurrentY();
     if (isMoving)
     {
-      player.setRotation(direction);
+      // Distance of player is dependent on time
       player.setSpeed(playerSpeed * deltaTime); // Determines how many tiles/second the player will move across
+      player.setRotation(direction);
 
+      // Player's x and y are in pixels
       // Update player's x and y
       x += player.getSpeed() * Math.sin(direction);
       y += player.getSpeed() * Math.cos(direction);
@@ -60,7 +61,7 @@ public class CharacterController
   public void characterRun()
   {
     isMoving = true;
-    player.setSpeed(2.0f);
+    player.setSpeed(2.0f); // Running speed
   }
 
   /**
@@ -69,7 +70,17 @@ public class CharacterController
   public void characterWalk()
   {
     isMoving = true;
-    player.setSpeed(1.0f);
+    player.setSpeed(1.0f); // Default speed
+  }
+
+  /**
+   * When the character isn't moving at all
+   */
+  public void characterIdle()
+  {
+    if (DEBUG) System.out.println("Idling...");
+    isMoving = false;
+    player.setSpeed(0.0f);
   }
 
   /**

@@ -50,6 +50,7 @@ public class GameEngine implements KeyListener
     if (downPressed) controller.moveDown();
     if (leftPressed) controller.moveLeft();
     if (rightPressed) controller.moveRight();
+    if (!moving) controller.characterIdle();
   }
 
   public void render (Graphics graphics)
@@ -104,6 +105,9 @@ public class GameEngine implements KeyListener
           controller.characterRun(); // Character can only run if they're actually moving
         }
         break;
+      default:
+        moving = false;
+        controller.characterIdle();
     }
 
   }
@@ -165,6 +169,9 @@ public class GameEngine implements KeyListener
       case KeyEvent.VK_P:
         controller.trapInteraction();
         break;
+      default:
+        moving = false;
+        controller.characterIdle();
 
     }
   }

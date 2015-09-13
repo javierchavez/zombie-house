@@ -83,6 +83,23 @@ public class House
   {
     generator = new HouseGenerator();
     generator.generateHouse();
+    placePlayer();
+  }
+
+  public void placePlayer()
+  {
+    Random rand = new Random();
+    Room room = rooms.get(rand.nextInt(rooms.size()));
+    int row;
+    int col;
+
+    do
+    {
+      row = room.getRow() + rand.nextInt(room.getHeight());
+      col = room.getCol() + rand.nextInt(room.getCol());
+    } while (!(house[row][col] instanceof Floor));
+
+    player.move(col, row);
   }
 
   /**
@@ -295,26 +312,31 @@ public class House
   public String toString()
   {
     String board = "";
+    board += "P = Player\n";
     board += "x = Wall\n";
     board += "* = Floor \n\n";
 
     // draw top boarder
-    for (int i = 0; i < cols+2; i++)
+    for (int col = 0; col < cols+2; col++)
     {
       board += "-";
     }
     board += "\n";
 
-    for (int i = 0; i < rows; i++)
+    for (int row = 0; row < rows; row++)
     {
       board += "|";
-      for (int j = 0; j < cols; j++)
+      for (int col = 0; col < cols; col++)
       {
-        if (house[i][j] instanceof Floor)
+        if (house[row][col] == getPlayerTile())
+        {
+          board += "P";
+        }
+        else if (house[row][col] instanceof Floor)
         {
           board += "*";
         }
-        else if (house[i][j] instanceof Wall)
+        else if (house[row][col] instanceof Wall)
         {
           board += "x";
         }
@@ -327,7 +349,7 @@ public class House
     }
 
     // draw bottom boarder
-    for (int i = 0; i < cols+2; i++)
+    for (int col = 0; col < cols+2; col++)
     {
       board += "-";
     }

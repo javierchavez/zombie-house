@@ -40,11 +40,6 @@ public class Empty extends Tile
     this.maxCost = maxCost;
   }
 
-  public void makeImpassable()
-  {
-    setCost(999999999);
-  }
-
   /**
    * Creates a random cost for the blank tile for use with house generation
    * @return cost

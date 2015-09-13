@@ -64,7 +64,14 @@ public class House
     {
       for (int col = 0; col < cols; col++)
       {
-        house[row][col] = new Empty(col, row);
+        if (row == 0 || row == rows-1 || col == 0 || col == cols-1)
+        {
+          house[row][col] = new Empty(col, row, 999999999);
+        }
+        else
+        {
+          house[row][col] = new Empty(col, row);
+        }
       }
     }
   }
@@ -418,9 +425,16 @@ public class House
         for (int j = 0; j < cols; j++)
         {
           current = house[i][j];
-          if ((current instanceof Empty) && touchesFloor(current))
+          if (current instanceof Empty)
           {
-            house[i][j] = new Wall(j, i);
+            if (touchesFloor(current))
+            {
+              house[i][j] = new Wall(j, i);
+            }
+            else
+            {
+              house[i][j].setCost(999999999);
+            }
           }
         }
       }
@@ -440,11 +454,11 @@ public class House
 
     private boolean validRoom(int row, int col, int width, int height)
     {
-      if ((row < 0) || ((row+height) >= rows))
+      if ((row < 1) || ((row+height) >= (rows-1)))
       {
         return false;
       }
-      else if ((col < 0) || ((col+width) >= cols))
+      else if ((col < 1) || ((col+width) >= (cols-1)))
       {
         return false;
       }

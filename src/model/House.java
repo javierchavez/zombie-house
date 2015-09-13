@@ -99,7 +99,7 @@ public class House
     {
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getCol());
-    } while (!(house[row][col] instanceof Floor));
+    } while (validate(row, col) && !(house[row][col] instanceof Floor));
 
     player.move(col, row);
   }

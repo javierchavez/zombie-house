@@ -13,6 +13,8 @@ public class CharacterController
   private int direction;
   private float x, y;
 
+  private boolean DEBUG = true;
+
   public CharacterController (House house)
   {
     this.house = house;
@@ -75,6 +77,7 @@ public class CharacterController
    */
   public void trapInteraction()
   {
+    if (DEBUG) System.out.println("P pressed");
     Tile tile = house.getPlayerTile();
     if (house.isTrap(tile))
     {
@@ -92,17 +95,9 @@ public class CharacterController
    */
   public void moveUp()
   {
+    if (DEBUG) System.out.println("Moving up");
     isMoving = true;
     direction = 90; // Change player's direction
-  }
-
-  /**
-   * If 'A' or left arrow is pressed.
-   */
-  public void moveLeft()
-  {
-    isMoving = true;
-    direction = 180;
   }
 
   /**
@@ -110,8 +105,19 @@ public class CharacterController
    */
   public void moveDown()
   {
+    if (DEBUG) System.out.println("Moving down");
     isMoving = true;
     direction = 270;
+  }
+
+  /**
+   * If 'A' or left arrow is pressed.
+   */
+  public void moveLeft()
+  {
+    if (DEBUG) System.out.println("Moving left");
+    isMoving = true;
+    direction = 180;
   }
 
   /**
@@ -119,6 +125,7 @@ public class CharacterController
    */
   public void moveRight()
   {
+    if (DEBUG) System.out.println("Moving right");
     isMoving = true;
     direction = 0;
   }

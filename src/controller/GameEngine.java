@@ -21,7 +21,14 @@ public class GameEngine implements KeyListener
   private Renderer houseRenderer;
   private CharacterController controller;
   private Renderer playerRenderer;
-  // private boolean upPressed = false;
+
+  private boolean moving = false;
+  private boolean upPressed = false;
+  private boolean leftPressed = false;
+  private boolean downPressed = false;
+  private boolean rightPressed = false;
+
+  private boolean DEBUG = true;
 
   public GameEngine ()
   {
@@ -38,11 +45,11 @@ public class GameEngine implements KeyListener
 
   public void update(float deltaTime)
   {
-//    if (upPressed)
-//    {
-//      controller.moveUp();
-//    }
     controller.update(deltaTime);
+    if (upPressed) controller.moveUp();
+    if (downPressed) controller.moveDown();
+    if (leftPressed) controller.moveLeft();
+    if (rightPressed) controller.moveRight();
   }
 
   public void render (Graphics graphics)
@@ -57,17 +64,48 @@ public class GameEngine implements KeyListener
   @Override
   public void keyPressed (KeyEvent e)
   {
-//    switch (e.getKeyCode())
-//    {
-//      case KeyEvent.VK_UP:
-//        upPressed = true;
-//        break;
-//      default:
-//    }
-    if (e.getKeyCode() == KeyEvent.VK_R)
+    switch (e.getKeyCode())
     {
-      controller.characterRun();
+      // Player directions
+      case KeyEvent.VK_UP:
+        upPressed = true;
+        moving = true;
+        break;
+      case KeyEvent.VK_S:
+        upPressed = true;
+        moving = true;
+        break;
+      case KeyEvent.VK_DOWN:
+        downPressed = true;
+        moving = true;
+        break;
+      case KeyEvent.VK_LEFT:
+        leftPressed = true;
+        moving = true;
+        break;
+      case KeyEvent.VK_A:
+        leftPressed = true;
+        moving = true;
+        break;
+      case KeyEvent.VK_RIGHT:
+        rightPressed = true;
+        moving = true;
+        break;
+      case KeyEvent.VK_D:
+        rightPressed = true;
+        moving = true;
+        break;
+
+      // Running
+      case KeyEvent.VK_R:
+        if (moving)
+        {
+          if (DEBUG) System.out.println("Running");
+          controller.characterRun(); // Character can only run if they're actually moving
+        }
+        break;
     }
+
   }
 
   @Override
@@ -85,41 +123,44 @@ public class GameEngine implements KeyListener
     // check if player has firetraps and and also if the current tile has a
     // trap to pickup in trap there is enum class of fire traps.
 
-//      case KeyEvent.VK_UP:
-//        upPressed = false;
-//        break;
-//      default:
-
-    switch (e.getKeyCode()) {
-      // PLAYER DIRECTION //
-      // Arrow keys
-      case KeyEvent.VK_LEFT:
-        controller.moveLeft();
-        break;
-      case KeyEvent.VK_DOWN:
-        controller.moveDown();
-        break;
-      case KeyEvent.VK_RIGHT:
-        controller.moveRight();
-        break;
-
-      // WASD controls
-      case KeyEvent.VK_W:
-        controller.moveUp();
-        break;
-      case KeyEvent.VK_A:
-        controller.moveLeft();
+    switch (e.getKeyCode())
+    {
+      // Player movement/directions
+      case KeyEvent.VK_UP:
+        upPressed = false;
+        moving = false;
         break;
       case KeyEvent.VK_S:
-        controller.moveDown();
+        upPressed = false;
+        break;
+      case KeyEvent.VK_DOWN:
+        downPressed = false;
+        moving = false;
+        break;
+      case KeyEvent.VK_LEFT:
+        leftPressed = false;
+        moving = false;
+        break;
+      case KeyEvent.VK_A:
+        leftPressed = false;
+        moving = false;
+        break;
+      case KeyEvent.VK_RIGHT:
+        rightPressed = false;
+        moving = false;
         break;
       case KeyEvent.VK_D:
-        controller.moveRight();
+        rightPressed = false;
+        moving = false;
         break;
 
-      // PLAYER ACTIONS //
+      // Player actions
       case KeyEvent.VK_R:
-        controller.characterWalk();
+        if (moving)
+        {
+          if (DEBUG) System.out.println("Not running");
+          controller.characterWalk();
+        }
         break;
       case KeyEvent.VK_P:
         controller.trapInteraction();

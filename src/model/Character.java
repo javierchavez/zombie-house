@@ -53,6 +53,12 @@ public class Character implements Mover
   }
 
   @Override
+  public float getStamina()
+  {
+    return stamina;
+  }
+
+  @Override
   public void move (float x, float y)
   {
     System.out.println("moved to (" + x + ", " + y + ")");

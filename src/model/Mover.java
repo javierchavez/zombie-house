@@ -28,6 +28,14 @@ public interface Mover
   float getSpeed();
 
   /**
+   * Get the current stamina of the object. Stamina decreases when the
+   * object runs, and replenishes once the object stops running.
+   *
+   * @return stamina
+   */
+  float getStamina();
+
+  /**
    * Get the rotation of the object. N = 90, S = 270, W = 180, E = 0
    * x += speed * sin(rotation);
    * y += speed * cos(rotation);

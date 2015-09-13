@@ -24,6 +24,21 @@ public class Zombie implements Deadly, Mover
     finder = new BFS();
   }
 
+  /**
+   * Set the type of finder this zombie should use
+   *
+   * @param finder the algorithm the zombie shall use for finding Character
+   */
+  public Zombie(Finder<Tile> finder)
+  {
+    zombieDecisionRate = 2f;
+    rotation = 0;
+    smell = 7f;
+    speed = .5f;
+    x = 0;
+    y = 0;
+    this.finder = finder;
+  }
 
   @Override
   public void setTakePoints (float points)

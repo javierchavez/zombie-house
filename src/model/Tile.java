@@ -76,6 +76,27 @@ public abstract class Tile
     this.cost = cost;
   }
 
+  @Override
+  public boolean equals (Object o)
+  {
+    if (this == o) return true;
+    if (!(o instanceof Tile)) return false;
+
+    Tile tile = (Tile) o;
+
+    if (row != tile.row) return false;
+    return col == tile.col;
+
+  }
+
+  @Override
+  public int hashCode ()
+  {
+    int result = row;
+    result = 31 * result + col;
+    return result;
+  }
+
   /**
    * Types of Traps that a tile can house
    */

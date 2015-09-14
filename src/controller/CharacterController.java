@@ -9,13 +9,16 @@ public class CharacterController
 {
   private final House house;
   Character player;
-  private boolean isMoving = false;
+  private boolean isMoving = false, running = false;
   private int direction;
   private float x, y;
+
+  private boolean moveUp = false, moveDown, moveLeft, moveRight;
 
   private boolean DEBUG = true;
 
   // TODO: update object's stamina when running/after running
+  // TODO: collision detection
 
   public CharacterController (House house)
   {
@@ -35,22 +38,25 @@ public class CharacterController
   public void update (float deltaTime)
   {
 //    Character player = house.getPlayer();
+    float playerSpeed;
     player = house.getPlayer();
-    float playerSpeed = player.getSpeed();
     x = player.getCurrentX();
     y = player.getCurrentY();
+
     if (isMoving)
     {
+      if (running) playerSpeed = 2.0f;
+      else playerSpeed = 1.0f;
+
       // Distance of player is dependent on time
       player.setSpeed(playerSpeed * deltaTime); // Determines how many tiles/second the player will move across
       player.setRotation(direction);
 
-      // Player's x and y are in pixels
       // Update player's x and y
-      x += player.getSpeed() * Math.sin(direction);
-      y += player.getSpeed() * Math.cos(direction);
-      player.move(x, y);
+      if (moveUp || moveDown) y = (float) (y + player.getSpeed() * Math.sin(direction));
+      if (moveLeft || moveRight) x = (float) (x + player.getSpeed() * Math.cos(direction));
 
+      player.move(x, y);
       isMoving = false;
     }
   }
@@ -78,7 +84,7 @@ public class CharacterController
    */
   public void characterIdle()
   {
-    if (DEBUG) System.out.println("Idling...");
+//    if (DEBUG) System.out.println("Idling...");
     isMoving = false;
     player.setSpeed(0.0f);
   }
@@ -108,6 +114,7 @@ public class CharacterController
   {
     if (DEBUG) System.out.println("Moving up");
     isMoving = true;
+    moveUp = true;
     direction = 90; // Change player's direction
   }
 
@@ -118,6 +125,7 @@ public class CharacterController
   {
     if (DEBUG) System.out.println("Moving down");
     isMoving = true;
+    moveDown = true;
     direction = 270;
   }
 
@@ -128,6 +136,7 @@ public class CharacterController
   {
     if (DEBUG) System.out.println("Moving left");
     isMoving = true;
+    moveLeft = true;
     direction = 180;
   }
 
@@ -138,6 +147,7 @@ public class CharacterController
   {
     if (DEBUG) System.out.println("Moving right");
     isMoving = true;
+    moveRight = true;
     direction = 0;
   }
 }

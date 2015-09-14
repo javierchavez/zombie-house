@@ -61,7 +61,7 @@ public class Character implements Mover
   @Override
   public void move (float x, float y)
   {
-    System.out.println("moved to (" + x + ", " + y + ")");
+    System.out.println("\tmoved to (" + x + ", " + y + ")");
     this.x = x;
     this.y = y;
   }

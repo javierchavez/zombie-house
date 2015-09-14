@@ -5,10 +5,15 @@ import model.Sound;
 import java.awt.*;
 
 
-public class ZombieRenderer implements Renderer
+public class ZombieRenderer extends Renderer
 {
 
   Sound sound;
+
+  public ZombieRenderer (float x, float y)
+  {
+    super(x, y);
+  }
 
   @Override
   public void render (Graphics g)

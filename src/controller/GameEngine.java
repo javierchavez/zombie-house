@@ -35,12 +35,14 @@ public class GameEngine implements KeyListener
     player = new Character();
     house = new House(player);
 
-    player.move(House.WIDTH / 2, House.HEIGHT / 2);
+    // player.move(House.WIDTH / 2, House.HEIGHT / 2);
 
     houseRenderer = new HouseRenderer(house);
     playerRenderer = new CharacterRenderer(player);
 
     controller = new CharacterController(house);
+
+    house.generateRandomHouse();
   }
 
   public void update(float deltaTime)

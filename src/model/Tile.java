@@ -17,7 +17,7 @@ public abstract class Tile
    * @param x column
    * @param y row
    */
-  Tile(int x, int y)
+  public Tile(int x, int y)
   {
     this(x, y, 1);
   }
@@ -29,7 +29,7 @@ public abstract class Tile
    * @param y row
    * @param cost amount it take to pass this tile.
    */
-  Tile(int x, int y, int cost)
+  public Tile(int x, int y, int cost)
   {
     this.col = x;
     this.row = y;
@@ -41,7 +41,7 @@ public abstract class Tile
    *
    * @return column
    */
-  int getX()
+  public int getX()
   {
     return col;
   }
@@ -51,7 +51,7 @@ public abstract class Tile
    *
    * @return row
    */
-  int getY()
+  public int getY()
   {
     return row;
   }
@@ -61,7 +61,7 @@ public abstract class Tile
    *
    * @return cost
    */
-  int getCost()
+  public int getCost()
   {
     return cost;
   }
@@ -71,7 +71,7 @@ public abstract class Tile
    *
    * @param cost cost to travel over the tile
    */
-  void setCost(int cost)
+  public void setCost(int cost)
   {
     this.cost = cost;
   }
@@ -100,7 +100,7 @@ public abstract class Tile
   /**
    * Types of Traps that a tile can house
    */
-  enum Trap {
+  public enum Trap {
     NONE, FIRE
   }
 
@@ -109,7 +109,7 @@ public abstract class Tile
    *
    * @return trap
    */
-  Trap getTrap()
+  public Trap getTrap()
   {
     return trap;
   }
@@ -119,7 +119,7 @@ public abstract class Tile
    *
    * @param trap can either be NONE or FIRE
    */
-  Tile setTrap (Trap trap)
+  public Tile setTrap (Trap trap)
   {
     this.trap = trap;
     return this;
@@ -130,7 +130,7 @@ public abstract class Tile
    *
    * @return trap
    */
-  Trap popTrap()
+  public Trap popTrap()
   {
     Trap t = trap;
     trap = Trap.NONE;

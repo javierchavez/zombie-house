@@ -43,7 +43,7 @@ public class CharacterController
     x = player.getCurrentX();
     y = player.getCurrentY();
 
-    System.out.println(stamina);
+//    System.out.println(stamina);
 
     // Stamina regenerates if player is idle
     if (!isMoving)

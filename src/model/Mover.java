@@ -61,6 +61,12 @@ public interface Mover
   float setSpeed(float speed);
 
   /**
+   * Set the stamina of the object.
+   * @return
+   */
+  float setStamina(float stamina);
+
+  /**
    * Set the rotation of the object. N = 90, S = 270, W = 180, E = 0
    *
    * @param rotation degree of direction

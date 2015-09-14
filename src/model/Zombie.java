@@ -96,4 +96,10 @@ public class Zombie implements Deadly, Mover
 
   @Override
   public float getStamina() { return 0; }
+
+  @Override
+  public float setStamina(float stamina)
+  {
+    return 0;
+  }
 }

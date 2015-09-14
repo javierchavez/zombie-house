@@ -74,6 +74,13 @@ public class Character implements Mover
   }
 
   @Override
+  public float setStamina(float stamina)
+  {
+    this.stamina = stamina;
+    return stamina;
+  }
+
+  @Override
   public float setRotation (float rotation)
   {
     this.rotation = rotation;

@@ -14,6 +14,11 @@ public class CharacterController
   private float x, y;
 
   private boolean moveUp = false, moveDown, moveLeft, moveRight;
+  private final int EAST = 0;
+  private final int NORTH = 90;
+  private final int WEST = 180;
+  private final int SOUTH = 270;
+
 
   private boolean DEBUG = true;
 
@@ -45,6 +50,10 @@ public class CharacterController
 
 //    System.out.println(stamina);
 
+    if (stamina == 0)
+    {
+      isMoving = false;
+    }
     // Stamina regenerates if player is idle
     if (!isMoving)
     {
@@ -84,8 +93,8 @@ public class CharacterController
       player.setRotation(direction);
 
       // Update player's x and y
-      if (moveUp || moveDown) y = (float) (y + player.getSpeed() * Math.sin(direction));
-      if (moveLeft || moveRight) x = (float) (x + player.getSpeed() * Math.cos(direction));
+      if (moveUp || moveDown) y = (float) (y + player.getSpeed() * Math.sin(direction * (Math.PI / 180)));
+      if (moveLeft || moveRight) x = (float) (x + player.getSpeed() * Math.cos(direction * (Math.PI / 180)));
 
       player.move(x, y);
       isMoving = false;
@@ -152,7 +161,7 @@ public class CharacterController
     isMoving = true;
     idling = false;
     moveUp = true;
-    direction = 90; // Change player's direction
+    direction = NORTH; // Change player's direction
   }
 
   /**
@@ -164,7 +173,7 @@ public class CharacterController
     isMoving = true;
     idling = false;
     moveDown = true;
-    direction = 270;
+    direction = SOUTH;
   }
 
   /**
@@ -176,7 +185,7 @@ public class CharacterController
     isMoving = true;
     idling = false;
     moveLeft = true;
-    direction = 180;
+    direction = WEST;
   }
 
   /**
@@ -188,6 +197,6 @@ public class CharacterController
     isMoving = true;
     idling = false;
     moveRight = true;
-    direction = 0;
+    direction = EAST;
   }
 }

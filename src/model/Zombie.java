@@ -102,4 +102,9 @@ public class Zombie implements Deadly, Mover
   {
     return 0;
   }
+
+  public float getSmell()
+  {
+    return smell;
+  }
 }

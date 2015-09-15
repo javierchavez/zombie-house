@@ -32,6 +32,7 @@ public class House
 
   private HouseGenerator generator;
   private List<Room> rooms;
+  private float zombieSpawn = 0.1f; // set high for testing
 
 
   public House(Character player)
@@ -82,6 +83,7 @@ public class House
     generator = new HouseGenerator();
     generator.generateHouse();
     placePlayer();
+    generateZombies();
   }
 
   /**
@@ -98,10 +100,47 @@ public class House
     do
     {
       row = room.getRow() + rand.nextInt(room.getHeight());
-      col = room.getCol() + rand.nextInt(room.getCol());
+      col = room.getCol() + rand.nextInt(room.getWidth());
     } while (validate(row, col) && !(house[row][col] instanceof Floor));
 
     player.move(col, row);
+  }
+
+  /**
+   * Generates Zombies in the house based on zombieSpawn
+   * Zombie distance from character is at least > zombie smell distance
+   * based on AStar path from player to zombie
+   */
+  public void generateZombies()
+  {
+    AStar finder = new AStar();
+    Random rand = new Random();
+    Zombie zombie;
+
+    // zombies only spawn in rooms and not in hallways
+    for (Room room : rooms)
+    {
+      for (int row = room.getRow(); row < room.getRow()+room.getHeight(); row++)
+      {
+        for (int col = room.getCol(); col < room.getCol()+room.getWidth(); col++)
+        {
+          if (house[row][col] instanceof Floor && house[row][col] != getPlayerTile())
+          {
+            if (rand.nextFloat() < zombieSpawn)
+            {
+              // can add code here to change zombie type
+              zombie = new Zombie();
+              finder.find(this, house[row][col], getPlayerTile());
+              if (zombie.getSmell() < finder.getPath().size())
+              {
+                zombie.move(col, row);
+                zombies.add(zombie);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -299,6 +338,11 @@ public class House
     return house[(int) player.getCurrentY()][(int) player.getCurrentX()];
   }
 
+  public Tile getZombieTile(Zombie zombie)
+  {
+    return house[(int) zombie.getCurrentY()][(int) zombie.getCurrentX()];
+  }
+
   /**
    * Check a given tile if it contains a trap
    *
@@ -314,6 +358,7 @@ public class House
   public String toString()
   {
     String board = "";
+    board += "Num Zombies: " + zombies.size() + "\n";
     board += "P = Player\n";
     board += "x = Wall\n";
     board += "* = Floor \n\n";
@@ -333,6 +378,10 @@ public class House
         if (house[row][col] == getPlayerTile())
         {
           board += "P";
+        }
+        else if (isZombieTile(house[row][col]))
+        {
+          board += "Z";
         }
         else if (house[row][col] instanceof Floor)
         {
@@ -357,6 +406,18 @@ public class House
     }
     board += "\n\n\n";
     return board;
+  }
+
+  private boolean isZombieTile(Tile tile)
+  {
+    for (Zombie zombie : zombies)
+    {
+      if (getZombieTile(zombie) == tile)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean validate(int row, int col)

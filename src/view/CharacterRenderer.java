@@ -6,7 +6,7 @@ import model.Character;
 import java.awt.*;
 
 
-public class CharacterRenderer implements Renderer
+public class CharacterRenderer extends Renderer
 {
   public CharacterRenderer (Character player)
   {

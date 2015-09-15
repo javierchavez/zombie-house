@@ -11,7 +11,7 @@ public class Zombie implements Deadly, Mover
           speed,
           x, y;
 
-  protected Finder finder;
+  protected FindStrategy findStrategy;
 
   public Zombie()
   {
@@ -21,15 +21,15 @@ public class Zombie implements Deadly, Mover
     speed = .5f;
     x = 0;
     y = 0;
-    finder = new BFS();
+    findStrategy = new BFSFindStrategy();
   }
 
   /**
-   * Set the type of finder this zombie should use
+   * Set the type of findStrategy this zombie should use
    *
-   * @param finder the algorithm the zombie shall use for finding Character
+   * @param findStrategy the algorithm the zombie shall use for finding Character
    */
-  public Zombie(Finder<Tile> finder)
+  public Zombie(FindStrategy<Tile> findStrategy)
   {
     zombieDecisionRate = 2f;
     rotation = 0;
@@ -37,7 +37,7 @@ public class Zombie implements Deadly, Mover
     speed = .5f;
     x = 0;
     y = 0;
-    this.finder = finder;
+    this.findStrategy = findStrategy;
   }
 
   @Override

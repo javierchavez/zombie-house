@@ -109,11 +109,11 @@ public class House
   /**
    * Generates Zombies in the house based on zombieSpawn
    * Zombie distance from character is at least > zombie smell distance
-   * based on AStar path from player to zombie
+   * based on AStarFindStrategy path from player to zombie
    */
   public void generateZombies()
   {
-    AStar finder = new AStar();
+    AStarFindStrategy finder = new AStarFindStrategy();
     Random rand = new Random();
     Zombie zombie;
 
@@ -430,13 +430,13 @@ public class House
   private class HouseGenerator
   {
     Random rand;
-    AStar pathfinder;
+    AStarFindStrategy pathfinder;
 
     public HouseGenerator()
     {
       rooms = new ArrayList<>();
       rand = new Random();
-      pathfinder = new AStar();
+      pathfinder = new AStarFindStrategy();
     }
 
     public void generateHouse()

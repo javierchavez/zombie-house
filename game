@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# Perform build, run, clean, and deploy tasks(create jar). 
 
 make_sources () {
     # find all the files but exclude emacs backup files
@@ -27,7 +29,7 @@ gen_manifest () {
     rm Manifest.txt
     touch Manifest.txt
     echo "Manifest-Version: 1.0" >> Manifest.txt
-    echo "Class-Path: dist/" >> Manifest.txt
+    echo "Class-Path: ./dist/" >> Manifest.txt
     echo "Main-Class: ZombieHouse" >> Manifest.txt
     echo "Created-By: Javier-Alex-Erin (CS351 Project 1)" >> Manifest.txt
 }
@@ -36,7 +38,6 @@ build_jar () {
     build
     gen_manifest
     jar cvfm ZombieHouseGame.jar Manifest.txt dist/*.class
-    # clean
 }
 
 if [ "$1" == "build" ]
@@ -51,8 +52,11 @@ then
 elif [ "$1" == "deploy" ]
 then
     build_jar
+    # mkdir zombie-house-game
+    # mv ZombieHouseGame.jar zombie-house-game/
+    # cp -rf resources zombie-house-game/
 else
-    echo"Command not found"
+    echo "Command not found"
 fi
 
 

@@ -2,25 +2,30 @@ package controller;
 
 import model.Character;
 import model.House;
-import view.CharacterRenderer;
-import view.HouseRenderer;
-import view.Renderer;
+import view.*;
+
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 
 /**
  * Main Controller. Its job is to delegate actions to other controllers and
  * to send data to the renders as needed
  */
-public class GameEngine implements KeyListener
+public class GameEngine implements KeyListener, MouseInputListener
 {
   private House house;
   private Character player;
   private Renderer houseRenderer;
   private CharacterController controller;
   private Renderer playerRenderer;
+  private Renderer zombieRenderer;
+  private Point2D dragFrom;
+  private Converter converter;
 
   private boolean moving = false;
   private boolean upPressed = false;
@@ -34,15 +39,13 @@ public class GameEngine implements KeyListener
   {
     player = new Character();
     house = new House(player);
-
-    // player.move(House.WIDTH / 2, House.HEIGHT / 2);
-
-    houseRenderer = new HouseRenderer(house);
-    playerRenderer = new CharacterRenderer(player);
-
     controller = new CharacterController(house);
 
     house.generateRandomHouse();
+    playerRenderer = new CharacterRenderer(player, house.getWidth(), house.getHeight());
+    zombieRenderer = new ZombieRenderer(house);
+    converter = new Converter(house);
+    houseRenderer = new HouseRenderer(house, converter);
   }
 
   public void update(float deltaTime)
@@ -59,6 +62,8 @@ public class GameEngine implements KeyListener
   {
     houseRenderer.render(graphics);
     playerRenderer.render(graphics);
+    zombieRenderer.render(graphics);
+
   }
 
   @Override
@@ -176,4 +181,45 @@ public class GameEngine implements KeyListener
         controller.characterIdle();
     }
   }
+
+  @Override
+  public void mouseClicked (MouseEvent e)
+  {
+    System.out.println(converter.pointToHouseTile(e.getPoint()));
+  }
+
+  @Override
+  public void mousePressed (MouseEvent e)
+  {
+    dragFrom = e.getPoint();
+  }
+
+  @Override
+  public void mouseReleased (MouseEvent e)
+  {
+
+  }
+
+  @Override
+  public void mouseEntered (MouseEvent e)
+  {
+
+  }
+
+  @Override
+  public void mouseExited (MouseEvent e)
+  {
+
+  }
+
+  @Override
+  public void mouseDragged (MouseEvent e)
+  {
+    double dx = -(e.getPoint().getX() - dragFrom.getX());
+    double dy = -(e.getPoint().getY() - dragFrom.getY());
+    dragFrom = e.getPoint();
+  }
+
+  @Override
+  public void mouseMoved (MouseEvent e) { }
 }

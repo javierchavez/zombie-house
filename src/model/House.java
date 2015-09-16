@@ -32,7 +32,12 @@ public class House
 
   private HouseGenerator generator;
   private List<Room> rooms;
-  private float zombieSpawn = 0.1f; // set high for testing
+  private Tile exit;
+  private float zombieSpawn = 0.01f;
+  private float trapSpawn = 0.01f;
+
+  // The minimum euclidean distance between the player and exit (inclusive)
+  private int minTravelDistance = 9;
 
 
   public House(Character player)
@@ -84,6 +89,7 @@ public class House
     generator.generateHouse();
     placePlayer();
     generateZombies();
+    generateTraps();
   }
 
   /**
@@ -101,7 +107,7 @@ public class House
     {
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
-    } while (validate(row, col) && !(house[row][col] instanceof Floor));
+    } while (!(house[row][col] instanceof Floor) || (getDistance(house[row][col], exit) < minTravelDistance));
 
     player.move(col, row);
   }
@@ -113,7 +119,6 @@ public class House
    */
   public void generateZombies()
   {
-    AStarFindStrategy finder = new AStarFindStrategy();
     Random rand = new Random();
     Zombie zombie;
 
@@ -130,8 +135,7 @@ public class House
             {
               // can add code here to change zombie type
               zombie = new Zombie();
-              finder.find(this, house[row][col], getPlayerTile());
-              if (zombie.getSmell() < finder.getPath().size())
+              if (getDistance(house[row][col], getPlayerTile()) > zombie.getSmell())
               {
                 zombie.move(col, row);
                 zombies.add(zombie);
@@ -141,6 +145,47 @@ public class House
         }
       }
     }
+  }
+
+  /**
+   * Generates Traps in the house based on trapSpawn
+   * Traps are not placed on the same tile as a character or zombie
+   */
+  public void generateTraps()
+  {
+    Random rand = new Random();
+    Tile current;
+
+    for (int row = 0; row < rows; row++)
+    {
+      for (int col = 0; col < cols; col++)
+      {
+        current = house[row][col];
+        if (current instanceof Floor && current != getPlayerTile() && !isZombieTile(current))
+        {
+          if (rand.nextFloat() < trapSpawn)
+          {
+            placeTrap(current, Trap.FIRE);
+          }
+          else
+          {
+            placeTrap(current, Trap.NONE);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Get the Euclidean distance between two tiles
+   *
+   * @param start Starting tile
+   * @param end Ending tile
+   * @return Euclidean distance between start and end tiles
+   */
+  public float getDistance(Tile start, Tile end)
+  {
+    return (float) Math.sqrt((start.getX()-end.getX())^2 + (start.getY()-end.getY())^2);
   }
 
   /**
@@ -171,6 +216,16 @@ public class House
   public Tile[][] getHouse()
   {
     return house;
+  }
+
+  /**
+   * Get the Exit tile of the house
+   *
+   * @return Tile where whe exit is
+   */
+  public Tile getExit()
+  {
+    return exit;
   }
 
   /**
@@ -338,6 +393,11 @@ public class House
     return house[(int) player.getCurrentY()][(int) player.getCurrentX()];
   }
 
+    /**
+   * Get the tile the zombie is on
+   *
+   * @return Tile containing the zombie
+   */
   public Tile getZombieTile(Zombie zombie)
   {
     return house[(int) zombie.getCurrentY()][(int) zombie.getCurrentX()];
@@ -358,9 +418,11 @@ public class House
   public String toString()
   {
     String board = "";
-    board += "Num Zombies: " + zombies.size() + "\n";
     board += "P = Player\n";
-    board += "x = Wall\n";
+    board += "Z = Zombie\n";
+    board += "T = Fire Trap\n";
+    board += "X = Wall\n";
+    board += "e = Exit\n";
     board += "* = Floor \n\n";
 
     // draw top boarder
@@ -370,26 +432,36 @@ public class House
     }
     board += "\n";
 
+    Tile current;
     for (int row = 0; row < rows; row++)
     {
       board += "|";
       for (int col = 0; col < cols; col++)
       {
-        if (house[row][col] == getPlayerTile())
+        current = house[row][col];
+        if (current == getPlayerTile())
         {
           board += "P";
         }
-        else if (isZombieTile(house[row][col]))
+        else if (isZombieTile(current))
         {
           board += "Z";
         }
-        else if (house[row][col] instanceof Floor)
+        else if (current.getTrap() == Trap.FIRE)
+        {
+          board += "T";
+        }
+        else if (current instanceof Floor)
         {
           board += "*";
         }
-        else if (house[row][col] instanceof Wall)
+        else if (current instanceof Wall)
         {
-          board += "x";
+          board += "X";
+        }
+        else if (current instanceof Exit)
+        {
+          board += "e";
         }
         else
         {
@@ -444,6 +516,7 @@ public class House
       addRooms();
       addHallways();
       addWalls();
+      addExit();
     }
 
     public void addRooms()
@@ -523,27 +596,82 @@ public class House
       // Adds a wall to a tile if the tile is Empty
       // and is touching a Floor tile
       Tile current;
-      for (int i = 0; i < rows; i++)
+      for (int row = 0; row < rows; row++)
       {
-        for (int j = 0; j < cols; j++)
+        for (int col = 0; col < cols; col++)
         {
-          current = house[i][j];
+          current = house[row][col];
           if (current instanceof Empty)
           {
             if (touchesFloor(current))
             {
-              house[i][j] = new Wall(j, i);
+              house[row][col] = new Wall(col, row);
             }
             else
             {
               // Tile is Empty so set a high travel cost
               // so there aren't weird cases where a zombie
               // travels through empty space
-              house[i][j].setCost(999999999);
+              house[row][col].setCost(999999999);
             }
           }
         }
       }
+    }
+
+    private void addExit()
+    {
+      Random rand = new Random();
+      List<Tile> walls = getWalls();
+      Tile wall;
+      int index;
+
+      do
+      {
+        index = rand.nextInt(walls.size());
+        wall = walls.get(index);
+      } while (!validExit(wall));
+
+      int row = wall.getY();
+      int col = wall.getX();
+      exit = new Exit(col, row);
+      house[row][col] = exit;
+    }
+
+    private List<Tile> getWalls()
+    {
+      List<Tile> walls = new ArrayList<>();
+      for (int row = 0; row < rows; row++)
+      {
+        for (int col = 0; col < cols; col++)
+        {
+          if (house[row][col] instanceof Wall)
+          {
+            walls.add(house[row][col]);
+          }
+        }
+      }
+      return walls;
+    }
+
+    private boolean validExit(Tile wall)
+    {
+      boolean hasAdjacentFloor = false;
+      boolean hasAdjacentEmpty = false;
+
+      for (Tile tile : neighbors(wall))
+      {
+        if (tile instanceof Floor)
+        {
+          hasAdjacentFloor = true;
+        }
+
+        if (tile instanceof Empty)
+        {
+          hasAdjacentEmpty = true;
+        }
+      }
+      return hasAdjacentEmpty && hasAdjacentFloor;
     }
 
     private boolean touchesFloor(Tile current)

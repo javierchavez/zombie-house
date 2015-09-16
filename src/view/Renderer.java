@@ -3,6 +3,7 @@ package view;
 import model.Tile;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Renderer
@@ -14,14 +15,11 @@ public abstract class Renderer
   int MAX_SCREEN_HEIGHT = 1080;
 
   // scale factor
-  private static final double ASPECT_RATIO = 1.5;
-  private static final double BASE_W = 900;
+  private static final double ASPECT_RATIO = 1.78;
+  private static final double BASE_W = 320;
 
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
 
-  final double MIN_HEIGHT = -0.8;
-
-  //  final double MAX_HEIGHT;
 
   private Rectangle2D viewBounds;
   private Rectangle2D limitingRect;
@@ -31,7 +29,7 @@ public abstract class Renderer
   public abstract void render(Graphics g);
 
 
-  public Renderer(float x, float y)
+  public Renderer(float x, float y, Converter converter)
   {
   }
 

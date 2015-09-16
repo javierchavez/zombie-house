@@ -55,43 +55,44 @@ public class Zombie implements Deadly, Mover
   @Override
   public float getCurrentX ()
   {
-    return 0;
+    return x;
   }
 
   @Override
   public float getCurrentY ()
   {
-    return 0;
+    return y;
   }
 
   @Override
   public float getSpeed ()
   {
-    return 0;
+    return speed;
   }
 
   @Override
   public float getRotation ()
   {
-    return 0;
+    return rotation;
   }
 
   @Override
   public void move (float x, float y)
   {
-    return;
+    this.x = x;
+    this.y = y;
   }
 
   @Override
   public float setSpeed (float speed)
   {
-    return 0;
+    return this.speed = speed;
   }
 
   @Override
   public float setRotation (float rotation)
   {
-    return 0;
+    return this.rotation = rotation;
   }
 
   @Override

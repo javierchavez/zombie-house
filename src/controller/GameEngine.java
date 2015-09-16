@@ -174,7 +174,6 @@ public class GameEngine implements KeyListener
       default:
         moving = false;
         controller.characterIdle();
-
     }
   }
 }

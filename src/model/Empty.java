@@ -9,7 +9,7 @@ import java.util.Random;
 public class Empty extends Tile
 {
   int minCost = 11;
-  int maxCost = 20;
+  int maxCost = 25;
 
   public Empty(int x, int y, int cost)
   {

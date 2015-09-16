@@ -39,7 +39,7 @@ public class House
   // The minimum distance a player has to travel.
   // This is the distance a player is to the exit
   // found by AStarFindStrategy
-  private int minTravelDistance = 5;
+  private int minTravelDistance = 9;
 
 
   public House(Character player)

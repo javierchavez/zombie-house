@@ -32,8 +32,14 @@ public class House
 
   private HouseGenerator generator;
   private List<Room> rooms;
+  private Tile exit;
   private float zombieSpawn = 0.01f;
   private float trapSpawn = 0.01f;
+
+  // The minimum distance a player has to travel.
+  // This is the distance a player is to the exit
+  // found by AStarFindStrategy
+  private int minTravelDistance = 5;
 
 
   public House(Character player)
@@ -94,6 +100,7 @@ public class House
   public void placePlayer()
   {
     Random rand = new Random();
+    AStarFindStrategy finder = new AStarFindStrategy();
     Room room = rooms.get(rand.nextInt(rooms.size()));
     int row;
     int col;
@@ -103,7 +110,8 @@ public class House
     {
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
-    } while (validate(row, col) && !(house[row][col] instanceof Floor));
+      finder.find(this, house[row][col], exit);
+    } while (!(house[row][col] instanceof Floor) || (finder.getPath().size() < minTravelDistance));
 
     player.move(col, row);
   }
@@ -202,6 +210,16 @@ public class House
   public Tile[][] getHouse()
   {
     return house;
+  }
+
+  /**
+   * Get the Exit tile of the house
+   *
+   * @return Tile where whe exit is
+   */
+  public Tile getExit()
+  {
+    return exit;
   }
 
   /**
@@ -610,7 +628,8 @@ public class House
 
       int row = wall.getY();
       int col = wall.getX();
-      house[row][col] = new Exit(col, row);
+      exit = new Exit(col, row);
+      house[row][col] = exit;
     }
 
     private List<Tile> getWalls()

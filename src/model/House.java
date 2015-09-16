@@ -32,7 +32,8 @@ public class House
 
   private HouseGenerator generator;
   private List<Room> rooms;
-  private float zombieSpawn = 0.1f; // set high for testing
+  private float zombieSpawn = 0.01f;
+  private float trapSpawn = 0.01f;
 
 
   public House(Character player)
@@ -84,6 +85,7 @@ public class House
     generator.generateHouse();
     placePlayer();
     generateZombies();
+    generateTraps();
   }
 
   /**
@@ -137,6 +139,35 @@ public class House
                 zombies.add(zombie);
               }
             }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Generates Traps in the house based on trapSpawn
+   * Traps are not placed on the same tile as a character or zombie
+   */
+  public void generateTraps()
+  {
+    Random rand = new Random();
+    Tile current;
+
+    for (int row = 0; row < rows; row++)
+    {
+      for (int col = 0; col < cols; col++)
+      {
+        current = house[row][col];
+        if (current instanceof Floor && current != getPlayerTile() && !isZombieTile(current))
+        {
+          if (rand.nextFloat() < trapSpawn)
+          {
+            placeTrap(current, Trap.FIRE);
+          }
+          else
+          {
+            placeTrap(current, Trap.NONE);
           }
         }
       }
@@ -338,6 +369,11 @@ public class House
     return house[(int) player.getCurrentY()][(int) player.getCurrentX()];
   }
 
+    /**
+   * Get the tile the zombie is on
+   *
+   * @return Tile containing the zombie
+   */
   public Tile getZombieTile(Zombie zombie)
   {
     return house[(int) zombie.getCurrentY()][(int) zombie.getCurrentX()];
@@ -358,9 +394,10 @@ public class House
   public String toString()
   {
     String board = "";
-    board += "Num Zombies: " + zombies.size() + "\n";
     board += "P = Player\n";
-    board += "x = Wall\n";
+    board += "Z = Zombie\n";
+    board += "T = Fire Trap\n";
+    board += "X = Wall\n";
     board += "* = Floor \n\n";
 
     // draw top boarder
@@ -370,26 +407,32 @@ public class House
     }
     board += "\n";
 
+    Tile current;
     for (int row = 0; row < rows; row++)
     {
       board += "|";
       for (int col = 0; col < cols; col++)
       {
-        if (house[row][col] == getPlayerTile())
+        current = house[row][col];
+        if (current == getPlayerTile())
         {
           board += "P";
         }
-        else if (isZombieTile(house[row][col]))
+        else if (isZombieTile(current))
         {
           board += "Z";
         }
-        else if (house[row][col] instanceof Floor)
+        else if (current.getTrap() == Trap.FIRE)
+        {
+          board += "T";
+        }
+        else if (current instanceof Floor)
         {
           board += "*";
         }
-        else if (house[row][col] instanceof Wall)
+        else if (current instanceof Wall)
         {
-          board += "x";
+          board += "X";
         }
         else
         {
@@ -523,23 +566,23 @@ public class House
       // Adds a wall to a tile if the tile is Empty
       // and is touching a Floor tile
       Tile current;
-      for (int i = 0; i < rows; i++)
+      for (int row = 0; row < rows; row++)
       {
-        for (int j = 0; j < cols; j++)
+        for (int col = 0; col < cols; col++)
         {
-          current = house[i][j];
+          current = house[row][col];
           if (current instanceof Empty)
           {
             if (touchesFloor(current))
             {
-              house[i][j] = new Wall(j, i);
+              house[row][col] = new Wall(col, row);
             }
             else
             {
               // Tile is Empty so set a high travel cost
               // so there aren't weird cases where a zombie
               // travels through empty space
-              house[i][j].setCost(999999999);
+              house[row][col].setCost(999999999);
             }
           }
         }

@@ -36,9 +36,7 @@ public class House
   private float zombieSpawn = 0.01f;
   private float trapSpawn = 0.01f;
 
-  // The minimum distance a player has to travel.
-  // This is the distance a player is to the exit
-  // found by AStarFindStrategy
+  // The minimum euclidean distance between the player and exit (inclusive)
   private int minTravelDistance = 9;
 
 
@@ -100,7 +98,6 @@ public class House
   public void placePlayer()
   {
     Random rand = new Random();
-    AStarFindStrategy finder = new AStarFindStrategy();
     Room room = rooms.get(rand.nextInt(rooms.size()));
     int row;
     int col;
@@ -110,8 +107,7 @@ public class House
     {
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
-      finder.find(this, house[row][col], exit);
-    } while (!(house[row][col] instanceof Floor) || (finder.getPath().size() < minTravelDistance));
+    } while (!(house[row][col] instanceof Floor) || (getDistance(house[row][col], exit) < minTravelDistance));
 
     player.move(col, row);
   }
@@ -123,7 +119,6 @@ public class House
    */
   public void generateZombies()
   {
-    AStarFindStrategy finder = new AStarFindStrategy();
     Random rand = new Random();
     Zombie zombie;
 
@@ -140,8 +135,7 @@ public class House
             {
               // can add code here to change zombie type
               zombie = new Zombie();
-              finder.find(this, house[row][col], getPlayerTile());
-              if (zombie.getSmell() < finder.getPath().size())
+              if (getDistance(house[row][col], getPlayerTile()) > zombie.getSmell())
               {
                 zombie.move(col, row);
                 zombies.add(zombie);
@@ -180,6 +174,18 @@ public class House
         }
       }
     }
+  }
+
+  /**
+   * Get the Euclidean distance between two tiles
+   *
+   * @param start Starting tile
+   * @param end Ending tile
+   * @return Euclidean distance between start and end tiles
+   */
+  public float getDistance(Tile start, Tile end)
+  {
+    return (float) Math.sqrt((start.getX()-end.getX())^2 + (start.getY()-end.getY())^2);
   }
 
   /**

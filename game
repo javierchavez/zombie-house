@@ -1,10 +1,12 @@
 #!/bin/bash
 
 make_sources () {
-    find . -name "*.java" > files.txt
+    # find all the files but exclude emacs backup files
+    find . ! -name "*#*" -name "*.java" > files.txt
 }
 
 build () {
+    rm -rf dist/
     mkdir dist
     make_sources
     javac -classpath . @files.txt -d ./dist
@@ -18,6 +20,23 @@ run () {
 
 clean () {
     rm -rf dist/
+    rm Manifest.txt
+}
+
+gen_manifest () {
+    rm Manifest.txt
+    touch Manifest.txt
+    echo "Manifest-Version: 1.0" >> Manifest.txt
+    echo "Class-Path: dist/" >> Manifest.txt
+    echo "Main-Class: ZombieHouse" >> Manifest.txt
+    echo "Created-By: Javier-Alex-Erin (CS351 Project 1)" >> Manifest.txt
+}
+
+build_jar () {
+    build
+    gen_manifest
+    jar cvfm ZombieHouseGame.jar Manifest.txt dist/*.class
+    # clean
 }
 
 if [ "$1" == "build" ]
@@ -29,6 +48,11 @@ then
 elif [ "$1" == "clean" ]
 then
     clean
+elif [ "$1" == "deploy" ]
+then
+    build_jar
+else
+    echo"Command not found"
 fi
 
 

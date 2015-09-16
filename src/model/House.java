@@ -103,13 +103,15 @@ public class House
     Room room = rooms.get(rand.nextInt(rooms.size()));
     int row;
     int col;
+    int tries = 0;
 
     // only place the player on a floor tile
     do
     {
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
-    } while (!(house[row][col] instanceof Floor) || (getDistance(house[row][col], exit) < minTravelDistance));
+      tries++;
+    } while ((tries < maxTries) && (!(house[row][col] instanceof Floor) || (getDistance(house[row][col], exit) < minTravelDistance)));
 
     player.move(col, row);
   }
@@ -630,18 +632,24 @@ public class House
     private void addObstacles()
     {
       Random rand = new Random();
+      int tries = 0;
       int row = 0;
       int col = 0;
       int roomIndex = 0;
       Room room;
 
-      while (getObstacles().size() < minObstacles)
+      while ((tries < maxTries) && (getObstacles().size() < minObstacles))
       {
         roomIndex = rand.nextInt(rooms.size());
         room = rooms.get(roomIndex);
         row = (room.getRow()+1) + rand.nextInt(room.getHeight()-1);
         col = (room.getCol()+1) + rand.nextInt(room.getWidth()-1);
-        house[row][col] = new Obstacle(col, row);
+
+        if (house[row][col] instanceof Floor)
+        {
+          house[row][col] = new Obstacle(col, row);
+        }
+        tries++;
       }
     }
 

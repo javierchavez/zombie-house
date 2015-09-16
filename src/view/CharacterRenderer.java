@@ -85,6 +85,7 @@ public class CharacterRenderer extends Renderer
     {
       animation.stop();
       animation.reset();
+      c.setFramePosition(0);
       c.stop();
     }
 

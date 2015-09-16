@@ -13,10 +13,15 @@ public class ZombieRenderer extends Renderer
 {
 
   private final House house;
+  private final int w;
+  private final int h;
   Sound sound;
 
-  public ZombieRenderer (House house)
+  public ZombieRenderer(House house)
   {
+    this.w = house.getWidth();
+    this.h = house.getHeight();
+
     this.house = house;
   }
 
@@ -31,8 +36,8 @@ public class ZombieRenderer extends Renderer
     double width = g2.getClipBounds().getWidth();
     double height = g2.getClipBounds().getHeight();
 
-    int tileW = (int) (width / house.getWidth());
-    int tileH = (int) (height / house.getHeight());
+    int tileW = (int) (width / w);
+    int tileH = (int) (height / h);
 
 
     List<Zombie> zombies =  house.getZombies();
@@ -41,7 +46,7 @@ public class ZombieRenderer extends Renderer
       float x = zombies.get(i).getCurrentX();
       float y = zombies.get(i).getCurrentY();
       g2.setColor(Color.GREEN);
-      g2.drawRect((int)x*tileW, (int)y*tileH, tileW, tileH);
+      g2.drawString("Zombie", x*80,y*80);
 
 
     }

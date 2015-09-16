@@ -6,28 +6,19 @@ import model.Tile;
 import model.Wall;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 
 public class HouseRenderer extends Renderer
 {
   private final House house;
-  GameGraphic[] tileGraphics = new GameGraphic[2];
-  private Rectangle2D viewBounds;
-  private Rectangle2D viewBoundsCamera;
-  int TILE_WIDTH = 80;
-  int TILE_HEIGHT = 80;
-  float displayScaleFactor = 1.5f;
-  int MAX_TILE_SIZE = 80;
-  int MAX_SCREEN_WIDTH = 1920;
-  int MAX_SCREEN_HEIGHT = 1080;
+  FloorGraphic floor = new FloorGraphic();
+  WallGraphic wall = new WallGraphic();
 
-  public HouseRenderer (House house)
+  public HouseRenderer (House house, Converter converter)
   {
-    super(house.getPlayerTile().getX(),house.getPlayerTile().getY());
-
-    tileGraphics[0] = GameGraphic.FLOOR;
-    tileGraphics[1] = GameGraphic.WALL;
+    super(house.getPlayerTile().getX(),house.getPlayerTile().getY(), converter);
     this.house = house;
   }
 
@@ -39,25 +30,32 @@ public class HouseRenderer extends Renderer
     ////////// this is shit code.///////
     // this needs to be abstracted out into a view or camera class
     // it needs to take into account for scale and size of clipping
-    int cellsX = (int) Math.ceil(g2.getClipBounds().getWidth()/80f);
-    int cellsY = (int) Math.ceil(g2.getClipBounds().getHeight()/80f);
+    double width = g2.getClipBounds().getWidth();
+    double height = g2.getClipBounds().getHeight();
+
+    int tileW = (int) (width / house.getWidth());
+    int tileH = (int) (height / house.getHeight());
+
+
+    // int cellsX = (int) Math.ceil(g2.getClipBounds().getWidth()/80f);
+    // int cellsY = (int) Math.ceil(g2.getClipBounds().getHeight()/80f);
     ////////// end shit code ///////////
 
     Tile[][] houseMatrix = house.getHouse();
 
-    for (int i = 0; i < cellsY; i++)
+    for (int i = 0; i < houseMatrix.length; i++)
     {
-      for (int j = 0; j < cellsX; j++)
+      for (int j = 0; j < houseMatrix[0].length; j++)
       {
         if (houseMatrix[i][j] instanceof Wall)
         {
-          g2.drawImage(tileGraphics[1].getImage(), j * TILE_WIDTH,
-                       i * TILE_HEIGHT, null);
+          g2.drawImage(wall.getImage(), j * tileW,
+                       i * tileH, null);
         }
         else if (houseMatrix[i][j] instanceof Floor)
         {
-          g2.drawImage(tileGraphics[0].getImage(), j * TILE_WIDTH,
-                       i * TILE_HEIGHT, null);
+          g2.drawImage(floor.getImage(), j * tileW,
+                       i * tileH, null);
         }
       }
     }

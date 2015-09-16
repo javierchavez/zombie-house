@@ -7,6 +7,7 @@ import controller.GameEngine;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class ZombieHouse extends JFrame implements Runnable
@@ -30,8 +31,8 @@ public class ZombieHouse extends JFrame implements Runnable
     long delta = 0l;
     screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
 
-    Graphics g = screen.getGraphics();
-    Graphics jFrameGraphics = getGraphics();
+    Graphics2D g = (Graphics2D) screen.getGraphics();
+    Graphics2D jFrameGraphics = (Graphics2D) getGraphics();
 
     while (true)
     {
@@ -43,6 +44,7 @@ public class ZombieHouse extends JFrame implements Runnable
 
       game.update(delta / 1000000000.0f);
       game.render(g);
+
 
       jFrameGraphics.drawImage(screen, 0, 0, null);
 
@@ -68,6 +70,8 @@ public class ZombieHouse extends JFrame implements Runnable
     System.out.println(getBounds());
     setLocationRelativeTo(null);
     addKeyListener(game);
+    addMouseListener(game);
+    addMouseMotionListener(game);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
   }

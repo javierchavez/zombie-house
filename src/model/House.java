@@ -25,6 +25,7 @@ public class House
   // min defaults from requirements
   private int minRooms = 6;
   private int minHallways = 4;
+  private int minObstacles = 5;
 
   // how many rooms and hallways are in the generated house
   private int numRooms = 0;
@@ -38,6 +39,7 @@ public class House
 
   // The minimum euclidean distance between the player and exit (inclusive)
   private int minTravelDistance = 9;
+  private int maxTries = 100;
 
 
   public House(Character player)
@@ -421,6 +423,7 @@ public class House
     board += "P = Player\n";
     board += "Z = Zombie\n";
     board += "T = Fire Trap\n";
+    board += "O = Obstacle\n";
     board += "X = Wall\n";
     board += "e = Exit\n";
     board += "* = Floor \n\n";
@@ -454,6 +457,10 @@ public class House
         else if (current instanceof Floor)
         {
           board += "*";
+        }
+        else if (current instanceof Obstacle)
+        {
+          board += "O";
         }
         else if (current instanceof Wall)
         {
@@ -516,6 +523,7 @@ public class House
       addRooms();
       addHallways();
       addWalls();
+      addObstacles();
       addExit();
     }
 
@@ -619,6 +627,24 @@ public class House
       }
     }
 
+    private void addObstacles()
+    {
+      Random rand = new Random();
+      int row = 0;
+      int col = 0;
+      int roomIndex = 0;
+      Room room;
+
+      while (getObstacles().size() < minObstacles)
+      {
+        roomIndex = rand.nextInt(rooms.size());
+        room = rooms.get(roomIndex);
+        row = (room.getRow()+1) + rand.nextInt(room.getHeight()-1);
+        col = (room.getCol()+1) + rand.nextInt(room.getWidth()-1);
+        house[row][col] = new Obstacle(col, row);
+      }
+    }
+
     private void addExit()
     {
       Random rand = new Random();
@@ -679,6 +705,18 @@ public class House
       for (Tile tile : getAllNeighbors(current))
       {
         if (tile instanceof Floor)
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private boolean touchesWall(Tile current)
+    {
+      for (Tile tile : getAllNeighbors(current))
+      {
+        if (tile instanceof Wall)
         {
           return true;
         }

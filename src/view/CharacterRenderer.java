@@ -3,8 +3,10 @@ package view;
 import model.*;
 import model.Character;
 
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.*;
 
 
 public class CharacterRenderer extends Renderer
@@ -31,12 +33,41 @@ public class CharacterRenderer extends Renderer
 
   // check direction... need a AnimationFactoryClass
   private Animation animation = walkRight;
-
+  private AudioInputStream as = null;
+  Clip c = null;
   public CharacterRenderer (Character character, int w, int h)
   {
     this.w = w;
     this.h = h;
     this.character = character;
+    InputStream in = null;
+    try
+    {
+
+      as = AudioSystem.getAudioInputStream(
+              new File("resources/character-walking.wav"));
+
+      c = AudioSystem.getClip();
+      c.open(as);
+
+    }
+    catch (FileNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    catch (UnsupportedAudioFileException e)
+    {
+      e.printStackTrace();
+    }
+    catch (LineUnavailableException e)
+    {
+      e.printStackTrace();
+    }
+
   }
 
   @Override
@@ -46,6 +77,7 @@ public class CharacterRenderer extends Renderer
 
     if (character.getSpeed() > 0)
     {
+      if (!c.isRunning()) c.start();
       animation.start();
       animation.update();
     }
@@ -53,6 +85,7 @@ public class CharacterRenderer extends Renderer
     {
       animation.stop();
       animation.reset();
+      c.stop();
     }
 
     ////////// this is shit code.///////
@@ -63,7 +96,6 @@ public class CharacterRenderer extends Renderer
 
     int tileW = (int) (width / w);
     int tileH = (int) (height / h);
-
 
 
     float x = character.getCurrentX();

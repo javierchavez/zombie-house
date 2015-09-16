@@ -398,6 +398,7 @@ public class House
     board += "Z = Zombie\n";
     board += "T = Fire Trap\n";
     board += "X = Wall\n";
+    board += "e = Exit\n";
     board += "* = Floor \n\n";
 
     // draw top boarder
@@ -433,6 +434,10 @@ public class House
         else if (current instanceof Wall)
         {
           board += "X";
+        }
+        else if (current instanceof Exit)
+        {
+          board += "e";
         }
         else
         {
@@ -487,6 +492,7 @@ public class House
       addRooms();
       addHallways();
       addWalls();
+      addExit();
     }
 
     public void addRooms()
@@ -587,6 +593,60 @@ public class House
           }
         }
       }
+    }
+
+    private void addExit()
+    {
+      Random rand = new Random();
+      List<Tile> walls = getWalls();
+      Tile wall;
+      int index;
+
+      do
+      {
+        index = rand.nextInt(walls.size());
+        wall = walls.get(index);
+      } while (!validExit(wall));
+
+      int row = wall.getY();
+      int col = wall.getX();
+      house[row][col] = new Exit(col, row);
+    }
+
+    private List<Tile> getWalls()
+    {
+      List<Tile> walls = new ArrayList<>();
+      for (int row = 0; row < rows; row++)
+      {
+        for (int col = 0; col < cols; col++)
+        {
+          if (house[row][col] instanceof Wall)
+          {
+            walls.add(house[row][col]);
+          }
+        }
+      }
+      return walls;
+    }
+
+    private boolean validExit(Tile wall)
+    {
+      boolean hasAdjacentFloor = false;
+      boolean hasAdjacentEmpty = false;
+
+      for (Tile tile : neighbors(wall))
+      {
+        if (tile instanceof Floor)
+        {
+          hasAdjacentFloor = true;
+        }
+
+        if (tile instanceof Empty)
+        {
+          hasAdjacentEmpty = true;
+        }
+      }
+      return hasAdjacentEmpty && hasAdjacentFloor;
     }
 
     private boolean touchesFloor(Tile current)

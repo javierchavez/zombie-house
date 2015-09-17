@@ -102,14 +102,14 @@ public class House
   public void placePlayer()
   {
     Random rand = new Random();
-    Room room = rooms.get(rand.nextInt(rooms.size()));
+    Room room;
     int row;
     int col;
     int tries = 0;
 
-    // only place the player on a floor tile
     do
     {
+      room = rooms.get(rand.nextInt(rooms.size()));
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
       tries++;

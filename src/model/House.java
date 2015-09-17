@@ -691,24 +691,14 @@ public class House
     private void addObstacles()
     {
       Random rand = new Random();
-      int tries = 0;
       int row = 0;
       int col = 0;
-      int roomIndex = 0;
-      Room room;
 
-      while ((tries < maxTries) && (getObstacles().size() < minObstacles))
+      for (Room room : rooms)
       {
-        roomIndex = rand.nextInt(rooms.size());
-        room = rooms.get(roomIndex);
         row = (room.getRow()+1) + rand.nextInt(room.getHeight()-1);
         col = (room.getCol()+1) + rand.nextInt(room.getWidth()-1);
-
-        if (house[row][col] instanceof Floor)
-        {
-          house[row][col] = new Obstacle(col, row);
-        }
-        tries++;
+        house[row][col] = new Obstacle(col, row);
       }
     }
 

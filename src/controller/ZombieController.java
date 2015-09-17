@@ -13,7 +13,7 @@ public class ZombieController
 
   List<Zombie> zombies;
   private int direction;
-  private boolean isMoving = true;
+  private boolean isMoving;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
   private boolean idling = false;
@@ -55,18 +55,59 @@ public class ZombieController
   {
     zombies = house.getZombies();
     isMoving = true;
+
+    time++;
     for (int i = 0; i < zombies.size(); i++)
     {
       float zombieSpeed;
       Zombie zombie = zombies.get(i);
-//      System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
+      if (DEBUG)
+      {
+        System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
+      }
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
-//      System.out.println(isMoving);
+
+      zombieSpeed = 0.5f;
+      if (running) zombieSpeed = 2.0f;
 
       if (isMoving)
       {
-        // If player detected, zombie moves faster + follows path to player
+        if (playerDetected)
+        {
+          running = true;
+          // TODO: zombie travels on path to player
+        }
+        else
+        {
+          zombieSpeed = 0.5f;
+
+          if (time % 60 == 0) // Zombie changes position every 1 second
+          {
+            xDir = rand.nextInt(3) - 1;
+            yDir = rand.nextInt(3) - 1;
+          }
+
+          if (xDir == 0 && yDir == 0) resting();
+          if (xDir < 0) moveLeft();
+          if (xDir > 0) moveRight();
+          if (yDir > 0) moveUp();
+          if (yDir < 0) moveDown();
+        }
+
+        if (idling) zombieSpeed = 0;
+
+        zombie.setSpeed(zombieSpeed * deltaTime);
+
+        // Update zombie's position
+        if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() * Math.sin(direction * (Math.PI / 180)));
+        if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() * Math.cos(direction * (Math.PI / 180)));
+
+        zombie.move(x, y);
+        isMoving = false;
+      }
+
+      /*
         if (playerDetected)
         {
           running = true;
@@ -82,7 +123,7 @@ public class ZombieController
           if (time % 60 == 0) // Zombie changes direction every second
           {
             xDir = rand.nextInt(3) - 1;
-            System.out.println(xDir);
+            System.out.println("xDir: " + xDir);
             yDir = rand.nextInt(3) - 1;
           }
 
@@ -93,7 +134,7 @@ public class ZombieController
           if (yDir < 0) moveUp();
           if (yDir > 0) moveDown();
           // if yDir == 0: no change to y trajectory
-          if (xDir == 0 && yDir == 0) notMoving(); // If both are zero, then stop moving
+          if (xDir == 0 && yDir == 0) resting(); // If both are zero, then stop moving
           if (idling) zombieSpeed = 0;
         }
 
@@ -105,15 +146,16 @@ public class ZombieController
 
         zombie.move(x, y); // update zombie's position
         isMoving = false;
-      }
+//      }*/
     } // END FOR
   }
 
   /**
    * Zombie is resting.
    */
-  public void notMoving()
+  public void resting()
   {
+    if (DEBUG) System.out.println("\tResting...");
     idling = true;
   }
 
@@ -122,8 +164,10 @@ public class ZombieController
    */
   public void moveUp()
   {
+    if (DEBUG) System.out.println("\tMoving up");
     moveUp = true;
     direction = NORTH;
+    idling = false;
   }
 
   /**
@@ -131,8 +175,10 @@ public class ZombieController
    */
   public void moveDown()
   {
+    if (DEBUG) System.out.println("\tMoving down");
     moveDown = true;
     direction = SOUTH;
+    idling = false;
   }
 
   /**
@@ -140,8 +186,10 @@ public class ZombieController
    */
   public void moveLeft()
   {
+    if (DEBUG) System.out.println("\tMoving left");
     moveLeft = true;
     direction = WEST;
+    idling = false;
   }
 
   /**
@@ -149,7 +197,9 @@ public class ZombieController
    */
   public void moveRight()
   {
+    if (DEBUG) System.out.println("\tMoving right");
     moveRight = true;
     direction = EAST;
+    idling = false;
   }
 }

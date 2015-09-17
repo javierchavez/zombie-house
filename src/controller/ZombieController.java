@@ -24,11 +24,17 @@ public class ZombieController
   private Random rand = new Random();
   int xDir = 1, yDir = 0;
 
+  // Cardinal directions
   private final int EAST = 0;
   private final int NORTH = 270;
   private final int WEST = 180;
   private final int SOUTH = 90;
-  private int[] directions = {NORTH, SOUTH, EAST, WEST};
+
+  // Ordinal directions
+  private final int NORTHEAST = 315;
+  private final int NORTHWEST = 225;
+  private final int SOUTHEAST = 45;
+  private final int SOUTHWEST = 135;
 
   private boolean DEBUG = true;
 

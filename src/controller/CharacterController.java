@@ -41,8 +41,6 @@ public class CharacterController
     // TODO:
   }
 
-
-  // TODO: player stops moving when they run out of stamina
   public void update (float deltaTime)
   {
     float playerSpeed;
@@ -61,7 +59,7 @@ public class CharacterController
     {
       if (stamina < 5.0)
       {
-        stamina += deltaTime + 0.05f; // Stamina regenerates faster if player is not moving? Random number here for now
+        stamina += 0.2 * deltaTime + 0.01; // Stamina regenerates faster if player is not moving?
         if (stamina > 5) stamina = 5;
         player.setStamina(stamina);
       }
@@ -79,12 +77,12 @@ public class CharacterController
           player.setStamina(stamina);
         }
       }
-      else
+      else // if player is not running
       {
         playerSpeed = 1.0f;
         if (stamina < 5.0)
         {
-          stamina += deltaTime;
+          stamina += 0.2 * deltaTime;
           if (stamina > 5) stamina = 5;
           player.setStamina(stamina);
         }

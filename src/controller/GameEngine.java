@@ -34,12 +34,8 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean leftPressed = false;
   private boolean downPressed = false;
   private boolean rightPressed = false;
-  private boolean upRightPressed = false;
-  private boolean upLeftPressed = false;
-  private boolean downRightPressed = false;
-  private boolean downLeftPressed = false;
 
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   public GameEngine ()
   {

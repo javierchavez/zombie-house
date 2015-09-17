@@ -13,17 +13,14 @@ public class CharacterController
   private int direction;
   private float x, y;
 
-  private boolean moveUp = false, moveDown, moveLeft, moveRight;
+  private boolean moveUp, moveDown, moveLeft, moveRight;
   private final int EAST = 0;
-  private final int NORTH = 90;
+  private final int NORTH = 270;
   private final int WEST = 180;
-  private final int SOUTH = 270;
+  private final int SOUTH = 90;
 
 
-  private boolean DEBUG = true;
-
-  // TODO: update object's stamina when running/after running
-  // TODO: collision detection
+  private boolean DEBUG = false;
 
   public CharacterController (House house)
   {
@@ -36,10 +33,11 @@ public class CharacterController
    */
   public void checkCollision(float deltaTime)
   {
-
+    // TODO:
   }
 
 
+  // TODO: player stops moving when they run out of stamina
   public void update (float deltaTime)
   {
     float playerSpeed;
@@ -48,11 +46,10 @@ public class CharacterController
     x = player.getCurrentX();
     y = player.getCurrentY();
 
-//    System.out.println(stamina);
-
     if (stamina == 0)
     {
       isMoving = false;
+      player.setSpeed(0.0f);
     }
     // Stamina regenerates if player is idle
     if (!isMoving)

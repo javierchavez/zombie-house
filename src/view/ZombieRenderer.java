@@ -33,8 +33,8 @@ public class ZombieRenderer extends Renderer
     ////////// this is shit code.///////
     // this needs to be abstracted out into a view or camera class
     // it needs to take into account for scale and size of clipping
-    double width = g2.getClipBounds().getWidth();
-    double height = g2.getClipBounds().getHeight();
+    double width = viewBounds.getWidth();
+    double height = viewBounds.getHeight();
 
     int tileW = (int) (width / w);
     int tileH = (int) (height / h);

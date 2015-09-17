@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.Tile.Trap;
 
 
 public class House
@@ -92,6 +91,7 @@ public class House
     placePlayer();
     generateZombies();
     generateTraps();
+
   }
 
   /**
@@ -170,6 +170,8 @@ public class House
           if (rand.nextFloat() < trapSpawn)
           {
             placeTrap(current, Trap.FIRE);
+            System.out.println("col = " + col);
+            System.out.println("row = " + row);
           }
           else
           {

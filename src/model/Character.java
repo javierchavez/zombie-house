@@ -1,6 +1,5 @@
 package model;
 
-import model.Tile.Trap;
 
 public class Character implements Mover
 {
@@ -13,7 +12,7 @@ public class Character implements Mover
           x, y,
           traps,
           rotation;
-      
+
   public Character()
   {
 
@@ -115,6 +114,7 @@ public class Character implements Mover
     if (tile.getTrap() == Trap.FIRE)
     {
       traps++;
+      tile.popTrap();
     }
   }
 
@@ -124,6 +124,7 @@ public class Character implements Mover
     {
       traps--;
       tile.setTrap(Trap.FIRE);
+      return;
     }
     tile.setTrap(Trap.NONE);
   }

@@ -1,9 +1,6 @@
 package view;
 
-import model.Floor;
-import model.House;
-import model.Tile;
-import model.Wall;
+import model.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -32,22 +29,25 @@ public class HouseRenderer extends Renderer
     ////////// this is shit code.///////
     // this needs to be abstracted out into a view or camera class
     // it needs to take into account for scale and size of clipping
-    double width = g2.getClipBounds().getWidth();
-    double height = g2.getClipBounds().getHeight();
+//    double width = viewBounds.getWidth();
+//    double height = viewBounds.getHeight();
+//
+//
+//
+//    int cellsX = (int) Math.ceil(width/80f);
+//    int cellsY = (int) Math.ceil(height/80f);
+//    int tileW = (int) (width / cellsX);
+//    int tileH = (int) (height / cellsY);
+    int tileW = 80;
+    int tileH = 80;
 
-
-
-    int cellsX = (int) Math.ceil(g2.getClipBounds().getWidth()/80f);
-    int cellsY = (int) Math.ceil(g2.getClipBounds().getHeight()/80f);
-    int tileW = (int) (width / cellsX);
-    int tileH = (int) (height / cellsY);
     ////////// end shit code ///////////
 
     Tile[][] houseMatrix = house.getHouse();
 
-    for (int i = 0; i < cellsY; i++)
+    for (int i = 0; i < houseMatrix.length; i++)
     {
-      for (int j = 0; j < cellsX; j++)
+      for (int j = 0; j < houseMatrix[i].length; j++)
       {
         if (houseMatrix[i][j] instanceof Wall)
         {
@@ -58,14 +58,18 @@ public class HouseRenderer extends Renderer
         {
           g2.drawImage(floor.getImage(), j * tileW,
                        i * tileH, null);
-          if(houseMatrix[i][j].getTrap() == Tile.Trap.FIRE)
+          if(houseMatrix[i][j].getTrap() == Trap.FIRE)
           {
             g2.drawImage(trap.getImage(), (j * tileW)+20,
                          (i * tileH)+20, null);
 
           }
         }
-
+        if (houseMatrix[i][j] instanceof Empty)
+        {
+          g2.fillRect(j * tileW,
+                        i * tileH, 80,80);
+        }
       }
     }
   }

@@ -3,22 +3,16 @@ package controller;
 
 import model.Character;
 import model.House;
+import model.Mover;
 import model.Tile;
 
 public class CharacterController
 {
   private final House house;
-  Character player;
+  private Character player;
   private boolean isMoving = false, running = false, idling = true;
-  private int direction;
-  private float x, y;
-
+  private float direction;
   private boolean moveUp, moveDown, moveLeft, moveRight;
-  private final int EAST = 0;
-  private final int NORTH = 270;
-  private final int WEST = 180;
-  private final int SOUTH = 90;
-
 
   private boolean DEBUG = false;
 
@@ -28,28 +22,27 @@ public class CharacterController
   }
 
   /**
-   *
    * collision detection
    */
-  public void checkCollision(float deltaTime)
+  public void checkCollision (float deltaTime)
   {
     // TODO:
   }
 
 
-  // TODO: player stops moving when they run out of stamina
   public void update (float deltaTime)
   {
     float playerSpeed;
     player = house.getPlayer();
     float stamina = player.getStamina();
-    x = player.getCurrentX();
-    y = player.getCurrentY();
+    float x = player.getCurrentX();
+    float y = player.getCurrentY();
 
-    if (stamina == 0)
+    if (stamina == 0 && player.getSpeed() > 0)
     {
       isMoving = false;
-      player.setSpeed(0.0f);
+      player.setSpeed(Mover.IDLE);
+      return; // player stopped when out of stamina
     }
     // Stamina regenerates if player is idle
     if (!isMoving)
@@ -66,7 +59,7 @@ public class CharacterController
     {
       if (running)
       {
-        playerSpeed = 2.0f;
+        playerSpeed = Mover.RUN_SPEED;
         if (stamina > 0)
         {
           stamina -= deltaTime;
@@ -76,7 +69,7 @@ public class CharacterController
       }
       else
       {
-        playerSpeed = 1.0f;
+        playerSpeed = Mover.WALK_SPEED;
         if (stamina < 5.0)
         {
           stamina += deltaTime;
@@ -86,12 +79,17 @@ public class CharacterController
       }
 
       // Distance of player is dependent on time
-      player.setSpeed(playerSpeed * deltaTime); // Determines how many tiles/second the player will move across
+      player.setSpeed(
+              playerSpeed * deltaTime); // Determines how many tiles/second the
+      // player will move across
       player.setRotation(direction);
 
       // Update player's x and y
-      if (moveUp || moveDown) y = (float) (y + player.getSpeed() * Math.sin(direction * (Math.PI / 180)));
-      if (moveLeft || moveRight) x = (float) (x + player.getSpeed() * Math.cos(direction * (Math.PI / 180)));
+
+      if (moveUp || moveDown) y = (float) (y + player.getSpeed() * Math.sin(
+              Math.toRadians(direction)));
+      if (moveLeft || moveRight) x = (float) (x + player.getSpeed() * Math.cos(
+              Math.toRadians(direction)));
 
       player.move(x, y);
       isMoving = false;
@@ -101,40 +99,40 @@ public class CharacterController
   /**
    * If 'R' is pressed, player's speed is updated to 2.0, making them two times faster.
    */
-  public void characterRun()
+  public void characterRun ()
   {
     isMoving = true;
     if (player.getStamina() > 0) running = true;
-    player.setSpeed(2.0f); // Running speed
+    player.setSpeed(Mover.RUN_SPEED);
   }
 
   /**
    * When 'R' is released, player's speed drops back down to 1.0, the default speed.
    */
-  public void characterWalk()
+  public void characterWalk ()
   {
     isMoving = true;
     running = false;
     idling = false;
-    player.setSpeed(1.0f); // Default speed
+    player.setSpeed(Mover.WALK_SPEED); // Default speed
   }
 
   /**
    * When the character isn't moving at all
    */
-  public void characterIdle()
+  public void characterIdle ()
   {
-//    if (DEBUG) System.out.println("Idling...");
+    //    if (DEBUG) System.out.println("Idling...");
     idling = true;
     isMoving = false;
     running = false;
-    player.setSpeed(0.0f);
+    player.setSpeed(Mover.IDLE);
   }
 
   /**
    * If 'P' is pressed.
    */
-  public void trapInteraction()
+  public void trapInteraction ()
   {
     if (DEBUG) System.out.println("P pressed");
     Tile tile = house.getPlayerTile();
@@ -152,48 +150,48 @@ public class CharacterController
   /**
    * If 'W' or up arrow is pressed.
    */
-  public void moveUp()
+  public void moveUp ()
   {
     if (DEBUG) System.out.println("Moving up");
     isMoving = true;
     idling = false;
     moveUp = true;
-    direction = NORTH; // Change player's direction
+    direction = Mover.NORTH; // Change player's direction
   }
 
   /**
    * If 'S' or down arrow is pressed.
    */
-  public void moveDown()
+  public void moveDown ()
   {
     if (DEBUG) System.out.println("Moving down");
     isMoving = true;
     idling = false;
     moveDown = true;
-    direction = SOUTH;
+    direction = Mover.SOUTH;
   }
 
   /**
    * If 'A' or left arrow is pressed.
    */
-  public void moveLeft()
+  public void moveLeft ()
   {
     if (DEBUG) System.out.println("Moving left");
     isMoving = true;
     idling = false;
     moveLeft = true;
-    direction = WEST;
+    direction = Mover.WEST;
   }
 
   /**
    * If 'D' or right arrow is pressed.
    */
-  public void moveRight()
+  public void moveRight ()
   {
     if (DEBUG) System.out.println("Moving right");
     isMoving = true;
     idling = false;
     moveRight = true;
-    direction = EAST;
+    direction = Mover.EAST;
   }
 }

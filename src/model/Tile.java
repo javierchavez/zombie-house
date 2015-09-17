@@ -98,13 +98,6 @@ public abstract class Tile
   }
 
   /**
-   * Types of Traps that a tile can house
-   */
-  public enum Trap {
-    NONE, FIRE
-  }
-
-  /**
    * Get the trap on this square
    *
    * @return trap

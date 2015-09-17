@@ -21,7 +21,7 @@ public abstract class Renderer
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
 
 
-  private Rectangle2D viewBounds;
+  static protected Rectangle2D viewBounds;
   private Rectangle2D limitingRect;
   private double height;
   private double scale;
@@ -36,5 +36,10 @@ public abstract class Renderer
   public Renderer()
   {
 
+  }
+
+  public void setViewBounds (Rectangle2D viewBounds)
+  {
+    this.viewBounds = viewBounds;
   }
 }

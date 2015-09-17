@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 
 /**
@@ -35,6 +36,7 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean rightPressed = false;
 
   private boolean DEBUG = true;
+  private Rectangle2D viewPort;
 
   public GameEngine ()
   {
@@ -60,7 +62,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     if (!moving) controller.characterIdle();
   }
 
-  public void render (Graphics graphics)
+  public void render (Graphics2D graphics)
   {
     houseRenderer.render(graphics);
     playerRenderer.render(graphics);
@@ -225,4 +227,10 @@ public class GameEngine implements KeyListener, MouseInputListener
 
   @Override
   public void mouseMoved (MouseEvent e) { }
+
+  public void setViewPort (Rectangle2D rectangle)
+  {
+    this.viewPort = rectangle;
+    houseRenderer.setViewBounds(rectangle);
+  }
 }

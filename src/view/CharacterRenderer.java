@@ -18,21 +18,34 @@ public class CharacterRenderer extends Renderer
   CharacterSprite characterSprite = new CharacterSprite();
 
 
-  private BufferedImage[] walkingLeft = {
-          CharacterSprite.getSprite(0, 1),
-          CharacterSprite.getSprite(2, 1)};
+  private BufferedImage[] walkingWest = {
+          CharacterSprite.getSprite(0, 3),
+          CharacterSprite.getSprite(1, 3),
+          CharacterSprite.getSprite(2, 3)};
 
-  private BufferedImage[] walkingRight = {
+  private BufferedImage[] walkingEast = {
           CharacterSprite.getSprite(0, 1),
           CharacterSprite.getSprite(1, 1),
           CharacterSprite.getSprite(2, 1)};
 
+  private BufferedImage[] walkingNorth = {
+          CharacterSprite.getSprite(0, 2),
+          CharacterSprite.getSprite(1, 2),
+          CharacterSprite.getSprite(2, 2)};
 
-  private Animation walkLeft = new Animation(walkingLeft, 1);
-  private Animation walkRight = new Animation(walkingRight, 1);
+  private BufferedImage[] walkingSouth = {
+          CharacterSprite.getSprite(0, 0),
+          CharacterSprite.getSprite(1, 0),
+          CharacterSprite.getSprite(2, 0)};
+
+
+  private Animation west = new Animation(walkingWest, 1);
+  private Animation east = new Animation(walkingEast, 1);
+  private Animation north = new Animation(walkingNorth, 1);
+  private Animation south = new Animation(walkingSouth, 1);
 
   // check direction... need a AnimationFactoryClass
-  private Animation animation = walkRight;
+  private Animation animation;
   private AudioInputStream as = null;
   Clip c = null;
   public CharacterRenderer (Character character, int w, int h)
@@ -41,6 +54,7 @@ public class CharacterRenderer extends Renderer
     this.h = h;
     this.character = character;
     InputStream in = null;
+    setAnimation();
     try
     {
 
@@ -74,7 +88,7 @@ public class CharacterRenderer extends Renderer
   public void render (Graphics g)
   {
     Graphics2D g2 = (Graphics2D) g;
-
+    setAnimation();
     if (character.getSpeed() > 0)
     {
       if (!c.isRunning()) c.start();
@@ -92,27 +106,76 @@ public class CharacterRenderer extends Renderer
     ////////// this is shit code.///////
     // this needs to be abstracted out into a view or camera class
     // it needs to take into account for scale and size of clipping
-    double width = g2.getClipBounds().getWidth();
-    double height = g2.getClipBounds().getHeight();
+//    double width = g2.getClipBounds().getWidth();
+//    double height = g2.getClipBounds().getHeight();
 
-    int tileW = (int) (width / w);
-    int tileH = (int) (height / h);
+//    int tileW = (int) (width / w);
+//    int tileH = (int) (height / h);
+//    double width = g2.getClipBounds().getWidth();
+//    double height = g2.getClipBounds().getHeight();
+    double width = viewBounds.getWidth();
+    double height = viewBounds.getHeight();
 
+
+
+
+    int cellsX = (int) Math.ceil(width/80f);
+    int cellsY = (int) Math.ceil(height/80f);
+    int tileW = (int) (width / cellsX);
+    int tileH = (int) (height / cellsY);
 
     float x = character.getCurrentX();
     float y = character.getCurrentY();
 
     // this needs to be in the converter class
-    g.drawImage(animation.getSprite(), (int)((x * tileW)+x),
-                (int)((y * tileH) +y), null);
+    g2.drawImage(animation.getSprite(), (int) ((x * tileW) + x),
+                (int) ((y * tileH) + y), null);
 
     g2.setColor(Color.white);
-    g2.drawRect((int) width / 2, 39, (int) (width / 4)+1, 21);
+    g2.drawRect((int) width / 2, 40, (int) (width / 4), 20);
+
     g2.setColor(Color.RED);
-    g2.fillRect((int) (width / 2), 40,
-                (int) ((character.getStamina() / 5) * (width/4)), 20);
+    g2.fillRect((int) (width / 2) + 1, 41,
+                (int) ((character.getStamina() / 5) * (width / 4)) - 2, 18);
+
+    if (character.trapsAvailable() > 0)
+    {
+      g2.drawImage(new TrapGraphic().getImage(), (int) (width / 2) - 20, 40,
+                   null);
+    }
+    g2.setColor(Color.white);
+    g2.drawString("tile (x, y) = " + x + ", " + y, (int) (width / 3), 50);
+    g2.drawString("px (x, y) = " + x*tileW + ", " + y*tileH,
+                  (int) (width / 3), 61);
+
+    g2.drawString("px (x, y) = " + XtoPix(x) + ", " + ((y * tileH) + y),
+                  (int) (width / 3), 71);
+
 
   }
 
+  private float XtoPix(float x)
+  {
+    return 80 * ((int) x) + ( x - ((int) x));
+  }
+
+  private void setAnimation()
+  {
+    switch ((int) character.getRotation())
+    {
+      case (int) Mover.EAST:
+        animation = east;
+        break;
+      case (int) Mover.NORTH:
+        animation = south;
+        break;
+      case (int) Mover.SOUTH:
+        animation = north;
+        break;
+      case (int) Mover.WEST:
+        animation = west;
+        break;
+    }
+  }
 
 }

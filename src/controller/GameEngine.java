@@ -22,6 +22,7 @@ public class GameEngine implements KeyListener, MouseInputListener
   private Character player;
   private Renderer houseRenderer;
   private CharacterController controller;
+//  private ZombieController zombieController;
   private Renderer playerRenderer;
   private Renderer zombieRenderer;
   private Point2D dragFrom;
@@ -40,6 +41,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     player = new Character();
     house = new House(player);
     controller = new CharacterController(house);
+    // zombieController = new ZombieController(house);
 
     house.generateRandomHouse();
     playerRenderer = new CharacterRenderer(player, house.getWidth(), house.getHeight());

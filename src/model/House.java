@@ -21,6 +21,7 @@ public class House
 
   private List<Zombie> zombies = new ArrayList<>();
   private Character player;
+  private SuperZombie superZombie;
 
   // min defaults from requirements
   private int minRooms = 6;
@@ -38,8 +39,8 @@ public class House
   private float trapSpawn = 0.01f;
 
   // The minimum euclidean distance between the player and exit (inclusive)
-  private int minTravelDistance = 9;
-  private int maxTries = 100;
+  private int minTravelDistance = 15;
+  private int maxTries = 500;
 
 
   public House(Character player)
@@ -91,6 +92,7 @@ public class House
     generator.generateHouse();
     placePlayer();
     generateZombies();
+    addSuperZombie();
     generateTraps();
   }
 
@@ -111,7 +113,7 @@ public class House
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
       tries++;
-    } while ((tries < maxTries) && (!(house[row][col] instanceof Floor) || (getDistance(house[row][col], exit) < minTravelDistance)));
+    } while ((tries<maxTries)&&(!(house[row][col] instanceof Floor)||(getDistance(house[row][col],exit)<minTravelDistance)));
 
     player.move(col, row);
   }
@@ -149,6 +151,31 @@ public class House
         }
       }
     }
+  }
+
+  public void addSuperZombie()
+  {
+    Random rand = new Random();
+    int row;
+    int col;
+    int roomIndex;
+    int tries = 0;
+    float distance = 0f;
+    Room room;
+    Tile current;
+    superZombie = new SuperZombie();
+
+    do
+    {
+      roomIndex = rand.nextInt(rooms.size());
+      room = rooms.get(roomIndex);
+      row = room.getRow() + rand.nextInt(room.getHeight());
+      col = room.getCol() + rand.nextInt(room.getWidth());
+      current = house[row][col];
+      distance = getDistance(current, getPlayerTile());
+      tries++;
+    } while ((tries<maxTries) && (!(current instanceof Floor) || isZombieTile(current) || (distance<(2*superZombie.getSmell()))));
+    superZombie.move(current.getX(), current.getY());
   }
 
   /**
@@ -189,7 +216,7 @@ public class House
    */
   public float getDistance(Tile start, Tile end)
   {
-    return (float) Math.sqrt((start.getX()-end.getX())^2 + (start.getY()-end.getY())^2);
+    return (float) Math.sqrt(Math.pow((end.getX()-start.getX()),2) + Math.pow((end.getY()-start.getY()),2));
   }
 
   /**
@@ -315,6 +342,11 @@ public class House
     return player;
   }
 
+  public SuperZombie getSuperZombie()
+  {
+    return superZombie;
+  }
+
   /**
    * Gets the neighboring tiles around the current tile
    * i.e. tiles which are touching the current tile
@@ -345,7 +377,7 @@ public class House
    */
   public List<Tile> getAllNeighbors(Tile current)
   {
-    List<Tile> neighbors = new ArrayList<>(4);
+    List<Tile> neighbors = new ArrayList<>(8);
     int row = current.getY();
     int col = current.getX();
     Tile neighbor;
@@ -407,6 +439,11 @@ public class House
     return house[(int) zombie.getCurrentY()][(int) zombie.getCurrentX()];
   }
 
+  public Tile getSuperZombieTile()
+  {
+    return house[(int) superZombie.getCurrentY()][(int) superZombie.getCurrentX()];
+  }
+
   /**
    * Check a given tile if it contains a trap
    *
@@ -424,6 +461,7 @@ public class House
     String board = "";
     board += "P = Player\n";
     board += "Z = Zombie\n";
+    board += "S = Super Zombie\n";
     board += "T = Fire Trap\n";
     board += "O = Obstacle\n";
     board += "X = Wall\n";
@@ -447,6 +485,10 @@ public class House
         if (current == getPlayerTile())
         {
           board += "P";
+        }
+        else if (current == getSuperZombieTile())
+        {
+          board += "S";
         }
         else if (isZombieTile(current))
         {
@@ -491,6 +533,11 @@ public class House
 
   private boolean isZombieTile(Tile tile)
   {
+    if (tile == getSuperZombieTile())
+    {
+      return true;
+    }
+
     for (Zombie zombie : zombies)
     {
       if (getZombieTile(zombie) == tile)

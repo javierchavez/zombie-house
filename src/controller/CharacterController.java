@@ -14,11 +14,16 @@ public class CharacterController
   private float x, y;
 
   private boolean moveUp, moveDown, moveLeft, moveRight;
+  private boolean moveUpRight, moveUpLeft, moveDownRight, moveDownLeft;
   private final int EAST = 0;
   private final int NORTH = 270;
   private final int WEST = 180;
   private final int SOUTH = 90;
 
+  private final int NORTHEAST = 315;
+  private final int NORTHWEST = 225;
+  private final int SOUTHEAST = 45;
+  private final int SOUTHWEST = 135;
 
   private boolean DEBUG = false;
 
@@ -130,6 +135,17 @@ public class CharacterController
   }
 
   /**
+   * If two incompatible directions are pressed;
+   */
+  public void stopMoving() // TODO: get rid of this method later? probably don't need it
+  {
+    System.out.println("I can't move like that!");
+    isMoving = false;
+    running = false;
+    player.setSpeed(0);
+  }
+
+  /**
    * If 'P' is pressed.
    */
   public void trapInteraction()
@@ -193,5 +209,38 @@ public class CharacterController
     idling = false;
     moveRight = true;
     direction = EAST;
+  }
+
+  public void moveUpRight()
+  {
+    if (DEBUG) System.out.println("Moving up right");
+    isMoving = true;
+    idling = false;
+    moveUpRight = true;
+    direction = NORTHEAST;
+  }
+
+  public void moveUpLeft()
+  {
+    isMoving = true;
+    idling = false;
+    moveUpLeft = true;
+    direction = NORTHWEST;
+  }
+
+  public void moveDownRight()
+  {
+    isMoving = true;
+    idling = false;
+    moveDownRight = true;
+    direction = SOUTHEAST;
+  }
+
+  public void moveDownLeft()
+  {
+    isMoving = true;
+    idling = false;
+    moveDownLeft = true;
+    direction = SOUTHWEST;
   }
 }

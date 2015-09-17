@@ -34,6 +34,10 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean leftPressed = false;
   private boolean downPressed = false;
   private boolean rightPressed = false;
+  private boolean upRightPressed = false;
+  private boolean upLeftPressed = false;
+  private boolean downRightPressed = false;
+  private boolean downLeftPressed = false;
 
   private boolean DEBUG = true;
 
@@ -55,10 +59,19 @@ public class GameEngine implements KeyListener, MouseInputListener
   {
     controller.update(deltaTime);
     zombieController.update(deltaTime);
-    if (upPressed) controller.moveUp();
-    if (downPressed) controller.moveDown();
-    if (leftPressed) controller.moveLeft();
-    if (rightPressed) controller.moveRight();
+
+    // Ordinal direction
+    if (upPressed && rightPressed) controller.moveUpRight();
+    else if (upPressed && leftPressed) controller.moveUpLeft();
+    else if (downPressed && rightPressed) controller.moveDownRight();
+    else if (downPressed && leftPressed) controller.moveDownLeft();
+
+    // Cardinal directions
+    else if (upPressed) controller.moveUp();
+    else if (rightPressed) controller.moveRight();
+    else if (downPressed) controller.moveDown();
+    else if (leftPressed) controller.moveLeft();
+
     if (!moving) controller.characterIdle();
   }
 
@@ -77,7 +90,7 @@ public class GameEngine implements KeyListener, MouseInputListener
   {
     switch (e.getKeyCode())
     {
-      // Player directions
+      // Player movement direction
       case KeyEvent.VK_UP:
         upPressed = true;
         moving = true;
@@ -124,7 +137,6 @@ public class GameEngine implements KeyListener, MouseInputListener
         moving = false;
         controller.characterIdle();
     }
-
   }
 
   @Override

@@ -20,6 +20,7 @@ public class ZombieController
   private boolean moveUp, moveDown, moveLeft, moveRight;
   private float x, y, rotation;
 
+  // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
   private Random rand = new Random();
 
@@ -35,10 +36,12 @@ public class ZombieController
   private final int SOUTHEAST = 45;
   private final int SOUTHWEST = 135;
 
+  // The values of these ints can be either -1, 0, or 1
+  // Depending on what their value is, the zombie will know which direction to go
   int xDir;
   int yDir;
 
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   // TODO: do we want to handle the super zombie stuff in here or make a super zombie controller?
   public ZombieController (House house)
@@ -106,47 +109,6 @@ public class ZombieController
         zombie.move(x, y);
         isMoving = false;
       }
-
-      /*
-        if (playerDetected)
-        {
-          running = true;
-          zombieSpeed = 2.0f; // Should zombie be able to run as fast as player?
-          // zombie find strategy
-        }
-        else
-        {
-          running = false;
-          zombieSpeed = 0.5f;
-
-          time++;
-          if (time % 60 == 0) // Zombie changes direction every second
-          {
-            xDir = rand.nextInt(3) - 1;
-            System.out.println("xDir: " + xDir);
-            yDir = rand.nextInt(3) - 1;
-          }
-
-          // Deciding the direction to move
-          if (xDir < 0) moveLeft();
-          if (xDir > 0) moveRight();
-          // if xDir == 0: no change to x trajectory
-          if (yDir < 0) moveUp();
-          if (yDir > 0) moveDown();
-          // if yDir == 0: no change to y trajectory
-          if (xDir == 0 && yDir == 0) resting(); // If both are zero, then stop moving
-          if (idling) zombieSpeed = 0;
-        }
-
-        zombie.setSpeed(zombieSpeed * deltaTime);
-
-        // Update zombie's position
-        if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() * Math.sin(direction * (Math.PI / 180)));
-        if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() * Math.cos(direction * (Math.PI / 180)));
-
-        zombie.move(x, y); // update zombie's position
-        isMoving = false;
-//      }*/
     } // END FOR
   }
 

@@ -49,7 +49,7 @@ public class CharacterController
     if (stamina == 0)
     {
       isMoving = false;
-      player.setSpeed(0.0f);
+      player.setSpeed(0);
     }
     // Stamina regenerates if player is idle
     if (!isMoving)
@@ -105,7 +105,6 @@ public class CharacterController
   {
     isMoving = true;
     if (player.getStamina() > 0) running = true;
-    player.setSpeed(2.0f); // Running speed
   }
 
   /**
@@ -116,7 +115,6 @@ public class CharacterController
     isMoving = true;
     running = false;
     idling = false;
-    player.setSpeed(1.0f); // Default speed
   }
 
   /**
@@ -128,7 +126,7 @@ public class CharacterController
     idling = true;
     isMoving = false;
     running = false;
-    player.setSpeed(0.0f);
+    player.setSpeed(0);
   }
 
   /**

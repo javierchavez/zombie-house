@@ -22,7 +22,6 @@ public class ZombieController
 
   private int time = 0;
   private Random rand = new Random();
-  int xDir = 1, yDir = 0;
 
   // Cardinal directions
   private final int EAST = 0;
@@ -36,8 +35,12 @@ public class ZombieController
   private final int SOUTHEAST = 45;
   private final int SOUTHWEST = 135;
 
+  int xDir;
+  int yDir;
+
   private boolean DEBUG = true;
 
+  // TODO: do we want to handle the super zombie stuff in here or make a super zombie controller?
   public ZombieController (House house)
   {
     this.house = house;
@@ -51,20 +54,23 @@ public class ZombieController
   public void update(float deltaTime)
   {
     zombies = house.getZombies();
-    for (Zombie zombie : zombies)
+    isMoving = true;
+    for (int i = 0; i < zombies.size(); i++)
     {
       float zombieSpeed;
+      Zombie zombie = zombies.get(i);
+//      System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
-      rotation = zombie.getRotation();
+//      System.out.println(isMoving);
 
       if (isMoving)
       {
-        // If player detected, zombie moves faster and follows a path
+        // If player detected, zombie moves faster + follows path to player
         if (playerDetected)
         {
           running = true;
-          zombieSpeed = 2.0f; // TODO: should zombie be able to run as fast as player?
+          zombieSpeed = 2.0f; // Should zombie be able to run as fast as player?
           // zombie find strategy
         }
         else
@@ -75,47 +81,20 @@ public class ZombieController
           time++;
           if (time % 60 == 0) // Zombie changes direction every second
           {
-            // Doesn't handle diagonal movement for now
-            int axis = rand.nextInt(1); // Determines whether x axis or y axis is updated
-            if (axis == 0)
-            {
-              xDir = rand.nextInt(3) - 1; // X axis change
-              switch(xDir)
-              {
-                case -1:
-                  idling = false;
-                  moveLeft();
-                  break;
-                case 0:
-                  notMoving();
-                  break;
-                case 1:
-                  idling = false;
-                  moveRight();
-                  break;
-              }
-            }
-            else
-            {
-              yDir = rand.nextInt(3) - 1; // Y axis change
-              switch(yDir)
-              {
-                case -1:
-                  idling = false;
-                  moveUp();
-                  break;
-                case 0:
-                  notMoving();
-                  break;
-                case 1:
-                  idling = false;
-                  moveDown();
-                  break;
-              }
-            }
+            xDir = rand.nextInt(3) - 1;
+            System.out.println(xDir);
+            yDir = rand.nextInt(3) - 1;
           }
 
-          if (idling) zombieSpeed = 0.0f;
+          // Deciding the direction to move
+          if (xDir < 0) moveLeft();
+          if (xDir > 0) moveRight();
+          // if xDir == 0: no change to x trajectory
+          if (yDir < 0) moveUp();
+          if (yDir > 0) moveDown();
+          // if yDir == 0: no change to y trajectory
+          if (xDir == 0 && yDir == 0) notMoving(); // If both are zero, then stop moving
+          if (idling) zombieSpeed = 0;
         }
 
         zombie.setSpeed(zombieSpeed * deltaTime);
@@ -127,7 +106,7 @@ public class ZombieController
         zombie.move(x, y); // update zombie's position
         isMoving = false;
       }
-    } // ENDFOR
+    } // END FOR
   }
 
   /**

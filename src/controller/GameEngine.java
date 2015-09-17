@@ -2,6 +2,7 @@ package controller;
 
 import model.Character;
 import model.House;
+import model.Zombie;
 import view.*;
 
 import javax.swing.event.MouseInputListener;
@@ -20,6 +21,7 @@ public class GameEngine implements KeyListener, MouseInputListener
 {
   private House house;
   private Character player;
+  private Zombie zombie;
   private Renderer houseRenderer;
   private CharacterController controller;
   private ZombieController zombieController;

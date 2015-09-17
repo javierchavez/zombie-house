@@ -121,7 +121,7 @@ public class House
   /**
    * Generates Zombies in the house based on zombieSpawn
    * Zombie distance from character is at least > zombie smell distance
-   * based on AStarFindStrategy path from player to zombie
+   * based on euclidean distance from player to zombie
    */
   public void generateZombies()
   {
@@ -160,7 +160,7 @@ public class House
     int col;
     int roomIndex;
     int tries = 0;
-    float distance = 0f;
+    float distance;
     Room room;
     Tile current;
     superZombie = new SuperZombie();
@@ -588,10 +588,10 @@ public class House
       // Don't want rooms to be too big or
       // there won't be enough space to fit
       // in minRooms in the house.
-      int minWidth = (int) 3;
-      int maxWidth = (int) (cols * (1/(minRooms+1)));
-      int minHeight = (int) 3;
-      int maxHeight = (int) (rows * (2/minRooms));
+      int minWidth = 3;
+      int maxWidth = (cols * (1/(minRooms+1)));
+      int minHeight = 3;
+      int maxHeight = (rows * (2/minRooms));
 
       if (maxWidth < minWidth)
       {
@@ -636,12 +636,7 @@ public class House
         startTile = house[fromRoom.getRow()+(fromRoom.getHeight()/2)][fromRoom.getCol()+(fromRoom.getWidth()/2)];
         for (Room toRoom : rooms)
         {
-          if (fromRoom == toRoom)
-          {
-            // Don't find a path to the same room
-            continue;
-          }
-          else
+          if (fromRoom != toRoom)
           {
             endTile = house[toRoom.getRow()+(toRoom.getHeight()/2)][toRoom.getCol()+(toRoom.getWidth()/2)];
             pathfinder.find(House.this, startTile, endTile);
@@ -691,8 +686,8 @@ public class House
     private void addObstacles()
     {
       Random rand = new Random();
-      int row = 0;
-      int col = 0;
+      int row;
+      int col;
 
       for (Room room : rooms)
       {
@@ -769,18 +764,6 @@ public class House
       return false;
     }
 
-    private boolean touchesWall(Tile current)
-    {
-      for (Tile tile : getAllNeighbors(current))
-      {
-        if (tile instanceof Wall)
-        {
-          return true;
-        }
-      }
-      return false;
-    }
-
     private boolean validRoom(int row, int col, int width, int height)
     {
       // First, check if the room if in bounds of the house
@@ -826,16 +809,16 @@ public class House
     int width;
     int height;
 
-    public Room (int row, int col, int width, int height)
+    public Room(int row, int col, int width, int height)
     {
       this.row = row;
       this.col = col;
       this.width = width;
       this.height = height;
 
-      for (int i = row; i <= (row+height); i++)
+      for (int i = row; i <= (row + height); i++)
       {
-        for (int j = col; j <= (col+width); j++)
+        for (int j = col; j <= (col + width); j++)
         {
           house[i][j] = new Floor(j, i, 10);
         }
@@ -860,19 +843,6 @@ public class House
     public int getHeight()
     {
       return height;
-    }
-
-    public Tile[][] getRoom()
-    {
-      Tile[][] room = new Tile[height][width];
-      for (int i = 0; i <= height; i++)
-      {
-        for (int j = 0; j <= width; j++)
-        {
-          room[i][j] = house[row+i][col+j];
-        }
-      }
-      return room;
     }
   }
 

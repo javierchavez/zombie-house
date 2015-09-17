@@ -535,18 +535,29 @@ public class House
       int col;
       int width;
       int height;
+      int tries = 0;
 
       // Weights for how big a room can be
       // Don't want rooms to be too big or
       // there won't be enough space to fit
       // in minRooms in the house.
-      int minWidth = (int) (cols * .1);
-      int maxWidth = (int) (cols * .15);
-      int minHeight = (int) (rows * .15);
-      int maxHeight = (int) (rows * .25);
+      int minWidth = (int) 3;
+      int maxWidth = (int) (cols * (1/(minRooms+1)));
+      int minHeight = (int) 3;
+      int maxHeight = (int) (rows * (2/minRooms));
+
+      if (maxWidth < minWidth)
+      {
+        maxWidth = minWidth+1;
+      }
+
+      if (maxHeight < minHeight)
+      {
+        maxHeight = minHeight+1;
+      }
 
       // Create the minimum number of rooms
-      while (rooms.size() < minRooms)
+      while ((tries < maxTries) && (rooms.size() < minRooms))
       {
         row = rand.nextInt(rows);
         col = rand.nextInt(cols);
@@ -559,6 +570,7 @@ public class House
           // Add a room to the house if it does not overlap any other rooms or is out of bounds of the house
           rooms.add(new Room(row, col, width, height));
         }
+        tries++;
       }
     }
 
@@ -573,8 +585,8 @@ public class House
       // This ensures the house is connected
       for (Room fromRoom : rooms)
       {
-        // just choose the upper left tile in the room to start and end at (arbitrary)
-        startTile = house[fromRoom.getRow()][fromRoom.getCol()];
+        // just choose the approximate center of the room
+        startTile = house[fromRoom.getRow()+(fromRoom.getHeight()/2)][fromRoom.getCol()+(fromRoom.getWidth()/2)];
         for (Room toRoom : rooms)
         {
           if (fromRoom == toRoom)
@@ -584,7 +596,7 @@ public class House
           }
           else
           {
-            endTile = house[toRoom.getRow()][toRoom.getCol()];
+            endTile = house[toRoom.getRow()+(toRoom.getHeight()/2)][toRoom.getCol()+(toRoom.getWidth()/2)];
             pathfinder.find(House.this, startTile, endTile);
             path = pathfinder.getPath();
             for (Tile tile : path)

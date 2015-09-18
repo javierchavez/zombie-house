@@ -59,7 +59,7 @@ public class ZombieHouse
       update(deltaTime / 1e9);
 
       g.setColor(Color.black);
-      g.fillRect(0, 0, 1920, 1080);
+      g.clearRect(0, 0, 1920, 1080);
 
       game.render(g);
       canvasGraphics.drawImage(screen, 0, 0, null);

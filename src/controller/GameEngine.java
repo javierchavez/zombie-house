@@ -38,7 +38,6 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean downPressed = false;
   private boolean rightPressed = false;
 
-  private boolean DEBUG = true;
   private Rectangle2D viewPort;
   private boolean DEBUG = false;
 

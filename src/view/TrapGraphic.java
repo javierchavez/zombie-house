@@ -36,6 +36,6 @@ public class TrapGraphic
 
     return bilinearScaleOp.filter(
             image,
-            new BufferedImage(40, 40, image.getType()));
+            new BufferedImage(70, 70, image.getType()));
   }
 }

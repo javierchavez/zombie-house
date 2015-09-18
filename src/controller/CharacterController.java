@@ -44,11 +44,10 @@ public class CharacterController
     float x = player.getCurrentX();
     float y = player.getCurrentY();
 
-    if (stamina == 0 && player.getSpeed() > 0)
+    if (stamina == 0)
     {
       isMoving = false;
       player.setSpeed(Mover.IDLE);
-      return; // player stopped when out of stamina
     }
     // Stamina regenerates if player is idle
     if (!isMoving)

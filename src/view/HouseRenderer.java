@@ -16,7 +16,10 @@ public class HouseRenderer extends Renderer
 
   public HouseRenderer (House house, Converter converter)
   {
-    super(house.getPlayerTile().getX(),house.getPlayerTile().getY(), converter);
+    super(house.getPlayerTile().getX(),
+          house.getPlayerTile().getY(),
+          converter);
+
     this.house = house;
     // center the renderer on the player tile
   }
@@ -32,7 +35,12 @@ public class HouseRenderer extends Renderer
 //    double width = viewBounds.getWidth();
 //    double height = viewBounds.getHeight();
 //
+//    float x = character.getCurrentX();
+//    float y = character.getCurrentY();
 //
+//    float camX = house.getpl- VIEWPORT_SIZE_X / 2;
+//    float camY = playerY - VIEWPORT_SIZE_Y / 2;
+//    g2.translate(-camX, -camY);
 //
 //    int cellsX = (int) Math.ceil(width/80f);
 //    int cellsY = (int) Math.ceil(height/80f);
@@ -40,7 +48,7 @@ public class HouseRenderer extends Renderer
 //    int tileH = (int) (height / cellsY);
     int tileW = 80;
     int tileH = 80;
-
+//    System.out.println(viewBounds.getY());
     ////////// end shit code ///////////
 
     Tile[][] houseMatrix = house.getHouse();
@@ -65,11 +73,11 @@ public class HouseRenderer extends Renderer
 
           }
         }
-        if (houseMatrix[i][j] instanceof Empty)
-        {
-          g2.fillRect(j * tileW,
-                        i * tileH, 80,80);
-        }
+//        if (houseMatrix[i][j] instanceof Empty)
+//        {
+//          g2.fillRect(j * tileW,
+//                        i * tileH, 80,80);
+//        }
       }
     }
   }

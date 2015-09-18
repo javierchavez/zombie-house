@@ -15,7 +15,6 @@ public class ZombieRenderer extends Renderer
   private final House house;
   private final int w;
   private final int h;
-  Sound sound;
 
   public ZombieRenderer(House house)
   {

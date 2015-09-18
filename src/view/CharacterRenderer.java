@@ -14,7 +14,6 @@ public class CharacterRenderer extends Renderer
   private final Character character;
   private final int h;
   private final int w;
-  Sound sound;
   CharacterSprite characterSprite = new CharacterSprite();
 
 
@@ -53,7 +52,6 @@ public class CharacterRenderer extends Renderer
     this.w = w;
     this.h = h;
     this.character = character;
-    InputStream in = null;
     setAnimation();
     try
     {
@@ -119,17 +117,17 @@ public class CharacterRenderer extends Renderer
 
 
 
-    int cellsX = (int) Math.ceil(width/80f);
-    int cellsY = (int) Math.ceil(height/80f);
-    int tileW = (int) (width / cellsX);
-    int tileH = (int) (height / cellsY);
+//    int cellsX = (int) Math.ceil(width/80f);
+//    int cellsY = (int) Math.ceil(height/80f);
+//    int tileW = (int) (width / cellsX);
+//    int tileH = (int) (height / cellsY);
 
     float x = character.getCurrentX();
     float y = character.getCurrentY();
 
     // this needs to be in the converter class
-    g2.drawImage(animation.getSprite(), (int) ((x * tileW) + x),
-                (int) ((y * tileH) + y), null);
+    g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT-Sprite.SIZE) + x),
+                 (int) ((y * TILE_HEIGHT-Sprite.SIZE) + y), null);
 
     g2.setColor(Color.white);
     g2.drawRect((int) width / 2, 40, (int) (width / 4), 20);
@@ -145,18 +143,11 @@ public class CharacterRenderer extends Renderer
     }
     g2.setColor(Color.white);
     g2.drawString("tile (x, y) = " + x + ", " + y, (int) (width / 3), 50);
-    g2.drawString("px (x, y) = " + x*tileW + ", " + y*tileH,
+    g2.drawString("px (x, y) = " + x*TILE_HEIGHT + ", " + y*TILE_HEIGHT,
                   (int) (width / 3), 61);
 
-    g2.drawString("px (x, y) = " + XtoPix(x) + ", " + ((y * tileH) + y),
-                  (int) (width / 3), 71);
 
 
-  }
-
-  private float XtoPix(float x)
-  {
-    return 80 * ((int) x) + ( x - ((int) x));
   }
 
   private void setAnimation()

@@ -2,7 +2,6 @@ package controller;
 
 import model.Character;
 import model.House;
-import model.Zombie;
 import view.*;
 
 import javax.swing.event.MouseInputListener;
@@ -21,6 +20,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class GameEngine implements KeyListener, MouseInputListener
 {
+  private final MenuRenderer menuRenderer;
   private House house;
   private Character player;
   private Renderer houseRenderer;
@@ -38,6 +38,8 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean downPressed = false;
   private boolean rightPressed = false;
 
+  private boolean isPaused = false;
+
   private Rectangle2D viewPort;
   private boolean DEBUG = false;
 
@@ -53,6 +55,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     zombieRenderer = new ZombieRenderer(house);
     converter = new Converter(house);
     houseRenderer = new HouseRenderer(house, converter);
+    menuRenderer = new MenuRenderer();
   }
 
   public void update(float deltaTime)
@@ -90,6 +93,11 @@ public class GameEngine implements KeyListener, MouseInputListener
 
   public void render (Graphics2D graphics)
   {
+    if (isPaused)
+    {
+      menuRenderer.render(graphics);
+      return;
+    }
     graphics.setTransform(getTransform());
     houseRenderer.render(graphics);
     playerRenderer.render(graphics);
@@ -104,6 +112,11 @@ public class GameEngine implements KeyListener, MouseInputListener
   {
     switch (e.getKeyCode())
     {
+      /* menu screen
+      case KeyEvent.VK_SPACE:
+        isPaused = !isPaused;
+        break;
+        */
       // Player movement direction
       case KeyEvent.VK_UP:
         upPressed = true;

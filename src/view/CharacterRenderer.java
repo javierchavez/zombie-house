@@ -83,9 +83,9 @@ public class CharacterRenderer extends Renderer
   }
 
   @Override
-  public void render (Graphics g)
+  public void render (Graphics2D g2)
   {
-    Graphics2D g2 = (Graphics2D) g;
+//    Graphics2D g2 = (Graphics2D) g;
     setAnimation();
     if (character.getSpeed() > 0)
     {

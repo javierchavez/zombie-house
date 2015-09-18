@@ -49,7 +49,7 @@ public abstract class Renderer
 //  }
 
 
-  public abstract void render(Graphics g);
+  public abstract void render(Graphics2D g);
 
   public void setViewBounds (Rectangle2D viewBounds)
   {

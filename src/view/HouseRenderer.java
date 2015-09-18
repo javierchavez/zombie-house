@@ -25,9 +25,9 @@ public class HouseRenderer extends Renderer
   }
 
   @Override
-  public void render (Graphics g)
+  public void render (Graphics2D g2)
   {
-    Graphics2D g2 = (Graphics2D)g;
+//    Graphics2D g2 = (Graphics2D)g;
 
     ////////// this is shit code.///////
     // this needs to be abstracted out into a view or camera class

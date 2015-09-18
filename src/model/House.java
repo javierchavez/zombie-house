@@ -751,7 +751,15 @@ public class House
 
     private boolean validExit(Tile wall)
     {
-      return touchesEmpty(wall) && touchesFloor(wall);
+      boolean touchesEmpty = false;
+      boolean touchesFloor = false;
+
+      for (Tile tile: neighbors(wall))
+      {
+        if (tile instanceof Empty) touchesEmpty = true;
+        if (tile instanceof Floor) touchesFloor = true;
+      }
+      return touchesEmpty && touchesFloor;
     }
 
     private boolean touchesFloor(Tile current)

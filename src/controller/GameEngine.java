@@ -38,6 +38,7 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean downPressed = false;
   private boolean rightPressed = false;
 
+  private boolean DEBUG = true;
   private Rectangle2D viewPort;
   private boolean DEBUG = false;
 
@@ -75,8 +76,22 @@ public class GameEngine implements KeyListener, MouseInputListener
     if (!moving) controller.characterIdle();
   }
 
-  public void render (Graphics graphics)
+  public AffineTransform getTransform()
   {
+    AffineTransform at = new AffineTransform();
+    double shiftX = -viewPort.getX();
+    double shiftY = -viewPort.getY();
+
+    at.scale(1 / 1.78, 1 / 1.78);
+    at.translate(shiftX, shiftY);
+
+    return at;
+  }
+
+
+  public void render (Graphics2D graphics)
+  {
+    graphics.setTransform(getTransform());
     houseRenderer.render(graphics);
     playerRenderer.render(graphics);
     zombieRenderer.render(graphics);
@@ -235,4 +250,10 @@ public class GameEngine implements KeyListener, MouseInputListener
 
   @Override
   public void mouseMoved (MouseEvent e) { }
+
+  public void setViewPort (Rectangle2D rectangle)
+  {
+    this.viewPort = rectangle;
+    houseRenderer.setViewBounds(rectangle);
+  }
 }

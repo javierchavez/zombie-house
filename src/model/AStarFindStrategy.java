@@ -3,9 +3,8 @@ package model;
 
 import java.util.*;
 
-public class AStarFindStrategy implements FindStrategy
+public class AStarFindStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
-  List<Tile> path;
 
   @Override
   public void find (House house, Tile start, Tile end)
@@ -48,31 +47,6 @@ public class AStarFindStrategy implements FindStrategy
     }
 
     path = reconstructPath(cameFrom, start, end);
-  }
-
-  private List<Tile> reconstructPath (Map<Tile, Tile> cameFrom, Tile start, Tile end)
-  {
-    Tile current = end;
-    List<Tile> path = new ArrayList<>();
-    path.add(current);
-
-    while (current != start)
-    {
-      current = cameFrom.get(current);
-      if (current != null)
-      {
-        path.add(current);
-      }
-    }
-
-    Collections.reverse(path);
-    return path;
-  }
-
-  @Override
-  public List getPath ()
-  {
-    return path;
   }
 
   private class TilePriority implements Comparable<TilePriority>

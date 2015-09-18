@@ -9,6 +9,9 @@ import java.util.Random;
 
 public class ZombieController
 {
+
+//  get the next direction from the model, move, and then check if zombie can smell player
+//  if so run the algorithm (call find method) from the model and get the next location and move.... then repeat
   private final House house;
 
   List<Zombie> zombies;
@@ -92,10 +95,13 @@ public class ZombieController
           }
 
           if (xDir == 0 && yDir == 0) resting();
-          if (xDir < 0) moveLeft();
-          if (xDir > 0) moveRight();
-          if (yDir > 0) moveUp();
-          if (yDir < 0) moveDown();
+          // Cardinal directions
+          if (xDir < 0 && yDir == 0) moveLeft();
+          if (xDir > 0 && yDir == 0) moveRight();
+          if (yDir > 0 && xDir == 0) moveUp();
+          if (yDir < 0 && xDir == 0) moveDown();
+          // Ordinal directions
+          if (xDir < 0 && yDir > 0) moveUpLeft();
         }
 
         if (idling) zombieSpeed = 0;
@@ -164,5 +170,34 @@ public class ZombieController
     moveRight = true;
     direction = EAST;
     idling = false;
+  }
+
+  public void moveUpRight()
+  {
+    if (DEBUG) System.out.println("Moving up right");
+    isMoving = true;
+    idling = false;
+    direction = NORTHEAST;
+  }
+
+  public void moveUpLeft()
+  {
+    isMoving = true;
+    idling = false;
+    direction = NORTHWEST;
+  }
+
+  public void moveDownRight()
+  {
+    isMoving = true;
+    idling = false;
+    direction = SOUTHEAST;
+  }
+
+  public void moveDownLeft()
+  {
+    isMoving = true;
+    idling = false;
+    direction = SOUTHWEST;
   }
 }

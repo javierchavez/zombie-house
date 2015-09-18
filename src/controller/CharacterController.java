@@ -69,6 +69,10 @@ public class CharacterController
         {
           stamina -= deltaTime;
           if (stamina < 0) stamina = 0;
+          if (stamina == 0)
+          {
+            running = false;
+          }
           player.setStamina(stamina);
         }
       }

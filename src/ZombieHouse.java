@@ -9,52 +9,47 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class ZombieHouse
 {
   private GameEngine game = new GameEngine();
-  private static int width = 1920, height = 1080;
-//  protected BufferStrategy strategy;
-  private BufferedImage screen;
+  private static int
+          width = 1920,
+          height = 1080;
   protected boolean running;
   protected int fps = 60;
+//  private JScrollPane scrollPane;
   protected JFrame frame = new JFrame("Zombie House");
-  final JPanel canvas = new JPanel();
-  private JScrollPane scrollPane;
+  protected JPanel jPanel = new JPanel();
 
   public ZombieHouse ()
   {
     init();
   }
 
-  public static int getWidth ()
+  public boolean isRunning ()
   {
-    return Math.max(0, width);
+    return running;
   }
 
-  public static int getHeight ()
+  public void setRunning (boolean running)
   {
-    return Math.max(0, height);
+    this.running = running;
   }
-
-  public static void main (String[] args)
-  {
-    new ZombieHouse().run();
-  }
-
 
   public void run ()
   {
     int frames = 0;
-    long lastTime, lastSec;
-    lastTime = lastSec = System.nanoTime();
+    long lastTime, lastSecond;
+    lastTime = lastSecond = System.nanoTime();
     running = true;
-    screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
+    BufferedImage screen = new BufferedImage(1920,
+                                             1080,
+                                             BufferedImage.TYPE_INT_RGB);
 
     Graphics2D g = (Graphics2D) screen.getGraphics();
-    Graphics2D canvasGraphics = (Graphics2D) canvas.getGraphics();
+    Graphics2D canvasGraphics = (Graphics2D) jPanel.getGraphics();
 
     while (running)
     {
@@ -69,17 +64,28 @@ public class ZombieHouse
       game.render(g);
       canvasGraphics.drawImage(screen, 0, 0, null);
 
-      if (System.nanoTime() - lastSec >= 1e9)
+      if (System.nanoTime() - lastSecond >= 1e9)
       {
         fps = frames;
         frames = 0;
-        lastSec += 1e9;
+        lastSecond += 1e9;
       }
+      
       do
       {
         Thread.yield();
+        // tight loop
+        // better 
+        // swing timer sleep for n seconds
+        // thread sleep n time
+
       } while (System.nanoTime() - lastTime < 1e9 / 60);
     }
+  }
+
+  public static void main (String[] args)
+  {
+    new ZombieHouse().run();
   }
 
   protected void update (double deltaTime)
@@ -87,45 +93,36 @@ public class ZombieHouse
     game.update((float) deltaTime);
   }
 
-
-//  protected void render (Graphics2D g)
-//  {
-//    game.render(g);
-//
-//
-//    jFrameGraphics.drawImage(screen, 0, 0, null);
-//  }
-
-
   private void init ()
   {
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.addKeyListener(game);
-    frame.addMouseListener(game);
-    frame.addMouseMotionListener(game);
+    // frame.addMouseListener(game);
+    // frame.addMouseMotionListener(game);
 
-
-//    canvas.setIgnoreRepaint(true);
-    canvas.setPreferredSize(new Dimension(width, height));
-    canvas.addComponentListener(new ComponentAdapter()
-    { //on resize...
+    jPanel.setIgnoreRepaint(true);
+    jPanel.setPreferredSize(new Dimension(1920, 1080));
+    jPanel.addComponentListener(new ComponentAdapter()
+    {
       public void componentResized (ComponentEvent arg0)
       {
-        width = canvas.getWidth();
-        height = canvas.getHeight();
-        game.setViewPort(new Rectangle(width, height));
+        width = jPanel.getWidth();
+        height = jPanel.getHeight();
+        game.setViewPort(new Rectangle(jPanel.getVisibleRect()));
+        System.out.println("[INFO] Resized to: " + width + " " + height);
       }
     });
-    scrollPane = new JScrollPane(canvas,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                       JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-//    frame.getContentPane().add(scrollPane);
-//    frame.add(canvas);
+    jPanel.setBackground(Color.black);
+    /**
+       large one image to draw level
+       smaller to draw 
+     */
 
-    canvas.setBackground(Color.black);
-    frame.add(scrollPane, BorderLayout.CENTER);
+    frame.getContentPane().add(jPanel, BorderLayout.CENTER);
     frame.pack();
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
+
   }
 }

@@ -3,9 +3,8 @@ package model;
 
 import java.util.*;
 
-public class BFSFindStrategy implements FindStrategy
+public class BFSFindStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
-  List<Tile> path;
 
   @Override
   public void find (House board, Tile start, Tile end)
@@ -38,30 +37,4 @@ public class BFSFindStrategy implements FindStrategy
     path = reconstructPath(cameFrom, start, end);
   }
 
-  @Override
-  public List getPath ()
-  {
-    return path;
-  }
-
-  private List<Tile> reconstructPath (HashMap<Tile, Tile> cameFrom, Tile start,
-                                      Tile end)
-  {
-    Tile current = end;
-    List<Tile> path = new ArrayList<>();
-    path.add(current);
-
-    while (current != start)
-    {
-      current = cameFrom.get(current);
-      if (current != null)
-      {
-        path.add(current);
-      }
-    }
-
-    Collections.reverse(path);
-
-    return path;
-  }
 }

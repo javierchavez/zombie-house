@@ -1,9 +1,9 @@
 package model;
 
 
-import java.util.List;
 
-public class LineFindStrategy implements FindStrategy<Tile>
+
+public class LineFindStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
 
   @Override
@@ -12,9 +12,4 @@ public class LineFindStrategy implements FindStrategy<Tile>
 
   }
 
-  @Override
-  public List<Tile> getPath ()
-  {
-    return null;
-  }
 }

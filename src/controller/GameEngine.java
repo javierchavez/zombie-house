@@ -10,7 +10,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 
 /**
@@ -36,6 +38,7 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean downPressed = false;
   private boolean rightPressed = false;
 
+  private Rectangle2D viewPort;
   private boolean DEBUG = false;
 
   public GameEngine ()

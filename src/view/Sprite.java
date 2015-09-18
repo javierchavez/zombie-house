@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Sprite
 {
-  private static final int TILE_SIZE = 40;
+  public static final int SIZE = 60;
 
   /**
    * Get the sprite
@@ -21,8 +21,8 @@ public class Sprite
   public static BufferedImage getSprite (String fileName, int x, int y)
   {
     BufferedImage image = loadSprite(fileName);
-    return image.getSubimage(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE,
-                             TILE_SIZE);
+    return image.getSubimage(x * SIZE, y * SIZE, SIZE,
+                             SIZE);
   }
 
   private static BufferedImage loadSprite (String file)

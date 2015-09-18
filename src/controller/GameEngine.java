@@ -2,6 +2,7 @@ package controller;
 
 import model.Character;
 import model.House;
+import model.Zombie;
 import view.*;
 
 import javax.swing.event.MouseInputListener;
@@ -24,7 +25,8 @@ public class GameEngine implements KeyListener, MouseInputListener
   private Character player;
   private Renderer houseRenderer;
   private CharacterController controller;
-  //  private ZombieController zombieController;
+  private ZombieController zombieController;
+
   private Renderer playerRenderer;
   private Renderer zombieRenderer;
   private Point2D dragFrom;
@@ -38,13 +40,14 @@ public class GameEngine implements KeyListener, MouseInputListener
 
   private boolean DEBUG = true;
   private Rectangle2D viewPort;
+  private boolean DEBUG = false;
 
   public GameEngine ()
   {
     player = new Character();
     house = new House(player);
     controller = new CharacterController(house);
-    // zombieController = new ZombieController(house);
+    zombieController = new ZombieController(house);
 
     house.generateRandomHouse();
     playerRenderer = new CharacterRenderer(player, house.getWidth(), house.getHeight());
@@ -56,10 +59,20 @@ public class GameEngine implements KeyListener, MouseInputListener
   public void update(float deltaTime)
   {
     controller.update(deltaTime);
-    if (upPressed) controller.moveUp();
-    if (downPressed) controller.moveDown();
-    if (leftPressed) controller.moveLeft();
-    if (rightPressed) controller.moveRight();
+    zombieController.update(deltaTime);
+
+    // Ordinal direction
+    if (upPressed && rightPressed) controller.moveUpRight();
+    else if (upPressed && leftPressed) controller.moveUpLeft();
+    else if (downPressed && rightPressed) controller.moveDownRight();
+    else if (downPressed && leftPressed) controller.moveDownLeft();
+
+    // Cardinal directions
+    else if (upPressed) controller.moveUp();
+    else if (rightPressed) controller.moveRight();
+    else if (downPressed) controller.moveDown();
+    else if (leftPressed) controller.moveLeft();
+
     if (!moving) controller.characterIdle();
   }
 
@@ -92,16 +105,20 @@ public class GameEngine implements KeyListener, MouseInputListener
   {
     switch (e.getKeyCode())
     {
-      // Player directions
+      // Player movement direction
       case KeyEvent.VK_UP:
         upPressed = true;
         moving = true;
         break;
-      case KeyEvent.VK_S:
+      case KeyEvent.VK_W:
         upPressed = true;
         moving = true;
         break;
       case KeyEvent.VK_DOWN:
+        downPressed = true;
+        moving = true;
+        break;
+      case KeyEvent.VK_S:
         downPressed = true;
         moving = true;
         break;
@@ -127,31 +144,19 @@ public class GameEngine implements KeyListener, MouseInputListener
         if (moving)
         {
           if (DEBUG) System.out.println("Running");
-          controller.characterRun(); // Character can only run if they're actually moving
+          // Character can only run if they're actually moving
+          controller.characterRun();
         }
         break;
       default:
         moving = false;
         controller.characterIdle();
     }
-
   }
 
   @Override
   public void keyReleased (KeyEvent e)
   {
-    // update player speed when r pressed
-
-    // updated player direction when a,s,w,d up,down,left,right is pressed.
-    // look at mover interface for values.. decide whether holding down a key
-    // continues to rotate or if a sharp rotate. here are the key codes
-    // http://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
-
-    // if p is pressed then call character controller. ( probably need to
-    // create new methods in character controller) because the you need to
-    // check if player has firetraps and and also if the current tile has a
-    // trap to pickup in trap there is enum class of fire traps.
-
     switch (e.getKeyCode())
     {
       // Player movement/directions
@@ -159,12 +164,16 @@ public class GameEngine implements KeyListener, MouseInputListener
         upPressed = false;
         moving = false;
         break;
-      case KeyEvent.VK_S:
+      case KeyEvent.VK_W:
         upPressed = false;
+        moving = false;
         break;
       case KeyEvent.VK_DOWN:
         downPressed = false;
         moving = false;
+        break;
+      case KeyEvent.VK_S:
+        downPressed = false;
         break;
       case KeyEvent.VK_LEFT:
         leftPressed = false;

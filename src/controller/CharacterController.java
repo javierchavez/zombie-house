@@ -14,6 +14,11 @@ public class CharacterController
   private float direction;
   private boolean moveUp, moveDown, moveLeft, moveRight;
 
+  private final int NORTHEAST = 315;
+  private final int NORTHWEST = 225;
+  private final int SOUTHEAST = 45;
+  private final int SOUTHWEST = 135;
+
   private boolean DEBUG = false;
 
   public CharacterController (House house)
@@ -30,6 +35,7 @@ public class CharacterController
   }
 
 
+  // TODO: player stops moving when they run out of stamina
   public void update (float deltaTime)
   {
     float playerSpeed;
@@ -49,7 +55,7 @@ public class CharacterController
     {
       if (stamina < 5.0)
       {
-        stamina += deltaTime + 0.05f; // Stamina regenerates faster if player is not moving? Random number here for now
+        stamina += 0.2 * deltaTime + 0.01; // Stamina regenerates faster if player is not moving?
         if (stamina > 5) stamina = 5;
         player.setStamina(stamina);
       }
@@ -67,12 +73,12 @@ public class CharacterController
           player.setStamina(stamina);
         }
       }
-      else
+      else // if player is not running
       {
         playerSpeed = Mover.WALK_SPEED;
         if (stamina < 5.0)
         {
-          stamina += deltaTime;
+          stamina += 0.2 * deltaTime;
           if (stamina > 5) stamina = 5;
           player.setStamina(stamina);
         }
@@ -103,7 +109,6 @@ public class CharacterController
   {
     isMoving = true;
     if (player.getStamina() > 0) running = true;
-    player.setSpeed(Mover.RUN_SPEED);
   }
 
   /**
@@ -114,7 +119,6 @@ public class CharacterController
     isMoving = true;
     running = false;
     idling = false;
-    player.setSpeed(Mover.WALK_SPEED); // Default speed
   }
 
   /**
@@ -127,6 +131,17 @@ public class CharacterController
     isMoving = false;
     running = false;
     player.setSpeed(Mover.IDLE);
+  }
+
+  /**
+   * If two incompatible directions are pressed;
+   */
+  public void stopMoving() // TODO: get rid of this method later? probably don't need it
+  {
+    System.out.println("I can't move like that!");
+    isMoving = false;
+    running = false;
+    player.setSpeed(0);
   }
 
   /**
@@ -193,5 +208,34 @@ public class CharacterController
     idling = false;
     moveRight = true;
     direction = Mover.EAST;
+  }
+
+  public void moveUpRight()
+  {
+    if (DEBUG) System.out.println("Moving up right");
+    isMoving = true;
+    idling = false;
+    direction = NORTHEAST;
+  }
+
+  public void moveUpLeft()
+  {
+    isMoving = true;
+    idling = false;
+    direction = NORTHWEST;
+  }
+
+  public void moveDownRight()
+  {
+    isMoving = true;
+    idling = false;
+    direction = SOUTHEAST;
+  }
+
+  public void moveDownLeft()
+  {
+    isMoving = true;
+    idling = false;
+    direction = SOUTHWEST;
   }
 }

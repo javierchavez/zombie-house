@@ -8,10 +8,6 @@ import java.util.Random;
 
 public class House
 {
-  // Dependency in GameEngine line 27
-  public static final int WIDTH = 80;
-  public static final int HEIGHT = 80;
-
   // defaults specified in requirements
   private static int rows = 21;
   private static int cols = 36;
@@ -28,12 +24,12 @@ public class House
   private int minObstacles = 5;
 
   // how many rooms and hallways are in the generated house
-  private int numRooms = 0;
   private int numHallways = 0;
 
   private HouseGenerator generator;
   private List<Room> rooms;
   private Tile exit;
+
   private float zombieSpawn = 0.01f;
   private float trapSpawn = 0.01f;
 
@@ -103,6 +99,7 @@ public class House
   {
     Random rand = new Random();
     Room room;
+    Tile tile;
     int row;
     int col;
     int tries = 0;
@@ -112,9 +109,9 @@ public class House
       room = rooms.get(rand.nextInt(rooms.size()));
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
+      tile = house[row][col];
       tries++;
-    } while ((tries<maxTries)&&(!(house[row][col] instanceof Floor)||(getDistance(house[row][col],exit)<minTravelDistance)));
-
+    } while ((tries<maxTries)&&(!(tile instanceof Floor)||(getDistance(tile,exit)<minTravelDistance)));
     player.move(col, row);
   }
 
@@ -127,6 +124,7 @@ public class House
   {
     Random rand = new Random();
     Zombie zombie;
+    Tile tile;
 
     // zombies only spawn in rooms and not in hallways
     for (Room room : rooms)
@@ -135,13 +133,14 @@ public class House
       {
         for (int col = room.getCol(); col < room.getCol()+room.getWidth(); col++)
         {
-          if (house[row][col] instanceof Floor && house[row][col] != getPlayerTile())
+          tile = house[row][col];
+          if (tile instanceof Floor && tile != getPlayerTile())
           {
             if (rand.nextFloat() < zombieSpawn)
             {
               // can add code here to change zombie type
               zombie = new Zombie();
-              if (getDistance(house[row][col], getPlayerTile()) > zombie.getSmell())
+              if (getDistance(tile, getPlayerTile()) > zombie.getSmell())
               {
                 zombie.move(col, row);
                 zombies.add(zombie);
@@ -158,24 +157,22 @@ public class House
     Random rand = new Random();
     int row;
     int col;
-    int roomIndex;
     int tries = 0;
     float distance;
     Room room;
-    Tile current;
+    Tile tile;
     superZombie = new SuperZombie();
 
     do
     {
-      roomIndex = rand.nextInt(rooms.size());
-      room = rooms.get(roomIndex);
+      room = rooms.get(rand.nextInt(rooms.size()));
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
-      current = house[row][col];
-      distance = getDistance(current, getPlayerTile());
+      tile = house[row][col];
+      distance = getDistance(tile, getPlayerTile());
       tries++;
-    } while ((tries<maxTries) && (!(current instanceof Floor) || isZombieTile(current) || (distance<(2*superZombie.getSmell()))));
-    superZombie.move(current.getX(), current.getY());
+    } while ((tries<maxTries)&&(!(tile instanceof Floor)||isZombieTile(tile)||(distance<(2*superZombie.getSmell()))));
+    superZombie.move(tile.getX(), tile.getY());
   }
 
   /**
@@ -185,24 +182,22 @@ public class House
   public void generateTraps()
   {
     Random rand = new Random();
-    Tile current;
+    Tile tile;
 
     for (int row = 0; row < rows; row++)
     {
       for (int col = 0; col < cols; col++)
       {
-        current = house[row][col];
-        if (current instanceof Floor && current != getPlayerTile() && !isZombieTile(current))
+        tile = house[row][col];
+        if (tile instanceof Floor && tile != getPlayerTile() && !isZombieTile(tile))
         {
           if (rand.nextFloat() < trapSpawn)
           {
-            placeTrap(current, Trap.FIRE);
-            System.out.println("col = " + col);
-            System.out.println("row = " + row);
+            placeTrap(tile, Trap.FIRE);
           }
           else
           {
-            placeTrap(current, Trap.NONE);
+            placeTrap(tile, Trap.NONE);
           }
         }
       }
@@ -281,6 +276,16 @@ public class House
     return numHallways;
   }
 
+  public int getNumObstacles()
+  {
+    return getObstacles().size();
+  }
+
+  public void setMinObstacles(int minObstacles)
+  {
+    this.minObstacles = minObstacles;
+  }
+
   /**
    * Sets the minimum number of rooms in the generated house
    *
@@ -304,7 +309,7 @@ public class House
   /**
    * Gets all of the obstacles in the house
    *
-   * @return List<Tile>
+   * @return List<Obstacle>
    */
   public List<Tile> getObstacles()
   {
@@ -634,7 +639,7 @@ public class House
       // This ensures the house is connected
       for (Room fromRoom : rooms)
       {
-        // just choose the approximate center of the room
+        // get the approximate center of the room
         startTile = house[fromRoom.getRow()+(fromRoom.getHeight()/2)][fromRoom.getCol()+(fromRoom.getWidth()/2)];
         for (Room toRoom : rooms)
         {
@@ -661,17 +666,27 @@ public class House
     {
       // Adds a wall to a tile if the tile is Empty
       // and is touching a Floor tile
-      Tile current;
+      Tile tile;
+      Wall wall;
       for (int row = 0; row < rows; row++)
       {
         for (int col = 0; col < cols; col++)
         {
-          current = house[row][col];
-          if (current instanceof Empty)
+          tile = house[row][col];
+          if (tile instanceof Empty)
           {
-            if (touchesFloor(current))
+            if (touchesFloor(tile))
             {
-              house[row][col] = new Wall(col, row);
+              wall = new Wall(col, row);
+              house[row][col] = wall;
+              if (touchesEmpty(wall))
+              {
+                wall.setWallType(WallType.EXTERIOR);
+              }
+              else
+              {
+                wall.setWallType(WallType.INTERIOR);
+              }
             }
             else
             {
@@ -736,22 +751,7 @@ public class House
 
     private boolean validExit(Tile wall)
     {
-      boolean hasAdjacentFloor = false;
-      boolean hasAdjacentEmpty = false;
-
-      for (Tile tile : neighbors(wall))
-      {
-        if (tile instanceof Floor)
-        {
-          hasAdjacentFloor = true;
-        }
-
-        if (tile instanceof Empty)
-        {
-          hasAdjacentEmpty = true;
-        }
-      }
-      return hasAdjacentEmpty && hasAdjacentFloor;
+      return touchesEmpty(wall) && touchesFloor(wall);
     }
 
     private boolean touchesFloor(Tile current)
@@ -759,6 +759,18 @@ public class House
       for (Tile tile : getAllNeighbors(current))
       {
         if (tile instanceof Floor)
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private boolean touchesEmpty(Tile current)
+    {
+      for (Tile tile : getAllNeighbors(current))
+      {
+        if (tile instanceof Empty)
         {
           return true;
         }

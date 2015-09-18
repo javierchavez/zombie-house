@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -23,7 +24,7 @@ public class GameEngine implements KeyListener, MouseInputListener
   private Character player;
   private Renderer houseRenderer;
   private CharacterController controller;
-//  private ZombieController zombieController;
+  //  private ZombieController zombieController;
   private Renderer playerRenderer;
   private Renderer zombieRenderer;
   private Point2D dragFrom;
@@ -62,12 +63,25 @@ public class GameEngine implements KeyListener, MouseInputListener
     if (!moving) controller.characterIdle();
   }
 
+  public AffineTransform getTransform()
+  {
+    AffineTransform at = new AffineTransform();
+    double shiftX = -viewPort.getX();
+    double shiftY = -viewPort.getY();
+
+    at.scale(1 / 1.78, 1 / 1.78);
+    at.translate(shiftX, shiftY);
+
+    return at;
+  }
+
+
   public void render (Graphics2D graphics)
   {
+    graphics.setTransform(getTransform());
     houseRenderer.render(graphics);
     playerRenderer.render(graphics);
     zombieRenderer.render(graphics);
-
   }
 
   @Override

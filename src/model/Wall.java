@@ -11,7 +11,7 @@ public class Wall extends Tile
    * @param x column
    * @param y row
    */
-  Wall (int x, int y)
+  public Wall (int x, int y)
   {
     super(x, y, 999999999);
   }

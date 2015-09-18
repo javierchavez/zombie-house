@@ -10,7 +10,7 @@ public class Floor extends Tile
    * @param y row
    * @param cost amount it takes to pass this tile, for A*
    */
-  Floor (int x, int y, int cost)
+  public Floor (int x, int y, int cost)
   {
     super(x, y, cost);
   }

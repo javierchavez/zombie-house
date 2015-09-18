@@ -14,7 +14,6 @@ public class CharacterController
   private float x, y;
 
   private boolean moveUp, moveDown, moveLeft, moveRight;
-  private boolean moveUpRight, moveUpLeft, moveDownRight, moveDownLeft;
   private final int EAST = 0;
   private final int NORTH = 270;
   private final int WEST = 180;
@@ -209,7 +208,6 @@ public class CharacterController
     if (DEBUG) System.out.println("Moving up right");
     isMoving = true;
     idling = false;
-    moveUpRight = true;
     direction = NORTHEAST;
   }
 
@@ -217,7 +215,6 @@ public class CharacterController
   {
     isMoving = true;
     idling = false;
-    moveUpLeft = true;
     direction = NORTHWEST;
   }
 
@@ -225,7 +222,6 @@ public class CharacterController
   {
     isMoving = true;
     idling = false;
-    moveDownRight = true;
     direction = SOUTHEAST;
   }
 
@@ -233,7 +229,6 @@ public class CharacterController
   {
     isMoving = true;
     idling = false;
-    moveDownLeft = true;
     direction = SOUTHWEST;
   }
 }

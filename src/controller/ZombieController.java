@@ -13,12 +13,12 @@ public class ZombieController
 
   List<Zombie> zombies;
   private int direction;
-  private boolean isMoving;
+  private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
   private boolean idling = false;
   private boolean moveUp, moveDown, moveLeft, moveRight;
-  private float x, y, rotation;
+  private float x, y;
 
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
@@ -57,11 +57,11 @@ public class ZombieController
   public void update(float deltaTime)
   {
     zombies = house.getZombies();
-    isMoving = true;
 
     time++;
     for (int i = 0; i < zombies.size(); i++)
     {
+      isMoving = true;
       float zombieSpeed;
       Zombie zombie = zombies.get(i);
       if (DEBUG)
@@ -110,6 +110,7 @@ public class ZombieController
         isMoving = false;
       }
     } // END FOR
+    if (DEBUG) System.out.println("End for");
   }
 
   /**

@@ -8,9 +8,13 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class Renderer
 {
+  private int offsetMinY;
+  private int offsetMinX;
+  private float offsetMaxX;
+  private float offsetMaxY;
   int TILE_WIDTH = 80;
   int TILE_HEIGHT = 80;
-
+  public static int TILE = 80;
   int MAX_SCREEN_WIDTH = 1920;
   int MAX_SCREEN_HEIGHT = 1080;
 
@@ -26,17 +30,26 @@ public abstract class Renderer
   private double height;
   private double scale;
 
-  public abstract void render(Graphics g);
-
 
   public Renderer(float x, float y, Converter converter)
   {
+    offsetMaxX = MAX_SCREEN_WIDTH - x;
+    offsetMaxY = MAX_SCREEN_HEIGHT - y;
+    offsetMinX = 0;
+    offsetMinY = 0;
   }
 
-  public Renderer()
+  protected Renderer ()
   {
-
   }
+
+  //  public Renderer()
+//  {
+//
+//  }
+
+
+  public abstract void render(Graphics g);
 
   public void setViewBounds (Rectangle2D viewBounds)
   {

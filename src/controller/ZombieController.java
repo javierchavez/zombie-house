@@ -19,7 +19,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   private boolean running;
   private float x, y;
 
-  private int distToPlayer; // Euclidean distance from zombie to player
+  // Intelligence 0 = random walk, 1 = line walk
+  private int intelligence; // TODO: placeholder. Each zombie should be given an intelligence when generated
 
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
@@ -30,7 +31,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   int xDir;
   int yDir;
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
   // TODO: randomly decide if zombie will be random walk or line walk
   // NOTE: random walk and line walk have different intelligence
@@ -50,8 +51,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   public void update(float deltaTime)
   {
     zombies = house.getZombies();
-    Character player = house.getPlayer();
-
 
     time++;
     for (int i = 0; i < zombies.size(); i++)
@@ -60,11 +59,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       float zombieSpeed;
       Zombie zombie;
 
-      // Doing this for brevity
-      // you really only want mover
-      // if you look at the class this class is extending
-      // (AbstractCharacterController) all of the move methods manipulate mover
-      // which is why you would use that
       mover = zombie = zombies.get(i);
 
       float direction = mover.getRotation();
@@ -81,24 +75,48 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (isMoving)
       {
-        // zombie.distToPlayer
-        // if distToPlayer = zombie.getSmell then playerDetected = true else playerDetected = false
+//        playerDetected = zombie.sense(house);
+
+        if (DEBUG) System.out.println("\tPlayer detected: " + playerDetected);
+
         if (playerDetected)
         {
           running = true;
           // TODO: zombie travels on path to player
+          Tile nextTile = zombie.find(house);
+          System.out.println("\tTile: " + nextTile.getX() + "," + nextTile.getY());
         }
         else
         {
           zombieSpeed = Mover.STAGGER_SPEED;
 
-          if (time % 60 == 0) // Zombie changes position every 1 second
+          // TODO: remove this later
+          intelligence = 1;
+
+          // Random walk zombies
+          if (intelligence == 0)
           {
-            xDir = rand.nextInt(3) - 1;
-            yDir = rand.nextInt(3) - 1;
+            // TODO: make this time longer?
+            if (time % 60 == 0) // Zombie changes position every 1 second
+            {
+              xDir = rand.nextInt(3) - 1;
+              yDir = rand.nextInt(3) - 1;
+            }
+          }
+          else if (intelligence == 1)
+          {
+            // TODO: Test collisions
+            if (time % 60 == 0) // change this to: if (collision)
+            {
+              int changeDir = rand.nextInt(1);
+              System.out.println(changeDir);
+              if (DEBUG) System.out.println("collision");
+              if (changeDir == 0) xDir = rand.nextInt(3) - 1;
+              else yDir = rand.nextInt(3) - 1;
+            }
           }
 
-          if (xDir == 0 && yDir == 0) resting();
+          if (xDir == 0 && yDir == 0 && intelligence == 0) resting();
           // Cardinal directions
           if (xDir < 0 && yDir == 0) moveLeft();
           if (xDir > 0 && yDir == 0) moveRight();
@@ -122,7 +140,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         isMoving = false;
       }
     } // END FOR
-    if (DEBUG) System.out.println("End for");
   }
 
 }

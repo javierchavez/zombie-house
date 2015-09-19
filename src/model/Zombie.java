@@ -61,7 +61,6 @@ public class Zombie extends Character implements Deadly
 
   public Tile find(House house)
   {
-    // calls findStrategy
     Tile zombie = house.getTile((int) getCurrentX(), (int) getCurrentY());
     findStrategy.find(house, zombie, house.getPlayerTile());
     return (Tile) findStrategy.getPath().get(0);

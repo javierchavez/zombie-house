@@ -29,6 +29,7 @@ public class House
   private HouseGenerator generator;
   private List<Room> rooms;
   private Tile exit;
+  private int generationAttempts = 0;
 
   private float zombieSpawn = 0.01f;
   private float trapSpawn = 0.01f;
@@ -90,6 +91,15 @@ public class House
     addSuperZombie();
     generateTraps();
 
+    if (generationAttempts < maxTries && !isHouseValid())
+    {
+      generationAttempts++;
+      generateRandomHouse();
+    }
+    else
+    {
+      generationAttempts = 0;
+    }
   }
 
   /**
@@ -202,6 +212,23 @@ public class House
         }
       }
     }
+  }
+
+  public boolean isHouseValid()
+  {
+    try
+    {
+      assert minRooms <= getNumRooms();
+      assert minObstacles <= getNumObstacles();
+      assert minHallways <= getNumHallways();
+      assert minTravelDistance <= getDistance(getPlayerTile(), getExit());
+      assert !isPlayerTooCloseToZombies();
+    }
+    catch (AssertionError ex)
+    {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -559,6 +586,23 @@ public class House
   {
     return (col >= 0 && col < this.getWidth())
             && (row >= 0 && row < this.getHeight());
+  }
+
+  private boolean isPlayerTooCloseToZombies()
+  {
+    if (getDistance(getPlayerTile(), getSuperZombieTile()) < 2*superZombie.getSmell())
+    {
+      return false;
+    }
+
+    for (Zombie zombie : zombies)
+    {
+      if (getDistance(getPlayerTile(), getZombieTile(zombie)) < zombie.getSmell())
+      {
+        return false;
+      }
+    }
+    return true;
   }
 
 

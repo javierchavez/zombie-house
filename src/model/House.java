@@ -57,9 +57,13 @@ public class House
   {
     House.rows = rows;
     House.cols = cols;
-    house = new Tile[rows][cols];
+    initHouse();
   }
 
+  /**
+   * Initialize the house to all empty Tiles
+   * Resets zombies
+   */
   public void initHouse()
   {
     house = new Tile[rows][cols];
@@ -98,6 +102,7 @@ public class House
     addSuperZombie();
     generateTraps();
 
+    // make sure the house is valid, if it is not then keep trying until maxTries is reached
     if (generationAttempts <= maxTries && !isHouseValid())
     {
       generationAttempts++;
@@ -169,6 +174,10 @@ public class House
     }
   }
 
+  /**
+   * Adds a super zombie to the house
+   * Ensures the super zombie is not too close to the player
+   */
   public void addSuperZombie()
   {
     Random rand = new Random();
@@ -221,6 +230,11 @@ public class House
     }
   }
 
+  /**
+   * Doubles checks to make sure are the parameters of the house is satisfied
+   *
+   * @return true|false
+   */
   public boolean isHouseValid()
   {
     try
@@ -310,11 +324,21 @@ public class House
     return numHallways;
   }
 
+  /**
+   * Gets the number of obstacles in the house
+   *
+   * @return number of obstacles
+   */
   public int getNumObstacles()
   {
     return getObstacles().size();
   }
 
+  /**
+   * Sets the minimum number of obstacles to be generate in the house
+   *
+   * @param minObstacles minimum number of obstacles
+   */
   public void setMinObstacles(int minObstacles)
   {
     this.minObstacles = minObstacles;
@@ -383,6 +407,11 @@ public class House
     return player;
   }
 
+  /**
+   * Gets the super zombie in the house
+   *
+   * @return SuperZombie
+   */
   public SuperZombie getSuperZombie()
   {
     return superZombie;
@@ -480,6 +509,11 @@ public class House
     return house[(int) zombie.getCurrentY()][(int) zombie.getCurrentX()];
   }
 
+  /**
+   * Gets the tile the zuper zombie is standing on
+   *
+   * @return Tile
+   */
   public Tile getSuperZombieTile()
   {
     return house[(int) superZombie.getCurrentY()][(int) superZombie.getCurrentX()];

@@ -20,6 +20,8 @@ public class ZombieController extends AbstractMoverController<Zombie>
   private boolean running;
   private float x, y;
 
+  private int distToPlayer; // Euclidean distance from zombie to player
+
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
   private Random rand = new Random();
@@ -31,7 +33,8 @@ public class ZombieController extends AbstractMoverController<Zombie>
 
   private boolean DEBUG = false;
 
-  // TODO: do we want to handle the super zombie stuff in here or make a super zombie controller?
+  // TODO: randomly decide if zombie will be random walk or line walk
+  // NOTE: random walk and line walk have different intelligence
   public ZombieController (House house)
   {
     super(house);
@@ -40,7 +43,8 @@ public class ZombieController extends AbstractMoverController<Zombie>
   @Override
   public void checkCollision (float deltaTime)
   {
-
+    // Random and Line handle collision differently
+    // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
   }
 
   @Override
@@ -76,6 +80,8 @@ public class ZombieController extends AbstractMoverController<Zombie>
 
       if (isMoving)
       {
+        // zombie.distToPlayer
+        // if distToPlayer = zombie.getSmell then playerDetected = true else playerDetected = false
         if (playerDetected)
         {
           running = true;
@@ -83,7 +89,7 @@ public class ZombieController extends AbstractMoverController<Zombie>
         }
         else
         {
-          zombieSpeed = 0.5f;
+          zombieSpeed = Mover.STAGGER_SPEED;
 
           if (time % 60 == 0) // Zombie changes position every 1 second
           {
@@ -101,7 +107,7 @@ public class ZombieController extends AbstractMoverController<Zombie>
           if (xDir < 0 && yDir > 0) moveUpLeft();
         }
 
-        if (idling) zombieSpeed = 0;
+        if (idling) zombieSpeed = Mover.IDLE;
 
         zombie.setSpeed(zombieSpeed * deltaTime);
 

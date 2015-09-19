@@ -22,7 +22,6 @@ public class CharacterController extends AbstractMoverController<Character>
 
   }
 
-  // TODO: player stops moving when they run out of stamina
   @Override
   public void update (float deltaTime)
   {
@@ -40,12 +39,12 @@ public class CharacterController extends AbstractMoverController<Character>
       isMoving = false;
       mover.setSpeed(Mover.IDLE);
     }
-    // Stamina regenerates if mover is idle
+
     if (!isMoving)
     {
       if (stamina < 5.0)
       {
-        stamina += 0.2 * deltaTime + 0.01; // Stamina regenerates faster if mover is not moving?
+        stamina += 0.2 * deltaTime + 0.01; // Stamina regenerates faster if mover is not moving
         if (stamina > 5) stamina = 5;
         mover.setStamina(stamina);
       }
@@ -79,17 +78,13 @@ public class CharacterController extends AbstractMoverController<Character>
       }
 
       // Distance of player is dependent on time
-      mover.setSpeed(
-              playerSpeed * deltaTime); // Determines how many tiles/second the
-      // player will move across
+      mover.setSpeed(playerSpeed * deltaTime); // Determines how many tiles/second the player will move across
       mover.setRotation(direction);
 
       // Update player's x and y
 
-      if (moveUp || moveDown) y = (float) (y + mover.getSpeed() * Math.sin(
-              Math.toRadians(direction)));
-      if (moveLeft || moveRight) x = (float) (x + mover.getSpeed() * Math.cos(
-              Math.toRadians(direction)));
+      if (moveUp || moveDown) y = (float) (y + mover.getSpeed() * Math.sin(Math.toRadians(direction)));
+      if (moveLeft || moveRight) x = (float) (x + mover.getSpeed() * Math.cos(Math.toRadians(direction)));
 
       mover.move(x, y);
       isMoving = false;

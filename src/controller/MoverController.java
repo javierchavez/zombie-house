@@ -40,19 +40,34 @@ public interface MoverController <T extends Mover> extends GameController
    * If 'A' or left arrow is pressed.
    */
   void moveLeft ();
+
   /**
    * If 'D' or right arrow is pressed.
    */
-
   void moveRight ();
 
+  /**
+   * If 'up' and 'right' are pressed at the same time.
+   */
   void moveUpRight();
 
+  /**
+   * If 'up' and 'left' are pressed at the same time.
+   */
   void moveUpLeft();
 
+  /**
+   * If 'down' and 'right' are pressed at the same time.
+   */
   void moveDownRight();
 
+  /**
+   * If 'down' and 'left' are pressed at the same time.
+   */
   void moveDownLeft();
 
+  /**
+   * If the player is not moving.
+   */
   void resting();
 }

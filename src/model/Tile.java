@@ -1,11 +1,16 @@
 package model;
 
 
-public abstract class Tile
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
+public class Tile implements Object2D
 {
   // row and col are the tiles location in the house array
   private int row = 0;
   private int col = 0;
+  private float width = 80;
+  private float height = 80;
 
   // The cost to travel over a tile (for pathfinding algorithms)
   private int cost;
@@ -14,25 +19,25 @@ public abstract class Tile
   /**
    * Create a tile with cost 1
    *
-   * @param x column
-   * @param y row
+   * @param col column
+   * @param row row
    */
-  public Tile(int x, int y)
+  public Tile(int col, int row)
   {
-    this(x, y, 1);
+    this(col, row, 1);
   }
 
   /**
    * Create a Tile
    *
-   * @param x column
-   * @param y row
+   * @param col column
+   * @param row row
    * @param cost amount it take to pass this tile.
    */
-  public Tile(int x, int y, int cost)
+  public Tile(int col, int row, int cost)
   {
-    this.col = x;
-    this.row = y;
+    this.col = col;
+    this.row = row;
     this.cost = cost;
   }
 
@@ -41,7 +46,7 @@ public abstract class Tile
    *
    * @return column
    */
-  public int getX()
+  public int getCol ()
   {
     return col;
   }
@@ -51,7 +56,7 @@ public abstract class Tile
    *
    * @return row
    */
-  public int getY()
+  public int getRow ()
   {
     return row;
   }
@@ -131,4 +136,57 @@ public abstract class Tile
   }
 
 
+  @Override
+  public void setWidth (float width)
+  {
+    this.width = width;
+  }
+
+  @Override
+  public void setHeight (float height)
+  {
+    this.height = height;
+  }
+
+  @Override
+  public float getX ()
+  {
+    return col;
+  }
+
+  @Override
+  public float getY ()
+  {
+    return row;
+  }
+
+  @Override
+  public float getWidth ()
+  {
+    return width;
+  }
+
+  @Override
+  public float getHeight ()
+  {
+    return height;
+  }
+
+  @Override
+  public Rectangle2D getBoundingRectangle ()
+  {
+    return new Rectangle2D.Float(getCol(), getRow(), getWidth(),getHeight());
+  }
+
+  @Override
+  public boolean intersects (Rectangle2D other)
+  {
+    return other.intersects(this.getBoundingRectangle());
+  }
+
+  @Override
+  public boolean isOutOfBounds ()
+  {
+    return false;
+  }
 }

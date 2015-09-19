@@ -11,6 +11,11 @@ public interface Mover
   float SOUTH = 270f;
   float EAST = 0f;
   float WEST = 180f;
+  float NORTHEAST = 315f;
+  float NORTHWEST = 225f;
+  float SOUTHEAST = 45f;
+  float SOUTHWEST = 135f;
+
   /**
    * Get the x current location of object
    *

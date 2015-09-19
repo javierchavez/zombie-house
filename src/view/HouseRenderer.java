@@ -3,8 +3,6 @@ package view;
 import model.*;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 
 public class HouseRenderer extends Renderer
@@ -16,8 +14,8 @@ public class HouseRenderer extends Renderer
 
   public HouseRenderer (House house, Converter converter)
   {
-    super(house.getPlayerTile().getX(),
-          house.getPlayerTile().getY(),
+    super(house.getPlayerTile().getCol(),
+          house.getPlayerTile().getRow(),
           converter);
 
     this.house = house;
@@ -59,17 +57,18 @@ public class HouseRenderer extends Renderer
       {
         if (houseMatrix[i][j] instanceof Wall)
         {
-          g2.drawImage(wall.getImage(), j * tileW,
-                       i * tileH, null);
+          g2.setColor(Color.green);
+          g2.drawImage(wall.getImage(), j * tileW, i * tileH, null);
+          g2.drawRect(j * tileW, i * tileH, 80,80);
         }
         else if (houseMatrix[i][j] instanceof Floor)
         {
-          g2.drawImage(floor.getImage(), j * tileW,
-                       i * tileH, null);
+          g2.setColor(Color.green);
+          g2.drawImage(floor.getImage(), j * tileW, i * tileH, null);
+          g2.drawRect(j * tileW, i * tileH, 80,80);
           if(houseMatrix[i][j].getTrap() == Trap.FIRE)
           {
-            g2.drawImage(trap.getImage(), (j * tileW)+20,
-                         (i * tileH)+20, null);
+            g2.drawImage(trap.getImage(), (j * tileW)+20, (i * tileH)+20, null);
 
           }
         }

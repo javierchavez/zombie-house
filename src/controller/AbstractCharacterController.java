@@ -3,13 +3,15 @@ package controller;
 
 import model.House;
 import model.Mover;
+import model.Character;
 
 /**
  * This class does most of the work for setting the character speed and rotation
  * @param <T> type of mover you are wanting to move... it must extend Mover
  *           in the model.
  */
-public abstract class AbstractMoverController<T extends Mover> implements MoverController<T>
+public abstract class AbstractCharacterController<T extends Character> implements
+        MoverController<T>
 {
 
   protected static House house;
@@ -18,13 +20,13 @@ public abstract class AbstractMoverController<T extends Mover> implements MoverC
   protected boolean moveUp, moveDown, moveLeft, moveRight;
   private boolean DEBUG = false;
 
-  public AbstractMoverController (House house, T mover)
+  public AbstractCharacterController (House house, T mover)
   {
-    AbstractMoverController.house = house;
+    AbstractCharacterController.house = house;
     this.mover = mover;
   }
 
-  public AbstractMoverController (House house)
+  public AbstractCharacterController (House house)
   {
     this(house, null);
   }

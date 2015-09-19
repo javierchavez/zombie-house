@@ -1,16 +1,13 @@
 package controller;
 
 
-import model.Character;
-import model.House;
-import model.Mover;
-import model.Tile;
+import model.*;
 
-public class CharacterController extends AbstractMoverController<Character>
+public class PlayerController extends AbstractCharacterController<Player>
 {
   private boolean DEBUG = false;
 
-  public CharacterController (House house)
+  public PlayerController (House house)
   {
     super(house, house.getPlayer());
   }
@@ -27,7 +24,7 @@ public class CharacterController extends AbstractMoverController<Character>
   public void update (float deltaTime)
   {
     float playerSpeed;
-    // we are inheriting mover from AbstractMoverController
+    // we are inheriting mover from AbstractCharacterController
     // it was set in the Constructor
     mover = house.getPlayer();
     float direction = mover.getRotation();

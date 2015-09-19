@@ -2,9 +2,9 @@ package view;
 
 import java.awt.image.BufferedImage;
 
-public class CharacterSprite
+public class PlayerSprite
 {
-  public CharacterSprite () { }
+  public PlayerSprite () { }
 
   public static BufferedImage getSprite (int x, int y)
   {

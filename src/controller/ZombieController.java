@@ -1,14 +1,12 @@
 package controller;
 
 
-import model.House;
-import model.Mover;
-import model.Zombie;
+import model.*;
 
 import java.util.List;
 import java.util.Random;
 
-public class ZombieController extends AbstractMoverController<Zombie>
+public class ZombieController extends AbstractCharacterController<Zombie>
 {
 
 //  get the next direction from the model, move, and then check if zombie can smell player
@@ -58,7 +56,7 @@ public class ZombieController extends AbstractMoverController<Zombie>
       // Doing this for brevity
       // you really only want mover
       // if you look at the class this class is extending
-      // (AbstractMoverController) all of the move methods manipulate mover
+      // (AbstractCharacterController) all of the move methods manipulate mover
       // which is why you would use that
       mover = zombie = zombies.get(i);
 

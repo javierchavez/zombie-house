@@ -1,7 +1,7 @@
 package controller;
 
-import model.Character;
 import model.House;
+import model.Player;
 import view.*;
 
 import javax.swing.event.MouseInputListener;
@@ -22,9 +22,9 @@ public class GameEngine implements KeyListener, MouseInputListener
 {
   private final MenuRenderer menuRenderer;
   private House house;
-  private Character player;
+  private Player player;
   private Renderer houseRenderer;
-  private CharacterController controller;
+  private PlayerController controller;
   private ZombieController zombieController;
 
   private Renderer playerRenderer;
@@ -45,13 +45,13 @@ public class GameEngine implements KeyListener, MouseInputListener
 
   public GameEngine ()
   {
-    player = new Character();
+    player = new Player();
     house = new House(player);
-    controller = new CharacterController(house);
+    controller = new PlayerController(house);
     zombieController = new ZombieController(house);
 
     house.generateRandomHouse();
-    playerRenderer = new CharacterRenderer(player, house.getWidth(), house.getHeight());
+    playerRenderer = new PlayerRenderer(player, house.getWidth(), house.getHeight());
     zombieRenderer = new ZombieRenderer(house);
     converter = new Converter(house);
     houseRenderer = new HouseRenderer(house, converter);
@@ -81,12 +81,10 @@ public class GameEngine implements KeyListener, MouseInputListener
   public AffineTransform getTransform()
   {
     AffineTransform at = new AffineTransform();
-    double shiftX = -viewPort.getX();
-    double shiftY = -viewPort.getY();
-
-    at.scale(1 / 1.78, 1 / 1.78);
+    double shiftX = -player.getCurrentX() * 60;
+    double shiftY = -player.getCurrentY() * 60;
+//    at.scale(1 / 1.78, 1 / 1.78);
     at.translate(shiftX, shiftY);
-
     return at;
   }
 

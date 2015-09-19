@@ -27,10 +27,6 @@ public interface MoverController <T extends Mover> extends GameController
    * If two incompatible directions are pressed;
    */
   void stopMoving();
-  /**
-   * If 'P' is pressed.
-   */
-//  void trapInteraction ();
 
   /**
    * If 'W' or up arrow is pressed.

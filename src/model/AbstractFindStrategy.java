@@ -14,7 +14,7 @@ public abstract class AbstractFindStrategy implements FindStrategy<Tile>
                                         Tile start, Tile end)
   {
     Tile current = end;
-    List<Tile> path = new ArrayList<>();
+    path = new ArrayList<>();
     path.add(current);
 
     while (current != start)

@@ -2,6 +2,7 @@ package controller;
 
 
 import model.*;
+import model.Character;
 
 import java.util.List;
 import java.util.Random;
@@ -49,6 +50,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   public void update(float deltaTime)
   {
     zombies = house.getZombies();
+    Character player = house.getPlayer();
+
 
     time++;
     for (int i = 0; i < zombies.size(); i++)

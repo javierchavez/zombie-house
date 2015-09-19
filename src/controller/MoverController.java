@@ -3,7 +3,7 @@ package controller;
 
 import model.*;
 
-interface MoverController <T extends Mover>
+public interface MoverController <T extends Mover> extends GameController
 {
 
 
@@ -11,7 +11,6 @@ interface MoverController <T extends Mover>
   void checkCollision (float deltaTime);
 
 
-  void update (float deltaTime);
   /**
    * If 'R' is pressed, player's speed is updated to 2.0, making them two times faster.
    */

@@ -39,7 +39,7 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
         if (!costSoFar.containsKey(next) || (new_cost < costSoFar.get(next)))
         {
           costSoFar.put(next, new_cost);
-          int priority = (int) (new_cost+(Math.abs(end.getY()-next.getY())+Math.abs(end.getX()-next.getX())));
+          int priority = (int) (new_cost+(Math.abs(end.getRow()-next.getRow())+Math.abs(end.getCol()-next.getCol())));
           frontier.add(new TilePriority(next, priority));
           cameFrom.put(next, current);
         }

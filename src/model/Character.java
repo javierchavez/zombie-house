@@ -1,21 +1,25 @@
 package model;
 
 
-public class Character implements Mover
+import java.awt.geom.Rectangle2D;
+
+public class Character implements Mover, Object2D
 {
-  private float
+
+  protected float
           stamina,
           hearing,
           sight,
           speed,
           regen,
           x, y,
-          traps,
+          width, height,
+          smell,
           rotation;
 
   public Character()
   {
-
+    height = width = 60;
     rotation = 0;
     hearing = 10;
     stamina = 5;
@@ -24,7 +28,7 @@ public class Character implements Mover
     regen = .2f;
     x = 0f;
     y = 0f;
-    traps = 0;
+    smell = 7f;
   }
 
   @Override
@@ -104,29 +108,66 @@ public class Character implements Mover
     return hearing;
   }
 
-  public int trapsAvailable()
+
+  public float getSmell()
   {
-    return (int) traps;
+    return smell;
   }
 
-  public void pickupTrap(Tile tile)
+  @Override
+  public float getX ()
   {
-    if (tile.getTrap() == Trap.FIRE)
-    {
-      traps++;
-      tile.popTrap();
-    }
+    return x;
   }
 
-  public void dropTrap(Tile tile)
+  @Override
+  public float getY ()
   {
-    if (traps > 0)
-    {
-      traps--;
-      tile.setTrap(Trap.FIRE);
-      return;
-    }
-    tile.setTrap(Trap.NONE);
+    return y;
   }
 
+  @Override
+  public float getWidth ()
+  {
+    return 60;
+  }
+
+  @Override
+  public float getHeight ()
+  {
+    return 60;
+  }
+
+  @Override
+  public void setWidth (float width)
+  {
+    this.width = width;
+  }
+
+  @Override
+  public void setHeight (float height)
+  {
+    this.height = height;
+  }
+
+  @Override
+  public Rectangle2D getBoundingRectangle ()
+  {
+    return new Rectangle2D.Float(getCurrentX(),
+                                 getCurrentY(),
+                                 getWidth(),
+                                 getHeight());
+  }
+
+  @Override
+  public boolean intersects (Rectangle2D other)
+  {
+    return other.intersects(this.getBoundingRectangle());
+  }
+
+  @Override
+  public boolean isOutOfBounds ()
+  {
+    return false;
+  }
 }

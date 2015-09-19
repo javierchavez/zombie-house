@@ -25,7 +25,7 @@ public class Converter
    */
   public Point tileToPoint (Tile tile)
   {
-    return new Point(tile.getX(), tile.getY());
+    return new Point(tile.getCol(), tile.getRow());
   }
 
   public Tile pointToHouseTile (Point2D p)

@@ -15,7 +15,7 @@ public class House
   private Tile[][] house = new Tile[rows][cols];
 
   private List<Zombie> zombies = new ArrayList<>();
-  private Character player;
+  private Player player;
   private SuperZombie superZombie;
 
   // min defaults from requirements
@@ -40,7 +40,7 @@ public class House
   private int maxTries = 500;
 
 
-  public House(Character player)
+  public House(Player player)
   {
     this.player = player;
     this.initHouse();
@@ -198,7 +198,7 @@ public class House
       distance = getDistance(tile, getPlayerTile());
       tries++;
     } while ((tries<maxTries)&&(!(tile instanceof Floor)||isZombieTile(tile)||(distance<(2*superZombie.getSmell()))));
-    superZombie.move(tile.getX(), tile.getY());
+    superZombie.move(tile.getCol(), tile.getRow());
   }
 
   /**
@@ -261,7 +261,7 @@ public class House
    */
   public float getDistance(Tile start, Tile end)
   {
-    return (float) Math.sqrt(Math.pow((end.getX()-start.getX()),2) + Math.pow((end.getY()-start.getY()),2));
+    return (float) Math.sqrt(Math.pow((end.getCol()-start.getCol()),2) + Math.pow((end.getRow()-start.getRow()),2));
   }
 
   /**
@@ -402,7 +402,7 @@ public class House
    *
    * @return player
    */
-  public Character getPlayer()
+  public Player getPlayer()
   {
     return player;
   }
@@ -427,8 +427,8 @@ public class House
   public List<Tile> neighbors(Tile current)
   {
     List<Tile> neighbors = new ArrayList<>(4);
-    int row = current.getY();
-    int col = current.getX();
+    int row = current.getRow();
+    int col = current.getCol();
     Tile neighbor;
 
     if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
@@ -448,8 +448,8 @@ public class House
   public List<Tile> getAllNeighbors(Tile current)
   {
     List<Tile> neighbors = new ArrayList<>(8);
-    int row = current.getY();
-    int col = current.getX();
+    int row = current.getRow();
+    int col = current.getCol();
     Tile neighbor;
 
     if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
@@ -745,7 +745,7 @@ public class House
               // don't create a new tile if it is already a floor
               if (tile instanceof Empty)
               {
-                house[tile.getY()][tile.getX()] = new Floor(tile.getX(), tile.getY(), 10);
+                house[tile.getRow()][tile.getCol()] = new Floor(tile.getCol(), tile.getRow(), 10);
               }
             }
           }
@@ -849,8 +849,8 @@ public class House
         return false;
       }
 
-      topTile = getTile(tile.getY()-1, tile.getX());
-      bottomTile = getTile(tile.getY()+1, tile.getX());
+      topTile = getTile(tile.getRow()-1, tile.getCol());
+      bottomTile = getTile(tile.getRow()+1, tile.getCol());
 
       if (topTile == null || bottomTile == null)
       {
@@ -876,8 +876,8 @@ public class House
         return false;
       }
 
-      leftTile = getTile(tile.getY(), tile.getX()-1);
-      rightTile = getTile(tile.getY(), tile.getX()+1);
+      leftTile = getTile(tile.getRow(), tile.getCol()-1);
+      rightTile = getTile(tile.getRow(), tile.getCol()+1);
 
       if (leftTile == null || rightTile == null)
       {
@@ -920,8 +920,8 @@ public class House
         wall = walls.get(index);
       } while (!validExit(wall));
 
-      int row = wall.getY();
-      int col = wall.getX();
+      int row = wall.getRow();
+      int col = wall.getCol();
       exit = new Exit(col, row);
       house[row][col] = exit;
     }
@@ -1063,7 +1063,7 @@ public class House
 
   public static void main(String[] args)
   {
-    House house = new House(new Character());
+    House house = new House(new Player());
     house.generateRandomHouse();
     System.out.println(house);
   }

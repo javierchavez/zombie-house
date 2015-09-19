@@ -57,9 +57,16 @@ public class ZombieHouse
       lastTime += deltaTime;
 
       update(deltaTime / 1e9);
+//      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+//                         RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+//      g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+//                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+//      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//                         RenderingHints.VALUE_ANTIALIAS_ON);
 
       g.setColor(Color.black);
       g.clearRect(0, 0, 1920, 1080);
+      //g.drawRect(0,0,1920,1080);
 
       game.render(g);
       canvasGraphics.drawImage(screen, 0, 0, null);
@@ -70,7 +77,7 @@ public class ZombieHouse
         frames = 0;
         lastSecond += 1e9;
       }
-      
+
       do
       {
         Thread.yield();

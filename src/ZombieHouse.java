@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class ZombieHouse
@@ -19,9 +20,9 @@ public class ZombieHouse
           height = 1080;
   protected boolean running;
   protected int fps = 60;
-//  private JScrollPane scrollPane;
   protected JFrame frame = new JFrame("Zombie House");
   protected JPanel jPanel = new JPanel();
+  private BufferedImage screen;
 
   public ZombieHouse ()
   {
@@ -40,53 +41,40 @@ public class ZombieHouse
 
   public void run ()
   {
-    int frames = 0;
-    long lastTime, lastSecond;
-    lastTime = lastSecond = System.nanoTime();
-    running = true;
-    BufferedImage screen = new BufferedImage(1920,
-                                             1080,
-                                             BufferedImage.TYPE_INT_RGB);
+    init();
+    long delta = 0l;
+    screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
 
     Graphics2D g = (Graphics2D) screen.getGraphics();
-    Graphics2D canvasGraphics = (Graphics2D) jPanel.getGraphics();
-
-    while (running)
+    Graphics jFrameGraphics = jPanel.getGraphics();
+    AffineTransform oldXForm = g.getTransform();
+    while (true)
     {
-      long deltaTime = System.nanoTime() - lastTime;
-      lastTime += deltaTime;
+      long lastTime = System.nanoTime();
 
-      update(deltaTime / 1e9);
-//      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-//                         RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-//      g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-//                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-//      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-//                         RenderingHints.VALUE_ANTIALIAS_ON);
-
+      g.setTransform(oldXForm);
       g.setColor(Color.black);
-      g.clearRect(0, 0, 1920, 1080);
-      //g.drawRect(0,0,1920,1080);
+      g.fillRect(0, 0, 1920, 1080);
+      //g.clearRect(0, 0, 1920, 1080);
 
+      // DEBUG sprites
+       g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+
+
+      game.update(delta / 1000000000.0f);
       game.render(g);
-      canvasGraphics.drawImage(screen, 0, 0, null);
 
-      if (System.nanoTime() - lastSecond >= 1e9)
+      jFrameGraphics.drawImage(screen, 0, 0, null);
+
+      delta = System.nanoTime() - lastTime;
+      if (delta < 20000000L)
       {
-        fps = frames;
-        frames = 0;
-        lastSecond += 1e9;
+        try
+        {
+          Thread.sleep((20000000L - delta) / 1000000L);
+        }
+        catch (Exception e) { }
       }
-
-      do
-      {
-        Thread.yield();
-        // tight loop
-        // better 
-        // swing timer sleep for n seconds
-        // thread sleep n time
-
-      } while (System.nanoTime() - lastTime < 1e9 / 60);
     }
   }
 
@@ -133,3 +121,10 @@ public class ZombieHouse
 
   }
 }
+
+//      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+//                         RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+//      g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+//                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+//      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+//                         RenderingHints.VALUE_ANTIALIAS_ON);

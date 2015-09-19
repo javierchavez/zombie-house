@@ -2,42 +2,27 @@ package controller;
 
 
 import model.House;
+import model.Mover;
 import model.Zombie;
 
 import java.util.List;
 import java.util.Random;
 
-public class ZombieController
+public class ZombieController extends AbstractMoverController<Zombie>
 {
 
 //  get the next direction from the model, move, and then check if zombie can smell player
 //  if so run the algorithm (call find method) from the model and get the next location and move.... then repeat
-  private final House house;
 
   List<Zombie> zombies;
-  private int direction;
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
-  private boolean idling = false;
-  private boolean moveUp, moveDown, moveLeft, moveRight;
   private float x, y;
 
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
   private Random rand = new Random();
-
-  // Cardinal directions
-  private final int EAST = 0;
-  private final int NORTH = 270;
-  private final int WEST = 180;
-  private final int SOUTH = 90;
-
-  // Ordinal directions
-  private final int NORTHEAST = 315;
-  private final int NORTHWEST = 225;
-  private final int SOUTHEAST = 45;
-  private final int SOUTHWEST = 135;
 
   // The values of these ints can be either -1, 0, or 1
   // Depending on what their value is, the zombie will know which direction to go
@@ -49,14 +34,16 @@ public class ZombieController
   // TODO: do we want to handle the super zombie stuff in here or make a super zombie controller?
   public ZombieController (House house)
   {
-    this.house = house;
+    super(house);
   }
 
-  public void collisionDetection(float deltaTime)
+  @Override
+  public void checkCollision (float deltaTime)
   {
-    // TODO:
+
   }
 
+  @Override
   public void update(float deltaTime)
   {
     zombies = house.getZombies();
@@ -66,7 +53,17 @@ public class ZombieController
     {
       isMoving = true;
       float zombieSpeed;
-      Zombie zombie = zombies.get(i);
+      Zombie zombie;
+
+      // Doing this for brevity
+      // you really only want mover
+      // if you look at the class this class is extending
+      // (AbstractMoverController) all of the move methods manipulate mover
+      // which is why you would use that
+      mover = zombie = zombies.get(i);
+
+      float direction = mover.getRotation();
+
       if (DEBUG)
       {
         System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
@@ -74,8 +71,8 @@ public class ZombieController
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
 
-      zombieSpeed = 0.5f;
-      if (running) zombieSpeed = 2.0f;
+      zombieSpeed = Mover.STAGGER_SPEED;
+      if (running) zombieSpeed = Mover.RUN_SPEED;
 
       if (isMoving)
       {
@@ -109,8 +106,10 @@ public class ZombieController
         zombie.setSpeed(zombieSpeed * deltaTime);
 
         // Update zombie's position
-        if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() * Math.sin(direction * (Math.PI / 180)));
-        if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() * Math.cos(direction * (Math.PI / 180)));
+        if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() *
+                Math.sin(Math.toRadians(direction)));
+        if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() *
+                Math.cos(Math.toRadians(direction)));
 
         zombie.move(x, y);
         isMoving = false;
@@ -119,85 +118,4 @@ public class ZombieController
     if (DEBUG) System.out.println("End for");
   }
 
-  /**
-   * Zombie is resting.
-   */
-  public void resting()
-  {
-    if (DEBUG) System.out.println("\tResting...");
-    idling = true;
-  }
-
-  /**
-   * Tells the zombie to move up.
-   */
-  public void moveUp()
-  {
-    if (DEBUG) System.out.println("\tMoving up");
-    moveUp = true;
-    direction = NORTH;
-    idling = false;
-  }
-
-  /**
-   * Tells the zombie to move down.
-   */
-  public void moveDown()
-  {
-    if (DEBUG) System.out.println("\tMoving down");
-    moveDown = true;
-    direction = SOUTH;
-    idling = false;
-  }
-
-  /**
-   * Tells the zombie to move left.
-   */
-  public void moveLeft()
-  {
-    if (DEBUG) System.out.println("\tMoving left");
-    moveLeft = true;
-    direction = WEST;
-    idling = false;
-  }
-
-  /**
-   * Tells the zombie to move right.
-   */
-  public void moveRight()
-  {
-    if (DEBUG) System.out.println("\tMoving right");
-    moveRight = true;
-    direction = EAST;
-    idling = false;
-  }
-
-  public void moveUpRight()
-  {
-    if (DEBUG) System.out.println("Moving up right");
-    isMoving = true;
-    idling = false;
-    direction = NORTHEAST;
-  }
-
-  public void moveUpLeft()
-  {
-    isMoving = true;
-    idling = false;
-    direction = NORTHWEST;
-  }
-
-  public void moveDownRight()
-  {
-    isMoving = true;
-    idling = false;
-    direction = SOUTHEAST;
-  }
-
-  public void moveDownLeft()
-  {
-    isMoving = true;
-    idling = false;
-    direction = SOUTHWEST;
-  }
 }

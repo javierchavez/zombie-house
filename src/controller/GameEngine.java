@@ -75,7 +75,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     else if (downPressed) controller.moveDown();
     else if (leftPressed) controller.moveLeft();
 
-    if (!moving) controller.characterIdle();
+    if (!moving) controller.idle();
   }
 
   public AffineTransform getTransform()
@@ -99,6 +99,8 @@ public class GameEngine implements KeyListener, MouseInputListener
       return;
     }
     graphics.setTransform(getTransform());
+    //houseRenderer.translateAbsolute(player.getCurrentX(), player.getCurrentY
+      //    ());
     houseRenderer.render(graphics);
     playerRenderer.render(graphics);
     zombieRenderer.render(graphics);
@@ -157,12 +159,12 @@ public class GameEngine implements KeyListener, MouseInputListener
         {
           if (DEBUG) System.out.println("Running");
           // Character can only run if they're actually moving
-          controller.characterRun();
+          controller.run();
         }
         break;
       default:
         moving = false;
-        controller.characterIdle();
+        controller.idle();
     }
   }
 
@@ -209,7 +211,7 @@ public class GameEngine implements KeyListener, MouseInputListener
         if (moving)
         {
           if (DEBUG) System.out.println("Not running");
-          controller.characterWalk();
+          controller.walk();
         }
         break;
       case KeyEvent.VK_P:
@@ -217,7 +219,7 @@ public class GameEngine implements KeyListener, MouseInputListener
         break;
       default:
         moving = false;
-        controller.characterIdle();
+        controller.idle();
 
     }
   }
@@ -266,6 +268,8 @@ public class GameEngine implements KeyListener, MouseInputListener
   public void setViewPort (Rectangle2D rectangle)
   {
     this.viewPort = rectangle;
-    houseRenderer.setViewBounds(rectangle);
+     houseRenderer.setViewBounds(rectangle);
+
+//    houseRenderer.translateAbsolute();
   }
 }

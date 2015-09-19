@@ -21,6 +21,7 @@ public class House
   // min defaults from requirements
   private int minRooms = 6;
   private int minHallways = 4;
+  private int minHallwayLength = 3;
   private int minObstacles = 5;
 
   // how many rooms and hallways are in the generated house
@@ -42,8 +43,7 @@ public class House
   public House(Character player)
   {
     this.player = player;
-    // initialization of house
-    this.setSize(rows, cols);
+    this.initHouse();
   }
 
   /**
@@ -57,8 +57,14 @@ public class House
   {
     House.rows = rows;
     House.cols = cols;
-
     house = new Tile[rows][cols];
+  }
+
+  public void initHouse()
+  {
+    house = new Tile[rows][cols];
+    zombies = new ArrayList<>();
+    numHallways = 0;
 
     // Initialize the house to Empty tiles with random costs
     for (int row = 0; row < rows; row++)
@@ -84,6 +90,7 @@ public class House
    */
   public void generateRandomHouse()
   {
+    initHouse();
     generator = new HouseGenerator();
     generator.generateHouse();
     placePlayer();
@@ -91,7 +98,7 @@ public class House
     addSuperZombie();
     generateTraps();
 
-    if (generationAttempts < maxTries && !isHouseValid())
+    if (generationAttempts <= maxTries && !isHouseValid())
     {
       generationAttempts++;
       generateRandomHouse();
@@ -218,11 +225,11 @@ public class House
   {
     try
     {
-      assert minRooms <= getNumRooms();
-      assert minObstacles <= getNumObstacles();
-      assert minHallways <= getNumHallways();
-      assert minTravelDistance <= getDistance(getPlayerTile(), getExit());
-      assert !isPlayerTooCloseToZombies();
+      assertion(getNumRooms() >= minRooms);
+      assertion(getNumObstacles() >= minObstacles);
+      assertion(getNumHallways() >= minHallways);
+      assertion(getDistance(getPlayerTile(), getExit()) >= minTravelDistance);
+      assertion(!isPlayerTooCloseToZombies());
     }
     catch (AssertionError ex)
     {
@@ -588,21 +595,26 @@ public class House
             && (row >= 0 && row < this.getHeight());
   }
 
+  private void assertion(boolean expr) throws AssertionError
+  {
+    if (!expr) throw new AssertionError();
+  }
+
   private boolean isPlayerTooCloseToZombies()
   {
     if (getDistance(getPlayerTile(), getSuperZombieTile()) < 2*superZombie.getSmell())
     {
-      return false;
+      return true;
     }
 
     for (Zombie zombie : zombies)
     {
       if (getDistance(getPlayerTile(), getZombieTile(zombie)) < zombie.getSmell())
       {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
 
@@ -623,6 +635,7 @@ public class House
       addRooms();
       addHallways();
       addWalls();
+      countHallways();
       addObstacles();
       addExit();
     }
@@ -741,6 +754,108 @@ public class House
             }
           }
         }
+      }
+    }
+
+    private void countHallways()
+    {
+      numHallways = 0;
+      int hallwayLength = 0;
+
+      // check horizontal hallways
+      for (int row = 1; row < rows-1; row++)
+      {
+        for (int col = 1; col < cols-1; col++)
+        {
+          if (isHorizontalHallway(house[row][col]))
+          {
+            hallwayLength++;
+          }
+          else
+          {
+            if (hallwayLength >= minHallwayLength)
+            {
+              numHallways++;
+            }
+            hallwayLength = 0;
+          }
+        }
+        hallwayLength = 0;
+      }
+
+      // check vertical hallways
+      for (int col = 1; col < cols-1; col++)
+      {
+        for (int row = 1; row < rows-1; row++)
+        {
+          if (isVerticalHallway(house[row][col]))
+          {
+            hallwayLength++;
+          }
+          else
+          {
+            if (hallwayLength >= minHallwayLength)
+            {
+              numHallways++;
+            }
+            hallwayLength = 0;
+          }
+        }
+        hallwayLength = 0;
+      }
+    }
+
+    private boolean isHorizontalHallway(Tile tile)
+    {
+      Tile topTile;
+      Tile bottomTile;
+
+      if (!(tile instanceof Floor))
+      {
+        return false;
+      }
+
+      topTile = getTile(tile.getY()-1, tile.getX());
+      bottomTile = getTile(tile.getY()+1, tile.getX());
+
+      if (topTile == null || bottomTile == null)
+      {
+        return false;
+      }
+      else if ((topTile instanceof Wall) && (bottomTile instanceof Wall))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    private boolean isVerticalHallway(Tile tile)
+    {
+      Tile leftTile;
+      Tile rightTile;
+
+      if (!(tile instanceof Floor))
+      {
+        return false;
+      }
+
+      leftTile = getTile(tile.getY(), tile.getX()-1);
+      rightTile = getTile(tile.getY(), tile.getX()+1);
+
+      if (leftTile == null || rightTile == null)
+      {
+        return false;
+      }
+      else if ((leftTile instanceof Wall) && (rightTile instanceof Wall))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
       }
     }
 

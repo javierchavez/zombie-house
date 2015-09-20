@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 
 public class House implements Object2D
@@ -33,7 +34,7 @@ public class House implements Object2D
   private Tile exit;
   private int generationAttempts = 0;
 
-  private float zombieSpawn = 0.01f;
+  private float zombieSpawn = 0.1f;
   private float trapSpawn = 0.01f;
 
   // The minimum euclidean distance between the player and exit (inclusive)
@@ -114,6 +115,7 @@ public class House implements Object2D
     else
     {
       generationAttempts = 0;
+      save();
     }
   }
 
@@ -269,7 +271,58 @@ public class House implements Object2D
 
   public void reset()
   {
-    // resets the house from saved house
+    int row = 0;
+    int col = 0;
+    house = new Tile[rows][cols];
+    zombies = new ArrayList<>();
+    Zombie zombie;
+    Scanner scanner = new Scanner(savedHouse);
+    while (scanner.hasNextLine())
+    {
+      for (char c : scanner.nextLine().toCharArray())
+      {
+        switch (c)
+        {
+          case 'P':
+            player.move(col, row);
+            house[row][col] = new Floor(col, row, 10);
+            break;
+          case 'S':
+            superZombie = new SuperZombie();
+            superZombie.move(col, row);
+            house[row][col] = new Floor(col, row, 10);
+            break;
+          case 'Z':
+            zombie = new Zombie();
+            zombie.move(col, row);
+            zombies.add(zombie);
+            house[row][col] = new Floor(col, row, 10);
+            break;
+          case 'T':
+            house[row][col] = new Floor(col, row, 10);
+            house[row][col].setTrap(Trap.FIRE);
+            break;
+          case 'O':
+            house[row][col] = new Obstacle(col, row);
+            break;
+          case '*':
+            house[row][col] = new Floor(col, row, 10);
+            break;
+          case 'X':
+            house[row][col] = new Wall(col, row);
+            break;
+          case 'e':
+            exit = new Exit(col, row);
+            house[row][col] = exit;
+            break;
+          default:
+            house[row][col] = new Empty(col, row, 999999999);
+        }
+        col++;
+      }
+      col = 0;
+      row++;
+    }
   }
 
   /**
@@ -596,26 +649,26 @@ public class House implements Object2D
   public String toString()
   {
     String board = "";
-    board += "P = Player\n";
-    board += "Z = Zombie\n";
-    board += "S = Super Zombie\n";
-    board += "T = Fire Trap\n";
-    board += "O = Obstacle\n";
-    board += "X = Wall\n";
-    board += "e = Exit\n";
-    board += "* = Floor \n\n";
+    //board += "P = Player\n";
+    //board += "Z = Zombie\n";
+    //board += "S = Super Zombie\n";
+    //board += "T = Fire Trap\n";
+    //board += "O = Obstacle\n";
+    //board += "X = Wall\n";
+    //board += "e = Exit\n";
+    //board += "* = Floor \n\n";
 
     // draw top boarder
-    for (int col = 0; col < cols+2; col++)
-    {
-      board += "-";
-    }
-    board += "\n";
+    //for (int col = 0; col < cols+2; col++)
+    //{
+    //  board += "-";
+    //}
+    //board += "\n";
 
     Tile current;
     for (int row = 0; row < rows; row++)
     {
-      board += "|";
+      //board += "|";
       for (int col = 0; col < cols; col++)
       {
         current = house[row][col];
@@ -656,15 +709,15 @@ public class House implements Object2D
           board += " ";
         }
       }
-      board += "|\n";
+      board += "\n";
     }
 
     // draw bottom boarder
-    for (int col = 0; col < cols+2; col++)
-    {
-      board += "-";
-    }
-    board += "\n\n\n";
+    //for (int col = 0; col < cols+2; col++)
+    //{
+    //  board += "-";
+    //}
+    //board += "\n\n\n";
     return board;
   }
 

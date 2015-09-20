@@ -41,7 +41,6 @@ public class ZombieHouse
 
   public void run ()
   {
-    init();
     long delta = 0l;
     screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
 
@@ -54,8 +53,7 @@ public class ZombieHouse
 
       g.setTransform(oldXForm);
       g.setColor(Color.black);
-      g.fillRect(0, 0, 1920, 1080);
-      //g.clearRect(0, 0, 1920, 1080);
+      g.clearRect(0, 0, 1920, 1080);
 
       // DEBUG sprites
        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
@@ -92,9 +90,10 @@ public class ZombieHouse
   {
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.addKeyListener(game);
-    // frame.addMouseListener(game);
-    // frame.addMouseMotionListener(game);
+//    frame.addMouseListener(game);
+//    frame.addMouseMotionListener(game);
 
+    jPanel.setBackground(Color.black);
     jPanel.setIgnoreRepaint(true);
     jPanel.setPreferredSize(new Dimension(1920, 1080));
     jPanel.addComponentListener(new ComponentAdapter()
@@ -107,11 +106,9 @@ public class ZombieHouse
         System.out.println("[INFO] Resized to: " + width + " " + height);
       }
     });
-
-    jPanel.setBackground(Color.black);
     /**
        large one image to draw level
-       smaller to draw 
+       smaller to draw
      */
 
     frame.getContentPane().add(jPanel, BorderLayout.CENTER);

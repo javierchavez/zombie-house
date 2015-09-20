@@ -14,13 +14,14 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 //  if so run the algorithm (call find method) from the model and get the next location and move.... then repeat
 
   List<Zombie> zombies;
+  Character player;
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
   private float x, y;
 
   // Intelligence 0 = random walk, 1 = line walk
-  private int intelligence; // TODO: placeholder. Each zombie should be given an intelligence when generated
+  private int intelligence; // TODO: placeholder. Each zombie should be given an intelligence when generated i think?
 
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
@@ -55,10 +56,12 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     time++;
     for (int i = 0; i < zombies.size(); i++)
     {
-      isMoving = true;
-      float zombieSpeed;
-      Zombie zombie;
+      Tile playerTile = house.getPlayerTile(); // Get player's current position
       Tile zombieTile;
+      Zombie zombie;
+      float zombieSpeed;
+
+      isMoving = true;
 
       mover = zombie = zombies.get(i);
       zombieTile = house.getZombieTile(zombie);
@@ -73,20 +76,19 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       y = zombie.getCurrentY();
 
       zombieSpeed = Mover.STAGGER_SPEED;
-      if (running) zombieSpeed = Mover.RUN_SPEED;
+      if (running) zombieSpeed = 1.0f;
 
       if (isMoving)
       {
-        playerDetected = zombie.sense(house, zombieTile);
+        playerDetected = zombie.sense(zombieTile, playerTile);
 
         if (DEBUG) System.out.println("\tPlayer detected: " + playerDetected);
 
         if (playerDetected)
         {
           running = true;
-          // TODO: zombie travels on path to player
-          Tile nextTile = zombie.find(house);
-          System.out.println("\tNext Tile: " + nextTile.getX() + "," + nextTile.getY());
+//          Tile nextTile = zombie.find(house);
+//          System.out.println("\tNext Tile: " + nextTile.getX() + "," + nextTile.getY());
         }
         else
         {

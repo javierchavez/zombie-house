@@ -4,8 +4,7 @@ package model;
 
 public class Zombie extends Character implements Deadly
 {
-  protected float
-          zombieDecisionRate;
+  protected float zombieDecisionRate;
   protected FindStrategy findStrategy;
 
   public Zombie()
@@ -43,19 +42,17 @@ public class Zombie extends Character implements Deadly
    * @return true if the player is within the zombie's smell radius
    *         otherwise false
    */
-  public boolean sense(House house, Tile zombieTile)
+  public boolean sense(Tile zombieTile, Tile playerTile)
   {
-    Tile player = house.getPlayerTile();
-    int smell = 7;
-
+    float smell = getSmell();
     int zx = zombieTile.getCol();
     int zy = zombieTile.getRow();
-    int px = player.getCol();
-    int py = player.getRow();
+    int px = playerTile.getCol();
+    int py = playerTile.getRow();
 
     int dx = (zx - px) * (zx - px);
     int dy = (zy - py) * (zy - py);
-    return ((int) Math.sqrt(dx+dy) == smell);
+    return ((int) Math.sqrt(dx+dy) <= smell);
   }
 
   public Tile find(House house)

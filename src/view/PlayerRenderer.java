@@ -125,8 +125,8 @@ public class PlayerRenderer extends Renderer
     float y = player.getCurrentY();
 
     // this needs to be in the converter class
-    g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT-Sprite.SIZE) + x),
-                 (int) ((y * TILE_HEIGHT-Sprite.SIZE) + y), null);
+    g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT) + x),
+                 (int) ((y * TILE_HEIGHT) + y), null);
 //
 //    g2.setColor(Color.white);
 //    g2.drawRect((int) width / 2, 40, (int) (width / 4), 20);
@@ -145,7 +145,7 @@ public class PlayerRenderer extends Renderer
 //    g2.drawString("px (x, y) = " + x*TILE_HEIGHT + ", " + y*TILE_HEIGHT,
 //                  (int) (width / 3), 61);
 //
-
+//    System.out.println("tile (x, y) = " + x + ", " + y);
 
   }
 

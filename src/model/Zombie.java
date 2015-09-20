@@ -1,11 +1,13 @@
 package model;
 
-
+import java.util.Random;
 
 public class Zombie extends Character implements Deadly
 {
   protected float zombieDecisionRate;
   protected FindStrategy findStrategy;
+  private Random rand = new Random();
+  int intelligence;
 
   public Zombie()
   {
@@ -55,10 +57,20 @@ public class Zombie extends Character implements Deadly
     return ((int) Math.sqrt(dx+dy) <= smell);
   }
 
-  public Tile find(House house)
+  public Tile find(House house, Tile zombieTile, Tile playerTile)
   {
-    Tile zombie = house.getTile((int) getCurrentX(), (int) getCurrentY());
-    findStrategy.find(house, zombie, house.getPlayerTile());
+    findStrategy.find(house, zombieTile, playerTile);
     return (Tile) findStrategy.getPath().get(0);
+  }
+
+  public int setIntelligence(int intelligence)
+  {
+    this.intelligence = intelligence;
+    return intelligence;
+  }
+
+  public int getIntelligence()
+  {
+    return intelligence;
   }
 }

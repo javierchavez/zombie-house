@@ -1,7 +1,9 @@
 package model;
 
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class AStarFindStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
@@ -47,6 +49,12 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
     }
 
     path = reconstructPath(cameFrom, start, end);
+  }
+
+  @Override
+  public Point getNext ()
+  {
+    return null;
   }
 
   private class TilePriority implements Comparable<TilePriority>

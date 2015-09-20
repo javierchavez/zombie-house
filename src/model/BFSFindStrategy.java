@@ -1,7 +1,9 @@
 package model;
 
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class BFSFindStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
@@ -35,6 +37,12 @@ public class BFSFindStrategy extends AbstractFindStrategy implements FindStrateg
     }
 
     path = reconstructPath(cameFrom, start, end);
+  }
+
+  @Override
+  public Point getNext ()
+  {
+    return null;
   }
 
 }

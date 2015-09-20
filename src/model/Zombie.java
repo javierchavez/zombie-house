@@ -73,4 +73,9 @@ public class Zombie extends Character implements Deadly
   {
     return intelligence;
   }
+
+  public FindStrategy getStrategy ()
+  {
+    return findStrategy;
+  }
 }

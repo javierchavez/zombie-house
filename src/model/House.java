@@ -32,7 +32,8 @@ public class House
   private Tile exit;
   private int generationAttempts = 0;
 
-  private float zombieSpawn = 0.01f;
+  // TODO: change to 0.01f
+  private float zombieSpawn = 0.2f;
   private float trapSpawn = 0.01f;
 
   // The minimum euclidean distance between the player and exit (inclusive)
@@ -162,6 +163,7 @@ public class House
             {
               // can add code here to change zombie type
               zombie = new Zombie();
+              zombie.setIntelligence(rand.nextInt(1));
               if (getDistance(tile, getPlayerTile()) > zombie.getSmell())
               {
                 zombie.move(col, row);

@@ -14,7 +14,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 //  if so run the algorithm (call find method) from the model and get the next location and move.... then repeat
 
   List<Zombie> zombies;
-  Character player;
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
@@ -32,7 +31,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   int xDir;
   int yDir;
 
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   // TODO: randomly decide if zombie will be random walk or line walk
   // NOTE: random walk and line walk have different intelligence
@@ -70,13 +69,15 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (DEBUG)
       {
+//        System.out.println(rand.nextInt(1));
         System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
+        System.out.println("Zombie " + i + " intelligence : " + zombie.getIntelligence());
       }
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
 
       zombieSpeed = Mover.STAGGER_SPEED;
-      if (running) zombieSpeed = 1.0f;
+      if (running) zombieSpeed = Mover.WALK_SPEED;
 
       if (isMoving)
       {
@@ -95,7 +96,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           zombieSpeed = Mover.STAGGER_SPEED;
 
           // TODO: remove this later
-          intelligence = 0;
+          intelligence = zombie.getIntelligence();
+//          intelligence = 0;
 
           // Random walk zombies
           if (intelligence == 0)
@@ -121,13 +123,18 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           }
 
           if (xDir == 0 && yDir == 0 && intelligence == 0) resting();
+
           // Cardinal directions
           if (xDir < 0 && yDir == 0) moveLeft();
           if (xDir > 0 && yDir == 0) moveRight();
           if (yDir > 0 && xDir == 0) moveUp();
           if (yDir < 0 && xDir == 0) moveDown();
+
           // Ordinal directions
           if (xDir < 0 && yDir > 0) moveUpLeft();
+          if (xDir > 0 && yDir > 0) moveUpRight();
+          if (xDir < 0 && yDir < 0) moveDownLeft();
+          if (xDir > 0 && yDir < 0) moveDownRight();
         }
 
         if (idling) zombieSpeed = Mover.IDLE;
@@ -135,10 +142,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         zombie.setSpeed(zombieSpeed * deltaTime);
 
         // Update zombie's position
-        if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() *
-                Math.sin(Math.toRadians(direction)));
-        if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() *
-                Math.cos(Math.toRadians(direction)));
+        if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() * Math.sin(Math.toRadians(direction)));
+        if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() * Math.cos(Math.toRadians(direction)));
 
         zombie.move(x, y);
         isMoving = false;

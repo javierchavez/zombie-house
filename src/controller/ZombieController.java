@@ -58,8 +58,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       isMoving = true;
       float zombieSpeed;
       Zombie zombie;
+      Tile zombieTile;
 
       mover = zombie = zombies.get(i);
+      zombieTile = house.getZombieTile(zombie);
 
       float direction = mover.getRotation();
 
@@ -75,7 +77,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (isMoving)
       {
-//        playerDetected = zombie.sense(house);
+        playerDetected = zombie.sense(house, zombieTile);
 
         if (DEBUG) System.out.println("\tPlayer detected: " + playerDetected);
 
@@ -84,14 +86,14 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           running = true;
           // TODO: zombie travels on path to player
           Tile nextTile = zombie.find(house);
-          System.out.println("\tTile: " + nextTile.getX() + "," + nextTile.getY());
+          System.out.println("\tNext Tile: " + nextTile.getX() + "," + nextTile.getY());
         }
         else
         {
           zombieSpeed = Mover.STAGGER_SPEED;
 
           // TODO: remove this later
-          intelligence = 1;
+          intelligence = 0;
 
           // Random walk zombies
           if (intelligence == 0)

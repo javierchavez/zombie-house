@@ -51,7 +51,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     zombieController = new ZombieController(house);
 
     house.generateRandomHouse();
-    playerRenderer = new PlayerRenderer(player, house.getWidth(), house.getHeight());
+    playerRenderer = new PlayerRenderer(player, ((int) house.getWidth()), ((int) house.getHeight()));
     zombieRenderer = new ZombieRenderer(house);
     converter = new Converter(house);
     houseRenderer = new HouseRenderer(house, converter);

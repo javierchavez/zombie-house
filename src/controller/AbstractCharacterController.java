@@ -148,4 +148,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
     if (DEBUG) System.out.println("\tResting...");
     idling = true;
   }
+
+  @Override
+  public void checkCollision(float deltaTime)
+  {
+
+  }
 }

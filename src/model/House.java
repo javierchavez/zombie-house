@@ -1,13 +1,14 @@
 package model;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-
-public class House
+public class House implements Object2D
 {
+
   // defaults specified in requirements
   private static int rows = 21;
   private static int cols = 36;
@@ -38,6 +39,8 @@ public class House
   // The minimum euclidean distance between the player and exit (inclusive)
   private int minTravelDistance = 15;
   private int maxTries = 500;
+
+  private String savedHouse;
 
 
   public House(Player player)
@@ -259,6 +262,16 @@ public class House
     return true;
   }
 
+  public void save()
+  {
+    savedHouse = toString();
+  }
+
+  public void reset()
+  {
+    // resets the house from saved house
+  }
+
   /**
    * Get the Euclidean distance between two tiles
    *
@@ -271,12 +284,24 @@ public class House
     return (float) Math.sqrt(Math.pow((end.getCol()-start.getCol()),2) + Math.pow((end.getRow()-start.getRow()),2));
   }
 
+  @Override
+  public float getX()
+  {
+    return 0;
+  }
+
+  @Override
+  public float getY()
+  {
+    return 0;
+  }
+
   /**
    * Gets the width of the house
    *
    * @return columns
    */
-  public int getWidth()
+  public float getWidth()
   {
     return cols;
   }
@@ -286,9 +311,39 @@ public class House
    *
    * @return rows
    */
-  public int getHeight()
+  public float getHeight()
   {
     return rows;
+  }
+
+  @Override
+  public void setWidth(float width)
+  {
+    cols = (int) width;
+  }
+
+  @Override
+  public void setHeight(float height)
+  {
+    rows = (int) height;
+  }
+
+  @Override
+  public Rectangle2D getBoundingRectangle()
+  {
+    return null;
+  }
+
+  @Override
+  public boolean intersects(Rectangle2D other)
+  {
+    return false;
+  }
+
+  @Override
+  public boolean isOutOfBounds()
+  {
+    return false;
   }
 
   /**

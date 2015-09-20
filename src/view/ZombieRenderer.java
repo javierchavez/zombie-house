@@ -52,8 +52,8 @@ public class ZombieRenderer extends Renderer
 
   public ZombieRenderer(House house)
   {
-    this.w = house.getWidth();
-    this.h = house.getHeight();
+    this.w = (int) house.getWidth();
+    this.h = (int) house.getHeight();
 
     this.house = house;
 

@@ -2,6 +2,7 @@ package model;
 
 
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 public interface Object2D
 {

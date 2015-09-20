@@ -160,8 +160,11 @@ public class House
           {
             if (rand.nextFloat() < zombieSpawn)
             {
+              if (rand.nextBoolean())
+                zombie = new Zombie(new RandomFindStrategy());
+              else
+                zombie = new Zombie(new LineFindStrategy());
               // can add code here to change zombie type
-              zombie = new Zombie();
               if (getDistance(tile, getPlayerTile()) > zombie.getSmell())
               {
                 zombie.move(col, row);

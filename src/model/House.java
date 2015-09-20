@@ -649,26 +649,9 @@ public class House implements Object2D
   public String toString()
   {
     String board = "";
-    //board += "P = Player\n";
-    //board += "Z = Zombie\n";
-    //board += "S = Super Zombie\n";
-    //board += "T = Fire Trap\n";
-    //board += "O = Obstacle\n";
-    //board += "X = Wall\n";
-    //board += "e = Exit\n";
-    //board += "* = Floor \n\n";
-
-    // draw top boarder
-    //for (int col = 0; col < cols+2; col++)
-    //{
-    //  board += "-";
-    //}
-    //board += "\n";
-
     Tile current;
     for (int row = 0; row < rows; row++)
     {
-      //board += "|";
       for (int col = 0; col < cols; col++)
       {
         current = house[row][col];
@@ -711,13 +694,6 @@ public class House implements Object2D
       }
       board += "\n";
     }
-
-    // draw bottom boarder
-    //for (int col = 0; col < cols+2; col++)
-    //{
-    //  board += "-";
-    //}
-    //board += "\n\n\n";
     return board;
   }
 

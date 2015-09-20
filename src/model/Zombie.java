@@ -43,14 +43,13 @@ public class Zombie extends Character implements Deadly
    * @return true if the player is within the zombie's smell radius
    *         otherwise false
    */
-  public boolean sense(House house)
+  public boolean sense(House house, Tile zombieTile)
   {
-    Tile zombie = house.getTile((int) getCurrentX(), (int) getCurrentY());
     Tile player = house.getPlayerTile();
     int smell = 7;
 
-    int zx = zombie.getCol();
-    int zy = zombie.getRow();
+    int zx = zombieTile.getCol();
+    int zy = zombieTile.getRow();
     int px = player.getCol();
     int py = player.getRow();
 
@@ -61,7 +60,6 @@ public class Zombie extends Character implements Deadly
 
   public Tile find(House house)
   {
-    // calls findStrategy
     Tile zombie = house.getTile((int) getCurrentX(), (int) getCurrentY());
     findStrategy.find(house, zombie, house.getPlayerTile());
     return (Tile) findStrategy.getPath().get(0);

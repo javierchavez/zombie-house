@@ -11,6 +11,7 @@ public class HouseRenderer extends Renderer
   FloorGraphic floor = new FloorGraphic();
   WallGraphic wall = new WallGraphic();
   TrapGraphic trap = new TrapGraphic();
+  ExitGraphic exit = new ExitGraphic();
 
   public HouseRenderer (House house, Converter converter)
   {
@@ -25,29 +26,9 @@ public class HouseRenderer extends Renderer
   @Override
   public void render (Graphics2D g2)
   {
-//    Graphics2D g2 = (Graphics2D)g;
 
-    ////////// this is shit code.///////
-    // this needs to be abstracted out into a view or camera class
-    // it needs to take into account for scale and size of clipping
-//    double width = viewBounds.getWidth();
-//    double height = viewBounds.getHeight();
-//
-//    float x = character.getCurrentX();
-//    float y = character.getCurrentY();
-//
-//    float camX = house.getpl- VIEWPORT_SIZE_X / 2;
-//    float camY = playerY - VIEWPORT_SIZE_Y / 2;
-//    g2.translate(-camX, -camY);
-//
-//    int cellsX = (int) Math.ceil(width/80f);
-//    int cellsY = (int) Math.ceil(height/80f);
-//    int tileW = (int) (width / cellsX);
-//    int tileH = (int) (height / cellsY);
     int tileW = 80;
     int tileH = 80;
-//    System.out.println(viewBounds.getY());
-    ////////// end shit code ///////////
 
     Tile[][] houseMatrix = house.getHouse();
 
@@ -57,26 +38,37 @@ public class HouseRenderer extends Renderer
       {
         if (houseMatrix[i][j] instanceof Wall)
         {
-          g2.setColor(Color.green);
           g2.drawImage(wall.getImage(), j * tileW, i * tileH, null);
-          g2.drawRect(j * tileW, i * tileH, 80,80);
+
         }
         else if (houseMatrix[i][j] instanceof Floor)
         {
-          g2.setColor(Color.green);
           g2.drawImage(floor.getImage(), j * tileW, i * tileH, null);
-          g2.drawRect(j * tileW, i * tileH, 80,80);
           if(houseMatrix[i][j].getTrap() == Trap.FIRE)
           {
             g2.drawImage(trap.getImage(), (j * tileW)+20, (i * tileH)+20, null);
 
           }
         }
-//        if (houseMatrix[i][j] instanceof Empty)
+        else if (houseMatrix[i][j] instanceof Obstacle)
+        {
+          // g2.drawImage(floor.getImage(), j * tileW, i * tileH, null);
+          g2.drawRect(j * tileW, i * tileH, 80,80);
+        }
+        else if (houseMatrix[i][j] instanceof Exit)
+        {
+          // g2.drawImage(floor.getImage(), j * tileW, i * tileH, null);
+          g2.drawImage(exit.getImage(), j * tileW, i * tileH, null);
+        }
+//        g2.setColor(Color.green);
+//
+//        if (j == houseMatrix[i].length - 1 ||
+//                i == houseMatrix.length - 1 ||
+//                j == 0 || i == 0)
 //        {
-//          g2.fillRect(j * tileW,
-//                        i * tileH, 80,80);
+//          g2.setColor(Color.red);
 //        }
+//        g2.drawRect(j * tileW, i * tileH, 80, 80);
       }
     }
   }

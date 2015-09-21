@@ -25,7 +25,8 @@ public abstract class Renderer
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
 
 
-  static protected Rectangle2D viewBounds;
+  static protected Rectangle2D viewBounds = new Rectangle2D.Float(0,0,1920,
+                                                                  1080);
   private Rectangle2D limitingRect;
   private double height;
   private double scale;

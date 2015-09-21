@@ -8,7 +8,7 @@ public class MenuController implements GameController
 {
   private static GameOptions options;
   private static boolean active;
-  private final House house;
+  private House house;
   private static int choice = 0;
 
   public MenuController(House house, GameOptions options)
@@ -24,10 +24,7 @@ public class MenuController implements GameController
 
   public static void toggleActive ()
   {
-    if (options.getState() == GameOptions.GAME_STATE.EXIT)
-    {
-      System.exit(0);
-    }
+
     MenuController.active = !active;
   }
 
@@ -40,7 +37,18 @@ public class MenuController implements GameController
   @Override
   public void update (float deltaTime)
   {
-
+//    if (!MenuController.isActive())
+//    {
+//      if (options.getState() == GameOptions.GAME_STATE.EXIT)
+//      {
+//        System.exit(0);
+//      }
+//      else if (options.getState() == GameOptions.GAME_STATE.RESTART)
+//      {
+//        house.reset();
+//      }
+//      options.setState(GameOptions.GAME_STATE.PLAY);
+//    }
   }
 
   public void next ()

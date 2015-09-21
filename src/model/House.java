@@ -35,7 +35,7 @@ public class House implements Object2D
   private int generationAttempts = 0;
 
   private float zombieSpawn = 0.11f;
-  private float trapSpawn = 0.11f;
+  private float trapSpawn = 0.01f;
 
   // The minimum euclidean distance between the player and exit (inclusive)
   private int minTravelDistance = 15;

@@ -98,8 +98,8 @@ public class PlayerRenderer extends Renderer
     float y = player.getCurrentY();
 
     // note the minus signs
-    g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT) - x),
-                 (int) ((y * TILE_HEIGHT) - y), null);
+    g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT)),
+                 (int) ((y * TILE_HEIGHT)), null);
 
   }
 

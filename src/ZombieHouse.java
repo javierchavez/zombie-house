@@ -56,8 +56,12 @@ public class ZombieHouse
       g.clearRect(0, 0, 1920, 1080);
 
       // DEBUG sprites
-       g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+      // g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
 
+      g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                         RenderingHints.VALUE_ANTIALIAS_ON);
 
       game.update(delta / 1000000000.0f);
       game.render(g);
@@ -90,8 +94,8 @@ public class ZombieHouse
   {
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     frame.addKeyListener(game);
-//    frame.addMouseListener(game);
-//    frame.addMouseMotionListener(game);
+    //    frame.addMouseListener(game);
+    //    frame.addMouseMotionListener(game);
 
     jPanel.setBackground(Color.black);
     jPanel.setIgnoreRepaint(true);
@@ -118,10 +122,3 @@ public class ZombieHouse
 
   }
 }
-
-//      g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-//                         RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-//      g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-//                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-//      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-//                         RenderingHints.VALUE_ANTIALIAS_ON);

@@ -1,9 +1,11 @@
 package controller;
 
 
-import model.House;
-import model.Mover;
+import model.*;
 import model.Character;
+
+import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 /**
  * This class does most of the work for setting the character speed and rotation
@@ -25,6 +27,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
     AbstractCharacterController.house = house;
     this.mover = mover;
   }
+
 
   public AbstractCharacterController (House house)
   {
@@ -57,7 +60,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
   }
 
   @Override
-  public void stopMoving() // TODO: get rid of this method later? probably don't need it
+  public void stopMoving () // TODO: get rid of this method later? probably don't need it
   {
     System.out.println("I can't move like that!");
     isMoving = false;
@@ -108,8 +111,9 @@ public abstract class AbstractCharacterController<T extends Character> implement
     //direction = Mover.EAST;
     mover.setRotation(Mover.EAST);
   }
+
   @Override
-  public void moveUpRight()
+  public void moveUpRight ()
   {
     if (DEBUG) System.out.println("Moving up right");
     isMoving = true;
@@ -117,24 +121,27 @@ public abstract class AbstractCharacterController<T extends Character> implement
     //direction = NORTHEAST;
     mover.setRotation(Mover.NORTHEAST);
   }
+
   @Override
-  public void moveUpLeft()
+  public void moveUpLeft ()
   {
     isMoving = true;
     idling = false;
     //direction = NORTHWEST;
     mover.setRotation(Mover.NORTHWEST);
   }
+
   @Override
-  public void moveDownRight()
+  public void moveDownRight ()
   {
     isMoving = true;
     idling = false;
     //direction = SOUTHEAST;
     mover.setRotation(Mover.SOUTHEAST);
   }
+
   @Override
-  public void moveDownLeft()
+  public void moveDownLeft ()
   {
     isMoving = true;
     idling = false;
@@ -143,15 +150,9 @@ public abstract class AbstractCharacterController<T extends Character> implement
   }
 
   @Override
-  public void resting()
+  public void resting ()
   {
     if (DEBUG) System.out.println("\tResting...");
     idling = true;
-  }
-
-  @Override
-  public void checkCollision(float deltaTime)
-  {
-
   }
 }

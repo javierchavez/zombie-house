@@ -56,7 +56,7 @@ public class ZombieHouse
       g.clearRect(0, 0, 1920, 1080);
 
       // DEBUG sprites
-      // g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+       // g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
 
       g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);

@@ -37,18 +37,7 @@ public class MenuController implements GameController
   @Override
   public void update (float deltaTime)
   {
-//    if (!MenuController.isActive())
-//    {
-//      if (options.getState() == GameOptions.GAME_STATE.EXIT)
-//      {
-//        System.exit(0);
-//      }
-//      else if (options.getState() == GameOptions.GAME_STATE.RESTART)
-//      {
-//        house.reset();
-//      }
-//      options.setState(GameOptions.GAME_STATE.PLAY);
-//    }
+
   }
 
   public void next ()

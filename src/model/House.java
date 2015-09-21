@@ -1177,6 +1177,59 @@ public class House implements Object2D
     }
   }
 
+  public float getTrapSpawn ()
+  {
+    return trapSpawn;
+  }
+
+  public void setTrapSpawn (float trapSpawn)
+  {
+    this.trapSpawn = trapSpawn;
+  }
+
+  public float getZombieSpawn ()
+  {
+    return zombieSpawn;
+  }
+
+  public void setZombieSpawn (float zombieSpawn)
+  {
+    this.zombieSpawn = zombieSpawn;
+  }
+
+  public void slowReset()
+  {
+    new Thread(() -> {
+
+      // zombies.clear();
+      while(true)
+      {
+
+        for (int i = 0; i < house.length; i++)
+        {
+          for (int j = 0; j < house[i].length; j++)
+          {
+
+            house[i][j] = new Empty(i, j);
+
+          }
+
+          try
+          {
+            Thread.sleep(110);
+          }
+          catch (InterruptedException e)
+          {
+
+            e.printStackTrace();
+          }
+        }
+
+      }
+    }).start();
+
+  }
+
   public static void main(String[] args)
   {
     House house = new House(new Player());

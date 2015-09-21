@@ -1,9 +1,22 @@
 package model;
 
 
+import java.awt.geom.Rectangle2D;
+
 public class Player extends Character
 {
   protected float traps = 0;
+  protected PlayerState state = PlayerState.ALIVE;
+
+  public PlayerState getState ()
+  {
+    return state;
+  }
+
+  public void setState (PlayerState state)
+  {
+    this.state = state;
+  }
 
 
   public int trapsAvailable()
@@ -29,5 +42,18 @@ public class Player extends Character
       return;
     }
     tile.setTrap(Trap.NONE);
+  }
+
+
+  public enum PlayerState
+  {
+    ALIVE, DEAD
+
+  }
+
+  @Override
+  public Rectangle2D getBoundingRectangle ()
+  {
+    return super.getBoundingRectangle();
   }
 }

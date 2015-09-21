@@ -9,8 +9,8 @@ public class Tile implements Object2D
   // row and col are the tiles location in the house array
   private int row = 0;
   private int col = 0;
-  private float width = 80;
-  private float height = 80;
+  private float width = 1f;
+  private float height = 1f;
 
   // The cost to travel over a tile (for pathfinding algorithms)
   private int cost;

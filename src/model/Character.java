@@ -19,7 +19,7 @@ public class Character implements Mover, Object2D
 
   public Character()
   {
-    height = width = 60;
+    height = width = .5f;
     rotation = 0;
     hearing = 10;
     stamina = 5;
@@ -129,13 +129,13 @@ public class Character implements Mover, Object2D
   @Override
   public float getWidth ()
   {
-    return 60;
+    return width;
   }
 
   @Override
   public float getHeight ()
   {
-    return 60;
+    return height;
   }
 
   @Override
@@ -168,6 +168,9 @@ public class Character implements Mover, Object2D
   @Override
   public boolean isOutOfBounds ()
   {
-    return false;
+    return getCurrentX() < 21 &&
+            getCurrentY() < 36 &&
+            getCurrentX() >= 0 &&
+            getCurrentY() >= 0;
   }
 }

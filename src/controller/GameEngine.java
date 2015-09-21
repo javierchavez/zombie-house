@@ -27,6 +27,7 @@ public class GameEngine implements KeyListener, MouseInputListener
   private Renderer houseRenderer;
   private PlayerController controller;
   private ZombieController zombieController;
+  private SuperZombieController ss;
   private MenuController menuController;
   private GameOptions options;
 
@@ -54,8 +55,8 @@ public class GameEngine implements KeyListener, MouseInputListener
     MenuController.setActive(false);
     options = new GameOptions();
     menuController = new MenuController(house, options);
-
     house.generateRandomHouse();
+    ss = new SuperZombieController(house, house.getSuperZombie());
     playerRenderer = new PlayerRenderer(player);
     zombieRenderer = new ZombieRenderer(house);
     converter = new Converter(house);
@@ -73,7 +74,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     }
     controller.update(deltaTime);
     zombieController.update(deltaTime);
-
+      ss.update(deltaTime);
     // Ordinal direction
     if (upPressed && rightPressed) controller.moveUpRight();
     else if (upPressed && leftPressed) controller.moveUpLeft();
@@ -92,10 +93,10 @@ public class GameEngine implements KeyListener, MouseInputListener
   public AffineTransform getTransform()
   {
     AffineTransform at = new AffineTransform();
-    double shiftX = -player.getCurrentX() * 60;
-    double shiftY = -player.getCurrentY() * 60;
-//    at.scale(1 / 1.78, 1 / 1.78);
-    at.translate(shiftX, shiftY);
+//    double shiftX = -player.getCurrentX() * 60;
+//    double shiftY = -player.getCurrentY() * 60;
+    at.scale(1 / 1.78, 1 / 1.78);
+//    at.translate(shiftX, shiftY);
     return at;
   }
 

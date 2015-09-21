@@ -1,9 +1,6 @@
 package view;
 
-import model.House;
-import model.Mover;
-import model.Sound;
-import model.Zombie;
+import model.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -68,6 +65,10 @@ public class ZombieRenderer extends Renderer
                    (int) ((y * TILE_HEIGHT)), null);
       
     }
+    SuperZombie superZombie = house.getSuperZombie();
+    g2.drawImage(animation.getSprite(),
+                 (int) ((superZombie.getCurrentX() * TILE_HEIGHT)),
+                 (int) ((superZombie.getCurrentY() * TILE_HEIGHT)), null);
 
   }
 

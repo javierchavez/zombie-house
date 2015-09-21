@@ -48,6 +48,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       mover = zombie = zombies.get(i);
       zombieTile = house.getZombieTile(zombie);
+      if (zombieTile == null)
+      {
+        zombies.remove(i);
+      }
 
       float direction = mover.getRotation();
 
@@ -133,6 +137,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
                                                    moveToCheck.row,
                                                    mover.getWidth(),
                                                    mover.getHeight());
+
+    if (mover.getStrategy() instanceof LineMoveStrategy)
+    {
+      //
+    }
 
     for (Tile neighbor : neighbors)
     {

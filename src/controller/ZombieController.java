@@ -10,43 +10,27 @@ import java.util.Random;
 
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
-
-//  get the next direction from the model, move, and then check if zombie can smell player
-//  if so run the algorithm (call find method) from the model and get the next location and move.... then repeat
-
   List<Zombie> zombies;
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
   private float x, y;
 
-  // Intelligence 0 = random walk, 1 = line walk
-  private int intelligence; // TODO: placeholder. Each zombie should be given an intelligence when generated i think?
-
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
-  private Random rand = new Random();
+//  private Random rand = new Random();
   private Tile zombieTile;
   // The values of these ints can be either -1, 0, or 1
   // Depending on what their value is, the zombie will know which direction to go
   int xDir;
   int yDir;
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
-  // TODO: randomly decide if zombie will be random walk or line walk
-  // NOTE: random walk and line walk have different intelligence
   public ZombieController (House house)
   {
     super(house);
   }
-
-//  @Override
-//  public void checkCollision (float deltaTime)
-//  {
-//    // Random and Line handle collision differently
-//    // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
-//  }
 
   @Override
   public void update(float deltaTime)
@@ -56,10 +40,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     time++;
     for (int i = 0; i < zombies.size(); i++)
     {
-      Tile playerTile = house.getPlayerTile(); // Get player's current position
-
       Zombie zombie;
       float zombieSpeed;
+      Tile playerTile = house.getPlayerTile(); // Get player's current tile
 
       isMoving = true;
 
@@ -70,10 +53,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (DEBUG)
       {
-//        System.out.println(rand.nextInt(1));
         System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
-        System.out.println("Zombie " + i + " intelligence : " + zombie.getIntelligence());
       }
+
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
 
@@ -83,24 +65,27 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       if (isMoving)
       {
         playerDetected = zombie.sense(zombieTile, playerTile);
-
         if (DEBUG) System.out.println("\tPlayer detected: " + playerDetected);
 
         if (playerDetected)
         {
           running = true;
           zombie.getStrategy().find(house,
-                                    house.getZombieTile(zombie),
-                                    house.getPlayerTile());
+              house.getZombieTile(zombie),
+              house.getPlayerTile());
+
           List a = zombie.getStrategy().getPath();
           if (a.size() > 0)
           {
             Tile t = (Tile) a.get(0);
+            if (DEBUG) System.out.println("new tile: (" + t.getX() + ", " + t.getY() + ")");
             xDir = t.getCol();
             yDir = t.getRow();
+            if (DEBUG) System.out.println("new tile (col,row): (" + t.getCol() + ", " + t.getRow() + ")");
+//            Move newMove = new Move(xDir, yDir, direction);
+
           }
-//          Tile nextTile = zombie.find(house);
-//          System.out.println("\tNext Tile: " + nextTile.getX() + "," + nextTile.getY());
+          // checkCollision(xDir, yDir, direction)?
         }
         else
         {
@@ -108,24 +93,17 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (time % 60 == 0) // change this to: if (collision)
           {
-            Move move = zombie.getStrategy().getNextMove(house, house.getZombieTile(
-                                                                 zombie));
+            Move move = zombie.getStrategy().getNextMove(house, house.getZombieTile(zombie));
             xDir = (int) move.col;
             yDir = (int) move.row;
           }
-          if (xDir == 0 && yDir == 0) resting();
 
-          // Cardinal directions
+          // Zombie movement
+          if (xDir == 0 && yDir == 0) resting();
           if (xDir < 0 && yDir == 0) moveLeft();
           if (xDir > 0 && yDir == 0) moveRight();
           if (yDir > 0 && xDir == 0) moveUp();
           if (yDir < 0 && xDir == 0) moveDown();
-
-          // Ordinal directions
-//          if (xDir < 0 && yDir > 0) moveUpLeft();
-//          if (xDir > 0 && yDir > 0) moveUpRight();
-//          if (xDir < 0 && yDir < 0) moveDownLeft();
-//          if (xDir > 0 && yDir < 0) moveDownRight();
         }
 
         if (idling) zombieSpeed = Mover.IDLE;
@@ -136,8 +114,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() * Math.sin(Math.toRadians(direction)));
         if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() * Math.cos(Math.toRadians(direction)));
 
-//        zombie.move(x, y);
-        checkCollision(new Move(x,y,direction));
+        checkCollision(new Move(x, y, direction));
         isMoving = false;
       }
     } // END FOR
@@ -146,9 +123,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   @Override
   public void checkCollision (Move moveToCheck)
   {
+    // Random and Line handle collision differently
+    // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
+
     List<Tile> neighbors = house.neighborsInDirection(zombieTile,
                                                       mover.getRotation());
-
 
     Rectangle2D.Float test = new Rectangle2D.Float(moveToCheck.col,
                                                    moveToCheck.row,
@@ -176,13 +155,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         for (Tile tile : explode)
         {
           tile.setTrap(Trap.ACTIVATED);
-
-
         }
         zombieTile.setTrap(Trap.ACTIVATED);
-
       }
-    } mover.move(moveToCheck.col, moveToCheck.row);
-
+    }
+    mover.move(moveToCheck.col, moveToCheck.row);
   }
 }

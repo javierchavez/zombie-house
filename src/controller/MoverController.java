@@ -8,8 +8,7 @@ public interface MoverController <T extends Mover> extends GameController
 
 
 
-  void checkCollision (float deltaTime);
-
+  void checkCollision (Move moveToCheck);
 
   /**
    * If 'R' is pressed, player's speed is updated to 2.0, making them two times faster.

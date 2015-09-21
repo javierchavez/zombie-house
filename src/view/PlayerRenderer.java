@@ -2,8 +2,8 @@ package view;
 
 import model.*;
 
-import javax.sound.sampled.*;
 import java.awt.*;
+import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -11,9 +11,6 @@ import java.io.*;
 public class PlayerRenderer extends Renderer
 {
   private final Player player;
-  private final int h;
-  private final int w;
-  PlayerSprite playerSprite = new PlayerSprite();
 
 
   private BufferedImage[] walkingWest = {
@@ -45,11 +42,9 @@ public class PlayerRenderer extends Renderer
   // check direction... need a AnimationFactoryClass
   private Animation animation;
   private AudioInputStream as = null;
-  Clip c = null;
-  public PlayerRenderer (Player player, int w, int h)
+  private Clip c = null;
+  public PlayerRenderer (Player player)
   {
-    this.w = w;
-    this.h = h;
     this.player = player;
     setAnimation();
     try
@@ -84,7 +79,6 @@ public class PlayerRenderer extends Renderer
   @Override
   public void render (Graphics2D g2)
   {
-//    Graphics2D g2 = (Graphics2D) g;
     setAnimation();
     if (player.getSpeed() > 0)
     {
@@ -100,52 +94,12 @@ public class PlayerRenderer extends Renderer
       c.stop();
     }
 
-    ////////// this is shit code.///////
-    // this needs to be abstracted out into a view or camera class
-    // it needs to take into account for scale and size of clipping
-//    double width = g2.getClipBounds().getWidth();
-//    double height = g2.getClipBounds().getHeight();
-
-//    int tileW = (int) (width / w);
-//    int tileH = (int) (height / h);
-//    double width = g2.getClipBounds().getWidth();
-//    double height = g2.getClipBounds().getHeight();
-    double width = viewBounds.getWidth();
-    double height = viewBounds.getHeight();
-
-
-
-
-//    int cellsX = (int) Math.ceil(width/80f);
-//    int cellsY = (int) Math.ceil(height/80f);
-//    int tileW = (int) (width / cellsX);
-//    int tileH = (int) (height / cellsY);
-
     float x = player.getCurrentX();
     float y = player.getCurrentY();
 
-    // this needs to be in the converter class
-    g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT) + x),
-                 (int) ((y * TILE_HEIGHT) + y), null);
-//
-//    g2.setColor(Color.white);
-//    g2.drawRect((int) width / 2, 40, (int) (width / 4), 20);
-//
-//    g2.setColor(Color.RED);
-//    g2.fillRect((int) (width / 2) + 1, 41,
-//                (int) ((player.getStamina() / 5) * (width / 4)) - 2, 18);
-//
-//    if (player.trapsAvailable() > 0)
-//    {
-//      g2.drawImage(new TrapGraphic().getImage(), (int) (width / 2) - 20, 40,
-//                   null);
-//    }
-//    g2.setColor(Color.white);
-//    g2.drawString("tile (x, y) = " + x + ", " + y, (int) (width / 3), 50);
-//    g2.drawString("px (x, y) = " + x*TILE_HEIGHT + ", " + y*TILE_HEIGHT,
-//                  (int) (width / 3), 61);
-//
-//    System.out.println("tile (x, y) = " + x + ", " + y);
+    // note the minus signs
+    g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT) - x),
+                 (int) ((y * TILE_HEIGHT) - y), null);
 
   }
 
@@ -167,5 +121,22 @@ public class PlayerRenderer extends Renderer
         break;
     }
   }
-
+  // this is information about the player
+  //    g2.setColor(Color.white);
+  //    g2.drawRect((int) width / 2, 40, (int) (width / 4), 20);
+  //
+  //    g2.setColor(Color.RED);
+  //    g2.fillRect((int) (width / 2) + 1, 41,
+  //                (int) ((player.getStamina() / 5) * (width / 4)) - 2, 18);
+  //
+  //    if (player.trapsAvailable() > 0)
+  //    {
+  //      g2.drawImage(new TrapGraphic().getImage(), (int) (width / 2) - 20, 40,
+  //                   null);
+  //    }
+  //    g2.setColor(Color.white);
+  //    g2.drawString("tile (x, y) = " + x + ", " + y, (int) (width / 3), 50);
+  //    g2.drawString("px (x, y) = " + x*TILE_HEIGHT + ", " + y*TILE_HEIGHT,
+  //                  (int) (width / 3), 61);
+  //
 }

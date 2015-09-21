@@ -15,8 +15,6 @@ public class ZombieRenderer extends Renderer
 {
 
   private final House house;
-  private final int w;
-  private final int h;
   ZombieSprite zombieSprite = new ZombieSprite();
 
 
@@ -52,9 +50,6 @@ public class ZombieRenderer extends Renderer
 
   public ZombieRenderer(House house)
   {
-    this.w = (int) house.getWidth();
-    this.h = (int) house.getHeight();
-
     this.house = house;
 
   }
@@ -62,11 +57,6 @@ public class ZombieRenderer extends Renderer
   @Override
   public void render (Graphics2D g2)
   {
-//    Graphics2D g2 = (Graphics2D)g;
-
-    ////////// this is shit code.///////
-    // this needs to be abstracted out into a view or camera class
-    // it needs to take into account for scale and size of clipping
 
     List<Zombie> zombies =  house.getZombies();
     for (int i = 0; i < zombies.size(); i++)
@@ -74,8 +64,8 @@ public class ZombieRenderer extends Renderer
       float x = zombies.get(i).getCurrentX();
       float y = zombies.get(i).getCurrentY();
       setAnimation(zombies.get(i));
-      g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT-Sprite.SIZE) + x),
-                   (int) ((y * TILE_HEIGHT-Sprite.SIZE) + y), null);
+      g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT) - x),
+                   (int) ((y * TILE_HEIGHT) - y), null);
       
     }
 

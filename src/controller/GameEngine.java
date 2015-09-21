@@ -1,5 +1,6 @@
 package controller;
 
+import model.GameOptions;
 import model.House;
 import model.Player;
 import view.*;
@@ -26,6 +27,8 @@ public class GameEngine implements KeyListener, MouseInputListener
   private Renderer houseRenderer;
   private PlayerController controller;
   private ZombieController zombieController;
+  private MenuController menuController;
+  private GameOptions options;
 
   private Renderer playerRenderer;
   private Renderer zombieRenderer;
@@ -38,7 +41,6 @@ public class GameEngine implements KeyListener, MouseInputListener
   private boolean downPressed = false;
   private boolean rightPressed = false;
 
-  private boolean isPaused = false;
 
   private Rectangle2D viewPort;
   private boolean DEBUG = false;
@@ -49,17 +51,26 @@ public class GameEngine implements KeyListener, MouseInputListener
     house = new House(player);
     controller = new PlayerController(house);
     zombieController = new ZombieController(house);
+    MenuController.setActive(false);
+    options = new GameOptions();
+    menuController = new MenuController(house, options);
 
     house.generateRandomHouse();
-    playerRenderer = new PlayerRenderer(player, ((int) house.getWidth()), ((int) house.getHeight()));
+    playerRenderer = new PlayerRenderer(player);
     zombieRenderer = new ZombieRenderer(house);
     converter = new Converter(house);
     houseRenderer = new HouseRenderer(house, converter);
-    menuRenderer = new MenuRenderer();
+    menuRenderer = new MenuRenderer(options);
+    System.out.println(house);
   }
 
   public void update(float deltaTime)
   {
+    if (MenuController.isActive())
+    {
+      menuController.update(deltaTime);
+      return;
+    }
     controller.update(deltaTime);
     zombieController.update(deltaTime);
 
@@ -73,7 +84,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     else if (upPressed) controller.moveUp();
     else if (rightPressed) controller.moveRight();
     else if (downPressed) controller.moveDown();
-    else if (leftPressed) controller.moveLeft();
+    else if (leftPressed)controller.moveLeft();
 
     if (!moving) controller.idle();
   }
@@ -91,7 +102,7 @@ public class GameEngine implements KeyListener, MouseInputListener
 
   public void render (Graphics2D graphics)
   {
-    if (isPaused)
+    if (MenuController.isActive())
     {
       menuRenderer.render(graphics);
       return;
@@ -112,11 +123,10 @@ public class GameEngine implements KeyListener, MouseInputListener
   {
     switch (e.getKeyCode())
     {
-      /* menu screen
+      // menu screen
       case KeyEvent.VK_SPACE:
-        isPaused = !isPaused;
+        MenuController.toggleActive();
         break;
-        */
       // Player movement direction
       case KeyEvent.VK_UP:
         upPressed = true;
@@ -188,6 +198,11 @@ public class GameEngine implements KeyListener, MouseInputListener
         downPressed = false;
         break;
       case KeyEvent.VK_LEFT:
+        if (MenuController.isActive())
+        {
+          menuController.next();
+          return;
+        }
         leftPressed = false;
         moving = false;
         break;
@@ -196,6 +211,11 @@ public class GameEngine implements KeyListener, MouseInputListener
         moving = false;
         break;
       case KeyEvent.VK_RIGHT:
+        if (MenuController.isActive())
+        {
+          menuController.next();
+          return;
+        }
         rightPressed = false;
         moving = false;
         break;

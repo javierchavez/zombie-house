@@ -1,7 +1,6 @@
 package model;
 
 
-import java.awt.*;
 import java.util.List;
 
 public interface FindStrategy<T extends Tile>
@@ -18,5 +17,5 @@ public interface FindStrategy<T extends Tile>
 
   List<T> getPath ();
 
-  Point getNext();
+  Move getNextMove(House house, T start);
 }

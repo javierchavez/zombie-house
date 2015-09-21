@@ -1,7 +1,6 @@
 package model;
 
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class BFSFindStrategy extends AbstractFindStrategy implements FindStrateg
   }
 
   @Override
-  public Point getNext ()
+  public Move getNextMove (House house, Tile start)
   {
     return null;
   }

@@ -36,4 +36,5 @@ public abstract class AbstractFindStrategy implements FindStrategy<Tile>
   {
     return path;
   }
+
 }

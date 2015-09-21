@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Random;
 
 public class Zombie extends Character implements Deadly
@@ -78,4 +79,6 @@ public class Zombie extends Character implements Deadly
   {
     return findStrategy;
   }
+
+
 }

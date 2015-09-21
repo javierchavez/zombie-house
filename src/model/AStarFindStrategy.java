@@ -1,7 +1,6 @@
 package model;
 
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -52,10 +51,11 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
   }
 
   @Override
-  public Point getNext ()
+  public Move getNextMove (House house, Tile start)
   {
     return null;
   }
+
 
   private class TilePriority implements Comparable<TilePriority>
   {

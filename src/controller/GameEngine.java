@@ -52,7 +52,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     house = new House(player);
     controller = new PlayerController(house);
     zombieController = new ZombieController(house);
-    MenuController.setActive(false);
+    MenuController.setActive(true);
     options = new GameOptions();
     menuController = new MenuController(house, options);
     house.generateRandomHouse();
@@ -62,7 +62,7 @@ public class GameEngine implements KeyListener, MouseInputListener
     converter = new Converter(house);
     houseRenderer = new HouseRenderer(house, converter);
     menuRenderer = new MenuRenderer(options);
-    System.out.println(house);
+
   }
 
   public void update(float deltaTime)
@@ -126,7 +126,47 @@ public class GameEngine implements KeyListener, MouseInputListener
     {
       // menu screen
       case KeyEvent.VK_SPACE:
-        MenuController.toggleActive();
+        if (MenuController.isActive())
+        {
+          if (options.getState() == GameOptions.GAME_STATE.RESTART)
+          {
+            house.reset();
+            MenuController.setActive(false);
+          }
+          else if (options.getState() == GameOptions.GAME_STATE.EXIT)
+          {
+            System.exit(0);
+          }
+          else if (options.getState() == GameOptions.GAME_STATE.LEVEL1)
+          {
+            house = new House(player);
+            house.setMinObstacles(6);
+            house.setZombieSpawn(0.01f);
+            house.setTrapSpawn(0.01f);
+            house.generateRandomHouse();
+            house.placePlayer();
+            MenuController.setActive(false);
+          }
+          else if (options.getState() == GameOptions.GAME_STATE.LEVEL2)
+          {
+            house = new House(player);
+            house.setMinObstacles(6);
+            house.setZombieSpawn(0.09f);
+            house.setTrapSpawn(0.05f);
+            house.generateRandomHouse();
+            house.placePlayer();
+            MenuController.setActive(false);
+          }
+          else
+          {
+            MenuController.toggleActive();
+          }
+        }
+        else
+        {
+          MenuController.toggleActive();
+
+        }
         break;
       // Player movement direction
       case KeyEvent.VK_UP:

@@ -53,6 +53,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
             e.printStackTrace();
           }
         }
+        // house.slowReset();
       }).start();
 
       initial = false;

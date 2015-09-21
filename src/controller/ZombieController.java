@@ -2,8 +2,9 @@ package controller;
 
 
 import model.*;
-import model.Character;
+import model.Move;
 
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
 
@@ -25,7 +26,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
   private Random rand = new Random();
-
+  private Tile zombieTile;
   // The values of these ints can be either -1, 0, or 1
   // Depending on what their value is, the zombie will know which direction to go
   int xDir;
@@ -40,12 +41,12 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     super(house);
   }
 
-  @Override
-  public void checkCollision (float deltaTime)
-  {
-    // Random and Line handle collision differently
-    // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
-  }
+//  @Override
+//  public void checkCollision (float deltaTime)
+//  {
+//    // Random and Line handle collision differently
+//    // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
+//  }
 
   @Override
   public void update(float deltaTime)
@@ -56,7 +57,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     for (int i = 0; i < zombies.size(); i++)
     {
       Tile playerTile = house.getPlayerTile(); // Get player's current position
-      Tile zombieTile;
+
       Zombie zombie;
       float zombieSpeed;
 
@@ -88,6 +89,16 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         if (playerDetected)
         {
           running = true;
+          zombie.getStrategy().find(house,
+                                    house.getZombieTile(zombie),
+                                    house.getPlayerTile());
+          List a = zombie.getStrategy().getPath();
+          if (a.size() > 0)
+          {
+            Tile t = (Tile) a.get(0);
+            xDir = t.getCol();
+            yDir = t.getRow();
+          }
 //          Tile nextTile = zombie.find(house);
 //          System.out.println("\tNext Tile: " + nextTile.getX() + "," + nextTile.getY());
         }
@@ -95,34 +106,14 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         {
           zombieSpeed = Mover.STAGGER_SPEED;
 
-          // TODO: remove this later
-          intelligence = zombie.getIntelligence();
-//          intelligence = 0;
-
-          // Random walk zombies
-          if (intelligence == 0)
+          if (time % 60 == 0) // change this to: if (collision)
           {
-            // TODO: make this time longer?
-            if (time % 60 == 0) // Zombie changes position every 1 second
-            {
-              xDir = rand.nextInt(3) - 1;
-              yDir = rand.nextInt(3) - 1;
-            }
+            Move move = zombie.getStrategy().getNextMove(house, house.getZombieTile(
+                                                                 zombie));
+            xDir = (int) move.col;
+            yDir = (int) move.row;
           }
-          else if (intelligence == 1)
-          {
-            // TODO: Test collisions
-            if (time % 60 == 0) // change this to: if (collision)
-            {
-              int changeDir = rand.nextInt(1);
-              System.out.println(changeDir);
-              if (DEBUG) System.out.println("collision");
-              if (changeDir == 0) xDir = rand.nextInt(3) - 1;
-              else yDir = rand.nextInt(3) - 1;
-            }
-          }
-
-          if (xDir == 0 && yDir == 0 && intelligence == 0) resting();
+          if (xDir == 0 && yDir == 0) resting();
 
           // Cardinal directions
           if (xDir < 0 && yDir == 0) moveLeft();
@@ -131,10 +122,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           if (yDir < 0 && xDir == 0) moveDown();
 
           // Ordinal directions
-          if (xDir < 0 && yDir > 0) moveUpLeft();
-          if (xDir > 0 && yDir > 0) moveUpRight();
-          if (xDir < 0 && yDir < 0) moveDownLeft();
-          if (xDir > 0 && yDir < 0) moveDownRight();
+//          if (xDir < 0 && yDir > 0) moveUpLeft();
+//          if (xDir > 0 && yDir > 0) moveUpRight();
+//          if (xDir < 0 && yDir < 0) moveDownLeft();
+//          if (xDir > 0 && yDir < 0) moveDownRight();
         }
 
         if (idling) zombieSpeed = Mover.IDLE;
@@ -145,10 +136,53 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() * Math.sin(Math.toRadians(direction)));
         if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() * Math.cos(Math.toRadians(direction)));
 
-        zombie.move(x, y);
+//        zombie.move(x, y);
+        checkCollision(new Move(x,y,direction));
         isMoving = false;
       }
     } // END FOR
   }
 
+  @Override
+  public void checkCollision (Move moveToCheck)
+  {
+    List<Tile> neighbors = house.neighborsInDirection(zombieTile,
+                                                      mover.getRotation());
+
+
+    Rectangle2D.Float test = new Rectangle2D.Float(moveToCheck.col,
+                                                   moveToCheck.row,
+                                                   mover.getWidth(),
+                                                   mover.getHeight());
+
+    for (Tile neighbor : neighbors)
+    {
+      if (neighbor instanceof Wall)
+      {
+        if (test.intersects(neighbor.getBoundingRectangle()))
+        {
+          mover.setSpeed(0);
+          return;
+        }
+      }
+//      else if (test.intersects(house.getPlayer().getBoundingRectangle()))
+//      {
+//        house.getPlayer().setState(Player.PlayerState.DEAD);
+//      }
+      else if (neighbor.getTrap() == Trap.FIRE)
+      {
+        zombies.remove(mover);
+        List<Tile> explode = house.neighbors(zombieTile);
+        for (Tile tile : explode)
+        {
+          tile.setTrap(Trap.ACTIVATED);
+
+
+        }
+        zombieTile.setTrap(Trap.ACTIVATED);
+
+      }
+    } mover.move(moveToCheck.col, moveToCheck.row);
+
+  }
 }

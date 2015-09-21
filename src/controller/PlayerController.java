@@ -2,6 +2,11 @@ package controller;
 
 
 import model.*;
+import model.Move;
+
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 public class PlayerController extends AbstractCharacterController<Player>
 {
@@ -13,11 +18,6 @@ public class PlayerController extends AbstractCharacterController<Player>
   }
 
 
-  @Override
-  public void checkCollision (float deltaTime)
-  {
-
-  }
 
   @Override
   public void update (float deltaTime)
@@ -83,9 +83,36 @@ public class PlayerController extends AbstractCharacterController<Player>
       if (moveUp || moveDown) y = (float) (y + mover.getSpeed() * Math.sin(Math.toRadians(direction)));
       if (moveLeft || moveRight) x = (float) (x + mover.getSpeed() * Math.cos(Math.toRadians(direction)));
 
-      mover.move(x, y);
+      checkCollision(new Move(x,y, (int) direction));
+      // mover.move(x, y);
       isMoving = false;
     }
+  }
+  @Override
+  public void checkCollision(Move moveToCheck)
+  {
+
+    List<Tile> neighbors = house.neighborsInDirection(house.getPlayerTile(),
+                                                      mover.getRotation());
+
+    List<Tile> aneighbors = house.neighbors(house.getPlayerTile());
+
+    Rectangle2D.Float test = new Rectangle2D.Float(moveToCheck.col,
+                                                   moveToCheck.row,
+                                                   mover.getWidth(),
+                                                   mover.getHeight());
+    for (Tile neighbor : neighbors)
+    {
+      if (neighbor instanceof Wall)
+      {
+        if (test.intersects(neighbor.getBoundingRectangle()))
+        {
+          mover.setSpeed(0);
+          return;
+        }
+      }
+    }
+    mover.move(moveToCheck.col, moveToCheck.row);
   }
 
 

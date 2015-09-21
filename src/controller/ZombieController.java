@@ -18,7 +18,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
   // An incrementer to keep track of when 60 frames (1 second) have passed
   private int time = 0;
-//  private Random rand = new Random();
   private Tile zombieTile;
   // The values of these ints can be either -1, 0, or 1
   // Depending on what their value is, the zombie will know which direction to go
@@ -86,10 +85,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             xDir = t.getCol();
             yDir = t.getRow();
             if (DEBUG) System.out.println("new tile (col,row): (" + t.getCol() + ", " + t.getRow() + ")");
-//            Move newMove = new Move(xDir, yDir, direction);
 
           }
-          // checkCollision(xDir, yDir, direction)?
+          isMoving = false;
         }
         else
         {
@@ -100,6 +98,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             Move move = zombie.getStrategy().getNextMove(house, house.getZombieTile(zombie));
             xDir = (int) move.col;
             yDir = (int) move.row;
+            checkCollision(move);
           }
 
           // Zombie movement
@@ -109,7 +108,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           if (yDir > 0 && xDir == 0) moveUp();
           if (yDir < 0 && xDir == 0) moveDown();
         }
-
         if (idling) zombieSpeed = Mover.IDLE;
 
         zombie.setSpeed(zombieSpeed * deltaTime);
@@ -130,6 +128,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     // Random and Line handle collision differently
     // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
 
+    if (DEBUG) System.out.println("\t\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
+
     List<Tile> neighbors = house.neighborsInDirection(zombieTile,
                                                       mover.getRotation());
 
@@ -137,11 +137,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
                                                    moveToCheck.row,
                                                    mover.getWidth(),
                                                    mover.getHeight());
-
-    if (mover.getStrategy() instanceof LineMoveStrategy)
-    {
-      //
-    }
 
     for (Tile neighbor : neighbors)
     {
@@ -166,6 +161,14 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           tile.setTrap(Trap.ACTIVATED);
         }
         zombieTile.setTrap(Trap.ACTIVATED);
+      }
+    }
+
+    if (mover.getStrategy() instanceof LineMoveStrategy)
+    {
+      if (mover.getSpeed() == 0)
+      {
+        moveToCheck.direction = -moveToCheck.direction;
       }
     }
     mover.move(moveToCheck.col, moveToCheck.row);

@@ -21,7 +21,7 @@ public class House implements Object2D
   private SuperZombie superZombie;
 
   // min defaults from requirements
-  private int minRooms = 6;
+  private int minRooms = 9;
   private int minHallways = 4;
   private int minHallwayLength = 3;
   private int minObstacles = 5;
@@ -34,8 +34,8 @@ public class House implements Object2D
   private Tile exit;
   private int generationAttempts = 0;
 
-  private float zombieSpawn = 0.1f;
-  private float trapSpawn = 0.01f;
+  private float zombieSpawn = 0.11f;
+  private float trapSpawn = 0.11f;
 
   // The minimum euclidean distance between the player and exit (inclusive)
   private int minTravelDistance = 15;
@@ -167,11 +167,11 @@ public class House implements Object2D
             {
               if (rand.nextBoolean())
               {
-                zombie = new Zombie(new RandomFindStrategy());
+                zombie = new Zombie(new RandomMoveStrategy());
               }
               else
               {
-                zombie = new Zombie(new LineFindStrategy());
+                zombie = new Zombie(new LineMoveStrategy());
               }
 
               if (getDistance(tile, getPlayerTile()) > zombie.getSmell())
@@ -550,6 +550,31 @@ public class House implements Object2D
     if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
     if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
     if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+    return neighbors;
+  }
+
+  public List<Tile> neighborsInDirection(Tile current, float dir)
+  {
+    List<Tile> neighbors = new ArrayList<>(4);
+    int row = current.getRow();
+    int col = current.getCol();
+    Tile neighbor;
+    if (dir == Mover.NORTH)
+    {
+      if ((neighbor = getTile(row + 1, col)) != null) neighbors.add(neighbor);
+    }
+    else if (dir == Mover.SOUTH)
+    {
+      if ((neighbor = getTile(row - 1, col)) != null) neighbors.add(neighbor);
+    }
+    else if (dir == Mover.EAST)
+    {
+      if ((neighbor = getTile(row, col + 1)) != null) neighbors.add(neighbor);
+    }
+    else if (dir == Mover.WEST)
+    {
+      if ((neighbor = getTile(row, col - 1)) != null) neighbors.add(neighbor);
+    }
     return neighbors;
   }
 

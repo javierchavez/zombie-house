@@ -49,6 +49,10 @@ public class HouseRenderer extends Renderer
             g2.drawImage(trap.getImage(), (j * tileW)+20, (i * tileH)+20, null);
 
           }
+          else if (houseMatrix[i][j].getTrap() == Trap.ACTIVATED)
+          {
+            g2.drawImage(trap.getImageBurned(), (j * tileW), (i * tileH), null);
+          }
         }
         else if (houseMatrix[i][j] instanceof Obstacle)
         {

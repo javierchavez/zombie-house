@@ -23,6 +23,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   // Depending on what their value is, the zombie will know which direction to go
   int xDir;
   int yDir;
+  float[] directions = {Mover.NORTH, Mover.SOUTH, Mover.EAST, Mover.WEST};
+  Random random = new Random();
 
   private boolean DEBUG = true;
 
@@ -46,6 +48,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       isMoving = true;
 
       mover = zombie = zombies.get(i);
+
       zombieTile = house.getZombieTile(zombie);
       if (zombieTile == null)
       {
@@ -81,10 +84,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           if (a.size() > 0)
           {
             Tile t = (Tile) a.get(0);
-            if (DEBUG) System.out.println("new tile: (" + t.getX() + ", " + t.getY() + ")");
+//            if (DEBUG) System.out.println("new tile: (" + t.getX() + ", " + t.getY() + ")");
             xDir = t.getCol();
             yDir = t.getRow();
-            if (DEBUG) System.out.println("new tile (col,row): (" + t.getCol() + ", " + t.getRow() + ")");
+//            if (DEBUG) System.out.println("new tile (col,row): (" + t.getCol() + ", " + t.getRow() + ")");
 
           }
           isMoving = false;
@@ -93,12 +96,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         {
           zombieSpeed = Mover.STAGGER_SPEED;
 
-          if (time % 60 == 0) // change this to: if (collision)
+          if (time == 0 || time % 90 == 0) // change this to: if (collision)
           {
             Move move = zombie.getStrategy().getNextMove(house, house.getZombieTile(zombie));
             xDir = (int) move.col;
             yDir = (int) move.row;
-            checkCollision(move);
           }
 
           // Zombie movement
@@ -127,8 +129,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   {
     // Random and Line handle collision differently
     // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
-
-    if (DEBUG) System.out.println("\t\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
+    boolean collision = false;
+    if (DEBUG) System.out.println("\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
 
     List<Tile> neighbors = house.neighborsInDirection(zombieTile,
                                                       mover.getRotation());
@@ -145,6 +147,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         if (test.intersects(neighbor.getBoundingRectangle()))
         {
           mover.setSpeed(0);
+          collision = true;
           return;
         }
       }
@@ -164,13 +167,20 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       }
     }
 
+    if (mover.getStrategy() instanceof RandomMoveStrategy)
+    {
+      //
+    }
+
+    // If Line Walker zombie collides with obstacle, they change direction
     if (mover.getStrategy() instanceof LineMoveStrategy)
     {
-      if (mover.getSpeed() == 0)
+      if (collision)
       {
         moveToCheck.direction = -moveToCheck.direction;
       }
     }
+
     mover.move(moveToCheck.col, moveToCheck.row);
   }
 }

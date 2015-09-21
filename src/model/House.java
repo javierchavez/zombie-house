@@ -629,6 +629,11 @@ public class House implements Object2D
     tile.setTrap(trap);
   }
 
+  public Tile getCharacterTile(Character character)
+  {
+    return house[(int) character.getCurrentY()][(int) character.getCurrentX()];
+  }
+
   /**
    * Get the tile the player is standing on
    *

@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class TrapGraphic
 {
+  private static BufferedImage imageBurned;
   private static BufferedImage image;
 
   public TrapGraphic ()
@@ -18,6 +19,9 @@ public class TrapGraphic
     try
     {
       TrapGraphic.image = ImageIO.read(new File("resources/firetrap.png"));
+      TrapGraphic.imageBurned = ImageIO.read(new File("resources/floor-burned" +
+                                                          ".png"));
+
     }
     catch (IOException e)
     {
@@ -38,4 +42,11 @@ public class TrapGraphic
             image,
             new BufferedImage(70, 70, image.getType()));
   }
+
+  public BufferedImage getImageBurned ()
+  {
+    // return image.getSubimage(0, 0, 32, 32);
+     return imageBurned;
+  }
+
 }

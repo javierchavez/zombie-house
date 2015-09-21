@@ -27,5 +27,4 @@ public class WallGraphic
     //return image.getSubimage(0, 0, 32, 32);
     return image;
   }
-
 }

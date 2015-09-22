@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 public class Character implements Mover, Object2D
 {
 
+  // attributes about a character (measure is in tiles)
   protected float
           stamina,
           hearing,

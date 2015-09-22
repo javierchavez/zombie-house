@@ -1,5 +1,6 @@
 package view;
 
+import common.Direction;
 import model.*;
 
 import java.awt.*;
@@ -76,16 +77,16 @@ public class ZombieRenderer extends Renderer
   {
     switch ((int) zombie.getRotation())
     {
-      case (int) Mover.EAST:
+      case (int) Direction.EAST:
         animation = east;
         break;
-      case (int) Mover.NORTH:
+      case (int) Direction.NORTH:
         animation = south;
         break;
-      case (int) Mover.SOUTH:
+      case (int) Direction.SOUTH:
         animation = north;
         break;
-      case (int) Mover.WEST:
+      case (int) Direction.WEST:
         animation = west;
         break;
     }

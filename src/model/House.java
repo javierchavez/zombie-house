@@ -1,5 +1,7 @@
 package model;
 
+import common.Direction;
+
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -563,19 +565,19 @@ public class House implements Object2D
     int row = current.getRow();
     int col = current.getCol();
     Tile neighbor;
-    if (dir == Mover.NORTH)
+    if (dir == Direction.NORTH)
     {
       if ((neighbor = getTile(row + 1, col)) != null) neighbors.add(neighbor);
     }
-    else if (dir == Mover.SOUTH)
+    else if (dir == Direction.SOUTH)
     {
       if ((neighbor = getTile(row - 1, col)) != null) neighbors.add(neighbor);
     }
-    else if (dir == Mover.EAST)
+    else if (dir == Direction.EAST)
     {
       if ((neighbor = getTile(row, col + 1)) != null) neighbors.add(neighbor);
     }
-    else if (dir == Mover.WEST)
+    else if (dir == Direction.WEST)
     {
       if ((neighbor = getTile(row, col - 1)) != null) neighbors.add(neighbor);
     }

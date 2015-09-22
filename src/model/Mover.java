@@ -3,18 +3,6 @@ package model;
 
 public interface Mover
 {
-  float IDLE = 0f;
-  float RUN_SPEED = 2.0f;
-  float WALK_SPEED = 1.0f;
-  float STAGGER_SPEED = .5f;
-  float NORTH = 90f;
-  float SOUTH = 270f;
-  float EAST = 0f;
-  float WEST = 180f;
-  float NORTHEAST = 315f;
-  float NORTHWEST = 225f;
-  float SOUTHEAST = 45f;
-  float SOUTHWEST = 135f;
 
   /**
    * Get the x current location of object

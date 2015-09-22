@@ -1,6 +1,7 @@
 package view;
 
 
+import common.Size;
 import model.House;
 import model.Tile;
 
@@ -38,8 +39,9 @@ public class Converter
   public Point charCenter (float x, float y)
   {
     return new Point(
-            (int) (((x * 80) + (x * Sprite.SIZE)) + ((x * 80) - (x * Sprite.SIZE))) / 2,
-            (int) (((y * 80) + (y * Sprite.SIZE)) + ((y * 80) - (y * Sprite.SIZE))) / 2);
+            (int) (((x * 80) + (x * Size.TILE)) + ((x * 80) - (x * Size.TILE)))
+                    / 2,
+            (int) (((y * 80) + (y * Size.TILE)) + ((y * 80) - (y * Size.TILE))) / 2);
   }
 
 

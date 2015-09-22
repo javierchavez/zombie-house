@@ -1,6 +1,8 @@
 package view;
 
 
+import common.Size;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -9,7 +11,7 @@ import java.io.IOException;
 
 public class Sprite
 {
-  public static final int SIZE = 60;
+
 
   /**
    * Get the sprite
@@ -21,8 +23,8 @@ public class Sprite
   public static BufferedImage getSprite (String fileName, int x, int y)
   {
     BufferedImage image = loadSprite(fileName);
-    return image.getSubimage(x * SIZE, y * SIZE, SIZE,
-                             SIZE);
+    return image.getSubimage(x * Size.TILE, y * Size.TILE, Size.TILE,
+                             Size.TILE);
   }
 
   private static BufferedImage loadSprite (String file)

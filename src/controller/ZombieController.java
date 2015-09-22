@@ -1,6 +1,8 @@
 package controller;
 
 
+import common.Direction;
+import common.Speed;
 import model.*;
 import model.Move;
 
@@ -23,7 +25,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   // Depending on what their value is, the zombie will know which direction to go
   int xDir;
   int yDir;
-  float[] directions = {Mover.NORTH, Mover.SOUTH, Mover.EAST, Mover.WEST};
+  float[] directions = {Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
   Random random = new Random();
 
   private boolean DEBUG = true;
@@ -65,8 +67,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
 
-      zombieSpeed = Mover.STAGGER_SPEED;
-      if (running) zombieSpeed = Mover.WALK_SPEED;
+      zombieSpeed = Speed.STAGGER;
+      if (running) zombieSpeed = Speed.WALK;
 
       if (isMoving)
       {
@@ -94,7 +96,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         }
         else
         {
-          zombieSpeed = Mover.STAGGER_SPEED;
+          zombieSpeed = Speed.STAGGER;
 
           if (time == 0 || time % 90 == 0) // change this to: if (collision)
           {
@@ -110,13 +112,15 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           if (yDir > 0 && xDir == 0) moveUp();
           if (yDir < 0 && xDir == 0) moveDown();
         }
-        if (idling) zombieSpeed = Mover.IDLE;
+        if (idling) zombieSpeed = Speed.IDLE;
 
         zombie.setSpeed(zombieSpeed * deltaTime);
 
         // Update zombie's position
-        if (moveUp || moveDown) y = (float) (y + zombie.getSpeed() * Math.sin(Math.toRadians(direction)));
-        if (moveLeft || moveRight) x = (float) (x + zombie.getSpeed() * Math.cos(Math.toRadians(direction)));
+        if (moveUp || moveDown) y = (float) (y + (zombie.getSpeed() * Math
+                .sin(Math.toRadians(direction))));
+        if (moveLeft || moveRight) x = (float) (x + (zombie.getSpeed() * Math
+                .cos(Math.toRadians(direction))));
 
         checkCollision(new Move(x, y, direction));
         isMoving = false;

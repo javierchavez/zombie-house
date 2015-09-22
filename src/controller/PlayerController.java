@@ -1,6 +1,7 @@
 package controller;
 
 
+import common.Speed;
 import model.*;
 import model.Move;
 
@@ -34,7 +35,7 @@ public class PlayerController extends AbstractCharacterController<Player>
     if (stamina == 0)
     {
       isMoving = false;
-      mover.setSpeed(Mover.IDLE);
+      mover.setSpeed(Speed.IDLE);
     }
 
     if (!isMoving)
@@ -51,7 +52,7 @@ public class PlayerController extends AbstractCharacterController<Player>
     {
       if (running)
       {
-        playerSpeed = Mover.RUN_SPEED;
+        playerSpeed = Speed.RUN;
         if (stamina > 0)
         {
           stamina -= deltaTime;
@@ -65,7 +66,7 @@ public class PlayerController extends AbstractCharacterController<Player>
       }
       else // if player is not running
       {
-        playerSpeed = Mover.WALK_SPEED;
+        playerSpeed = Speed.WALK;
         if (stamina < 5.0)
         {
           stamina += 0.2 * deltaTime;

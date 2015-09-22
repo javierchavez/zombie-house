@@ -19,7 +19,8 @@ public class Character implements Mover, Object2D
 
   public Character()
   {
-    height = width = .5f;
+    height = .80f;
+    width = .5f;
     rotation = 0;
     hearing = 10;
     stamina = 5;

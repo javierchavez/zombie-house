@@ -140,21 +140,51 @@ public class GameEngine implements KeyListener, MouseInputListener
           else if (options.getState() == GameOptions.GAME_STATE.LEVEL1)
           {
             house = new House(player);
-            house.setMinObstacles(6);
+            house.setMinRooms(6);
             house.setZombieSpawn(0.01f);
             house.setTrapSpawn(0.01f);
+            house.setMinTravelDistance(10);
             house.generateRandomHouse();
-            house.placePlayer();
             MenuController.setActive(false);
           }
           else if (options.getState() == GameOptions.GAME_STATE.LEVEL2)
           {
             house = new House(player);
-            house.setMinObstacles(6);
-            house.setZombieSpawn(0.09f);
+            house.setMinRooms(7);
+            house.setZombieSpawn(0.05f);
             house.setTrapSpawn(0.05f);
+            house.setMinTravelDistance(15);
             house.generateRandomHouse();
-            house.placePlayer();
+            MenuController.setActive(false);
+          }
+          else if (options.getState() == GameOptions.GAME_STATE.LEVEL3)
+          {
+            house = new House(player);
+            house.setMinRooms(9);
+            house.setZombieSpawn(0.1f);
+            house.setTrapSpawn(0.08f);
+            house.setMinTravelDistance(15);
+            house.generateRandomHouse();
+            MenuController.setActive(false);
+          }
+          else if (options.getState() == GameOptions.GAME_STATE.LEVEL4)
+          {
+            house = new House(player);
+            house.setMinRooms(12);
+            house.setZombieSpawn(0.15f);
+            house.setTrapSpawn(0.1f);
+            house.setMinTravelDistance(20);
+            house.generateRandomHouse();
+            MenuController.setActive(false);
+          }
+          else if (options.getState() == GameOptions.GAME_STATE.LEVEL5)
+          {
+            house = new House(player);
+            house.setMinRooms(15);
+            house.setZombieSpawn(0.15f);
+            house.setTrapSpawn(0.15f);
+            house.setMinTravelDistance(30);
+            house.generateRandomHouse();
             MenuController.setActive(false);
           }
           else

@@ -21,10 +21,12 @@ public class House implements Object2D
   private SuperZombie superZombie;
 
   // min defaults from requirements
-  private int minRooms = 9;
+  private int minRooms = 8;
   private int minHallways = 4;
-  private int minHallwayLength = 3;
   private int minObstacles = 5;
+  private int minHallwayLength = 3;
+  private float zombieSpawn = 0.1f;
+  private float trapSpawn = 0.05f;
 
   // how many rooms and hallways are in the generated house
   private int numHallways = 0;
@@ -34,11 +36,8 @@ public class House implements Object2D
   private Tile exit;
   private int generationAttempts = 0;
 
-  private float zombieSpawn = 0.11f;
-  private float trapSpawn = 0.01f;
-
   // The minimum euclidean distance between the player and exit (inclusive)
-  private int minTravelDistance = 15;
+  private int minTravelDistance = 10;
   private int maxTries = 500;
 
   private String savedHouse;
@@ -477,6 +476,11 @@ public class House implements Object2D
   public void setMinHallways(int minHallways)
   {
     this.minHallways = minHallways;
+  }
+
+  public void setMinTravelDistance(int distance)
+  {
+    minTravelDistance = distance;
   }
 
   /**

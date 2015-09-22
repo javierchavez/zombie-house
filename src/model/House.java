@@ -161,7 +161,7 @@ public class House implements Object2D
         for (int col = room.getCol(); col < room.getCol()+room.getWidth(); col++)
         {
           tile = house[row][col];
-          if (tile instanceof Floor && tile != getPlayerTile())
+          if (tile instanceof Floor && tile != getCharacterTile(player))
           {
             if (rand.nextFloat() < zombieSpawn)
             {
@@ -174,7 +174,7 @@ public class House implements Object2D
                 zombie = new Zombie(new LineMoveStrategy());
               }
 
-              if (getDistance(tile, getPlayerTile()) > zombie.getSmell())
+              if (getDistance(tile, getCharacterTile(player)) > zombie.getSmell())
               {
                 zombie.move(col, row);
                 zombies.add(zombie);
@@ -207,7 +207,7 @@ public class House implements Object2D
       row = room.getRow() + rand.nextInt(room.getHeight());
       col = room.getCol() + rand.nextInt(room.getWidth());
       tile = house[row][col];
-      distance = getDistance(tile, getPlayerTile());
+      distance = getDistance(tile, getCharacterTile(player));
       tries++;
     } while ((tries<maxTries)&&(!(tile instanceof Floor)||isZombieTile(tile)||(distance<(2*superZombie.getSmell()))));
     superZombie.move(tile.getCol(), tile.getRow());
@@ -227,7 +227,7 @@ public class House implements Object2D
       for (int col = 0; col < cols; col++)
       {
         tile = house[row][col];
-        if (tile instanceof Floor && tile != getPlayerTile() && !isZombieTile(tile))
+        if (tile instanceof Floor && tile != getCharacterTile(player) && !isZombieTile(tile))
         {
           if (rand.nextFloat() < trapSpawn)
           {
@@ -254,7 +254,7 @@ public class House implements Object2D
       assertion(getNumRooms() >= minRooms);
       assertion(getNumObstacles() >= minObstacles);
       assertion(getNumHallways() >= minHallways);
-      assertion(getDistance(getPlayerTile(), getExit()) >= minTravelDistance);
+      assertion(getDistance(getCharacterTile(player), getExit()) >= minTravelDistance);
       assertion(!isPlayerTooCloseToZombies());
     }
     catch (AssertionError ex)
@@ -613,8 +613,6 @@ public class House implements Object2D
    */
   public Tile getTile(int row, int col)
   {
-    // for some reason the exception was holding the java unit tests, so I
-    // had to do something like this.
     return validate(row, col) ? house[row][col] : null;
   }
 
@@ -635,36 +633,6 @@ public class House implements Object2D
   }
 
   /**
-   * Get the tile the player is standing on
-   *
-   * @return Tile containing the player
-   */
-  public Tile getPlayerTile()
-  {
-    return house[(int) player.getCurrentY()][(int) player.getCurrentX()];
-  }
-
-    /**
-   * Get the tile the zombie is on
-   *
-   * @return Tile containing the zombie
-   */
-  public Tile getZombieTile(Zombie zombie)
-  {
-    return house[(int) zombie.getCurrentY()][(int) zombie.getCurrentX()];
-  }
-
-  /**
-   * Gets the tile the zuper zombie is standing on
-   *
-   * @return Tile
-   */
-  public Tile getSuperZombieTile()
-  {
-    return house[(int) superZombie.getCurrentY()][(int) superZombie.getCurrentX()];
-  }
-
-  /**
    * Check a given tile if it contains a trap
    *
    * @param tile Must be a Tile retrieved from model.
@@ -673,6 +641,25 @@ public class House implements Object2D
   public boolean isTrap(Tile tile)
   {
     return tile.getTrap() == Trap.FIRE;
+  }
+
+  public boolean isCharacterTile(Tile tile)
+  {
+    if (tile == getCharacterTile(player) || tile == getCharacterTile(superZombie))
+    {
+      return true;
+    }
+    else
+    {
+      for (Zombie zombie : zombies)
+      {
+        if (tile == getCharacterTile(zombie))
+        {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   @Override
@@ -685,11 +672,11 @@ public class House implements Object2D
       for (int col = 0; col < cols; col++)
       {
         current = house[row][col];
-        if (current == getPlayerTile())
+        if (current == getCharacterTile(player))
         {
           board += "P";
         }
-        else if (current == getSuperZombieTile())
+        else if (current == getCharacterTile(superZombie))
         {
           board += "S";
         }
@@ -729,14 +716,14 @@ public class House implements Object2D
 
   private boolean isZombieTile(Tile tile)
   {
-    if (tile == getSuperZombieTile())
+    if (tile == getCharacterTile(superZombie))
     {
       return true;
     }
 
     for (Zombie zombie : zombies)
     {
-      if (getZombieTile(zombie) == tile)
+      if (getCharacterTile(zombie) == tile)
       {
         return true;
       }
@@ -757,14 +744,14 @@ public class House implements Object2D
 
   private boolean isPlayerTooCloseToZombies()
   {
-    if (getDistance(getPlayerTile(), getSuperZombieTile()) < 2*superZombie.getSmell())
+    if (getDistance(getCharacterTile(player), getCharacterTile(superZombie)) < 2*superZombie.getSmell())
     {
       return true;
     }
 
     for (Zombie zombie : zombies)
     {
-      if (getDistance(getPlayerTile(), getZombieTile(zombie)) < zombie.getSmell())
+      if (getDistance(getCharacterTile(player), getCharacterTile(zombie)) < zombie.getSmell())
       {
         return true;
       }

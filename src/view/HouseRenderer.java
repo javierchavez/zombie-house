@@ -15,8 +15,8 @@ public class HouseRenderer extends Renderer
 
   public HouseRenderer (House house, Converter converter)
   {
-    super(house.getPlayerTile().getCol(),
-          house.getPlayerTile().getRow(),
+    super(house.getCharacterTile(house.getPlayer()).getCol(),
+          house.getCharacterTile(house.getPlayer()).getRow(),
           converter);
     this.house = house;
     // center the renderer on the player tile

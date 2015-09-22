@@ -43,13 +43,13 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     {
       Zombie zombie;
       float zombieSpeed;
-      Tile playerTile = house.getPlayerTile(); // Get player's current tile
+      Tile playerTile = house.getCharacterTile(house.getPlayer()); // Get player's current tile
 
       isMoving = true;
 
       mover = zombie = zombies.get(i);
 
-      zombieTile = house.getZombieTile(zombie);
+      zombieTile = house.getCharacterTile(zombie);
       if (zombieTile == null)
       {
         zombies.remove(i);
@@ -77,8 +77,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         {
           running = true;
           zombie.getStrategy().find(house,
-              house.getZombieTile(zombie),
-              house.getPlayerTile());
+              house.getCharacterTile(zombie),
+              house.getCharacterTile(house.getPlayer()));
 
           List a = zombie.getStrategy().getPath();
           if (a.size() > 0)
@@ -98,7 +98,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (time == 0 || time % 90 == 0) // change this to: if (collision)
           {
-            Move move = zombie.getStrategy().getNextMove(house, house.getZombieTile(zombie));
+            Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
             xDir = (int) move.col;
             yDir = (int) move.row;
           }

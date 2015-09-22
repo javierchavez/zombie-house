@@ -88,6 +88,8 @@ public class PlayerController extends AbstractCharacterController<Player>
       isMoving = false;
     }
   }
+
+  /*
   @Override
   public void checkCollision(Move moveToCheck)
   {
@@ -113,7 +115,7 @@ public class PlayerController extends AbstractCharacterController<Player>
       }
     }
     mover.move(moveToCheck.col, moveToCheck.row);
-  }
+  } */
 
 
   /**
@@ -122,7 +124,7 @@ public class PlayerController extends AbstractCharacterController<Player>
   public void trapInteraction ()
   {
     if (DEBUG) System.out.println("P pressed");
-    Tile tile = house.getPlayerTile();
+    Tile tile = house.getCharacterTile(house.getPlayer());
     if (house.isTrap(tile))
     {
       mover.pickupTrap(tile);

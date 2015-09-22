@@ -160,18 +160,17 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void checkCollision(Move moveToCheck)
   {
-    // Is it right to treat mover as a character since T extends Character?
-    List<Tile> neighbors = house.neighborsInDirection(house.getCharacterTile(mover),
-                                                      mover.getRotation());
-    Rectangle2D test = mover.getBoundingRectangle();
+    Tile current = house.getCharacterTile(mover);
+    List<Tile> neighbors = house.getAllNeighbors(current);
+    //Rectangle2D test = mover.getBoundingRectangle();
+    Rectangle2D test = new Rectangle2D.Float(moveToCheck.col,
+                                             moveToCheck.row,
+                                             mover.getWidth(),
+                                             mover.getHeight());
 
-    //Rectangle2D.Float test = new Rectangle2D.Float(moveToCheck.col,
-    //                                               moveToCheck.row,
-    //                                               mover.getWidth(),
-    //                                               mover.getHeight());
     for (Tile neighbor : neighbors)
     {
-      if (neighbor instanceof Wall)
+      if (neighbor instanceof Wall || neighbor instanceof Obstacle)
       {
         if (test.intersects(neighbor.getBoundingRectangle()))
         {

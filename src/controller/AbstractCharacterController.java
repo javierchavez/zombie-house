@@ -162,7 +162,6 @@ public abstract class AbstractCharacterController<T extends Character> implement
   {
     Tile current = house.getCharacterTile(mover);
     List<Tile> neighbors = house.getAllNeighbors(current);
-    //Rectangle2D test = mover.getBoundingRectangle();
     Rectangle2D test = new Rectangle2D.Float(moveToCheck.col,
                                              moveToCheck.row,
                                              mover.getWidth(),
@@ -170,6 +169,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
 
     for (Tile neighbor : neighbors)
     {
+      // TODO: Check if a character is on the next tile as well (house.isCharacterTile(current))
       if (neighbor instanceof Wall || neighbor instanceof Obstacle)
       {
         if (test.intersects(neighbor.getBoundingRectangle()))

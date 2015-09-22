@@ -19,7 +19,7 @@ import java.awt.geom.Rectangle2D;
  * Main Controller. Its job is to delegate actions to other controllers and
  * to send data to the renders as needed
  */
-public class GameEngine implements KeyListener, MouseInputListener
+public class GameEngine implements KeyListener, MouseInputListener, GameController
 {
   private final MenuRenderer menuRenderer;
   private House house;
@@ -65,6 +65,7 @@ public class GameEngine implements KeyListener, MouseInputListener
 
   }
 
+  @Override
   public void update(float deltaTime)
   {
     if (MenuController.isActive())
@@ -93,14 +94,14 @@ public class GameEngine implements KeyListener, MouseInputListener
   public AffineTransform getTransform()
   {
     AffineTransform at = new AffineTransform();
-//    double shiftX = -player.getCurrentX() * 60;
-//    double shiftY = -player.getCurrentY() * 60;
-    at.scale(1 / 1.78, 1 / 1.78);
-//    at.translate(shiftX, shiftY);
+    double shiftX = -player.getCurrentX() * 60;
+    double shiftY = -player.getCurrentY() * 60;
+//    at.scale(1 / 1.78, 1 / 1.78);
+    at.translate(shiftX, shiftY);
     return at;
   }
 
-
+  @Override
   public void render (Graphics2D graphics)
   {
     if (MenuController.isActive())

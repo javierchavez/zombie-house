@@ -184,5 +184,9 @@ public abstract class AbstractCharacterController<T extends Character> implement
     mover.move(moveToCheck.col, moveToCheck.row);
   }
 
+  @Override
+  public void render (Graphics2D graphics)
+  {
 
+  }
 }

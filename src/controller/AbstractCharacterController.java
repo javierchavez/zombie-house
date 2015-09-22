@@ -169,7 +169,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
 
     for (Tile neighbor : neighbors)
     {
-      // TODO: Check if a character is on the next tile as well (house.isCharacterTile(current))
+      // TODO: Check if a character is on the next tile as well (house.isCharacterTile(neighbor))
       if (neighbor instanceof Wall || neighbor instanceof Obstacle)
       {
         if (test.intersects(neighbor.getBoundingRectangle()))

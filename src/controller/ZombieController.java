@@ -132,8 +132,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     boolean collision = false;
     if (DEBUG) System.out.println("\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
 
-    List<Tile> neighbors = house.neighborsInDirection(zombieTile,
-                                                      mover.getRotation());
+    //List<Tile> neighbors = house.neighborsInDirection(zombieTile,
+    //                                                  mover.getRotation());
+    List<Tile> neighbors = house.getAllNeighbors(zombieTile); // seems to handle special case where a character can get suck in a wall
 
     Rectangle2D.Float test = new Rectangle2D.Float(moveToCheck.col,
                                                    moveToCheck.row,
@@ -142,7 +143,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
     for (Tile neighbor : neighbors)
     {
-      if (neighbor instanceof Wall)
+      // TODO: check to make sure the tile doesn't have another character on it (zombie, super zombie, ect..)
+      // add house.isCharacterTile(neighbor)
+      if (neighbor instanceof Wall || neighbor instanceof Obstacle)
       {
         if (test.intersects(neighbor.getBoundingRectangle()))
         {

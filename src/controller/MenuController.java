@@ -4,6 +4,8 @@ package controller;
 import model.GameOptions;
 import model.House;
 
+import java.awt.*;
+
 public class MenuController implements GameController
 {
   private static GameOptions options;
@@ -36,6 +38,12 @@ public class MenuController implements GameController
 
   @Override
   public void update (float deltaTime)
+  {
+
+  }
+
+  @Override
+  public void render (Graphics2D graphics)
   {
 
   }

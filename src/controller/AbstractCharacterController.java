@@ -183,6 +183,14 @@ public abstract class AbstractCharacterController<T extends Character> implement
         }
       }
     }
+
+    if (house.isZombieTile(current))
+    {
+      if (house.getCharacterTile(house.getPlayer()) == current)
+      {
+        house.getPlayer().setState(Player.PlayerState.DEAD);
+      }
+    }
     return false;
   }
 

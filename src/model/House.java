@@ -2,6 +2,7 @@ package model;
 
 import common.Direction;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -635,7 +636,7 @@ public class House implements Object2D
 
   public Tile getCharacterTile(Character character)
   {
-    return house[(int) character.getCurrentY()][(int) character.getCurrentX()];
+    return getTile((int) character.getCurrentY(), (int) character.getCurrentX());
   }
 
   /**
@@ -666,6 +667,16 @@ public class House implements Object2D
       }
     }
     return false;
+  }
+
+  public List<Tile> getIntersectingNeighbors(Tile current, Object2D obj)
+  {
+    List<Tile> neighbors = new ArrayList<>();
+    for (Tile neighbor : getAllNeighbors(current))
+    {
+      if (obj.intersects(neighbor.getBoundingRectangle())) neighbors.add(neighbor);
+    }
+    return neighbors;
   }
 
   @Override

@@ -129,42 +129,33 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   }
 
   @Override
-  public void checkCollision (Move moveToCheck)
+  public boolean checkCollision (Move moveToCheck)
   {
+    // @esosebee I changed this method around to work with the new abstract controller
+    // let me know if you have any questions
+    // checks for a player and zombie collision are done in the abstract controller
+
     // Random and Line handle collision differently
     // Line changes direction immediately; Random keeps trying to go, but they should change direction in the next decision update
-    boolean collision = false;
+
+    // super checks for basic collisions (Wall, Obstacle, etc...)
+    boolean collision = super.checkCollision(moveToCheck);
     if (DEBUG) System.out.println("\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
 
-    //List<Tile> neighbors = house.neighborsInDirection(zombieTile,
-    //                                                  mover.getRotation());
-    List<Tile> neighbors = house.getAllNeighbors(zombieTile); // seems to handle special case where a character can get suck in a wall
+    Area testArea = new Area(moveToCheck.col,
+                             moveToCheck.row,
+                             mover.getWidth(),
+                             mover.getHeight());
+    List<Tile> neighbors = house.getIntersectingNeighbors(zombieTile, testArea);
 
-    Rectangle2D.Float test = new Rectangle2D.Float(moveToCheck.col,
-                                                   moveToCheck.row,
-                                                   mover.getWidth(),
-                                                   mover.getHeight());
-
+    // extra checks for fire traps
     for (Tile neighbor : neighbors)
     {
-      // TODO: check to make sure the tile doesn't have another character on it (zombie, super zombie, ect..)
-      // add house.isCharacterTile(neighbor)
-      if (neighbor instanceof Wall || neighbor instanceof Obstacle)
-      {
-        if (test.intersects(neighbor.getBoundingRectangle()))
-        {
-          mover.setSpeed(0);
-          collision = true;
-          return;
-        }
-      }
-//      else if (test.intersects(house.getPlayer().getBoundingRectangle()))
-//      {
-//        house.getPlayer().setState(Player.PlayerState.DEAD);
-//      }
-      else if (neighbor.getTrap() == Trap.FIRE)
+      if (neighbor.getTrap() == Trap.FIRE)
       {
         zombies.remove(mover);
+        // I think all 8 tiles explode around the trap right?
+        // If so this should be house.getAllNeighbors(zombieTile)
         List<Tile> explode = house.neighbors(zombieTile);
         for (Tile tile : explode)
         {
@@ -188,6 +179,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       }
     }
 
-    mover.move(moveToCheck.col, moveToCheck.row);
+    if (!collision)
+    {
+      mover.move(moveToCheck.col, moveToCheck.row);
+    }
+    return false;
   }
 }

@@ -160,28 +160,24 @@ public abstract class AbstractCharacterController<T extends Character> implement
   }
 
   @Override
-  public void checkCollision(Move moveToCheck)
+  public boolean checkCollision(Move moveToCheck)
   {
     Tile current = house.getCharacterTile(mover);
-    List<Tile> neighbors = house.getAllNeighbors(current);
-    Rectangle2D test = new Rectangle2D.Float(moveToCheck.col,
-                                             moveToCheck.row,
-                                             mover.getWidth(),
-                                             mover.getHeight());
+    Area testArea = new Area(moveToCheck.col,
+                             moveToCheck.row,
+                             mover.getWidth(),
+                             mover.getHeight());
+    List<Tile> neighbors = house.getIntersectingNeighbors(current, testArea);
 
     for (Tile neighbor : neighbors)
     {
-      // TODO: Check if a character is on the next tile as well (house.isCharacterTile(neighbor))
+      // TODO: add check if two characters collide
       if (neighbor instanceof Wall || neighbor instanceof Obstacle)
       {
-        if (test.intersects(neighbor.getBoundingRectangle()))
-        {
-          mover.setSpeed(0);
-          return;
-        }
+        return true;
       }
     }
-    mover.move(moveToCheck.col, moveToCheck.row);
+    return false;
   }
 
   @Override

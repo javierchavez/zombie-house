@@ -20,12 +20,19 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
     initial = true;
   }
 
-  // inherit from abstract controller for now
-  //@Override
-  //public void checkCollision (Move moveToCheck)
-  //{
-
-  //}
+  @Override
+  public boolean checkCollision(Move moveToCheck)
+  {
+    if (super.checkCollision(moveToCheck))
+    {
+      mover.setSpeed(0);
+    }
+    else
+    {
+      mover.move(moveToCheck.col, moveToCheck.row);
+    }
+    return false;
+  }
 
   @Override
   public void update (float deltaTime)

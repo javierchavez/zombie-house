@@ -90,34 +90,19 @@ public class PlayerController extends AbstractCharacterController<Player>
     }
   }
 
-  /*
   @Override
-  public void checkCollision(Move moveToCheck)
+  public boolean checkCollision(Move moveToCheck)
   {
-
-    List<Tile> neighbors = house.neighborsInDirection(house.getPlayerTile(),
-                                                      mover.getRotation());
-
-    List<Tile> aneighbors = house.neighbors(house.getPlayerTile());
-
-    Rectangle2D.Float test = new Rectangle2D.Float(moveToCheck.col,
-                                                   moveToCheck.row,
-                                                   mover.getWidth(),
-                                                   mover.getHeight());
-    for (Tile neighbor : neighbors)
+    if (super.checkCollision(moveToCheck))
     {
-      if (neighbor instanceof Wall)
-      {
-        if (test.intersects(neighbor.getBoundingRectangle()))
-        {
-          mover.setSpeed(0);
-          return;
-        }
-      }
+      mover.setSpeed(0);
     }
-    mover.move(moveToCheck.col, moveToCheck.row);
-  } */
-
+    else
+    {
+      mover.move(moveToCheck.col, moveToCheck.row);
+    }
+    return false;
+  }
 
   /**
    * If 'P' is pressed.

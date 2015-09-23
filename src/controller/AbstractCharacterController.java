@@ -9,6 +9,7 @@ import model.Character;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.Random;
 
 /**
  * This class does most of the work for setting the character speed and rotation
@@ -24,6 +25,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
   protected boolean isMoving = false, running = false, idling = true;
   protected boolean moveUp, moveDown, moveLeft, moveRight;
   private boolean DEBUG = false;
+  private Random random = new Random();
 
   public AbstractCharacterController (House house, T mover)
   {
@@ -156,7 +158,9 @@ public abstract class AbstractCharacterController<T extends Character> implement
   public void resting ()
   {
     if (DEBUG) System.out.println("\tResting...");
-    idling = true;
+    // Sometimes the zombie is resting, sometimes it isn't
+    idling = random.nextBoolean();
+//    idling = true;
   }
 
   @Override

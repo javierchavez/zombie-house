@@ -15,6 +15,8 @@ public class PlayerController extends AbstractCharacterController<Player>
   private final int TRAP_SET_TIME = 60 * 1; // Takes 5 seconds to set/pick up traps
   private boolean pKeyPressed = false;
 
+  Tile playerTile;
+
   private boolean DEBUG = false;
 
   public PlayerController (House house)
@@ -29,6 +31,8 @@ public class PlayerController extends AbstractCharacterController<Player>
     // we are inheriting mover from AbstractCharacterController
     // it was set in the Constructor
     mover = house.getPlayer();
+    playerTile = house.getCharacterTile(mover);
+
     float direction = mover.getRotation();
     float stamina = mover.getStamina();
     float x = mover.getCurrentX();
@@ -105,20 +109,6 @@ public class PlayerController extends AbstractCharacterController<Player>
     }
   }
 
-  @Override
-  public boolean checkCollision(Move moveToCheck)
-  {
-    if (super.checkCollision(moveToCheck))
-    {
-      mover.setSpeed(0);
-    }
-    else
-    {
-      mover.move(moveToCheck.col, moveToCheck.row);
-    }
-    return false;
-  }
-
   /**
    * If 'P' is pressed.
    */
@@ -154,5 +144,45 @@ public class PlayerController extends AbstractCharacterController<Player>
         if (numTraps > 0) mover.dropTrap(tile);
       }
     }
+  }
+
+  @Override
+  public boolean checkCollision(Move moveToCheck)
+  {
+    Area testArea = new Area(moveToCheck.col,
+        moveToCheck.row,
+        mover.getWidth(),
+        mover.getHeight());
+
+    List<Tile> neighbors = house.getIntersectingNeighbors(playerTile, testArea);
+
+    // Fire traps combust if player runs over them
+    for (Tile neighbor : neighbors)
+    {
+      if (neighbor.getTrap() == Trap.FIRE)
+      {
+        if (running)
+        {
+          List<Tile> explode = house.getCombustableNeighbors(neighbor);
+          for (Tile tile : explode)
+          {
+            tile.setTrap(Trap.ACTIVATED);
+          }
+          neighbor.setTrap(Trap.ACTIVATED);
+          // TODO: player dies
+        }
+      }
+    }
+
+    if (super.checkCollision(moveToCheck))
+    {
+      mover.setSpeed(0);
+    }
+    else
+    {
+      mover.move(moveToCheck.col, moveToCheck.row);
+    }
+
+    return false;
   }
 }

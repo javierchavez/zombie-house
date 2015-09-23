@@ -154,14 +154,12 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       if (neighbor.getTrap() == Trap.FIRE)
       {
         zombies.remove(mover);
-        // I think all 8 tiles explode around the trap right?
-        // If so this should be house.getAllNeighbors(zombieTile)
-        List<Tile> explode = house.neighbors(zombieTile);
+        List<Tile> explode = house.getCombustableNeighbors(neighbor);
         for (Tile tile : explode)
         {
           tile.setTrap(Trap.ACTIVATED);
         }
-        zombieTile.setTrap(Trap.ACTIVATED);
+        neighbor.setTrap(Trap.ACTIVATED);
       }
     }
 

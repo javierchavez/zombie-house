@@ -731,7 +731,7 @@ public class House implements Object2D
     return board;
   }
 
-  private boolean isZombieTile(Tile tile)
+  public boolean isZombieTile(Tile tile)
   {
     if (tile == getCharacterTile(superZombie))
     {

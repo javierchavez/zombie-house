@@ -171,10 +171,16 @@ public abstract class AbstractCharacterController<T extends Character> implement
 
     for (Tile neighbor : neighbors)
     {
-      // TODO: add check if two characters collide
       if (neighbor instanceof Wall || neighbor instanceof Obstacle)
       {
         return true;
+      }
+      else if (house.isZombieTile(neighbor))
+      {
+        if (mover instanceof Zombie)
+        {
+          return true;
+        }
       }
     }
     return false;

@@ -41,7 +41,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   private boolean leftPressed = false;
   private boolean downPressed = false;
   private boolean rightPressed = false;
-
+  private boolean pKeyPressed = false;
 
   private Rectangle2D viewPort;
   private boolean DEBUG = false;
@@ -75,7 +75,11 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     }
     controller.update(deltaTime);
     zombieController.update(deltaTime);
-      ss.update(deltaTime);
+    ss.update(deltaTime);
+
+    if (pKeyPressed) controller.trapKeyPressed();
+    if (!pKeyPressed) controller.trapKeyReleased();
+
     // Ordinal direction
     if (upPressed && rightPressed) controller.moveUpRight();
     else if (upPressed && leftPressed) controller.moveUpLeft();
@@ -233,6 +237,11 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = true;
         break;
 
+      // Picking up/setting traps
+      case KeyEvent.VK_P:
+        pKeyPressed = true;
+        break;
+
       // Running
       case KeyEvent.VK_R:
         if (moving)
@@ -246,6 +255,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = false;
         controller.idle();
     }
+
   }
 
   @Override
@@ -305,7 +315,8 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         }
         break;
       case KeyEvent.VK_P:
-        controller.trapInteraction();
+        pKeyPressed = false;
+//        controller.trapInteraction();
         break;
       default:
         moving = false;

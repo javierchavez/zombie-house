@@ -11,14 +11,16 @@ import java.util.List;
 
 public class PlayerController extends AbstractCharacterController<Player>
 {
+  private int trapSetTimer = 0;
+  private final int TRAP_SET_TIME = 60 * 1; // Takes 5 seconds to set/pick up traps
+  private boolean pKeyPressed = false;
+
   private boolean DEBUG = false;
 
   public PlayerController (House house)
   {
     super(house, house.getPlayer());
   }
-
-
 
   @Override
   public void update (float deltaTime)
@@ -40,12 +42,25 @@ public class PlayerController extends AbstractCharacterController<Player>
 
     if (!isMoving)
     {
+      // Stamina regeneration
       if (stamina < 5.0)
       {
         stamina += 0.2 * deltaTime + 0.01; // Stamina regenerates faster if mover is not moving
         if (stamina > 5) stamina = 5;
         mover.setStamina(stamina);
       }
+
+//      if (DEBUG) System.out.println("trap timer: " + trapSetTimer);
+      // Detecting if player is on trap tile
+      //  TODO: just for testing. Get rid of this later
+      if (DEBUG)
+      {
+        Tile tile = house.getCharacterTile(house.getPlayer());
+        if (house.isTrap(tile)) System.out.println("On trap tile");
+      }
+
+      // Trap interaction
+      if (pKeyPressed) trapInteraction();
     }
 
     if (isMoving)
@@ -107,18 +122,37 @@ public class PlayerController extends AbstractCharacterController<Player>
   /**
    * If 'P' is pressed.
    */
-  public void trapInteraction ()
+  public void trapKeyPressed()
   {
-    if (DEBUG) System.out.println("P pressed");
+    pKeyPressed = true;
+    trapSetTimer++;
+  }
+
+  public void trapKeyReleased()
+  {
+    pKeyPressed = false;
+    trapSetTimer = 0;
+  }
+
+  /**
+   * If 'P' key is held down for long enough for player to pick up/set trap.
+   */
+  public void trapInteraction()
+  {
     Tile tile = house.getCharacterTile(house.getPlayer());
     if (house.isTrap(tile))
     {
-      mover.pickupTrap(tile);
+//      if (DEBUG) System.out.println("PICKING UP TRAP");
+      if (trapSetTimer % TRAP_SET_TIME == 0) mover.pickupTrap(tile);
     }
     else
     {
+//      if (DEBUG) System.out.println("SETTING TRAP");
       int numTraps = mover.trapsAvailable();
-      if (numTraps > 0) mover.dropTrap(tile);
+      if (trapSetTimer % TRAP_SET_TIME == 0)
+      {
+        if (numTraps > 0) mover.dropTrap(tile);
+      }
     }
   }
 }

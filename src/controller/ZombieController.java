@@ -123,7 +123,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           {
             if (time % 60 == 0) // Random walk zombies change direction every 1 second
             {
-              System.out.println("\tUPDATE POSITION");
+//              System.out.println("\tUPDATE POSITION");
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               boolean collision = super.checkCollision(move);
               if (collision)
@@ -214,13 +214,13 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     {
       if (collision)
       {
-        System.out.println("\tline walker");
+//        System.out.println("\tline walker");
         xDir = random.nextInt(3) - 1;
         yDir = random.nextInt(3) - 1;
         zombieDirection();
         nextPos(mover, moveToCheck.direction);
         Move newMove = new Move(x, y, moveToCheck.direction);
-        System.out.println("\tnew move: " + newMove.col + ", " + newMove.row);
+//        System.out.println("\tnew move: " + newMove.col + ", " + newMove.row);
 //        if (super.checkCollision(move)) mover.move(move.col, move.row);
 //        checkCollision(newMove);
       }

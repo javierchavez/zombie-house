@@ -669,12 +669,36 @@ public class House implements Object2D
     return false;
   }
 
-  public List<Tile> getIntersectingNeighbors(Tile current, Object2D obj)
+  public List<Tile> getIntersectingNeighbors(Tile tile, Object2D obj)
   {
     List<Tile> neighbors = new ArrayList<>();
-    for (Tile neighbor : getAllNeighbors(current))
+    for (Tile neighbor : getAllNeighbors(tile))
     {
       if (obj.intersects(neighbor.getBoundingRectangle())) neighbors.add(neighbor);
+    }
+    return neighbors;
+  }
+
+  public List<Tile> getCombustableNeighbors(Tile tile)
+  {
+    List<Tile> neighbors = new ArrayList<>();
+    for (Tile neighbor : getAllNeighbors(tile))
+    {
+      if (neighbor instanceof Floor)
+      {
+        neighbors.add(neighbor);
+      }
+      else if (neighbor instanceof Obstacle)
+      {
+        neighbors.add(neighbor);
+      }
+      else if (neighbor instanceof Wall)
+      {
+        if (((Wall) neighbor).getWallType() == WallType.INTERIOR)
+        {
+          neighbors.add(neighbor);
+        }
+      }
     }
     return neighbors;
   }

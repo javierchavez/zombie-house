@@ -104,6 +104,16 @@ public class PlayerController extends AbstractCharacterController<Player>
       checkCollision(new Move(x,y, (int) direction));
       // mover.move(x, y);
       isMoving = false;
+      for (Zombie zombie : house.getZombies())
+      {
+        boolean canHear = mover.sense(house.getCharacterTile(zombie),
+                                      house.getCharacterTile(mover));
+        if (canHear)
+        {
+          float theta = mover.getDirectionCardinal(zombie);
+          zombie.setChannel(theta);
+        }
+      }
     }
   }
 

@@ -1,9 +1,11 @@
 package model;
 
 
+import common.Direction;
+
 import java.awt.geom.Rectangle2D;
 
-public class Character implements Mover, Object2D, Combustible
+public class Character implements Mover, Object2D, Combustible, Sound
 {
 
   // attributes about a character (measure is in tiles)
@@ -18,6 +20,8 @@ public class Character implements Mover, Object2D, Combustible
           smell,
           rotation;
   private CombustedState combustedState = CombustedState.NONE;
+  AudioChannel channel = AudioChannel.STEREO;
+  private float volume;
 
   public Character()
   {
@@ -194,5 +198,80 @@ public class Character implements Mover, Object2D, Combustible
   public CombustedState getCombustedState ()
   {
     return combustedState;
+  }
+
+  @Override
+  public float getVolume ()
+  {
+    return volume;
+  }
+
+  @Override
+  public void setVolume (float volume)
+  {
+    this.volume = volume;
+  }
+
+  @Override
+  public AudioChannel getChannel ()
+  {
+    return channel;
+  }
+
+  @Override
+  public void setChannel (AudioChannel audioChannel)
+  {
+    this.channel = audioChannel;
+  }
+
+  public void setChannel (float direction)
+  {
+    if (direction == Direction.NORTH || direction == Direction.SOUTH)
+    {
+      this.channel = AudioChannel.STEREO;
+    }
+    else if (direction == Direction.EAST)
+    {
+      this.channel = AudioChannel.RIGHT;
+    }
+    else if (direction == Direction.WEST)
+    {
+      this.channel = AudioChannel.LEFT;
+    }
+  }
+
+  public float getAngleBetween(Character character) {
+    float angle = (float) Math.toDegrees(
+            Math.atan2(character.getY() - y, character.getX() - x));
+
+    if(angle < 0)
+    {
+      angle += 360;
+    }
+
+    return angle;
+  }
+
+  public float getDirectionCardinal (Character character)
+  {
+    float theta = getAngleBetween(character);
+    if (theta >= Direction.NORTHEAST && theta <= Direction.SOUTHEAST)
+    {
+      return Direction.EAST;
+    }
+    else if (theta >= Direction.NORTHEAST && theta <= Direction.NORTHWEST)
+    {
+      return Direction.NORTH;
+    }
+    else if (theta >= Direction.NORTHWEST && theta <= Direction.SOUTHWEST)
+    {
+      return Direction.WEST;
+    }
+    else if (theta >= Direction.SOUTHWEST && theta <= Direction.SOUTHEAST)
+    {
+      return Direction.SOUTH;
+    }
+
+    return theta;
   }
 }

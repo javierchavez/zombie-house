@@ -24,6 +24,8 @@ public interface Sound
    */
   AudioChannel getChannel();
 
+  void setChannel(AudioChannel audioChannel);
+
   enum AudioChannel
   {
       LEFT, RIGHT, STEREO

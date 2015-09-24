@@ -63,6 +63,20 @@ public class Player extends Character
     return super.getBoundingRectangle();
   }
 
+  public boolean sense(Tile zombieTile, Tile playerTile)
+  {
+    float hearing = getHearing();
+    int zx = zombieTile.getCol();
+    int zy = zombieTile.getRow();
+    int px = playerTile.getCol();
+    int py = playerTile.getRow();
+
+    int dx = (zx - px) * (zx - px);
+    int dy = (zy - py) * (zy - py);
+    return ((int) Math.sqrt(dx+dy) <= hearing);
+  }
+
+
   @Override
   public void setCombustedState (CombustedState s)
   {

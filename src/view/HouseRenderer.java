@@ -3,6 +3,7 @@ package view;
 import model.*;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 
 public class HouseRenderer extends Renderer
@@ -13,18 +14,39 @@ public class HouseRenderer extends Renderer
   TrapGraphic trap = new TrapGraphic();
   ExitGraphic exit = new ExitGraphic();
 
+
+  private BufferedImage[] burn = {
+          FireSprite.getSprite(4, 0),
+          FireSprite.getSprite(0, 1),
+          FireSprite.getSprite(1, 1),
+          FireSprite.getSprite(2, 1),
+          FireSprite.getSprite(3, 1),
+          FireSprite.getSprite(4, 1),
+          FireSprite.getSprite(0, 2),
+          FireSprite.getSprite(1, 2)};
+
+
+  private Animation brining = new Animation(burn, 25);
+
+  // check direction... need a AnimationFactoryClass
+  private Animation animation;
+
   public HouseRenderer (House house, Converter converter)
   {
     super(house.getCharacterTile(house.getPlayer()).getCol(),
           house.getCharacterTile(house.getPlayer()).getRow(),
           converter);
     this.house = house;
+    animation = brining;
+    animation.start();
     // center the renderer on the player tile
   }
 
   @Override
   public void render (Graphics2D g2)
   {
+
+
 
     int tileW = 80;
     int tileH = 80;
@@ -35,6 +57,7 @@ public class HouseRenderer extends Renderer
     {
       for (int j = 0; j < houseMatrix[i].length; j++)
       {
+        // Draw only burned tile then move on (don't draw anything else)
         if (houseMatrix[i][j].getTrap() == Trap.BURNED)
         {
           g2.drawImage(trap.getImageBurned(), (j * tileW), (i * tileH), null);
@@ -67,6 +90,15 @@ public class HouseRenderer extends Renderer
           g2.drawImage(exit.getImage(), j * tileW, i * tileH, null);
         }
 
+        // Rendering the animation on top of the tile
+        if (houseMatrix[i][j].getTrap() == Trap.ACTIVATED)
+        {
+          animation.update();
+          g2.drawImage(animation.getSprite(),
+                       (j * TILE_HEIGHT),
+                       (i * TILE_HEIGHT), null);
+
+        }
 
         //        g2.setColor(Color.green);
         //

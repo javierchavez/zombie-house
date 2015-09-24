@@ -190,7 +190,6 @@ public class Character implements Mover, Object2D, Combustible, Sound
   @Override
   public void setCombustedState (CombustedState s)
   {
-    System.out.println(getClass() + " " + s);
     this.combustedState = s;
   }
 

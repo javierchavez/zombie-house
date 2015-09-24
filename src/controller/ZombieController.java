@@ -89,7 +89,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (isMoving)
       {
-        playerDetected = zombie.sense(zombieTile, playerTile);
+        playerDetected = zombie.sense(playerTile);
         if (DEBUG) System.out.println("\tPlayer detected: " + playerDetected);
 
         if (playerDetected)

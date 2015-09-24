@@ -8,6 +8,12 @@ public class Player extends Character
   protected float traps = 0;
   protected PlayerState state = PlayerState.ALIVE;
 
+  public Player()
+  {
+    height = .60f;
+    width = .50f;
+  }
+
   public PlayerState getState ()
   {
     return state;

@@ -23,6 +23,8 @@ public class Zombie extends Character implements Deadly
     zombieDecisionRate = 2f;
     rotation = 0;
     speed = .5f;
+    height = .65f;
+    width = .5f;
     this.findStrategy = findStrategy;
   }
 

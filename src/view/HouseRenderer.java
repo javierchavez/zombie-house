@@ -26,7 +26,7 @@ public class HouseRenderer extends Renderer
           FireSprite.getSprite(1, 2)};
 
 
-  private Animation brining = new Animation(burn, 25);
+  private Animation burning = new Animation(burn, 25);
 
   // check direction... need a AnimationFactoryClass
   private Animation animation;
@@ -37,7 +37,7 @@ public class HouseRenderer extends Renderer
           house.getCharacterTile(house.getPlayer()).getRow(),
           converter);
     this.house = house;
-    animation = brining;
+    animation = burning;
     animation.start();
     // center the renderer on the player tile
   }

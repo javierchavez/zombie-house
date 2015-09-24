@@ -15,6 +15,7 @@ public class Tile implements Object2D, Combustible
   // The cost to travel over a tile (for pathfinding algorithms)
   private int cost;
   private Trap trap = Trap.NONE;
+  private CombustedState combustedState = CombustedState.NONE;
 
   /**
    * Create a tile with cost 1
@@ -79,27 +80,6 @@ public class Tile implements Object2D, Combustible
   public void setCost(int cost)
   {
     this.cost = cost;
-  }
-
-  @Override
-  public boolean equals (Object o)
-  {
-    if (this == o) return true;
-    if (!(o instanceof Tile)) return false;
-
-    Tile tile = (Tile) o;
-
-    if (row != tile.row) return false;
-    return col == tile.col;
-
-  }
-
-  @Override
-  public int hashCode ()
-  {
-    int result = row;
-    result = 31 * result + col;
-    return result;
   }
 
   /**
@@ -194,5 +174,40 @@ public class Tile implements Object2D, Combustible
   public boolean isCombustible ()
   {
     return trap == Trap.FIRE;
+  }
+
+  @Override
+  public void setCombustedState (CombustedState s)
+  {
+    System.out.println(getClass() + " " + s);
+    this.combustedState = s;
+  }
+
+  @Override
+  public CombustedState getCombustedState ()
+  {
+    return combustedState;
+  }
+
+  @Override
+  public boolean equals (Object o)
+  {
+    if (this == o) return true;
+    if (!(o instanceof Tile)) return false;
+
+    Tile tile = (Tile) o;
+
+
+    if (getRow() != tile.getRow()) return false;
+    return getCol() == tile.getCol();
+
+  }
+
+  @Override
+  public int hashCode ()
+  {
+    int result = getRow();
+    result = 31 * result + getCol();
+    return result;
   }
 }

@@ -3,7 +3,7 @@ package model;
 
 import java.awt.geom.Rectangle2D;
 
-public class Character implements Mover, Object2D
+public class Character implements Mover, Object2D, Combustible
 {
 
   // attributes about a character (measure is in tiles)
@@ -17,6 +17,7 @@ public class Character implements Mover, Object2D
           width, height,
           smell,
           rotation;
+  private CombustedState combustedState = CombustedState.NONE;
 
   public Character()
   {
@@ -174,5 +175,24 @@ public class Character implements Mover, Object2D
             getCurrentY() < 36 &&
             getCurrentX() >= 0 &&
             getCurrentY() >= 0;
+  }
+
+  @Override
+  public boolean isCombustible ()
+  {
+    return true;
+  }
+
+  @Override
+  public void setCombustedState (CombustedState s)
+  {
+    System.out.println(getClass() + " " + s);
+    this.combustedState = s;
+  }
+
+  @Override
+  public CombustedState getCombustedState ()
+  {
+    return combustedState;
   }
 }

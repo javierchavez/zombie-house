@@ -4,10 +4,10 @@ import common.Direction;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 public class House implements Object2D
@@ -679,16 +679,35 @@ public class House implements Object2D
     return neighbors;
   }
 
-  public List<Tile> getCombustableNeighbors(Tile tile)
+  public List<Combustible> getCombustableNeighbors(Tile tile)
   {
-    List<Tile> neighbors = new ArrayList<>();
-    for (Tile neighbor : getAllNeighbors(tile))
+    List<Combustible> neighbors = new ArrayList<>();
+    List<Tile> _nt = getAllNeighbors(tile);
+    for (Tile neighbor : _nt)
     {
       if (neighbor.isCombustible())
       {
         neighbors.add(neighbor);
       }
+      /////////////// if any tiles contain zombies add the zombie as well /////
+      //      if (isZombieTile(tile))
+      //      {
+      //        neighbors.add(zombies.stream().filter(z -> z.getCurrentX() == neighbor
+      //                .getX() && z.getCurrentY() == neighbor.getY())
+      //                              .collect(Collectors.toList()).get(0));
+      //      }
     }
+    /////////////// add the player if on a combusted tile ///////////////
+    //    if (_nt.contains(getCharacterTile(player)));
+    //    {
+    //      neighbors.add(player);
+    //    }
+    /////////////// add the sz if on a combusted tile ///////////////
+    //    if (_nt.contains(getCharacterTile(superZombie)));
+    //    {
+    //      neighbors.add(superZombie);
+    //    }
+
     return neighbors;
   }
 

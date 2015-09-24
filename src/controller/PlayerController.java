@@ -5,8 +5,6 @@ import common.Speed;
 import model.*;
 import model.Move;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 public class PlayerController extends AbstractCharacterController<Player>
@@ -163,13 +161,12 @@ public class PlayerController extends AbstractCharacterController<Player>
       {
         if (running)
         {
-          List<Tile> explode = house.getCombustableNeighbors(neighbor);
-          for (Tile tile : explode)
+          List<Combustible> explode = house.getCombustableNeighbors(neighbor);
+          for (Combustible item : explode)
           {
-            tile.setTrap(Trap.ACTIVATED);
+            item.setCombustedState(Combustible.CombustedState.IGNITED);
           }
-          neighbor.setTrap(Trap.ACTIVATED);
-          // TODO: player dies
+          neighbor.setCombustedState(Combustible.CombustedState.IGNITED);
         }
       }
     }

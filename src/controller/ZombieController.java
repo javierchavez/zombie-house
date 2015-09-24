@@ -6,8 +6,6 @@ import common.Speed;
 import model.*;
 import model.Move;
 
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -191,12 +189,12 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       if (neighbor.getTrap() == Trap.FIRE)
       {
         zombies.remove(mover);
-        List<Tile> explode = house.getCombustableNeighbors(neighbor);
-        for (Tile tile : explode)
+        List<Combustible> explode = house.getCombustableNeighbors(neighbor);
+        for (Combustible item : explode)
         {
-          tile.setTrap(Trap.ACTIVATED);
+          item.setCombustedState(Combustible.CombustedState.IGNITED);
         }
-        neighbor.setTrap(Trap.ACTIVATED);
+        neighbor.setCombustedState(Combustible.CombustedState.IGNITED);
       }
     }
 

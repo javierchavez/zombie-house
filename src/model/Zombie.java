@@ -58,23 +58,6 @@ public class Zombie extends Character implements Deadly
     return ((int) Math.sqrt(dx+dy) <= smell);
   }
 
-  public Tile find(House house, Tile zombieTile, Tile playerTile)
-  {
-    findStrategy.find(house, zombieTile, playerTile);
-    return (Tile) findStrategy.getPath().get(0);
-  }
-
-  public int setIntelligence(int intelligence)
-  {
-    this.intelligence = intelligence;
-    return intelligence;
-  }
-
-  public int getIntelligence()
-  {
-    return intelligence;
-  }
-
   public FindStrategy getStrategy ()
   {
     return findStrategy;

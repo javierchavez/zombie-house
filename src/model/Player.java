@@ -62,4 +62,14 @@ public class Player extends Character
   {
     return super.getBoundingRectangle();
   }
+
+  @Override
+  public void setCombustedState (CombustedState s)
+  {
+    super.setCombustedState(s);
+    if (getCombustedState() == CombustedState.IGNITED)
+    {
+      state = PlayerState.DEAD;
+    }
+  }
 }

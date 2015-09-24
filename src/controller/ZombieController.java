@@ -6,12 +6,17 @@ import common.Speed;
 import model.*;
 import model.Move;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
   List<Zombie> zombies;
+//  List<Combustible> combustibleList = new ArrayList<>();
+  ConcurrentHashMap<Combustible, Integer> combustibleMap = new ConcurrentHashMap<>();
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
@@ -56,7 +61,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   public void update(float deltaTime)
   {
     zombies = house.getZombies();
-
+    // handleFires();
     time++;
     for (int i = 0; i < zombies.size(); i++)
     {
@@ -192,9 +197,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         List<Combustible> explode = house.getCombustableNeighbors(neighbor);
         for (Combustible item : explode)
         {
-          item.setCombustedState(Combustible.CombustedState.IGNITED);
+          CombustibleController.getInstance().addCombustible(item);
         }
-        neighbor.setCombustedState(Combustible.CombustedState.IGNITED);
+        CombustibleController.getInstance().addCombustible(neighbor);
       }
     }
 

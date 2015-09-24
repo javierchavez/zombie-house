@@ -9,6 +9,12 @@ public interface Combustible
 
   CombustedState getCombustedState();
 
+  boolean setCurrentTime(int time);
+
+  boolean incrementCurrentTime();
+
+  int getCurrentTime();
+
   enum CombustedState
   {
       IGNITED, BURNED, NONE

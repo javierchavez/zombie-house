@@ -11,6 +11,7 @@ public class Tile implements Object2D, Combustible
   private int col = 0;
   private float width = 1f;
   private float height = 1f;
+  private int time = 0;
 
   // The cost to travel over a tile (for pathfinding algorithms)
   private int cost;
@@ -179,7 +180,6 @@ public class Tile implements Object2D, Combustible
   @Override
   public void setCombustedState (CombustedState s)
   {
-    System.out.println(getClass() + " " + s);
     this.combustedState = s;
   }
 
@@ -187,6 +187,30 @@ public class Tile implements Object2D, Combustible
   public CombustedState getCombustedState ()
   {
     return combustedState;
+  }
+
+  @Override
+  public boolean setCurrentTime (int time)
+  {
+    this.time = time;
+    if (this.time >= 300)
+    {
+      setCombustedState(CombustedState.BURNED);
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public boolean incrementCurrentTime ()
+  {
+    return this.setCurrentTime(++this.time);
+  }
+
+  @Override
+  public int getCurrentTime ()
+  {
+    return time;
   }
 
   @Override

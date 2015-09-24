@@ -174,9 +174,9 @@ public class PlayerController extends AbstractCharacterController<Player>
           List<Combustible> explode = house.getCombustableNeighbors(neighbor);
           for (Combustible item : explode)
           {
-            item.setCombustedState(Combustible.CombustedState.IGNITED);
+            CombustibleController.getInstance().addCombustible(item);
           }
-          neighbor.setCombustedState(Combustible.CombustedState.IGNITED);
+          CombustibleController.getInstance().addCombustible(neighbor);
         }
       }
     }

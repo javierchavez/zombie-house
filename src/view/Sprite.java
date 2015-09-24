@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class Sprite
+public interface Sprite
 {
 
 
@@ -20,14 +20,15 @@ public class Sprite
    * @param y this is a multiplier in y direction i.e. y*TILE_SIZE(40)
    * @return image cropped to sprite
    */
-  public static BufferedImage getSprite (String fileName, int x, int y)
+  static BufferedImage getSprite (String fileName, int x, int y, int
+          SZ_X, int SZ_Y)
   {
     BufferedImage image = loadSprite(fileName);
-    return image.getSubimage(x * Size.TILE, y * Size.TILE, Size.TILE,
-                             Size.TILE);
+    return image.getSubimage(x * SZ_X, y * SZ_Y, SZ_X,
+                             SZ_Y);
   }
 
-  private static BufferedImage loadSprite (String file)
+  static BufferedImage loadSprite (String file)
   {
     BufferedImage sprite = null;
 
@@ -39,7 +40,6 @@ public class Sprite
     {
       e.printStackTrace();
     }
-
     return sprite;
   }
 }

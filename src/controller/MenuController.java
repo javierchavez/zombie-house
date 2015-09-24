@@ -5,8 +5,10 @@ import model.GameOptions;
 import model.House;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class MenuController implements GameController
+public class MenuController implements GameController, KeyListener
 {
   private static GameOptions options;
   private static boolean active;
@@ -53,5 +55,23 @@ public class MenuController implements GameController
     choice++;
     if (choice == 5) choice = 0;
     options.setState(GameOptions.GAME_STATE.values()[choice]);
+  }
+
+  @Override
+  public void keyTyped (KeyEvent e)
+  {
+
+  }
+
+  @Override
+  public void keyPressed (KeyEvent e)
+  {
+
+  }
+
+  @Override
+  public void keyReleased (KeyEvent e)
+  {
+
   }
 }

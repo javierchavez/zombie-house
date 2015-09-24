@@ -175,7 +175,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
 
     for (Tile neighbor : neighbors)
     {
-      if (neighbor instanceof Wall || neighbor instanceof Obstacle)
+      if (!neighbor.isPassable())
       {
         return true;
       }

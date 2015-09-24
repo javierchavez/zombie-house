@@ -14,7 +14,6 @@ public class CombustibleController implements GameController
 {
   private ConcurrentLinkedQueue<Combustible> combustibles = new ConcurrentLinkedQueue<>();
   private static CombustibleController instance = null;
-  private boolean running = false;
 
   protected CombustibleController ()
   {
@@ -33,11 +32,10 @@ public class CombustibleController implements GameController
   @Override
   public void update (float deltaTime)
   {
-    if (!running && !combustibles.isEmpty())
+    if (!combustibles.isEmpty())
     {
       int len = combustibles.size();
       int i = 0;
-      running = true; // just in case.
 
       for (Combustible c = combustibles.poll(); c != null; c = combustibles.poll())
       {
@@ -53,7 +51,6 @@ public class CombustibleController implements GameController
         ++i;
         if (i == len-1)
         {
-          running = false;
           return;
         }
       }

@@ -17,6 +17,7 @@ public class Tile implements Object2D, Combustible
   private int cost;
   private Trap trap = Trap.NONE;
   private CombustedState combustedState = CombustedState.NONE;
+  private boolean passable = true;
 
   /**
    * Create a tile with cost 1
@@ -116,6 +117,15 @@ public class Tile implements Object2D, Combustible
     return t;
   }
 
+  public boolean isPassable()
+  {
+    return passable;
+  }
+
+  public void setPassable(boolean isPassable)
+  {
+    this.passable = isPassable;
+  }
 
   @Override
   public void setWidth (float width)
@@ -196,6 +206,7 @@ public class Tile implements Object2D, Combustible
     if (this.time >= 300)
     {
       setCombustedState(CombustedState.BURNED);
+      setPassable(true);
       return false;
     }
     return true;

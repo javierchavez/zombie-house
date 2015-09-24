@@ -20,6 +20,7 @@ public class Empty extends Tile
   {
     super(x, y, 0);
     setCost(randomCost());
+    setPassable(false);
   }
 
   /**

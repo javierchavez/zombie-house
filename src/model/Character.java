@@ -240,18 +240,18 @@ public class Character implements Mover, Object2D, Combustible, Sound
   }
 
   public float getAngleBetween(Character character) {
-    float angle = (float) Math.toDegrees(
-            Math.atan2(character.getY() - y, character.getX() - x));
+    float theta = (float) Math.toDegrees(Math.atan2(character.getY() - y,
+                                                    character.getX() - x));
 
-    if(angle < 0)
+    if(theta < 0)
     {
-      angle += 360;
+      theta += 360;
     }
 
-    return angle;
+    return theta;
   }
 
-  public float getDirectionCardinal (Character character)
+  public float getCardinalDirection (Character character)
   {
     float theta = getAngleBetween(character);
     if (theta >= Direction.NORTHEAST && theta <= Direction.SOUTHEAST)

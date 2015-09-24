@@ -110,7 +110,7 @@ public class PlayerController extends AbstractCharacterController<Player>
                                       house.getCharacterTile(mover));
         if (canHear)
         {
-          float theta = mover.getDirectionCardinal(zombie);
+          float theta = mover.getCardinalDirection(zombie);
           zombie.setChannel(theta);
         }
       }

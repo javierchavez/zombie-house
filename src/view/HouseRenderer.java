@@ -58,7 +58,8 @@ public class HouseRenderer extends Renderer
       for (int j = 0; j < houseMatrix[i].length; j++)
       {
         // Draw only burned tile then move on (don't draw anything else)
-        if (houseMatrix[i][j].getTrap() == Trap.BURNED)
+        if (houseMatrix[i][j].getCombustedState() == Combustible
+                .CombustedState.BURNED)
         {
           g2.drawImage(trap.getImageBurned(), (j * tileW), (i * tileH), null);
           continue;
@@ -91,7 +92,8 @@ public class HouseRenderer extends Renderer
         }
 
         // Rendering the animation on top of the tile
-        if (houseMatrix[i][j].getTrap() == Trap.ACTIVATED)
+        if (houseMatrix[i][j].getCombustedState() == Combustible
+                .CombustedState.IGNITED)
         {
           animation.update();
           g2.drawImage(animation.getSprite(),

@@ -69,7 +69,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   public void update(float deltaTime)
   {
     if (MenuController.isActive())
-    if (MenuController.isActive())
     {
       menuController.update(deltaTime);
       return;

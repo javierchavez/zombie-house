@@ -193,6 +193,6 @@ public class Tile implements Object2D, Combustible
   @Override
   public boolean isCombustible ()
   {
-    return false;
+    return trap == Trap.FIRE;
   }
 }

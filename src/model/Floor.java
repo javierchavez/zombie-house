@@ -14,4 +14,11 @@ public class Floor extends Tile
   {
     super(x, y, cost);
   }
+
+
+  @Override
+  public boolean isCombustible ()
+  {
+    return true;
+  }
 }

@@ -7,4 +7,10 @@ public class Exit extends Tile
   {
     super(x, y);
   }
+
+  @Override
+  public boolean isCombustible ()
+  {
+    return false;
+  }
 }

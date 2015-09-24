@@ -684,20 +684,9 @@ public class House implements Object2D
     List<Tile> neighbors = new ArrayList<>();
     for (Tile neighbor : getAllNeighbors(tile))
     {
-      if (neighbor instanceof Floor)
+      if (neighbor.isCombustible())
       {
         neighbors.add(neighbor);
-      }
-      else if (neighbor instanceof Obstacle)
-      {
-        neighbors.add(neighbor);
-      }
-      else if (neighbor instanceof Wall)
-      {
-        if (((Wall) neighbor).getWallType() == WallType.INTERIOR)
-        {
-          neighbors.add(neighbor);
-        }
       }
     }
     return neighbors;

@@ -26,4 +26,10 @@ public class Wall extends Tile
   {
     this.type = type;
   }
+
+  @Override
+  public boolean isCombustible ()
+  {
+    return type == WallType.INTERIOR;
+  }
 }

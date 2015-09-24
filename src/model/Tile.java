@@ -4,7 +4,7 @@ package model;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class Tile implements Object2D
+public class Tile implements Object2D, Combustible
 {
   // row and col are the tiles location in the house array
   private int row = 0;
@@ -186,6 +186,12 @@ public class Tile implements Object2D
 
   @Override
   public boolean isOutOfBounds ()
+  {
+    return false;
+  }
+
+  @Override
+  public boolean isCombustible ()
   {
     return false;
   }

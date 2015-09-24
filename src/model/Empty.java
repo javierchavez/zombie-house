@@ -52,4 +52,10 @@ public class Empty extends Tile
     Random rand = new Random();
     return minCost + rand.nextInt(maxCost-minCost);
   }
+
+  @Override
+  public boolean isCombustible ()
+  {
+    return false;
+  }
 }

@@ -16,4 +16,9 @@ public class Obstacle extends Tile
     super(x, y, 999999999);
   }
 
+  @Override
+  public boolean isCombustible ()
+  {
+    return true;
+  }
 }

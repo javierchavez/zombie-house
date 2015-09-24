@@ -26,7 +26,7 @@ public class HouseRenderer extends Renderer
           FireSprite.getSprite(1, 2)};
 
 
-  private Animation burning = new Animation(burn, 25);
+  private Animation burning = new Animation(burn, 20);
 
   // check direction... need a AnimationFactoryClass
   private Animation animation;

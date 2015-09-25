@@ -15,14 +15,16 @@ import java.awt.image.BufferedImage;
 public class ZombieHouse
 {
   private GameEngine game = new GameEngine();
-  private static int
-          width = 1920,
-          height = 1080;
-  protected boolean running;
-  protected int fps = 60;
+  private static int width = 1920, height = 1080;
   protected JFrame frame = new JFrame("Zombie House");
   protected JPanel jPanel = new JPanel();
+  private boolean running = false;
+  private final int FPS = 60;
+  private final long targetTime = 1000 / FPS;
+
+  private AffineTransform oldXForm;
   private BufferedImage screen;
+  private Graphics2D g;
 
   public ZombieHouse ()
   {
@@ -41,41 +43,31 @@ public class ZombieHouse
 
   public void run ()
   {
-    long delta = 0l;
-    screen = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
+    long start;
+    long elapsed = 0;
+    long wait;
 
-    Graphics2D g = (Graphics2D) screen.getGraphics();
-    Graphics jFrameGraphics = jPanel.getGraphics();
-    AffineTransform oldXForm = g.getTransform();
     while (true)
     {
-      long lastTime = System.nanoTime();
+      start = System.nanoTime();
 
-      g.setTransform(oldXForm);
-      g.setColor(Color.black);
-      g.clearRect(0, 0, 1920, 1080);
+      game.update(elapsed / 1000000000.0f);
 
-      // DEBUG sprites
-       // g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC));
+      render();
+      drawToPanel();
 
-      g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                         RenderingHints.VALUE_ANTIALIAS_ON);
+      elapsed = System.nanoTime() - start;
+      wait = targetTime - elapsed / 1000000;
 
-      game.update(delta / 1000000000.0f);
-      game.render(g);
+      if (wait < 0) wait = 5;
 
-      jFrameGraphics.drawImage(screen, 0, 0, null);
-
-      delta = System.nanoTime() - lastTime;
-      if (delta < 20000000L)
+      try
       {
-        try
-        {
-          Thread.sleep((20000000L - delta) / 1000000L);
-        }
-        catch (Exception e) { }
+        Thread.sleep(wait);
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace();
       }
     }
   }
@@ -111,8 +103,8 @@ public class ZombieHouse
       }
     });
     /**
-       large one image to draw level
-       smaller to draw
+     large one image to draw level
+     smaller to draw
      */
 
     frame.getContentPane().add(jPanel, BorderLayout.CENTER);
@@ -120,5 +112,27 @@ public class ZombieHouse
     frame.setLocationRelativeTo(null);
     frame.setVisible(true);
 
+    screen = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    g = (Graphics2D) screen.getGraphics();
+    g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+                       RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                       RenderingHints.VALUE_ANTIALIAS_ON);
+
+    oldXForm = g.getTransform();
+  }
+
+  public void render ()
+  {
+    g.setTransform(oldXForm);
+    g.clearRect(0, 0, width, height);
+    game.render(g);
+  }
+
+  public void drawToPanel ()
+  {
+    Graphics g2 = jPanel.getGraphics();
+    g2.drawImage(screen, 0, 0, null);
+    g2.dispose();
   }
 }

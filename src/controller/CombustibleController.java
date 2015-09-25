@@ -42,6 +42,7 @@ public class CombustibleController implements GameController
       {
         if (c.incrementCurrentTime())
         {
+          // if obj is still burning add tail node
           combustibles.add(c);
         }
         // counter to force only iterating through the loop once.
@@ -66,7 +67,7 @@ public class CombustibleController implements GameController
     {
       c.setCombustedState(Combustible.CombustedState.IGNITED);
     }
-    // add to head of LL
+    // add to head
     combustibles.push(c);
   }
 }

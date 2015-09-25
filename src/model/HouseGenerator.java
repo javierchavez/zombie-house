@@ -26,7 +26,7 @@ public class HouseGenerator
     rand = new Random();
     pathfinder = new AStarFindStrategy();
     numHallways = 0;
-    maxTries = 0;
+    maxTries = 500;
     generationAttempts = 0;
   }
 
@@ -40,7 +40,6 @@ public class HouseGenerator
   {
     this.house = house;
     numHallways = 0;
-    maxTries = 0;
     rand = new Random();
     rooms = new ArrayList<>();
     params.setLevel(level);
@@ -182,7 +181,6 @@ public class HouseGenerator
         }
       }
     }
-    System.out.println(house);
   }
 
   private void countHallways()
@@ -375,6 +373,13 @@ public class HouseGenerator
 
   private boolean validRoom(Room room)
   {
+    int maxRow = room.row() + room.height();
+    int maxCol = room.col() + room.width();
+    if (room.row() < 1 || room.col() < 1 || maxRow >= (house.getRows()-2) || maxCol >= (house.getCols()-2))
+    {
+      return false;
+    }
+
     for (Room existing : rooms)
     {
       if (room.intersects(existing))
@@ -397,8 +402,8 @@ public class HouseGenerator
     do
     {
       room = rooms.get(rand.nextInt(rooms.size()));
-      row = room.row() + rand.nextInt(room.height());
-      col = room.col() + rand.nextInt(room.width());
+      row = room.row() + rand.nextInt(room.height()+1);
+      col = room.col() + rand.nextInt(room.width()+1);
       tile = house.getTile(row, col);
       tries++;
     } while ((tries<maxTries)&&(!(tile instanceof Floor)||(house.getDistance(tile, exit)<params.minTravelDistance)));
@@ -414,9 +419,9 @@ public class HouseGenerator
     // zombies only spawn in rooms and not in hallways
     for (Room room : rooms)
     {
-      for (int row = room.row(); row < room.row()+room.height(); row++)
+      for (int row = room.row(); row <= room.row()+room.height(); row++)
       {
-        for (int col = room.col(); col < room.col()+room.width(); col++)
+        for (int col = room.col(); col <= room.col()+room.width(); col++)
         {
           tile = house.getTile(row, col);
           if (tile instanceof Floor && tile != house.getCharacterTile(house.getPlayer()))
@@ -458,8 +463,8 @@ public class HouseGenerator
     do
     {
       room = rooms.get(rand.nextInt(rooms.size()));
-      row = room.row() + rand.nextInt(room.height());
-      col = room.col() + rand.nextInt(room.width());
+      row = room.row() + rand.nextInt(room.height()+1);
+      col = room.col() + rand.nextInt(room.width()+1);
       tile = house.getTile(row, col);
       distance = house.getDistance(tile, house.getCharacterTile(house.getPlayer()));
       tries++;
@@ -526,7 +531,6 @@ public class HouseGenerator
     }
     return false;
   }
-
 
   private void assertion(boolean expr) throws AssertionError
   {

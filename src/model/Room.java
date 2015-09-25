@@ -35,9 +35,9 @@ public class Room extends Area
 
   public void addRoom(House house)
   {
-    for (int row = row(); row <= height(); row++)
+    for (int row = row(); row <= row()+height(); row++)
     {
-      for (int col = col(); col <= width(); col++)
+      for (int col = col(); col <= col()+width(); col++)
       {
         house.setTile(row, col, new Floor(col, row));
       }
@@ -50,12 +50,6 @@ public class Room extends Area
                                                        y-1,
                                                        width+1,
                                                        height+1);
-
-    Rectangle2D.Float thatRoom = new Rectangle2D.Float(room.getX()-1,
-                                                       room.getY()-1,
-                                                       room.getWidth()+1,
-                                                       room.getHeight()+1);
-
-    return thisRoom.intersects(thatRoom);
+    return room.intersects(thisRoom);
   }
 }

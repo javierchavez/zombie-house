@@ -22,6 +22,11 @@ public class HouseParameters
   public int minTravelDistance;
 
 
+  public HouseParameters()
+  {
+    setLevel(GameOptions.GAME_STATE.PLAY);
+  }
+
   public void setLevel(GameOptions.GAME_STATE level)
   {
     switch (level)

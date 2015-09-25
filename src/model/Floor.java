@@ -13,6 +13,7 @@ public class Floor extends Tile
   public Floor (int x, int y, int cost)
   {
     super(x, y, cost);
+    setPassable(true);
   }
 
 

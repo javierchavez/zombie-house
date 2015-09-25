@@ -11,13 +11,21 @@ build () {
     rm -rf dist/
     mkdir dist
     make_sources
+#    javac -classpath . @files.txt -d ./dist
     javac -classpath . @files.txt -d ./dist
+
     rm files.txt
 }
 
 run () {
     build
     java -classpath ./dist ZombieHouse
+}
+
+run_opt () {
+    build
+    java -XX:+AggressiveOpts -XX:+UseFastAccessorMethods -Xms128m -Xmx2g -classpath ./dist ZombieHouse
+
 }
 
 clean () {
@@ -43,9 +51,12 @@ build_jar () {
 if [ "$1" == "build" ]
 then
     build
-elif [ "$1" == "run" ]
+elif [ "$1" == "test_run" ]
 then
     run
+elif [ "$1" == "run" ]
+then
+    run_opt
 elif [ "$1" == "clean" ]
 then
     clean

@@ -11,9 +11,10 @@ public class Obstacle extends Tile
    * @param x column
    * @param y row
    */
-  Obstacle (int x, int y)
+  public Obstacle (int x, int y)
   {
     super(x, y, 999999999);
+    setPassable(false);
   }
 
   @Override

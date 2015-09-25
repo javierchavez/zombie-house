@@ -8,10 +8,13 @@ import model.Move;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
   List<Zombie> zombies;
+//  List<Combustible> combustibleList = new ArrayList<>();
+  ConcurrentHashMap<Combustible, Integer> combustibleMap = new ConcurrentHashMap<>();
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
@@ -56,7 +59,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   public void update(float deltaTime)
   {
     zombies = house.getZombies();
-
+    // handleFires();
     time++;
     for (int i = 0; i < zombies.size(); i++)
     {
@@ -89,7 +92,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (isMoving)
       {
-        playerDetected = zombie.sense(zombieTile, playerTile);
+        playerDetected = zombie.sense(playerTile);
         if (DEBUG) System.out.println("\tPlayer detected: " + playerDetected);
 
         if (playerDetected)
@@ -169,27 +172,27 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       if (DEBUG) System.out.println("\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
     }
 
-    Area testArea = new Area(moveToCheck.col,
-                             moveToCheck.row,
-                             mover.getWidth(),
-                             mover.getHeight());
+    //Area testArea = new Area(moveToCheck.col,
+    //                         moveToCheck.row,
+    //                         mover.getWidth(),
+    //                         mover.getHeight());
 
-    List<Tile> neighbors = house.getIntersectingNeighbors(zombieTile, testArea);
+    //List<Tile> neighbors = house.getIntersectingNeighbors(zombieTile, testArea);
 
     // Extra checks for fire traps
-    for (Tile neighbor : neighbors)
-    {
-      if (neighbor.getTrap() == Trap.FIRE)
-      {
-        zombies.remove(mover);
-        List<Combustible> explode = house.getCombustableNeighbors(neighbor);
-        for (Combustible item : explode)
-        {
-          item.setCombustedState(Combustible.CombustedState.IGNITED);
-        }
-        neighbor.setCombustedState(Combustible.CombustedState.IGNITED);
-      }
-    }
+    //for (Tile neighbor : neighbors)
+    //{
+    //  if (neighbor.getTrap() == Trap.FIRE)
+    //  {
+    //    zombies.remove(mover);
+    //    List<Combustible> explode = house.getCombustibleNeighbors(neighbor);
+    //    for (Combustible item : explode)
+    //    {
+    //      CombustibleController.getInstance().addCombustible(item);
+    //    }
+    //    CombustibleController.getInstance().addCombustible(neighbor);
+    //  }
+    //}
 
     if (mover.getStrategy() instanceof RandomMoveStrategy)
     {

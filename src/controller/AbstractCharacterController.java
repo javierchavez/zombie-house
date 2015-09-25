@@ -166,25 +166,57 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public boolean checkCollision(Move moveToCheck)
   {
+    boolean tripTrap = false;
     Tile current = house.getCharacterTile(mover);
     Area testArea = new Area(moveToCheck.col,
                              moveToCheck.row,
                              mover.getWidth(),
                              mover.getHeight());
-    List<Tile> neighbors = house.getIntersectingNeighbors(current, testArea);
+    List<Tile> neighbors = house.neighborsInDirection(current, moveToCheck.direction);
 
     for (Tile neighbor : neighbors)
     {
-      if (neighbor instanceof Wall || neighbor instanceof Obstacle)
+      if (neighbor.intersects(testArea.getBoundingRectangle()))
       {
-        return true;
-      }
-      else if (house.isZombieTile(neighbor))
-      {
-        if (mover instanceof Zombie)
+        if (!neighbor.isPassable())
         {
           return true;
         }
+        else if (house.isZombieTile(neighbor))
+        {
+          if (mover instanceof Zombie)
+          {
+            return true;
+          }
+        }
+      }
+    }
+
+    if (current.getTrap() == Trap.FIRE)
+    {
+      if (mover instanceof Player)
+      {
+        if (running)
+        {
+          tripTrap = true;
+          ((Player) mover).setState(Player.PlayerState.DEAD);
+        }
+      }
+      else if (mover instanceof Zombie)
+      {
+        tripTrap = true;
+        house.getZombies().remove(mover);
+      }
+
+      if (tripTrap)
+      {
+        List<Combustible> explode = house.getCombustibleNeighbors(current);
+        for (Combustible item : explode)
+        {
+          CombustibleController.getInstance().addCombustible(item);
+        }
+        CombustibleController.getInstance().addCombustible(current);
+        current.setTrap(Trap.NONE);
       }
     }
 

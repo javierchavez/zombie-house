@@ -15,6 +15,7 @@ public class Wall extends Tile
   {
     super(x, y, 999999999);
     type = WallType.INTERIOR;
+    setPassable(false);
   }
 
   public WallType getWallType()

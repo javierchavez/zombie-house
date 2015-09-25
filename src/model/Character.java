@@ -22,6 +22,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   private CombustedState combustedState = CombustedState.NONE;
   AudioChannel channel = AudioChannel.STEREO;
   private float volume;
+  private int time = 0;
 
   public Character()
   {
@@ -199,6 +200,29 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return combustedState;
   }
 
+  @Override
+  public boolean setCurrentTime (int time)
+  {
+    this.time = time;
+    if (this.time >= 300)
+    {
+      setCombustedState(CombustedState.BURNED);
+      return false;
+    }
+    return true;
+  }
+
+  @Override
+  public boolean incrementCurrentTime ()
+  {
+    return this.setCurrentTime(++this.time);
+  }
+
+  @Override
+  public int getCurrentTime ()
+  {
+    return time;
+  }
   @Override
   public float getVolume ()
   {

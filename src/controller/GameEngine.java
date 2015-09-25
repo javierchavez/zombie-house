@@ -73,6 +73,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       menuController.update(deltaTime);
       return;
     }
+    CombustibleController.getInstance().update(deltaTime);
     controller.update(deltaTime);
     zombieController.update(deltaTime);
     ss.update(deltaTime);

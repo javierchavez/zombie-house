@@ -568,19 +568,55 @@ public class House implements Object2D
     Tile neighbor;
     if (dir == Direction.NORTH)
     {
-      if ((neighbor = getTile(row + 1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
     }
     else if (dir == Direction.SOUTH)
     {
-      if ((neighbor = getTile(row - 1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
     }
     else if (dir == Direction.EAST)
     {
-      if ((neighbor = getTile(row, col + 1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
     }
     else if (dir == Direction.WEST)
     {
-      if ((neighbor = getTile(row, col - 1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
+    }
+    else if (dir == Direction.NORTHEAST)
+    {
+      if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
+    }
+    else if (dir == Direction.NORTHWEST)
+    {
+      if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+    }
+    else if (dir == Direction.SOUTHEAST)
+    {
+      if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
+    }
+    else if (dir == Direction.SOUTHWEST)
+    {
+      if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+    }
+    else
+    {
+      neighbors = getAllNeighbors(current);
     }
     return neighbors;
   }
@@ -679,7 +715,7 @@ public class House implements Object2D
     return neighbors;
   }
 
-  public List<Combustible> getCombustableNeighbors(Tile tile)
+  public List<Combustible> getCombustibleNeighbors(Tile tile)
   {
     List<Combustible> neighbors = new ArrayList<>();
     List<Tile> _nt = getAllNeighbors(tile);

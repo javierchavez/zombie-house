@@ -6,8 +6,6 @@ import common.Speed;
 import model.*;
 import model.Move;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -181,27 +179,27 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       if (DEBUG) System.out.println("\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
     }
 
-    Area testArea = new Area(moveToCheck.col,
-                             moveToCheck.row,
-                             mover.getWidth(),
-                             mover.getHeight());
+    //Area testArea = new Area(moveToCheck.col,
+    //                         moveToCheck.row,
+    //                         mover.getWidth(),
+    //                         mover.getHeight());
 
-    List<Tile> neighbors = house.getIntersectingNeighbors(zombieTile, testArea);
+    //List<Tile> neighbors = house.getIntersectingNeighbors(zombieTile, testArea);
 
     // Extra checks for fire traps
-    for (Tile neighbor : neighbors)
-    {
-      if (neighbor.getTrap() == Trap.FIRE)
-      {
-        zombies.remove(mover);
-        List<Combustible> explode = house.getCombustableNeighbors(neighbor);
-        for (Combustible item : explode)
-        {
-          CombustibleController.getInstance().addCombustible(item);
-        }
-        CombustibleController.getInstance().addCombustible(neighbor);
-      }
-    }
+    //for (Tile neighbor : neighbors)
+    //{
+    //  if (neighbor.getTrap() == Trap.FIRE)
+    //  {
+    //    zombies.remove(mover);
+    //    List<Combustible> explode = house.getCombustibleNeighbors(neighbor);
+    //    for (Combustible item : explode)
+    //    {
+    //      CombustibleController.getInstance().addCombustible(item);
+    //    }
+    //    CombustibleController.getInstance().addCombustible(neighbor);
+    //  }
+    //}
 
     if (mover.getStrategy() instanceof RandomMoveStrategy)
     {

@@ -19,9 +19,6 @@ public class ZombieHouse
   protected JFrame frame = new JFrame("Zombie House");
   protected JPanel jPanel = new JPanel();
   private boolean running = false;
-  private final int FPS = 60;
-  private final long targetTime = 1000 / FPS;
-
   private AffineTransform oldXForm;
   private BufferedImage screen;
   private Graphics2D g;
@@ -43,33 +40,39 @@ public class ZombieHouse
 
   public void run ()
   {
-    long start;
-    long elapsed = 0;
-    long wait;
-
-    while (true)
+    new Thread(new Runnable()
     {
-      start = System.nanoTime();
 
-      game.update(elapsed / 1000000000.0f);
-
-      render();
-      drawToPanel();
-
-      elapsed = System.nanoTime() - start;
-      wait = targetTime - elapsed / 1000000;
-
-      if (wait < 0) wait = 5;
-
-      try
+      @Override
+      public void run ()
       {
-        Thread.sleep(wait);
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        Thread.currentThread().setName("GameThread");
+        long delta = 0l;
+
+
+        while (true)
+        {
+          long lastTime = System.nanoTime();
+
+          game.update(delta / 1000000000.0f);
+
+          render();
+          drawToPanel();
+
+          delta = System.nanoTime() - lastTime;
+          if (delta < 20000000L)
+          {
+            try
+            {
+              Thread.sleep((20000000L - delta) / 1000000L);
+            }
+            catch (Exception e) { }
+          }
+
+        }
       }
-      catch (Exception e)
-      {
-        e.printStackTrace();
-      }
-    }
+    }).start();
   }
 
   public static void main (String[] args)

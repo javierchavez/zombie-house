@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 /**
- *
+ * Logic for generating a valid house.
+ * Parameters for house generation come from the
+ * HouseParameters class.
  */
 public class HouseGenerator
 {
@@ -15,10 +18,15 @@ public class HouseGenerator
   private HouseParameters params;
   private Random rand;
   private AStarFindStrategy pathfinder;
+
   private int numHallways;
   private int maxTries;
   private int generationAttempts;
 
+
+  /**
+   * Creates a HouseGenerator object
+   */
   public HouseGenerator()
   {
     rooms = new ArrayList<>();
@@ -30,12 +38,23 @@ public class HouseGenerator
     generationAttempts = 0;
   }
 
+  /**
+   * Generate a house using default parameters defined in HouseParameters
+   *
+   * @param house House object where the generated house will be held
+   */
   public void generateHouse(House house)
   {
     // just a random game state to build default house
     generateHouse(house, GameOptions.GAME_STATE.PLAY);
   }
 
+  /**
+   * Generate a house from the specified level
+   *
+   * @param house House object to generate from
+   * @param level Difficulty level of the house layout defined in HouseParameters
+   */
   public void generateHouse(House house, GameOptions.GAME_STATE level)
   {
     this.house = house;
@@ -216,6 +235,55 @@ public class HouseGenerator
     house.setTile(row, col, exit);
   }
 
+  private boolean validRoom(Room room)
+  {
+    // First, check if the room if in bounds of the house
+    // and not right at the edge (leave space for a wall)
+    if ((room.row() < 1) || ((room.row()+room.height()) >= (house.getRows()-1)))
+    {
+      return false;
+    }
+    else if ((room.col() < 1) || ((room.col()+room.width()) >= (house.getCols()-1)))
+    {
+      return false;
+    }
+    else
+    {
+      // Make sure there is at least one space for a wall between rooms
+      // (two rooms adjacent would just look like one big room)
+      // Make sure the room isn't overlapping any other rooms or obstacles
+      for (int row = (room.row()-1); row <= (room.row()+room.height()+1); row++)
+      {
+        if ((row > 0) && (row < house.getRows()))
+        {
+          for (int col = (room.col()-1); col <= (room.col()+room.width()+1); col++)
+          {
+            if ((col > 0) && (col < house.getCols()))
+            {
+              if (!(house.getTile(row, col) instanceof Empty))
+              {
+                return false;
+              }
+            }
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  private boolean validExit(Tile wall)
+  {
+    boolean touchesEmpty = false;
+    boolean touchesFloor = false;
+
+    for (Tile tile: house.neighbors(wall))
+    {
+      if (tile instanceof Empty) touchesEmpty = true;
+      if (tile instanceof Floor) touchesFloor = true;
+    }
+    return touchesEmpty && touchesFloor;
+  }
 
   private void countHallways()
   {
@@ -319,7 +387,6 @@ public class HouseGenerator
     }
   }
 
-
   private List<Tile> getWalls()
   {
     List<Tile> walls = new ArrayList<>();
@@ -336,18 +403,6 @@ public class HouseGenerator
     return walls;
   }
 
-  private boolean validExit(Tile wall)
-  {
-    boolean touchesEmpty = false;
-    boolean touchesFloor = false;
-
-    for (Tile tile: house.neighbors(wall))
-    {
-      if (tile instanceof Empty) touchesEmpty = true;
-      if (tile instanceof Floor) touchesFloor = true;
-    }
-    return touchesEmpty && touchesFloor;
-  }
 
   private boolean touchesFloor(Tile current)
   {
@@ -371,43 +426,6 @@ public class HouseGenerator
       }
     }
     return false;
-  }
-
-  private boolean validRoom(Room room)
-  {
-    // First, check if the room if in bounds of the house
-    // and not right at the edge (leave space for a wall)
-    if ((room.row() < 1) || ((room.row()+room.height()) >= (house.getRows()-1)))
-    {
-      return false;
-    }
-    else if ((room.col() < 1) || ((room.col()+room.width()) >= (house.getCols()-1)))
-    {
-      return false;
-    }
-    else
-    {
-      // Make sure there is at least one space for a wall between rooms
-      // (two rooms adjacent would just look like one big room)
-      // Make sure the room isn't overlapping any other rooms or obstacles
-      for (int row = (room.row()-1); row <= (room.row()+room.height()+1); row++)
-      {
-        if ((row > 0) && (row < house.getRows()))
-        {
-          for (int col = (room.col()-1); col <= (room.col()+room.width()+1); col++)
-          {
-            if ((col > 0) && (col < house.getCols()))
-            {
-              if (!(house.getTile(row, col) instanceof Empty))
-              {
-                return false;
-              }
-            }
-          }
-        }
-      }
-    }
-    return true;
   }
 
   private void placePlayer()

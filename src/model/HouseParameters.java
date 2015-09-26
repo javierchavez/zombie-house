@@ -2,7 +2,8 @@ package model;
 
 
 /**
- *
+ * Data class for defining house parameters and changing them
+ * based on a given level
  */
 public class HouseParameters
 {
@@ -22,11 +23,21 @@ public class HouseParameters
   public int minTravelDistance;
 
 
+  /**
+   * Creates a HouseParameter object.
+   * Parameters changed in this object do
+   * not change other instances
+   */
   public HouseParameters()
   {
     setLevel(GameOptions.GAME_STATE.PLAY);
   }
 
+  /**
+   * Sets the parameters to values based on the given level
+   *
+   * @param level GAME_STATE level
+   */
   public void setLevel(GameOptions.GAME_STATE level)
   {
     switch (level)

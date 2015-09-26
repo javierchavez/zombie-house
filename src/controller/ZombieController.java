@@ -61,30 +61,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         .cos(Math.toRadians(direction))));
   }
 
-  /**
-   *
-   * @param zombie
-   * @return
-   */
-  private Tile chasePlayer(Zombie zombie)
-  {
-    running = true;
-    zombie.getStrategy().find(house,
-        house.getCharacterTile(zombie),
-        house.getCharacterTile(house.getPlayer()));
-
-    path = zombie.getStrategy().getPath();
-    if (path.size() > 0)
-    {
-      Tile t = path.get(0);
-      return t;
-//      xDir = t.getCol();
-//      yDir = t.getRow();
-//            mover.move(t.getX(), t.getY());
-    }
-    return null;
-  }
-
   @Override
   public void update(float deltaTime)
   {
@@ -109,10 +85,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       float direction = mover.getRotation();
 
-      if (DEBUG)
-      {
-        System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
-      }
+//      if (DEBUG)
+//      {
+//        System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
+//      }
 
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
@@ -127,19 +103,39 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
         if (playerDetected)
         {
+          mover.getStrategy().find(house,
+              house.getCharacterTile(mover),
+              house.getCharacterTile(house.getPlayer()));
+          path = mover.getStrategy().getPath();
+          if (path.size() > 0)
+          {
+            // This is all super buggy and game-breaking, so it's all commented out:
 
-          zombieSpeed = Speed.RUN;
-//          Tile t = chasePlayer(zombie);
-//          xDir = t.getCol();
-//          yDir = t.getRow();
-//
-//          zombie.setSpeed(zombieSpeed * deltaTime);
-//          x = t.getX();
-//          y = t.getY();
+            /**
+            new Thread(() -> {
+              while (playerDetected)
+              {
+                Tile t = path.remove(0);
+                mover.move(t.getX(), t.getY());
+
+                try
+                {
+                  Thread.sleep(140);
+                }
+                catch (InterruptedException e)
+                {
+                  e.printStackTrace();
+                }
+              }
+            }).start(); **/
+          }
 
 
-//          isMoving = false;
+
+//        if (playerDetected)
+//        {
 //          running = true;
+//          zombieSpeed = Speed.RUN;
 //          zombie.getStrategy().find(house,
 //              house.getCharacterTile(zombie),
 //              house.getCharacterTile(house.getPlayer()));
@@ -147,12 +143,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 //          path = zombie.getStrategy().getPath();
 //          if (path.size() > 0)
 //          {
-//            Tile t = path.get(0);
+//            Tile t = path.remove(0);
 //            xDir = t.getCol();
 //            yDir = t.getRow();
-////            mover.move(t.getX(), t.getY());
 //          }
-//          isMoving = false;
         }
         else // if player is not detected
         {
@@ -177,10 +171,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           }
           else // Random walker
           {
-            if (DEBUG) System.out.println("\n\n\tRandom Mover");
+//            if (DEBUG) System.out.println("\n\n\tRandom Mover");
             if (time % 120 == 0) // Random walk zombies change direction every 2 seconds
             {
-              if (DEBUG) System.out.println("\tRANDOM UPDATE POSITION");
+//              if (DEBUG) System.out.println("\tRANDOM UPDATE POSITION");
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               xDir = (int) move.col;
               yDir = (int) move.row;
@@ -277,7 +271,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         Move newMove = new Move(x, y, moveToCheck.direction);
 //        System.out.println("\tnew move: " + newMove.col + ", " + newMove.row);
 //        if (super.checkCollision(move)) mover.move(move.col, move.row);
-//        checkCollision(newMove);
+        checkCollision(newMove);
       }
     }
 

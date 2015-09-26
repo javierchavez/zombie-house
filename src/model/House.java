@@ -476,12 +476,30 @@ public class House extends Area
   public List<Combustible> getCombustibleNeighbors(Tile tile)
   {
     List<Combustible> neighbors = new ArrayList<>();
+    List<Zombie> _zList = new ArrayList<>();
+    _zList.addAll(zombies);
     List<Tile> _nt = getAllNeighbors(tile);
     for (Tile neighbor : _nt)
     {
       if (neighbor.isCombustible())
       {
         neighbors.add(neighbor);
+      }
+      if (isZombieTile(neighbor))
+      {
+        // very brute force..... needs optimization
+        for (int i = 0; i < _zList.size(); i++)
+        {
+          if (getCharacterTile(_zList.get(i)) == neighbor)
+          {
+            neighbors.add(_zList.get(i));
+            _zList.remove(i);
+          }
+        }
+      }
+      else if (getCharacterTile(superZombie) == neighbor)
+      {
+        neighbors.add(superZombie);
       }
     }
     return neighbors;

@@ -4,7 +4,7 @@ package controller;
 import model.Combustible;
 
 import java.awt.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * This is a Singleton! So treat it as such.
@@ -12,12 +12,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class CombustibleController implements GameController
 {
-  private ConcurrentLinkedQueue<Combustible> combustibles = new ConcurrentLinkedQueue<>();
+  private ConcurrentLinkedDeque<Combustible> combustibles = new ConcurrentLinkedDeque<>();
+//  private ArrayBlockingQueue<Combustible> combustibles = new
+// ArrayBlockingQueue<>(25); // best bet but hard to tune
+
   private static CombustibleController instance = null;
 
-  protected CombustibleController ()
-  {
-  }
+  protected CombustibleController () { }
 
   public static CombustibleController getInstance ()
   {
@@ -41,18 +42,15 @@ public class CombustibleController implements GameController
       {
         if (c.incrementCurrentTime())
         {
+          // if obj is still burning add tail node
           combustibles.add(c);
         }
-        else
-        {
-          combustibles.remove(c);
-        }
         // counter to force only iterating through the loop once.
-        ++i;
         if (i == len-1)
         {
           return;
         }
+        ++i;
       }
     }
   }
@@ -69,6 +67,7 @@ public class CombustibleController implements GameController
     {
       c.setCombustedState(Combustible.CombustedState.IGNITED);
     }
-    combustibles.add(c);
+    // add to head
+    combustibles.push(c);
   }
 }

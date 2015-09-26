@@ -213,6 +213,9 @@ public abstract class AbstractCharacterController<T extends Character> implement
         List<Combustible> explode = house.getCombustibleNeighbors(current);
         for (Combustible item : explode)
         {
+          // need to remove the trap from the tiles in the explosion and/or
+          // set those off too. that means 'getCombustibleNeighbors' of the trap in
+          // the explosion and set those on fire too.
           CombustibleController.getInstance().addCombustible(item);
         }
         CombustibleController.getInstance().addCombustible(current);

@@ -76,7 +76,18 @@ public class Player extends Character
     return ((int) Math.sqrt(dx+dy) <= hearing);
   }
 
+  public boolean senseSight (Tile playerTile)
+  {
+    float smell = getSight();
+    float zx = getCurrentX();
+    float zy = getCurrentY();
+    int px = playerTile.getCol();
+    int py = playerTile.getRow();
 
+    float dx = (zx - px) * (zx - px);
+    float dy = (zy - py) * (zy - py);
+    return (Math.sqrt(dx+dy) <= smell);
+  }
   @Override
   public void setCombustedState (CombustedState s)
   {

@@ -6,7 +6,7 @@ import java.util.Random;
 public class LineMoveStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
   Random rand = new Random();
-  protected BFSFindStrategy defaultFinder = new BFSFindStrategy();
+  protected AStarFindStrategy defaultFinder = new AStarFindStrategy();
 
   @Override
   public void find (House board, Tile start, Tile end)

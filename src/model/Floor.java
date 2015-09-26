@@ -16,6 +16,11 @@ public class Floor extends Tile
     setPassable(true);
   }
 
+  public Floor(int x, int y)
+  {
+    this(x, y, 10);
+  }
+
 
   @Override
   public boolean isCombustible ()

@@ -21,6 +21,11 @@ public class Area implements Object2D
     this.height = height;
   }
 
+  public Area()
+  {
+    this(0,0,0,0);
+  }
+
   @Override
   public float getX()
   {
@@ -52,7 +57,7 @@ public class Area implements Object2D
   }
 
   @Override
-  public void setHeight(float width)
+  public void setHeight(float height)
   {
     this.height = height;
   }

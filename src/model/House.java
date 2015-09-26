@@ -75,7 +75,7 @@ public class House extends Area
   }
 
   /**
-   *
+   * Generates a random house with default settings
    */
   public void generateRandomHouse()
   {
@@ -129,8 +129,14 @@ public class House extends Area
             superZombie.move(col, row);
             house[row][col] = new Floor(col, row, 10);
             break;
-          case 'Z':
-            zombie = new Zombie();
+          case 'R':
+            zombie = new Zombie(new RandomMoveStrategy());
+            zombie.move(col, row);
+            zombies.add(zombie);
+            house[row][col] = new Floor(col, row, 10);
+            break;
+          case 'L':
+            zombie = new Zombie(new LineMoveStrategy());
             zombie.move(col, row);
             zombies.add(zombie);
             house[row][col] = new Floor(col, row, 10);
@@ -515,6 +521,35 @@ public class House extends Area
     return (float) Math.sqrt(Math.pow((end.getCol()-start.getCol()),2) + Math.pow((end.getRow()-start.getRow()),2));
   }
 
+  /**
+   * Slowly resets the board
+   */
+  public void slowReset()
+  {
+    new Thread(() -> {
+      // zombies.clear();
+      while(true)
+      {
+        for (int i = 0; i < house.length; i++)
+        {
+          for (int j = 0; j < house[i].length; j++)
+          {
+            house[i][j] = new Empty(i, j);
+          }
+
+          try
+          {
+            Thread.sleep(110);
+          }
+          catch (InterruptedException e)
+          {
+            e.printStackTrace();
+          }
+        }
+      }
+    }).start();
+  }
+
   @Override
   public String toString()
   {
@@ -535,7 +570,20 @@ public class House extends Area
         }
         else if (isZombieTile(current))
         {
-          board += "Z";
+          for (Zombie zombie : zombies)
+          {
+            if (current == getCharacterTile(zombie))
+            {
+              if (zombie.getStrategy() instanceof RandomMoveStrategy)
+              {
+                board += 'R';
+              }
+              else
+              {
+                board += 'L';
+              }
+            }
+          }
         }
         else if (current.getTrap() == Trap.FIRE)
         {

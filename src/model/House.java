@@ -718,6 +718,8 @@ public class House implements Object2D
   public List<Combustible> getCombustibleNeighbors(Tile tile)
   {
     List<Combustible> neighbors = new ArrayList<>();
+    List<Zombie> _zList = new ArrayList<>();
+    _zList.addAll(zombies);
     List<Tile> _nt = getAllNeighbors(tile);
     for (Tile neighbor : _nt)
     {
@@ -725,24 +727,28 @@ public class House implements Object2D
       {
         neighbors.add(neighbor);
       }
-      /////////////// if any tiles contain zombies add the zombie as well /////
-      //      if (isZombieTile(tile))
-      //      {
-      //        neighbors.add(zombies.stream().filter(z -> z.getCurrentX() == neighbor
-      //                .getX() && z.getCurrentY() == neighbor.getY())
-      //                              .collect(Collectors.toList()).get(0));
-      //      }
+      if (isZombieTile(neighbor))
+      {
+        // very brute force..... needs optimization
+        for (int i = 0; i < _zList.size(); i++)
+        {
+          if (getCharacterTile(_zList.get(i)) == neighbor)
+          {
+            neighbors.add(_zList.get(i));
+            _zList.remove(i);
+          }
+        }
+      }
+      else if (getCharacterTile(superZombie) == neighbor)
+      {
+        neighbors.add(superZombie);
+      }
+      ///////////// add the player if on a combusted tile ///////////////
+//      else if (getCharacterTile(player) == neighbor)
+//      {
+//        neighbors.add(player);
+//      }
     }
-    /////////////// add the player if on a combusted tile ///////////////
-    //    if (_nt.contains(getCharacterTile(player)));
-    //    {
-    //      neighbors.add(player);
-    //    }
-    /////////////// add the sz if on a combusted tile ///////////////
-    //    if (_nt.contains(getCharacterTile(superZombie)));
-    //    {
-    //      neighbors.add(superZombie);
-    //    }
 
     return neighbors;
   }

@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
   List<Zombie> zombies;
-//  List<Combustible> combustibleList = new ArrayList<>();
-  ConcurrentHashMap<Combustible, Integer> combustibleMap = new ConcurrentHashMap<>();
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;
@@ -78,11 +76,17 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       isMoving = true;
 
       mover = zombie = zombies.get(i);
+      if (zombie.getCombustedState() == Combustible.CombustedState.IGNITED)
+      {
+        zombies.remove(i);
+        continue;
+      }
 
       zombieTile = house.getCharacterTile(zombie);
       if (zombieTile == null)
       {
         zombies.remove(i);
+        continue;
       }
 
       float direction = mover.getRotation();

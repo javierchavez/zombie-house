@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
   List<Zombie> zombies;
-//  List<Combustible> combustibleList = new ArrayList<>();
-  ConcurrentHashMap<Combustible, Integer> combustibleMap = new ConcurrentHashMap<>();
   private boolean isMoving = true;
   private boolean playerDetected = false; // How do I know when the player is detected
   private boolean running;

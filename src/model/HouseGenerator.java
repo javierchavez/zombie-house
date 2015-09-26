@@ -183,6 +183,40 @@ public class HouseGenerator
     }
   }
 
+  private void addObstacles()
+  {
+    Random rand = new Random();
+    int row;
+    int col;
+
+    for (Room room : rooms)
+    {
+      row = (room.row()+1) + rand.nextInt(room.height()-1);
+      col = (room.col()+1) + rand.nextInt(room.width()-1);
+      house.setTile(row, col, new Obstacle(col, row));
+    }
+  }
+
+  private void addExit()
+  {
+    Random rand = new Random();
+    List<Tile> walls = getWalls();
+    Tile wall;
+    int index;
+
+    do
+    {
+      index = rand.nextInt(walls.size());
+      wall = walls.get(index);
+    } while (!validExit(wall));
+
+    int row = wall.getRow();
+    int col = wall.getCol();
+    exit = new Exit(col, row);
+    house.setTile(row, col, exit);
+  }
+
+
   private void countHallways()
   {
     numHallways = 0;
@@ -285,38 +319,6 @@ public class HouseGenerator
     }
   }
 
-  private void addObstacles()
-  {
-    Random rand = new Random();
-    int row;
-    int col;
-
-    for (Room room : rooms)
-    {
-      row = (room.row()+1) + rand.nextInt(room.height()-1);
-      col = (room.col()+1) + rand.nextInt(room.width()-1);
-      house.setTile(row, col, new Obstacle(col, row));
-    }
-  }
-
-  private void addExit()
-  {
-    Random rand = new Random();
-    List<Tile> walls = getWalls();
-    Tile wall;
-    int index;
-
-    do
-    {
-      index = rand.nextInt(walls.size());
-      wall = walls.get(index);
-    } while (!validExit(wall));
-
-    int row = wall.getRow();
-    int col = wall.getCol();
-    exit = new Exit(col, row);
-    house.setTile(row, col, exit);
-  }
 
   private List<Tile> getWalls()
   {
@@ -373,18 +375,36 @@ public class HouseGenerator
 
   private boolean validRoom(Room room)
   {
-    int maxRow = room.row() + room.height();
-    int maxCol = room.col() + room.width();
-    if (room.row() < 1 || room.col() < 1 || maxRow >= (house.getRows()-2) || maxCol >= (house.getCols()-2))
+    // First, check if the room if in bounds of the house
+    // and not right at the edge (leave space for a wall)
+    if ((room.row() < 1) || ((room.row()+room.height()) >= (house.getRows()-1)))
     {
       return false;
     }
-
-    for (Room existing : rooms)
+    else if ((room.col() < 1) || ((room.col()+room.width()) >= (house.getCols()-1)))
     {
-      if (room.intersects(existing))
+      return false;
+    }
+    else
+    {
+      // Make sure there is at least one space for a wall between rooms
+      // (two rooms adjacent would just look like one big room)
+      // Make sure the room isn't overlapping any other rooms or obstacles
+      for (int row = (room.row()-1); row <= (room.row()+room.height()+1); row++)
       {
-        return false;
+        if ((row > 0) && (row < house.getRows()))
+        {
+          for (int col = (room.col()-1); col <= (room.col()+room.width()+1); col++)
+          {
+            if ((col > 0) && (col < house.getCols()))
+            {
+              if (!(house.getTile(row, col) instanceof Empty))
+              {
+                return false;
+              }
+            }
+          }
+        }
       }
     }
     return true;

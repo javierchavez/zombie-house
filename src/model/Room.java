@@ -48,8 +48,8 @@ public class Room extends Area
   {
     Rectangle2D.Float thisRoom = new Rectangle2D.Float(x-1,
                                                        y-1,
-                                                       width+1,
-                                                       height+1);
+                                                       width+2,
+                                                       height+2);
     return room.intersects(thisRoom);
   }
 }

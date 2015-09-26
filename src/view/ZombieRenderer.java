@@ -59,17 +59,23 @@ public class ZombieRenderer extends Renderer
     List<Zombie> zombies =  house.getZombies();
     for (int i = 0; i < zombies.size(); i++)
     {
-      float x = zombies.get(i).getCurrentX();
-      float y = zombies.get(i).getCurrentY();
-      setAnimation(zombies.get(i));
-      g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT)),
-                   (int) ((y * TILE_HEIGHT)), null);
-      
+      Zombie zombie = zombies.get(i);
+      float x = zombie.getCurrentX();
+      float y = zombie.getCurrentY();
+      setAnimation(zombie);
+      if (house.getPlayer().senseSight(house.getCharacterTile(zombie)))
+      {
+        g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT)), (int) ((y * TILE_HEIGHT)), null);
+      }
     }
+    if (house.getPlayer().senseSight(house.getCharacterTile(house.getSuperZombie())))
+    {
     SuperZombie superZombie = house.getSuperZombie();
     g2.drawImage(animation.getSprite(),
                  (int) ((superZombie.getCurrentX() * TILE_HEIGHT)),
                  (int) ((superZombie.getCurrentY() * TILE_HEIGHT)), null);
+
+    }
 
   }
 

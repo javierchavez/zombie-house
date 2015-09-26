@@ -21,6 +21,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
   // An incrementer to keep track of when 120 frames (2 seconds) have passed
   private int time = 0;
+  private int secIncrement = 0;
   private Tile zombieTile;
   private List<Tile> path;
   // The values of these ints can be either -1, 0, or 1
@@ -67,6 +68,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     zombies = house.getZombies();
     // handleFires();
     time++;
+    secIncrement++;
     for (int i = 0; i < zombies.size(); i++)
     {
       Zombie zombie;
@@ -100,52 +102,63 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       {
         playerDetected = zombie.sense(playerTile);
         if (DEBUG) System.out.println("\tPlayer detected: " + playerDetected);
-
         if (playerDetected)
         {
+          zombieSpeed = Speed.WALK;
+
           mover.getStrategy().find(house,
               house.getCharacterTile(mover),
               house.getCharacterTile(house.getPlayer()));
+
           path = mover.getStrategy().getPath();
-          if (path.size() > 0)
-          {
-            // This is all super buggy and game-breaking, so it's all commented out:
+          new Thread(() -> {
+            while(path.size() > 0)
+            {
+              Tile t = path.remove(0);
+//              x = t.getCol();
+//              y = t.getY();
 
-            /**
-            new Thread(() -> {
-              while (playerDetected)
+//              checkCollision(new Move(x, y, direction));
+              mover.move(t.getCol(), t.getRow());
+
+              try
               {
-                Tile t = path.remove(0);
-                mover.move(t.getX(), t.getY());
-
-                try
-                {
-                  Thread.sleep(140);
-                }
-                catch (InterruptedException e)
-                {
-                  e.printStackTrace();
-                }
+                Thread.sleep(300);
               }
-            }).start(); **/
-          }
+              catch (InterruptedException e)
+              {
+                e.printStackTrace();
+              }
+            }
+          }).start();
 
-
-
-//        if (playerDetected)
-//        {
-//          running = true;
-//          zombieSpeed = Speed.RUN;
-//          zombie.getStrategy().find(house,
-//              house.getCharacterTile(zombie),
-//              house.getCharacterTile(house.getPlayer()));
-//
-//          path = zombie.getStrategy().getPath();
 //          if (path.size() > 0)
 //          {
+//            // This is all super buggy and game-breaking, so it's all commented out:
 //            Tile t = path.remove(0);
-//            xDir = t.getCol();
-//            yDir = t.getRow();
+//            mover.move(t.getCol(), t.getRow());
+////            xDir = t.getCol();
+////            yDir = t.getRow();
+//            // Figure out which direction to make zombie face later
+//
+//
+//            /**
+//            new Thread(() -> {
+//              while (playerDetected)
+//              {
+//                Tile t = path.remove(0);
+//                mover.move(t.getX(), t.getY());
+//
+//                try
+//                {
+//                  Thread.sleep(140);
+//                }
+//                catch (InterruptedException e)
+//                {
+//                  e.printStackTrace();
+//                }
+//              }
+//            }).start(); **/
 //          }
         }
         else // if player is not detected
@@ -194,8 +207,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           // Update zombie's position/status
           zombie.setSpeed(zombieSpeed * deltaTime);
-          zombieDirection(); // Zombie's new direction
-          nextPos(zombie, direction); // Get the zombie's next position
+          zombieDirection(); // Direction zombie should face
+          nextPos(zombie, direction); // Get the zombie's new x and y
           checkCollision(new Move(x, y, direction));
         }
 

@@ -170,7 +170,7 @@ public class HouseRenderer extends Renderer
         //        g2.drawRect(j * tileW, i * tileH, 80, 80);
       }
     }
-    renderShadows(g2);
+//    renderShadows(g2);
 //    for (int i=0; i<entities.size(); i++) {
 //      Rectangle2D e = entities.get(i).getBoundingRectangle();
 //      g2.setColor(Color.WHITE);

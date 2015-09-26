@@ -41,10 +41,30 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   private void zombieDirection()
   {
     if (xDir == 0 && yDir == 0) resting();
+
+    // TODO: The ordinal might break things
     if (xDir < 0 && yDir == 0) moveLeft();
+    if (xDir < 0 && yDir < 0) moveDownLeft();
+    if (xDir < 0 && yDir > 0) moveDownRight();
     if (xDir > 0 && yDir == 0) moveRight();
     if (yDir > 0 && xDir == 0) moveUp();
+    if (xDir > 0 && yDir > 0) moveUpRight();
     if (yDir < 0 && xDir == 0) moveDown();
+    if (xDir < 0 && yDir > 0) moveUpLeft();
+  }
+
+  /**
+   *
+   */
+  private void setChaseDirection(Tile currentTile, Tile nextTile)
+  {
+    if (currentTile.getCol() < nextTile.getCol()) xDir = 1;
+    if (currentTile.getCol() > nextTile.getCol()) xDir = -1;
+    if (currentTile.getCol() == nextTile.getCol()) xDir = 0;
+
+    if (currentTile.getRow() < nextTile.getRow()) yDir = 1;
+    if (currentTile.getRow() > nextTile.getRow()) yDir = -1;
+    if (currentTile.getRow() == nextTile.getRow()) yDir = 0;
   }
 
   /**
@@ -97,17 +117,23 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       zombieSpeed = Speed.STAGGER;
       if (running) zombieSpeed = Speed.WALK;
+//      if (zombie.sense(playerTile))
+//      {
+//        running = true;
+//        playerDetected = true;
+//        isMoving = true;
+//      }
 
       if (isMoving)
       {
         playerDetected = zombie.sense(playerTile); // Detect player
-        if (playerDetected) // && time % 10 == 0 (if using separate thread)
+        if (playerDetected)
         {
           // Zombie moves faster
           running = true;
           zombieSpeed = Speed.WALK;
 
-          // Change zombie's direction to face player
+          // Get zombie to face correct direction
           if (playerTile.getCol() < house.getCharacterTile(mover).getCol())
           {
             mover.setRotation(Direction.WEST);
@@ -140,22 +166,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (path.size() > 0)
           {
-            Tile t = path.remove(0);
-            xDir = t.getCol();
-            yDir = t.getRow();
-
-            System.out.println("\t\t\t(xdir, ydir): (" + xDir + ", " + yDir  + ")");
-//            direction = mover.getRotation();
-
-//            checkCollision(new Move(x, y, direction));
-//            System.out.print("PATH: ");
-//            for (Tile tile : path)
-//            {
-//              System.out.print("(" + tile.getX() + ", " + tile.getY() + ") ");
-//            }
-//            System.out.println();
+            Tile nextTile = path.remove(0);
+            setChaseDirection(house.getCharacterTile(mover), nextTile);
           }
-          zombieDirection();
           newXY(zombie, direction);
           zombie.setSpeed(zombieSpeed * deltaTime);
           checkCollision(new Move(x, y, direction));
@@ -190,17 +203,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               xDir = (int) move.col;
               yDir = (int) move.row;
-//              boolean collision = super.checkCollision(move);
-//              if (collision)
-//              {
-//                xDir = random.nextInt(3) - 1;
-//                yDir = random.nextInt(3) - 1;
-//              }
-//              else
-//              {
-//                xDir = (int) move.col;
-//                yDir = (int) move.row;
-//              }
             }
           }
 
@@ -274,13 +276,12 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     {
       if (collision)
       {
-//        System.out.println("\tline walker");
         xDir = random.nextInt(3) - 1;
         yDir = random.nextInt(3) - 1;
         zombieDirection();
         newXY(mover, moveToCheck.direction);
-        Move newMove = new Move(x, y, moveToCheck.direction);
-        checkCollision(newMove);
+//        Move newMove = new Move(x, y, moveToCheck.direction);
+//        checkCollision(newMove);
       }
     }
 

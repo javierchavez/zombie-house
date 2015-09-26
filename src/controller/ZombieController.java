@@ -76,11 +76,17 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       isMoving = true;
 
       mover = zombie = zombies.get(i);
+      if (zombie.getCombustedState() == Combustible.CombustedState.IGNITED)
+      {
+        zombies.remove(i);
+        continue;
+      }
 
       zombieTile = house.getCharacterTile(zombie);
       if (zombieTile == null)
       {
         zombies.remove(i);
+        continue;
       }
 
       float direction = mover.getRotation();

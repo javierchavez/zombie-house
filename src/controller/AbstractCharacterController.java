@@ -67,7 +67,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void stopMoving () // TODO: get rid of this method later? probably don't need it
   {
-    System.out.println("I can't move like that!");
+    if (DEBUG) System.out.println("I can't move like that!");
     isMoving = false;
     running = false;
     mover.setSpeed(Speed.IDLE);

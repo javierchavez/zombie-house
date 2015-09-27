@@ -13,7 +13,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 {
   List<Zombie> zombies;
   private boolean isMoving = true;
-  private boolean playerDetected = false; // How do I know when the player is detected
+  private boolean playerDetected = false;
   private boolean running = false;
   private float x, y;
 
@@ -42,7 +42,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   {
     if (xDir == 0 && yDir == 0) resting();
 
-    // TODO: The ordinal might break things
     if (xDir < 0 && yDir == 0) moveLeft();
     if (xDir < 0 && yDir < 0) moveDownLeft();
     if (xDir < 0 && yDir > 0) moveDownRight();
@@ -216,7 +215,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         // Update zombie's speed and next move
 //        if (idling)
 //        {
-//          System.out.println("\tis idling");
 //          zombieSpeed = Speed.IDLE;
 //        }
 //        zombie.setSpeed(zombieSpeed * deltaTime);
@@ -237,58 +235,50 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     boolean collision = super.checkCollision(moveToCheck); // Checks for basic collisions (wall, obstacle, etc...)
     if (collision)
     {
-      if (DEBUG) System.out.println("\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
+      Move move = mover.getStrategy().getNextMove(house, house.getCharacterTile(mover));
+      xDir = (int) moveToCheck.col;
+      yDir = (int) moveToCheck.row;
+      zombieDirection();
+      newXY(mover, mover.getRotation());
+      mover.setSpeed(0);
+//      checkCollision(new Move(x, y, mover.getRotation()));
     }
-
-    //Area testArea = new Area(moveToCheck.col,
-    //                         moveToCheck.row,
-    //                         mover.getWidth(),
-    //                         mover.getHeight());
-
-    //List<Tile> neighbors = house.getIntersectingNeighbors(zombieTile, testArea);
-
-    // Extra checks for fire traps
-    //for (Tile neighbor : neighbors)
-    //{
-    //  if (neighbor.getTrap() == Trap.FIRE)
-    //  {
-    //    zombies.remove(mover);
-    //    List<Combustible> explode = house.getCombustibleNeighbors(neighbor);
-    //    for (Combustible item : explode)
-    //    {
-    //      CombustibleController.getInstance().addCombustible(item);
-    //    }
-    //    CombustibleController.getInstance().addCombustible(neighbor);
-    //  }
-    //}
-
-//    if (mover.getStrategy() instanceof RandomMoveStrategy)
-//    {
-//      if (collision)
-//      {
-//        if (DEBUG) System.out.println("\trandom walker");
-//        mover.setSpeed(0);
-//      }
-//    }
-
-    // If Line Walker zombie collides with obstacle, they change direction
-    if (mover.getStrategy() instanceof LineMoveStrategy)
-    {
-      if (collision)
-      {
-        xDir = random.nextInt(3) - 1;
-        yDir = random.nextInt(3) - 1;
-        zombieDirection();
-        newXY(mover, moveToCheck.direction);
-//        Move newMove = new Move(x, y, moveToCheck.direction);
-//        checkCollision(newMove);
-      }
-    }
-
-    if (!collision)
+    else
     {
       mover.move(moveToCheck.col, moveToCheck.row);
     }
+//    if (collision)
+//    {
+//      if (DEBUG) System.out.println("\tMove to check: " + moveToCheck.col + ", " + moveToCheck.row);
+//    }
+//
+////    if (mover.getStrategy() instanceof RandomMoveStrategy)
+////    {
+////      if (collision)
+////      {
+////        if (DEBUG) System.out.println("\trandom walker");
+////        mover.setSpeed(0);
+////      }
+////    }
+//
+//    // If Line Walker zombie collides with obstacle, they change direction
+//    if (mover.getStrategy() instanceof LineMoveStrategy)
+//    {
+//      if (collision)
+//      {
+//        xDir = random.nextInt(3) - 1;
+//        yDir = random.nextInt(3) - 1;
+//        zombieDirection();
+//        newXY(mover, moveToCheck.direction);
+////        Move newMove = new Move(x, y, moveToCheck.direction);
+////        checkCollision(newMove);
+//      }
+//    }
+//
+//    if (!collision)
+//    {
+//      mover.move(moveToCheck.col, moveToCheck.row);
+//    }
     return false;
   }
 }

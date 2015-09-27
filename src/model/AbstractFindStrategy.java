@@ -37,4 +37,10 @@ public abstract class AbstractFindStrategy implements FindStrategy<Tile>
     return path;
   }
 
+  @Override
+  public Move changeMove(House house, Tile start, boolean changeDirection)
+  {
+    return null;
+  }
+
 }

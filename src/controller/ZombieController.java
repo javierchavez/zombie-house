@@ -144,14 +144,17 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (mover.getStrategy() instanceof LineMoveStrategy) // Line walker
           {
-            Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));;
-//            Tile zombieTile = house.getCharacterTile(zombie);
-//            float zombieX = zombieTile.getX();
-//            float zombieY = zombieTile.getY();
-//            Move move = new Move(zombieX, zombieY, zombie.getRotation());
-            if (super.checkCollision(move) || time == 0)
+//            System.out.println("Line mover");
+            Move move = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), false);
+            if (super.checkCollision(move))
             {
-              move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));;
+//              System.out.println("collision");
+              Move newMove = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), true);
+              xDir = (int) newMove.col;
+              yDir = (int) newMove.row;
+            }
+            else
+            {
               xDir = (int) move.col;
               yDir = (int) move.row;
             }
@@ -172,13 +175,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           newXY(zombie, direction); // Get the zombie's new x and y
           checkCollision(new Move(x, y, direction));
         }
-
-        // Update zombie's speed and next move
-
-//        zombie.setSpeed(zombieSpeed * deltaTime);
-//        newXY(zombie, direction);
-//
-//        checkCollision(new Move(x, y, direction));
         isMoving = false;
       }
     } // END FOR

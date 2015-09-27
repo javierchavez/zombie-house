@@ -15,6 +15,19 @@ public class LineMoveStrategy extends AbstractFindStrategy implements FindStrate
     path = defaultFinder.getPath();
   }
 
+  public Move changeMove(House house, Tile start, boolean changeDirection)
+  {
+    int xDir = 0;
+    int yDir = 0;
+
+    if (changeDirection)
+    {
+      xDir = rand.nextInt(3) - 1;
+      yDir = rand.nextInt(3) - 1;
+    }
+
+    return new Move(xDir, yDir, 0);
+  }
 
   @Override
   public Move getNextMove (House house, Tile start)

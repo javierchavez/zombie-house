@@ -100,16 +100,16 @@ public class HouseGenerator
     // there won't be enough space to fit
     // in minRooms in the house.
     int minWidth = 3;
-    int maxWidth = (int) (house.getWidth() * (1/(params.minRooms+1)));
+    int maxWidth = (int) (house.getWidth() * .15);
     int minHeight = 3;
-    int maxHeight = (int) (house.getHeight() * (2/params.minRooms));
+    int maxHeight = (int) (house.getHeight() * .15);
 
-    if (maxWidth < minWidth)
+    if (maxWidth <= minWidth)
     {
       maxWidth = minWidth+1;
     }
 
-    if (maxHeight < minHeight)
+    if (maxHeight <= minHeight)
     {
       maxHeight = minHeight+1;
     }

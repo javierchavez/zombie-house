@@ -53,6 +53,8 @@ public class HouseParameters
         trapSpawn = 0.01f;
         minZombieDistance = 10;
         minTravelDistance = 10;
+        Empty.minCost = 15;
+        Empty.maxCost = 30;
         break;
       case LEVEL2:
         rows = (int) (21 * 1.5);
@@ -65,6 +67,8 @@ public class HouseParameters
         trapSpawn = 0.01f;
         minZombieDistance = 9;
         minTravelDistance = 12;
+        Empty.minCost = 15;
+        Empty.maxCost = 30;
         break;
       case LEVEL3:
         rows = 21 * 2;
@@ -77,6 +81,8 @@ public class HouseParameters
         trapSpawn = 0.02f;
         minZombieDistance = 9;
         minTravelDistance = 15;
+        Empty.minCost = 10;
+        Empty.maxCost = 20;
         break;
       case LEVEL4:
         rows = (int) (21 * 2.5);
@@ -89,6 +95,8 @@ public class HouseParameters
         trapSpawn = 0.03f;
         minZombieDistance = 8;
         minTravelDistance = 20;
+        Empty.minCost = 8;
+        Empty.maxCost = 25;
         break;
       case LEVEL5:
         rows = 21 * 3;
@@ -101,6 +109,8 @@ public class HouseParameters
         trapSpawn = 0.05f;
         minZombieDistance = 7;
         minTravelDistance = 30;
+        Empty.minCost = 5;
+        Empty.maxCost = 30;
         break;
       default:
         rows = 21;
@@ -113,6 +123,8 @@ public class HouseParameters
         trapSpawn = 0.05f;
         minZombieDistance = 10;
         minTravelDistance = 10;
+        Empty.minCost = 15;
+        Empty.maxCost = 30;
         break;
     }
   }

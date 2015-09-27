@@ -145,38 +145,31 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
           }
           else if (options.getState() == GameOptions.GAME_STATE.LEVEL1)
           {
-            house = new House(player);
             house.generateRandomHouse(options.getState());
             MenuController.setActive(false);
           }
           else if (options.getState() == GameOptions.GAME_STATE.LEVEL2)
           {
-            house = new House(player);
             house.generateRandomHouse(options.getState());
             MenuController.setActive(false);
           }
           else if (options.getState() == GameOptions.GAME_STATE.LEVEL3)
           {
-            house = new House(player);
             house.generateRandomHouse(options.getState());
             MenuController.setActive(false);
           }
           else if (options.getState() == GameOptions.GAME_STATE.LEVEL4)
           {
-            house = new House(player);
             house.generateRandomHouse(options.getState());
             MenuController.setActive(false);
           }
           else if (options.getState() == GameOptions.GAME_STATE.LEVEL5)
           {
-            house = new House(player);
             house.generateRandomHouse(options.getState());
             MenuController.setActive(false);
           }
           else
           {
-            //house = new House(player);
-            //house.generateRandomHouse(options.getState());
             MenuController.toggleActive();
           }
         }

@@ -169,7 +169,6 @@ public class HouseGenerator
     // Adds a wall to a tile if the tile is Empty
     // and is touching a Floor tile
     Tile tile;
-    Wall wall;
     for (int row = 0; row < house.getRows(); row++)
     {
       for (int col = 0; col < house.getCols(); col++)
@@ -179,16 +178,7 @@ public class HouseGenerator
         {
           if (touchesFloor(tile))
           {
-            wall = new Wall(col, row);
-            house.setTile(row, col, wall);
-            if (touchesEmpty(wall))
-            {
-              wall.setWallType(WallType.EXTERIOR);
-            }
-            else
-            {
-              wall.setWallType(WallType.INTERIOR);
-            }
+            house.setTile(row, col, new Wall(col, row));
           }
           else
           {
@@ -198,6 +188,18 @@ public class HouseGenerator
             house.getTile(row, col).setCost(999999999);
           }
         }
+      }
+    }
+
+    for (Tile wall : getWalls())
+    {
+      if (touchesEmpty(wall) || onBoarder(wall))
+      {
+        ((Wall) wall).setWallType(WallType.EXTERIOR);
+      }
+      else
+      {
+        ((Wall) wall).setWallType(WallType.INTERIOR);
       }
     }
   }
@@ -427,6 +429,17 @@ public class HouseGenerator
     }
     return false;
   }
+
+ private boolean onBoarder(Tile tile)
+ {
+   int row = tile.getRow();
+   int col = tile.getCol();
+   if (row <= 0 || col <= 0 || row >= house.getRows()-1 || col >= house.getCols()-1)
+   {
+     return true;
+   }
+   return false;
+ }
 
   private void placePlayer()
   {

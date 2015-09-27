@@ -18,6 +18,7 @@ public class HouseRenderer extends Renderer
   WallGraphic wall = new WallGraphic();
   TrapGraphic trap = new TrapGraphic();
   ExitGraphic exit = new ExitGraphic();
+  ObstacleGraphic obstacle = new ObstacleGraphic();
   protected final static Color[] GRADIENT_COLORS = new Color[] { new Color
           (0f,0f,0f,0f), Color.black };
   protected final static float GRADIENT_SIZE = 200f;
@@ -139,8 +140,8 @@ public class HouseRenderer extends Renderer
         }
         else if (houseMatrix[i][j] instanceof Obstacle)
         {
-          // g2.drawImage(floor.getImage(), j * tileW, i * tileH, null);
-          g2.drawRect(j * tileW, i * tileH, 80, 80);
+           g2.drawImage(obstacle.getImage(), j * tileW, i * tileH, null);
+//          g2.drawRect(j * tileW, i * tileH, 80, 80);
         }
         else if (houseMatrix[i][j] instanceof Exit)
         {

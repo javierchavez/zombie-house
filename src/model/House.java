@@ -129,13 +129,13 @@ public class House extends Area
             superZombie.move(col, row);
             house[row][col] = new Floor(col, row, 10);
             break;
-          case 'R':
+          case 'Z':
             zombie = new Zombie(new RandomMoveStrategy());
             zombie.move(col, row);
             zombies.add(zombie);
             house[row][col] = new Floor(col, row, 10);
             break;
-          case 'L':
+          case 'z':
             zombie = new Zombie(new LineMoveStrategy());
             zombie.move(col, row);
             zombies.add(zombie);
@@ -152,7 +152,14 @@ public class House extends Area
             house[row][col] = new Floor(col, row, 10);
             break;
           case 'X':
-            house[row][col] = new Wall(col, row);
+            Wall eWall = new Wall(col, row);
+            house[row][col] = eWall;
+            eWall.setWallType(WallType.EXTERIOR);
+            break;
+          case 'x':
+            Wall iWall = new Wall(col, row);
+            house[row][col] = iWall;
+            iWall.setWallType(WallType.INTERIOR);
             break;
           case 'e':
             house[row][col] = new Exit(col, row);
@@ -594,11 +601,11 @@ public class House extends Area
             {
               if (zombie.getStrategy() instanceof RandomMoveStrategy)
               {
-                board += 'R';
+                board += "Z";
               }
               else
               {
-                board += 'L';
+                board += "z";
               }
             }
           }
@@ -617,7 +624,14 @@ public class House extends Area
         }
         else if (current instanceof Wall)
         {
-          board += "X";
+          if (((Wall) current).getWallType() == WallType.EXTERIOR)
+          {
+            board += "X";
+          }
+          else
+          {
+            board += "x";
+          }
         }
         else if (current instanceof Exit)
         {
@@ -642,7 +656,7 @@ public class House extends Area
   public static void main(String[] args)
   {
     House house = new House(new Player());
-    house.generateRandomHouse();
+    house.generateRandomHouse(GameOptions.GAME_STATE.LEVEL3);
     System.out.println(house);
   }
 }

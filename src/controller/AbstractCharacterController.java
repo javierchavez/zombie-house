@@ -202,7 +202,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
           ((Player) mover).setState(Player.PlayerState.DEAD);
         }
       }
-      else if (mover instanceof Zombie)
+      else if (mover instanceof Zombie && !(mover instanceof SuperZombie))
       {
         tripTrap = true;
         house.getZombies().remove(mover);

@@ -5,8 +5,6 @@ import common.Speed;
 import model.*;
 import model.Move;
 
-import java.util.List;
-
 public class PlayerController extends AbstractCharacterController<Player>
 {
   private int trapSetTimer = 0;
@@ -52,15 +50,6 @@ public class PlayerController extends AbstractCharacterController<Player>
         mover.setStamina(stamina);
       }
 
-//      if (DEBUG) System.out.println("trap timer: " + trapSetTimer);
-      // Detecting if player is on trap tile
-      //  TODO: just for testing. Get rid of this later
-      if (DEBUG)
-      {
-        Tile tile = house.getCharacterTile(house.getPlayer());
-        if (house.isTrap(tile)) System.out.println("On trap tile");
-      }
-
       // Trap interaction
       if (pKeyPressed) trapInteraction();
     }
@@ -92,28 +81,14 @@ public class PlayerController extends AbstractCharacterController<Player>
         }
       }
 
-      // Distance of player is dependent on time
-      mover.setSpeed(playerSpeed * deltaTime); // Determines how many tiles/second the player will move across
+      mover.setSpeed(playerSpeed * deltaTime);
       mover.setRotation(direction);
-
-      // Update player's x and y
 
       if (moveUp || moveDown) y = (float) (y + mover.getSpeed() * Math.sin(Math.toRadians(direction)));
       if (moveLeft || moveRight) x = (float) (x + mover.getSpeed() * Math.cos(Math.toRadians(direction)));
 
       checkCollision(new Move(x,y, (int) direction));
-      // mover.move(x, y);
       isMoving = false;
-      for (Zombie zombie : house.getZombies())
-      {
-        boolean canHear = mover.sense(house.getCharacterTile(zombie),
-                                      house.getCharacterTile(mover));
-        if (canHear)
-        {
-          float theta = mover.getCardinalDirection(zombie);
-          zombie.setChannel(theta);
-        }
-      }
     }
   }
 

@@ -63,17 +63,17 @@ public class Player extends Character
     return super.getBoundingRectangle();
   }
 
-  public boolean sense(Tile zombieTile, Tile playerTile)
+  public boolean senseHear (Tile zombieTile)
   {
     float hearing = getHearing();
-    int zx = zombieTile.getCol();
-    int zy = zombieTile.getRow();
-    int px = playerTile.getCol();
-    int py = playerTile.getRow();
+    float zx = zombieTile.getCol();
+    float zy = zombieTile.getRow();
+    float px = getCurrentX();
+    float py = getCurrentY();
 
-    int dx = (zx - px) * (zx - px);
-    int dy = (zy - py) * (zy - py);
-    return ((int) Math.sqrt(dx+dy) <= hearing);
+    float dx = (zx - px) * (zx - px);
+    float dy = (zy - py) * (zy - py);
+    return  Math.sqrt(dx+dy) <= hearing;
   }
 
   public boolean senseSight (Tile playerTile)

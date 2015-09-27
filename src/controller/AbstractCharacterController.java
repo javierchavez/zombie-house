@@ -7,7 +7,6 @@ import model.*;
 import model.Character;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
 
@@ -172,7 +171,8 @@ public abstract class AbstractCharacterController<T extends Character> implement
                              moveToCheck.row,
                              mover.getWidth(),
                              mover.getHeight());
-    List<Tile> neighbors = house.neighborsInDirection(current, moveToCheck.direction);
+    List<Tile> neighbors = house.neighborsInDirection(current,
+                                                      moveToCheck.direction);
 
     for (Tile neighbor : neighbors)
     {
@@ -180,6 +180,21 @@ public abstract class AbstractCharacterController<T extends Character> implement
       {
         if (!neighbor.isPassable())
         {
+          if (neighbor instanceof Wall && mover instanceof Zombie)
+          {
+            Player player = house.getPlayer();
+            boolean canHear = player.senseHear(house.getCharacterTile(mover));
+            if (canHear)
+            {
+              float theta = player.getCardinalDirectionBetween(mover);
+              mover.setChannel(theta);
+              mover.setVolume(1f);
+            }
+            else
+            {
+              mover.setVolume(0f);
+            }
+          }
           return true;
         }
         else if (house.isZombieTile(neighbor))

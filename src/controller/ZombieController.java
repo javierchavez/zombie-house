@@ -127,16 +127,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             xDir = (currentTile.getX() - nextTile.getX()) * -1;
             yDir = (currentTile.getY() - nextTile.getY()) * -1;
 
-            // zombieDirection()
-            if (xDir == 0 && yDir == 0) resting();
-            if (xDir < 0 && yDir == 0) moveLeft();
-            if (xDir < 0 && yDir < 0) moveDownLeft();
-            if (xDir < 0 && yDir > 0) moveDownRight();
-            if (xDir > 0 && yDir == 0) moveRight();
-            if (yDir > 0 && xDir == 0) moveUp();
-            if (xDir > 0 && yDir > 0) moveUpRight();
-            if (yDir < 0 && xDir == 0) moveDown();
-            if (xDir < 0 && yDir > 0) moveUpLeft();
+             zombieDirection();
           }
 //          newXY(zombie, direction);
           x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));

@@ -92,7 +92,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       float zombieSpeed;
       Tile playerTile = house.getCharacterTile(house.getPlayer()); // Get player's current tile
 
-      isMoving = true;
       if (time == 0) // Initialize zombie stats
       {
 //        zombieSpeed = Speed.STAGGER;
@@ -103,6 +102,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 //        mover.setSpeed(zombieSpeed * deltaTime);
       }
 
+      isMoving = true;
       mover = zombie = zombies.get(i);
       if (zombie.getCombustedState() == Combustible.CombustedState.IGNITED)
       {
@@ -188,6 +188,19 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (mover.getStrategy() instanceof LineMoveStrategy) // Line walker
           {
+            Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));;
+//            Tile zombieTile = house.getCharacterTile(zombie);
+//            float zombieX = zombieTile.getX();
+//            float zombieY = zombieTile.getY();
+//            Move move = new Move(zombieX, zombieY, zombie.getRotation());
+            if (super.checkCollision(move) || time == 0)
+            {
+              move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));;
+              xDir = (int) move.col;
+              yDir = (int) move.row;
+            }
+//            else checkCollision(new Move(x, y, direction));
+
             /*
             Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
             boolean collision = super.checkCollision(move);
@@ -201,11 +214,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             zombie.setSpeed(zombieSpeed * deltaTime);
             newXY(zombie, direction); // Get the zombie's next position */
 
-            checkCollision(new Move(x, y, direction));
+//            checkCollision(new Move(x, y, direction));
           }
           else // Random walker
           {
-            if (time % 120 == 0) // Random walk zombies change direction every 2 seconds
+            if (time == 0 || time % 120 == 0) // Random walk zombies change direction every 2 seconds
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               xDir = (int) move.col;

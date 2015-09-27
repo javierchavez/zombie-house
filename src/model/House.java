@@ -656,7 +656,7 @@ public class House extends Area
   public static void main(String[] args)
   {
     House house = new House(new Player());
-    house.generateRandomHouse();
+    house.generateRandomHouse(GameOptions.GAME_STATE.LEVEL3);
     System.out.println(house);
   }
 }

@@ -156,8 +156,8 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               wanderXDir = move.col;
               wanderYDir = move.row;
               zombieDirection(wanderXDir, wanderYDir);
-              checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
             }
+            checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
           }
           else // Zombie is Line Mover
           {

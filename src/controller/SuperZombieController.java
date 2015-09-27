@@ -50,7 +50,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
 
     Tile current = house.getCharacterTile(mover);
     tiles.remove(current);
-    mover.setSpeed(Speed.WALK+.5f * deltaTime);
+    mover.setSpeed((Speed.WALK+.5f) * deltaTime);
     if (tiles.size() > 0)
     {
       Tile next = tiles.get(0);

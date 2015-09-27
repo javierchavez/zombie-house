@@ -101,7 +101,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       zombieSpeed = Speed.STAGGER; // Default zombie speed
       if (idling) zombieSpeed = Speed.IDLE;
-      if (running) zombieSpeed = Speed.WALK;
+      if (running) zombieSpeed = 0.75f;
 
       if (isMoving)
       {
@@ -109,7 +109,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         if (playerDetected)
         {
           running = true;
-          zombieSpeed = Speed.WALK;
+          zombieSpeed = 0.75f;
 
           // Get path to player
           mover.getStrategy().find(house,

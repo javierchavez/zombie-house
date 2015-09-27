@@ -12,13 +12,11 @@ import java.util.List;
 
 public class SuperZombieController extends AbstractCharacterController<SuperZombie>
 {
-  private boolean initial = true; // for initial scare
   private int secIncrement = 0;
-  private List<Tile> tiles;
+  private List<Tile> tiles = new ArrayList<>();
   public SuperZombieController (House house, SuperZombie mover)
   {
     super(house, mover);
-    initial = true;
   }
 
   @Override
@@ -27,6 +25,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
     if (super.checkCollision(moveToCheck))
     {
       mover.setSpeed(0);
+      return true;
     }
     else
     {
@@ -39,39 +38,19 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
   public void update (float deltaTime)
   {
     secIncrement++;
-    if (initial || secIncrement == 200)
+    if (secIncrement == 200)
     {
 
       mover.getStrategy().find(house, house.getCharacterTile(house.getSuperZombie()), house
               .getCharacterTile(house.getPlayer()));
-      tiles = new ArrayList<>(50);
+      tiles.clear();
       tiles = mover.getStrategy().getPath();
-      /*new Thread(() -> {
-        while(tiles.size() > 0)
-        {
-
-          //Tile t = tiles.remove(0);
-          //mover.move(t.getX(), t.getY());
-
-          try
-          {
-            Thread.sleep(140);
-          }
-          catch (InterruptedException e)
-          {
-
-            e.printStackTrace();
-          }
-        }
-        // house.slowReset();
-      }).start();*/
-      initial = false;
       secIncrement = 0;
     }
 
     Tile current = house.getCharacterTile(mover);
     tiles.remove(current);
-    mover.setSpeed(5 * deltaTime);
+    mover.setSpeed(Speed.WALK+.5f * deltaTime);
     if (tiles.size() > 0)
     {
       Tile next = tiles.get(0);
@@ -126,6 +105,9 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
 
     float y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
     float x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
-    checkCollision(new Move(x, y, mover.getRotation()));
+    if(checkCollision(new Move(x, y, mover.getRotation())))
+    {
+      mover.move((int)current.getX(), (int)current.getY());
+    }
   }
 }

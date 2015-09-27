@@ -24,7 +24,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
   Random random = new Random();
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
   public ZombieController (House house)
   {
@@ -89,7 +89,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       float direction = mover.getRotation();
 
-      if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
+//      if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
       zombieSpeed = Speed.STAGGER; // Default zombie speed
       if (idling) zombieSpeed = Speed.IDLE;
@@ -145,6 +145,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           float wanderX, wanderY;
 
           zombie.setSpeed(zombieSpeed * deltaTime);
+          wanderX = (float) (mover.getCurrentX() + zombie.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
+          wanderY = (float) (mover.getCurrentY() + zombie.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
+
           if (zombie.getStrategy() instanceof RandomMoveStrategy)
           {
             if (time == 0 || time % 120 == 0)
@@ -152,59 +155,22 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               wanderXDir = move.col;
               wanderYDir = move.row;
-//              xDir = move.col;
-//              yDir = move.row;
               zombieDirection(wanderXDir, wanderYDir);
+              checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
             }
           }
           else // Zombie is Line Mover
           {
-
-          }
-
-          wanderX = (float) (mover.getCurrentX() + zombie.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
-          wanderY = (float) (mover.getCurrentY() + zombie.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
-          checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
-          isMoving = false;
-        }
-
-
-
-        /*else // if player is not detected
-        {
-          zombieSpeed = Speed.STAGGER;
-
-          if (mover.getStrategy() instanceof LineMoveStrategy) // Line walker
-          {
-//            System.out.println("Line mover");
-//            Move move = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), false);
-            Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
-            if (super.checkCollision(move))
-            {
-              xDir = random.nextInt(3) - 1;
-              yDir = random.nextInt(3) - 1;
-//              System.out.println("collision");
-//              Move newMove = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), true);
-//              xDir = (int) newMove.col;
-//              yDir = (int) newMove.row;
-            }
-          }
-          else // Random walker
-          {
-            if (time == 0 || time % 120 == 0) // Random walk zombies change direction every 2 seconds
+            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
-              xDir = (int) move.col;
-              yDir = (int) move.row;
+              wanderXDir = move.col;
+              wanderYDir = move.row;
+              zombieDirection(wanderXDir, wanderYDir);
             }
           }
 
-          // Update zombie's position/status
-          zombie.setSpeed(zombieSpeed * deltaTime);
-          zombieDirection(); // Direction zombie should face
-          newXY(zombie, direction); // Get the zombie's new x and y
-          checkCollision(new Move(x, y, direction));
-        }*/
+        }
         isMoving = false;
       }
     } // END FOR

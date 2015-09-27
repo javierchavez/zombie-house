@@ -18,6 +18,4 @@ public interface FindStrategy<T extends Tile>
   List<T> getPath ();
 
   Move getNextMove(House house, T start);
-
-  Move changeMove(House house, T start, boolean changeDir);
 }

@@ -145,18 +145,16 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           if (mover.getStrategy() instanceof LineMoveStrategy) // Line walker
           {
 //            System.out.println("Line mover");
-            Move move = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), false);
+//            Move move = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), false);
+            Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
             if (super.checkCollision(move))
             {
+              xDir = random.nextInt(3) - 1;
+              yDir = random.nextInt(3) - 1;
 //              System.out.println("collision");
-              Move newMove = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), true);
-              xDir = (int) newMove.col;
-              yDir = (int) newMove.row;
-            }
-            else
-            {
-              xDir = (int) move.col;
-              yDir = (int) move.row;
+//              Move newMove = zombie.getStrategy().changeMove(house, house.getCharacterTile(zombie), true);
+//              xDir = (int) newMove.col;
+//              yDir = (int) newMove.row;
             }
           }
           else // Random walker

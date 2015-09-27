@@ -124,14 +124,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       x = zombie.getCurrentX();
       y = zombie.getCurrentY();
 
-      zombieSpeed = Speed.STAGGER;
+      zombieSpeed = Speed.STAGGER; // Default zombie speed
+      if (idling) zombieSpeed = Speed.IDLE;
       if (running) zombieSpeed = Speed.WALK;
-//      if (zombie.sense(playerTile))
-//      {
-//        running = true;
-//        playerDetected = true;
-//        isMoving = true;
-//      }
 
       if (isMoving)
       {
@@ -139,6 +134,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         if (playerDetected)
         {
           // Zombie moves faster
+//          System.out.println("Player detected: " + playerDetected);
           running = true;
           zombieSpeed = Speed.WALK;
 
@@ -175,7 +171,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (path.size() > 0)
           {
-            Tile nextTile = path.remove(0);
+            Tile nextTile = path.get(0);
             setChaseDirection(house.getCharacterTile(mover), nextTile);
           }
           newXY(zombie, direction);
@@ -199,22 +195,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               xDir = (int) move.col;
               yDir = (int) move.row;
             }
-//            else checkCollision(new Move(x, y, direction));
-
-            /*
-            Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
-            boolean collision = super.checkCollision(move);
-            if (collision)
-            {
-              xDir = random.nextInt(3) - 1;
-              yDir = random.nextInt(3) - 1;
-            }
-
-            zombieDirection(); // Zombie's new direction
-            zombie.setSpeed(zombieSpeed * deltaTime);
-            newXY(zombie, direction); // Get the zombie's next position */
-
-//            checkCollision(new Move(x, y, direction));
           }
           else // Random walker
           {
@@ -234,10 +214,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         }
 
         // Update zombie's speed and next move
-//        if (idling)
-//        {
-//          zombieSpeed = Speed.IDLE;
-//        }
+
 //        zombie.setSpeed(zombieSpeed * deltaTime);
 //        newXY(zombie, direction);
 //

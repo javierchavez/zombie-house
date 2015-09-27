@@ -9,8 +9,8 @@ public final class Direction
   public static final float SOUTH = 270f;
   public static final float EAST = 0f;
   public static final float WEST = 180f;
-  public static final float NORTHEAST = 315f;
-  public static final float NORTHWEST = 225f;
-  public static final float SOUTHEAST = 45f;
-  public static final float SOUTHWEST = 135f;
+  public static final float NORTHEAST = 45f;
+  public static final float NORTHWEST = 135f;
+  public static final float SOUTHEAST = 315f;
+  public static final float SOUTHWEST = 225f;
 }

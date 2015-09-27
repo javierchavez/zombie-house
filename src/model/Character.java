@@ -275,10 +275,10 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return theta;
   }
 
-  public float getCardinalDirection (Character character)
+  public float getCardinalDirectionBetween (Character character)
   {
     float theta = getAngleBetween(character);
-    if (theta >= Direction.NORTHEAST && theta <= Direction.SOUTHEAST)
+    if (theta <= Direction.NORTHEAST && theta >= Direction.SOUTHEAST)
     {
       return Direction.EAST;
     }

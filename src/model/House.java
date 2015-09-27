@@ -442,25 +442,25 @@ public class House extends Area
       if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
     }
-    else if (dir == Direction.NORTHEAST)
+    else if (dir == Direction.SOUTHEAST)
     {
       if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
     }
-    else if (dir == Direction.NORTHWEST)
+    else if (dir == Direction.SOUTHWEST)
     {
       if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
     }
-    else if (dir == Direction.SOUTHEAST)
+    else if (dir == Direction.NORTHEAST)
     {
       if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
     }
-    else if (dir == Direction.SOUTHWEST)
+    else if (dir == Direction.NORTHWEST)
     {
       if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
       if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);

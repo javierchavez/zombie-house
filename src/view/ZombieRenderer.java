@@ -14,6 +14,28 @@ public class ZombieRenderer extends Renderer
 
   private final House house;
   ZombieSprite zombieSprite = new ZombieSprite();
+  SuperZombieSprite superZombieSprite = new SuperZombieSprite();
+
+  private BufferedImage[] superWalkingWest = {
+          SuperZombieSprite.getSprite(0, 3),
+          SuperZombieSprite.getSprite(1, 3),
+          SuperZombieSprite.getSprite(2, 3)};
+
+  private BufferedImage[] superWalkingEast = {
+          SuperZombieSprite.getSprite(0, 1),
+          SuperZombieSprite.getSprite(1, 1),
+          SuperZombieSprite.getSprite(2, 1)};
+
+  private BufferedImage[] superWalkingNorth = {
+          SuperZombieSprite.getSprite(0, 2),
+          SuperZombieSprite.getSprite(1, 2),
+          SuperZombieSprite.getSprite(2, 2)};
+
+  private BufferedImage[] superWalkingSouth = {
+          SuperZombieSprite.getSprite(0, 0),
+          SuperZombieSprite.getSprite(1, 0),
+          SuperZombieSprite.getSprite(2, 0)};
+
 
 
   private BufferedImage[] walkingWest = {
@@ -42,6 +64,12 @@ public class ZombieRenderer extends Renderer
   private Animation north = new Animation(walkingNorth, 1);
   private Animation south = new Animation(walkingSouth, 1);
 
+  private Animation superWest = new Animation(superWalkingWest, 1);
+  private Animation superEast = new Animation(superWalkingEast, 1);
+  private Animation superNorth = new Animation(superWalkingNorth, 1);
+  private Animation superSouth = new Animation(superWalkingSouth, 1);
+
+
   // check direction... need a AnimationFactoryClass
   private Animation animation;
 
@@ -55,7 +83,6 @@ public class ZombieRenderer extends Renderer
   @Override
   public void render (Graphics2D g2)
   {
-
     List<Zombie> zombies =  house.getZombies();
     for (int i = 0; i < zombies.size(); i++)
     {
@@ -71,6 +98,7 @@ public class ZombieRenderer extends Renderer
 //    if (house.getPlayer().senseSight(house.getCharacterTile(house.getSuperZombie())))
 //    {
     SuperZombie superZombie = house.getSuperZombie();
+    setSuperAnimation(superZombie);
     g2.drawImage(animation.getSprite(),
                  (int) ((superZombie.getCurrentX() * TILE_HEIGHT)),
                  (int) ((superZombie.getCurrentY() * TILE_HEIGHT)), null);
@@ -94,6 +122,25 @@ public class ZombieRenderer extends Renderer
         break;
       case (int) Direction.WEST:
         animation = west;
+        break;
+    }
+  }
+
+  private void setSuperAnimation(SuperZombie zombie)
+  {
+    switch ((int) zombie.getRotation())
+    {
+      case (int) Direction.EAST:
+        animation = superEast;
+        break;
+      case (int) Direction.NORTH:
+        animation = superNorth;
+        break;
+      case (int) Direction.SOUTH:
+        animation = superSouth;
+        break;
+      case (int) Direction.WEST:
+        animation = superWest;
         break;
     }
   }

@@ -129,10 +129,14 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
              zombieDirection();
           }
-//          newXY(zombie, direction);
+
           x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
           y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
-          checkCollision(new Move(x, y, mover.getRotation()));
+          if (checkCollision(new Move(x, y, mover.getRotation())))
+          {
+            mover.move((int)currentTile.getX(), (int)currentTile.getY());
+          }
+          else zombie.setSpeed(0);
         }
         else // if player is not detected
         {

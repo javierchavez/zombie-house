@@ -72,6 +72,7 @@ public class ZombieRenderer extends Renderer
 
   // check direction... need a AnimationFactoryClass
   private Animation animation;
+  private Animation animationSuper;
 
 
   public ZombieRenderer(House house)
@@ -99,7 +100,7 @@ public class ZombieRenderer extends Renderer
 //    {
     SuperZombie superZombie = house.getSuperZombie();
     setSuperAnimation(superZombie);
-    g2.drawImage(animation.getSprite(),
+    g2.drawImage(animationSuper.getSprite(),
                  (int) ((superZombie.getCurrentX() * TILE_HEIGHT)),
                  (int) ((superZombie.getCurrentY() * TILE_HEIGHT)), null);
 
@@ -131,16 +132,16 @@ public class ZombieRenderer extends Renderer
     switch ((int) zombie.getRotation())
     {
       case (int) Direction.EAST:
-        animation = superEast;
+        animationSuper = superEast;
         break;
       case (int) Direction.NORTH:
-        animation = superNorth;
+        animationSuper = superSouth;
         break;
       case (int) Direction.SOUTH:
-        animation = superSouth;
+        animationSuper = superNorth;
         break;
       case (int) Direction.WEST:
-        animation = superWest;
+        animationSuper = superWest;
         break;
     }
   }

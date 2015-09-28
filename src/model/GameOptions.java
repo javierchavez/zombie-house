@@ -5,8 +5,8 @@ package model;
 public class GameOptions
 {
   private static House house;
-  private static GAME_STATE state = GAME_STATE.PLAY;
-  private static GAME_STATUS status = GAME_STATUS.PAUSED;
+  private static GAME_STATE state = GAME_STATE.LEVEL1;
+  private static GAME_STATUS status = GAME_STATUS.STARTUP;
 
   public GameOptions(House house)
   {
@@ -34,7 +34,7 @@ public class GameOptions
   }
 
   public enum GAME_STATUS {
-    PLAYING, PAUSED, LOADING
+    PLAYING, PAUSED, LOADING, STARTUP
   }
 
   public enum GAME_STATE {

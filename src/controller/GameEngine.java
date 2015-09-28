@@ -153,7 +153,8 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     {
       // menu screen
       case KeyEvent.VK_SPACE:
-        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED)
+        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED
+                || options.getStatus() == GameOptions.GAME_STATUS.STARTUP)
         {
           if (options.getState() == GameOptions.GAME_STATE.RESTART)
           {

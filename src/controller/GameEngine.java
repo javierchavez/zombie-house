@@ -19,6 +19,7 @@ import java.awt.geom.Rectangle2D;
  * Main Controller. Its job is to delegate actions to other controllers and
  * to send data to the renders as needed
  */
+// TODO: ignore key presses outside of our controls
 public class GameEngine implements KeyListener, MouseInputListener, GameController
 {
   private final MenuRenderer menuRenderer;
@@ -230,9 +231,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
           controller.run();
         }
         break;
-      default:
-        moving = false;
-        controller.idle();
     }
 
   }
@@ -297,9 +295,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         pKeyPressed = false;
 //        controller.trapInteraction();
         break;
-      default:
-        moving = false;
-        controller.idle();
 
     }
   }

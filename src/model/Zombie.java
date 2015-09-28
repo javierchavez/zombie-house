@@ -14,7 +14,7 @@ public class Zombie extends Character implements Deadly
 
   public Zombie()
   {
-    this(new BFSFindStrategy());
+    this(new AStarFindStrategy());
   }
 
   /**

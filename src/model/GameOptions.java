@@ -4,7 +4,13 @@ package model;
 
 public class GameOptions
 {
+  private static House house;
   private static GAME_STATE state = GAME_STATE.PLAY;
+
+  public GameOptions(House house)
+  {
+    this.house = house;
+  }
 
   public void setState (GAME_STATE state)
   {
@@ -41,6 +47,21 @@ public class GameOptions
         nextLevel = GAME_STATE.LEVEL1;
     }
     return nextLevel;
+  }
+
+  public String getMessage()
+  {
+    String message = "";
+    Player player = house.getPlayer();
+    if (player.getState() == Player.PlayerState.WINNER)
+    {
+      message = "Level Complete";
+    }
+    else if (player.getState() == Player.PlayerState.DEAD)
+    {
+      message = "Game Over";
+    }
+    return message;
   }
 
 }

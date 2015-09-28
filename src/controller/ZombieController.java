@@ -113,30 +113,28 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
             if(checkCollision(new Move(x, y, mover.getRotation())))
             {
-              mover.move((int) currentTile.getX(), (int) currentTile.getY());
+//              mover.move((int) currentTile.getX(), (int) currentTile.getY());
 //            checkCollision(new Move(x, y, mover.getRotation()));
-//
-//            if (checkCollision(new Move(x, y, mover.getRotation())))
-//            {
-//              if (mover.getRotation() == Direction.EAST)
-//              {
-//                mover.setRotation(Direction.NORTH);
-//              }
-//              else if (mover.getRotation() == Direction.WEST)
-//              {
-//                mover.setRotation(Direction.NORTH);
-//              }
-//              else if (mover.getRotation() == Direction.SOUTH)
-//              {
-//                mover.setRotation(Direction.EAST);
-//              }
-//              else if (mover.getRotation() == Direction.NORTH)
-//              {
-//                mover.setRotation(Direction.WEST);
-//              }
+
+              if (mover.getRotation() == Direction.EAST)
+              {
+                mover.setRotation(Direction.WEST);
+              }
+              else if (mover.getRotation() == Direction.WEST)
+              {
+                mover.setRotation(Direction.EAST);
+              }
+              else if (mover.getRotation() == Direction.NORTH)
+              {
+                mover.setRotation(Direction.SOUTH);
+              }
+              else if (mover.getRotation() == Direction.SOUTH)
+              {
+                mover.setRotation(Direction.NORTH);
+              }
+              stopMoving();
             }
           }
-//          else stopMoving();
         }
         else // If player is not detected
         {

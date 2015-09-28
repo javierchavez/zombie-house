@@ -79,7 +79,7 @@ public class MenuRenderer extends Renderer
                 (int)(viewBounds.getHeight() - image.getHeight())/2, null);
 
 
-    g.setColor(new Color(255,255,255, this.blinker(currentOpacity)));
+    g.setColor(new Color(255, 255, 255, this.blinker(currentOpacity)));
     g.setFont(new Font("Verdana", Font.BOLD, 40));
 
     // add text or variable to render here
@@ -87,10 +87,13 @@ public class MenuRenderer extends Renderer
                  ((int)((viewBounds.getWidth() - image.getWidth())/2)+ 250),
                  ((int)(viewBounds.getHeight() - image.getHeight())/2) +150);
 
-    g.drawImage(selections[options.getState().ordinal()],
-                ((int)(viewBounds.getWidth() - image.getWidth())/2) + 341,
-                ((int)(viewBounds.getHeight() - image.getHeight())/2) + 264,
-                null);
+    g.setColor(new Color(252,0,12));
+    g.setFont(new Font("Verdana", Font.PLAIN, 30));
+
+    g.drawString(options.getState().toString() ,
+                 ((int) (viewBounds.getWidth() - image.getWidth()) / 2) + 350,
+                 ((int) (viewBounds.getHeight() - image.getHeight()) / 2) +
+                         294);
 
   }
 }

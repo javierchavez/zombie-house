@@ -15,16 +15,14 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   List<Zombie> zombies;
   private boolean isMoving = true;
   private boolean playerDetected = false;
-  private boolean running = false;
+//  private boolean running = false;
 
   // An incrementer to keep track of when 120 frames (2 seconds) have passed
   private int time = 0;
   private Tile zombieTile;
   private List<Tile> path;
 
-  Random random = new Random();
-
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   public ZombieController (House house)
   {
@@ -147,7 +145,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         else // If player is not detected
         {
           running = false;
-          if (idling) zombieSpeed = Speed.IDLE;
+          if (idling)
+          {
+            zombieSpeed = Speed.IDLE;
+            if (DEBUG) System.out.println("\tIdling");
+          }
           else zombieSpeed = Speed.STAGGER;
 
           float wanderXDir, wanderYDir;
@@ -159,6 +161,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (zombie.getStrategy() instanceof RandomMoveStrategy) // Random Mover
           {
+            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
+            {
+              stopMoving();
+            }
+
             if (time == 0 || time % (Duration.ZOMBIE_UPDATE * 60) == 0)
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
@@ -167,10 +174,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               zombieDirection(wanderXDir, wanderYDir);
             }
 //            checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
-            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
-            {
-              changeDirection();
-            }
 //            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
 //            {
 //              if (DEBUG) System.out.println("\tNot detected");
@@ -204,7 +207,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     if (collision)
     {
       if (DEBUG) System.out.println("\tCollision");
-      mover.setSpeed(0);
+      stopMoving();
 //      changeDirection();
 //      if (!playerDetected)
 //      {

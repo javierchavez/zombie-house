@@ -47,6 +47,29 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     if (xDir < 0 && yDir > 0) moveUpLeft();
   }
 
+  /**
+   * Changes zombie's direction so that they don't constantly collide with wall and idle until the next update.
+   */
+  private void changeDirection()
+  {
+    if (mover.getRotation() == Direction.EAST)
+    {
+      mover.setRotation(Direction.WEST);
+    }
+    else if (mover.getRotation() == Direction.WEST)
+    {
+      mover.setRotation(Direction.EAST);
+    }
+    else if (mover.getRotation() == Direction.NORTH)
+    {
+      mover.setRotation(Direction.SOUTH);
+    }
+    else if (mover.getRotation() == Direction.SOUTH)
+    {
+      mover.setRotation(Direction.NORTH);
+    }
+  }
+
   @Override
   public void update(float deltaTime)
   {
@@ -82,7 +105,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       if (isMoving)
       {
         playerDetected = zombie.sense(playerTile); // Detect player
-        if (playerDetected) // TODO: change this back
+        if (playerDetected)
         {
           running = true;
           zombieSpeed = 0.75f;
@@ -109,23 +132,24 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
             if(checkCollision(new Move(x, y, mover.getRotation())))
             {
-              if (mover.getRotation() == Direction.EAST)
-              {
-                mover.setRotation(Direction.WEST);
-              }
-              else if (mover.getRotation() == Direction.WEST)
-              {
-                mover.setRotation(Direction.EAST);
-              }
-              else if (mover.getRotation() == Direction.NORTH)
-              {
-                mover.setRotation(Direction.SOUTH);
-              }
-              else if (mover.getRotation() == Direction.SOUTH)
-              {
-                mover.setRotation(Direction.NORTH);
-              }
-//              stopMoving();
+              changeDirection();
+              stopMoving();
+//              if (mover.getRotation() == Direction.EAST)
+//              {
+//                mover.setRotation(Direction.WEST);
+//              }
+//              else if (mover.getRotation() == Direction.WEST)
+//              {
+//                mover.setRotation(Direction.EAST);
+//              }
+//              else if (mover.getRotation() == Direction.NORTH)
+//              {
+//                mover.setRotation(Direction.SOUTH);
+//              }
+//              else if (mover.getRotation() == Direction.SOUTH)
+//              {
+//                mover.setRotation(Direction.NORTH);
+//              }
             }
           }
         }
@@ -154,6 +178,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             }
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
+              changeDirection();
               stopMoving();
             }
           }
@@ -167,7 +192,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               zombieDirection(wanderXDir, wanderYDir);
             }
           }
-
         }
         isMoving = false;
       }

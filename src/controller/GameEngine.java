@@ -55,7 +55,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     controller = new PlayerController(house);
     zombieController = new ZombieController(house);
     MenuController.setActive(true);
-    options = new GameOptions();
+    options = new GameOptions(house);
     menuController = new MenuController(house, options);
     house.generateRandomHouse();
     ss = new SuperZombieController(house, house.getSuperZombie());

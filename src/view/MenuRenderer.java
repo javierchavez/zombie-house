@@ -83,7 +83,7 @@ public class MenuRenderer extends Renderer
     g.setFont(new Font("Verdana", Font.BOLD, 40));
 
     // add text or variable to render here
-    g.drawString("Level Complete",
+    g.drawString(options.getMessage(),
                  ((int)((viewBounds.getWidth() - image.getWidth())/2)+ 250),
                  ((int)(viewBounds.getHeight() - image.getHeight())/2) +150);
 

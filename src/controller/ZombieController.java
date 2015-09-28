@@ -15,7 +15,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   private boolean isMoving = true;
   private boolean playerDetected = false;
   private boolean running = false;
-//  private float x, y;
 
   // An incrementer to keep track of when 120 frames (2 seconds) have passed
   private int time = 0;
@@ -87,8 +86,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         continue;
       }
 
-      float direction = mover.getRotation();
-
 //      if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
       zombieSpeed = Speed.STAGGER; // Default zombie speed
@@ -125,27 +122,74 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
             if (checkCollision(new Move(x, y, mover.getRotation())))
             {
-              if (mover.getRotation() == Direction.EAST)
+              if (house.getCharacterTile(house.getPlayer()).getX() > currentTile.getX())
               {
-                mover.setRotation(Direction.NORTH);
+                if (house.getCharacterTile(house.getPlayer()).getY() > currentTile.getY())
+                {
+                  mover.setRotation(Direction.NORTH);
+                }
+                if (house.getCharacterTile(house.getPlayer()).getY() < currentTile.getY())
+                {
+                  mover.setRotation(Direction.SOUTH);
+                }
               }
-              else if (mover.getRotation() == Direction.WEST)
+
+              if (house.getCharacterTile(house.getPlayer()).getX() < currentTile.getX())
               {
-                mover.setRotation(Direction.NORTH);
+                if (house.getCharacterTile(house.getPlayer()).getY() > currentTile.getY())
+                {
+                  mover.setRotation(Direction.NORTH);
+                }
+                if (house.getCharacterTile(house.getPlayer()).getY() < currentTile.getY())
+                {
+                  mover.setRotation(Direction.SOUTH);
+                }
               }
-              else if (mover.getRotation() == Direction.SOUTH)
+
+              if (house.getCharacterTile(house.getPlayer()).getY() > currentTile.getY())
               {
-                mover.setRotation(Direction.EAST);
+                if (house.getCharacterTile(house.getPlayer()).getX() > currentTile.getX())
+                {
+                  mover.setRotation(Direction.EAST);
+                }
+                if (house.getCharacterTile(house.getPlayer()).getX() < currentTile.getX())
+                {
+                  mover.setRotation(Direction.WEST);
+                }
               }
-              else if (mover.getRotation() == Direction.NORTH)
+
+              if (house.getCharacterTile(house.getPlayer()).getY() < currentTile.getY())
               {
-                mover.setRotation(Direction.WEST);
+                if (house.getCharacterTile(house.getPlayer()).getX() > currentTile.getX())
+                {
+                  mover.setRotation(Direction.EAST);
+                }
+                if (house.getCharacterTile(house.getPlayer()).getX() < currentTile.getX())
+                {
+                  mover.setRotation(Direction.WEST);
+                }
               }
+//              if (mover.getRotation() == Direction.EAST)
+//              {
+//                mover.setRotation(Direction.NORTH);
+//              }
+//              else if (mover.getRotation() == Direction.WEST)
+//              {
+//                mover.setRotation(Direction.NORTH);
+//              }
+//              else if (mover.getRotation() == Direction.SOUTH)
+//              {
+//                mover.setRotation(Direction.EAST);
+//              }
+//              else if (mover.getRotation() == Direction.NORTH)
+//              {
+//                mover.setRotation(Direction.WEST);
+//              }
 
 //              mover.move((int) currentTile.getX(), (int) currentTile.getY());
             }
           }
-          else stopMoving();
+//          else stopMoving();
         }
         else // If player is not detected
         {

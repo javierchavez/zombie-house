@@ -1,7 +1,6 @@
 package model;
 
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class Tile implements Object2D, Combustible
@@ -22,8 +21,8 @@ public class Tile implements Object2D, Combustible
   /**
    * Create a tile with cost 1
    *
-   * @param col column
-   * @param row row
+   * @param col column/X
+   * @param row row/Y
    */
   public Tile(int col, int row)
   {
@@ -33,8 +32,8 @@ public class Tile implements Object2D, Combustible
   /**
    * Create a Tile
    *
-   * @param col column
-   * @param row row
+   * @param col column/X
+   * @param row row/Y
    * @param cost amount it take to pass this tile.
    */
   public Tile(int col, int row, int cost)

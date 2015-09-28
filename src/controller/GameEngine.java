@@ -119,10 +119,10 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   public AffineTransform getTransform()
   {
     AffineTransform at = new AffineTransform();
-    double shiftX = -player.getCurrentX() * 60;
-    double shiftY = -player.getCurrentY() * 60;
-//    at.scale(1 / 1.78, 1 / 1.78);
-    at.translate(shiftX, shiftY);
+//    double shiftX = -player.getCurrentX() * 60;
+//    double shiftY = -player.getCurrentY() * 60;
+    at.scale(1 / 1.78, 1 / 1.78);
+//    at.translate(shiftX, shiftY);
     return at;
   }
 

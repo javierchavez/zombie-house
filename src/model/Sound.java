@@ -19,8 +19,10 @@ public interface Sound
    */
   void setVolume (float volume);
 
+
   /**
    *
+   * @return
    */
   AudioChannel getChannel();
 

@@ -4,14 +4,14 @@ package model;
 import java.awt.geom.Rectangle2D;
 
 /**
- *
+ *  Wrapper class for a general 2D object
  */
 public class Area implements Object2D
 {
-  float x;
-  float y;
-  float width;
-  float height;
+  private float x;
+  private float y;
+  private float width;
+  private float height;
 
   public Area(float x, float y, float width, float height)
   {

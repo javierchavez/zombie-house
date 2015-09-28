@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Abstract Find containing generic methods for subclasses
+ */
 public abstract class AbstractFindStrategy implements FindStrategy<Tile>
 {
   protected List<Tile> path;

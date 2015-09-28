@@ -3,6 +3,7 @@
  */
 
 
+import common.Size;
 import controller.GameEngine;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.awt.image.BufferedImage;
 public class ZombieHouse
 {
   private GameEngine game = new GameEngine();
-  private static int width = 1920, height = 1080;
+  private static int width = Size.SCREEN_WIDTH, height = Size.SCREEN_HEIGHT;
   protected JFrame frame = new JFrame("Zombie House");
   protected JPanel jPanel = new JPanel();
   private boolean running = false;
@@ -94,7 +95,7 @@ public class ZombieHouse
 
     jPanel.setBackground(Color.black);
     jPanel.setIgnoreRepaint(true);
-    jPanel.setPreferredSize(new Dimension(1920, 1080));
+    jPanel.setPreferredSize(new Dimension(Size.SCREEN_WIDTH, Size.SCREEN_HEIGHT));
     jPanel.addComponentListener(new ComponentAdapter()
     {
       public void componentResized (ComponentEvent arg0)

@@ -1,9 +1,14 @@
 package model;
 
 
-import java.awt.*;
+import common.Duration;
+
 import java.awt.geom.Rectangle2D;
 
+
+/**
+ * Generic tile
+ */
 public class Tile implements Object2D, Combustible
 {
   // row and col are the tiles location in the house array
@@ -22,8 +27,8 @@ public class Tile implements Object2D, Combustible
   /**
    * Create a tile with cost 1
    *
-   * @param col column
-   * @param row row
+   * @param col column/X
+   * @param row row/Y
    */
   public Tile(int col, int row)
   {
@@ -33,8 +38,8 @@ public class Tile implements Object2D, Combustible
   /**
    * Create a Tile
    *
-   * @param col column
-   * @param row row
+   * @param col column/X
+   * @param row row/Y
    * @param cost amount it take to pass this tile.
    */
   public Tile(int col, int row, int cost)
@@ -203,7 +208,7 @@ public class Tile implements Object2D, Combustible
   public boolean setCurrentTime (int time)
   {
     this.time = time;
-    if (this.time >= 300)
+    if (this.time >= (Duration.BURN_DURATION*60))
     {
       setCombustedState(CombustedState.BURNED);
       setPassable(true);

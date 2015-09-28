@@ -1,6 +1,8 @@
 package model;
 
-
+/**
+ * Wall tile
+ */
 public class Wall extends Tile
 {
   private WallType type;

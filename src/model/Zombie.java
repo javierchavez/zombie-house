@@ -1,16 +1,20 @@
 package model;
 
-import java.util.List;
+import common.Duration;
+import common.Speed;
 
+/**
+ * Zombie character
+ */
 public class Zombie extends Character implements Deadly
 {
   protected float zombieDecisionRate;
   protected FindStrategy findStrategy;
-  int intelligence;
+  private boolean smellsPlayer;
 
   public Zombie()
   {
-    this(new BFSFindStrategy());
+    this(new AStarFindStrategy());
   }
 
   /**
@@ -20,9 +24,9 @@ public class Zombie extends Character implements Deadly
    */
   public Zombie(FindStrategy<Tile> findStrategy)
   {
-    zombieDecisionRate = 2f;
+    zombieDecisionRate = Duration.ZOMBIE_UPDATE;
     rotation = 0;
-    speed = .5f;
+    speed = Speed.STAGGER;
     height = .65f;
     width = .5f;
     this.findStrategy = findStrategy;
@@ -42,6 +46,7 @@ public class Zombie extends Character implements Deadly
 
   /**
    * Checks if player is within distance of zombie's smell.
+   *
    * @return true if the player is within the zombie's smell radius
    *         otherwise false
    */
@@ -55,13 +60,26 @@ public class Zombie extends Character implements Deadly
 
     float dx = (zx - px) * (zx - px);
     float dy = (zy - py) * (zy - py);
-    return (Math.sqrt(dx+dy) <= smell);
+    smellsPlayer = Math.sqrt(dx + dy) <= smell;
+    return smellsPlayer;
   }
 
+  /**
+   * Returns the strategy used to find anther character
+   *
+   * @return class for finding a tile
+   */
   public FindStrategy getStrategy ()
   {
     return findStrategy;
   }
 
-
+  /**
+   *
+   * @return true if player was sensed
+   */
+  public boolean sensesPlayer()
+  {
+    return smellsPlayer;
+  }
 }

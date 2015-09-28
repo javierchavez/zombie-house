@@ -3,6 +3,9 @@ package model;
 
 import java.util.Random;
 
+/**
+ * Strategy for a character to move in a randomly
+ */
 public class RandomMoveStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
   Random rand = new Random();

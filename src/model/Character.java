@@ -1,10 +1,16 @@
 package model;
 
 
+import common.CharacterAttributes;
 import common.Direction;
+import common.Duration;
+import common.Speed;
 
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Generic Character in the game. (Includes Player)
+ */
 public class Character implements Mover, Object2D, Combustible, Sound
 {
 
@@ -29,14 +35,14 @@ public class Character implements Mover, Object2D, Combustible, Sound
     height = .80f;
     width = .5f;
     rotation = 0;
-    hearing = 10;
-    stamina = 5;
-    sight = 5;
-    speed = 1;
-    regen = .2f;
+    hearing = CharacterAttributes.HEARING;
+    stamina = CharacterAttributes.MAX_STAMINA;
+    sight = CharacterAttributes.SIGHT;
+    speed = Speed.WALK;
+    regen = CharacterAttributes.STAMINA_REGEN;
     x = 0f;
     y = 0f;
-    smell = 7f;
+    smell = CharacterAttributes.SMELL;
   }
 
   @Override
@@ -204,7 +210,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   public boolean setCurrentTime (int time)
   {
     this.time = time;
-    if (this.time >= 300)
+    if (this.time >= (Duration.BURN_DURATION*60))
     {
       setCombustedState(CombustedState.BURNED);
       return false;

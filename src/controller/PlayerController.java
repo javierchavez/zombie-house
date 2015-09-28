@@ -1,14 +1,17 @@
 package controller;
 
 
+import common.CharacterAttributes;
 import common.Speed;
+import common.Duration;
 import model.*;
+import model.Character;
 import model.Move;
 
 public class PlayerController extends AbstractCharacterController<Player>
 {
   private int trapSetTimer = 0;
-  private final int TRAP_SET_TIME = 60 * 1; // Takes 5 seconds to set/pick up traps
+  private final int TRAP_SET_TIME = (int) (60 * Duration.PICKIP_TIME); // Takes 5 seconds to set/pick up traps
   private boolean pKeyPressed = false;
 
   Tile playerTile;
@@ -50,10 +53,10 @@ public class PlayerController extends AbstractCharacterController<Player>
     if (!isMoving)
     {
       // Stamina regeneration
-      if (stamina < 5.0)
+      if (stamina < CharacterAttributes.MAX_STAMINA)
       {
-        stamina += 0.2 * deltaTime + 0.01; // Stamina regenerates faster if mover is not moving
-        if (stamina > 5) stamina = 5;
+        stamina += (CharacterAttributes.STAMINA_REGEN * deltaTime) + 0.01; // Stamina regenerates faster if mover is not moving
+        if (stamina > CharacterAttributes.MAX_STAMINA) stamina = CharacterAttributes.MAX_STAMINA;
         mover.setStamina(stamina);
       }
 
@@ -80,10 +83,10 @@ public class PlayerController extends AbstractCharacterController<Player>
       else // if player is not running
       {
         playerSpeed = Speed.WALK;
-        if (stamina < 5.0)
+        if (stamina < CharacterAttributes.MAX_STAMINA)
         {
-          stamina += 0.2 * deltaTime;
-          if (stamina > 5) stamina = 5;
+          stamina += CharacterAttributes.STAMINA_REGEN * deltaTime;
+          if (stamina > CharacterAttributes.MAX_STAMINA) stamina = 5;
           mover.setStamina(stamina);
         }
       }

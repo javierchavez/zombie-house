@@ -4,6 +4,9 @@ package model;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Find using BFS algorithm
+ */
 public class BFSFindStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
 

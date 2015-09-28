@@ -3,6 +3,9 @@ package model;
 
 import java.util.Random;
 
+/**
+ * Strategy for a character to move in a line
+ */
 public class LineMoveStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
   Random rand = new Random();
@@ -13,20 +16,6 @@ public class LineMoveStrategy extends AbstractFindStrategy implements FindStrate
   {
     defaultFinder.find(board, start, end);
     path = defaultFinder.getPath();
-  }
-
-  public Move changeMove(House house, Tile start, boolean changeDirection)
-  {
-    int xDir = 0;
-    int yDir = 0;
-
-    if (changeDirection)
-    {
-      xDir = rand.nextInt(3) - 1;
-      yDir = rand.nextInt(3) - 1;
-    }
-
-    return new Move(xDir, yDir, 0);
   }
 
   @Override

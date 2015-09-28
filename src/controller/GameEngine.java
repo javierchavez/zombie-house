@@ -86,10 +86,10 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     else if (player.getState() == Player.PlayerState.DEAD)
     {
       //house.slowReset();
-      menuController.setActive(true);
-      options.setState(GameOptions.GAME_STATE.RESTART);
-      rendering = false;
-      return;
+      //menuController.setActive(true);
+      //options.setState(GameOptions.GAME_STATE.RESTART);
+      //rendering = false;
+      //return;
     }
 
     CombustibleController.getInstance().update(deltaTime);

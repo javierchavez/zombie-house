@@ -39,7 +39,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
   public void update (float deltaTime)
   {
     secIncrement++;
-    if (secIncrement == Duration.SUPER_ZOMBIE_UPDATE)
+    if (secIncrement >= (Duration.SUPER_ZOMBIE_UPDATE*60))
     {
       mover.getStrategy().find(house, house.getCharacterTile(house.getSuperZombie()), house
               .getCharacterTile(house.getPlayer()));

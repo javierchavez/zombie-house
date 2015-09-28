@@ -77,6 +77,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
 
     if (player.getState() == Player.PlayerState.WINNER)
     {
+      //house.slowReset();
       menuController.setActive(true);
       options.setState(options.getNextLevel(house.getLevel()));
       rendering = false;
@@ -84,6 +85,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     }
     else if (player.getState() == Player.PlayerState.DEAD)
     {
+      //house.slowReset();
       //menuController.setActive(true);
       //options.setState(GameOptions.GAME_STATE.RESTART);
       //rendering = false;

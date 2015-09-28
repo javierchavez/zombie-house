@@ -71,7 +71,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       }
 
       zombieTile = house.getCharacterTile(zombie);
-      if (zombieTile == null)
+      if (zombieTile == null || zombieTile.getCombustedState() == Combustible.CombustedState.IGNITED)
       {
         zombies.remove(i);
         continue;

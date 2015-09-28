@@ -282,7 +282,19 @@ public class House extends Area
    */
   public Tile getCharacterTile(Character character)
   {
-    return getTile((int) character.getCurrentY(), (int) character.getCurrentX());
+    //return getTile((int) character.getCurrentY(), (int) character.getCurrentX());
+    int row = (int) character.getCurrentY();
+    int col = (int) character.getCurrentX();
+    float dir = character.getRotation();
+    if (dir == Direction.SOUTH)
+    {
+      row = (int) Math.ceil(character.getCurrentY());
+    }
+    else if (dir == Direction.WEST)
+    {
+      col = (int) Math.ceil(character.getCurrentX());
+    }
+    return getTile(row, col);
   }
 
   /**

@@ -132,34 +132,9 @@ public class PlayerController extends AbstractCharacterController<Player>
   @Override
   public boolean checkCollision(Move moveToCheck)
   {
-    //Area testArea = new Area(moveToCheck.col,
-    //    moveToCheck.row,
-    //    mover.getWidth(),
-    //    mover.getHeight());
-
-    //List<Tile> neighbors = house.getIntersectingNeighbors(playerTile, testArea);
-
-    // Fire traps combust if player runs over them
-    //for (Tile neighbor : neighbors)
-    //{
-    //  if (neighbor.getTrap() == Trap.FIRE)
-    //  {
-    //    if (running)
-    //    {
-    //      List<Combustible> explode = house.getCombustibleNeighbors(neighbor);
-    //      for (Combustible item : explode)
-    //      {
-    //        CombustibleController.getInstance().addCombustible(item);
-    //      }
-    //      CombustibleController.getInstance().addCombustible(neighbor);
-    //    }
-    //  }
-    //}
-
     if (house.getCharacterTile(mover) == house.getExit())
     {
-      // We have a winner!!!!
-      // not sure what flag to set here
+      mover.setState(Player.PlayerState.WINNER);
     }
 
     if (super.checkCollision(moveToCheck))

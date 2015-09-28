@@ -52,6 +52,11 @@ public class MenuRenderer extends Renderer
     return (int) ((Math.sin(opacity) * 127) + 127); // non transparent
   }
 
+  private int blinker (double opacity)
+  {
+    return (int) ((int) 127f + 127f * Math.sin( opacity * 2.0 * Math.PI));
+  }
+
   @Override
   public void render (Graphics2D g)
   {
@@ -72,6 +77,15 @@ public class MenuRenderer extends Renderer
     g.drawImage(getImage("main-screen.png"),
                 (int)(viewBounds.getWidth() - image.getWidth())/2,
                 (int)(viewBounds.getHeight() - image.getHeight())/2, null);
+
+
+    g.setColor(new Color(255,255,255, this.blinker(currentOpacity)));
+    g.setFont(new Font("Verdana", Font.BOLD, 40));
+
+    // add text or variable to render here
+    g.drawString("Level Complete",
+                 ((int)((viewBounds.getWidth() - image.getWidth())/2)*1.5f),
+                 ((int)(viewBounds.getHeight() - image.getHeight())/2) * 2.25f);
 
     g.drawImage(selections[options.getState().ordinal()],
                 ((int)(viewBounds.getWidth() - image.getWidth())/2) + 341,

@@ -105,9 +105,6 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
 
     float y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
     float x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
-    if(checkCollision(new Move(x, y, mover.getRotation())))
-    {
-      mover.move((int)current.getX(), (int)current.getY());
-    }
+    checkCollision(new Move(x, y, mover.getRotation()));
   }
 }

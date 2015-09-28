@@ -110,7 +110,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       playerDetected = zombie.sense(playerTile); // Detect player
       if (isMoving)
       {
-
         if (playerDetected)
         {
           house.getSuperZombie().setZombie(zombie);
@@ -143,34 +142,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             {
               mover.move(currentTile.getX(), currentTile.getY());
             }
-            /*if(checkCollision(new Move(x, y, mover.getRotation())))
-            {
-              if (DEBUG) System.out.println("\tDetected");
-              if (DEBUG) System.out.println("\tCollision");
-              changeDirection();
-//              stopMoving();
-//              if (mover.getRotation() == Direction.EAST)
-//              {
-//                mover.setRotation(Direction.WEST);
-//              }
-//              else if (mover.getRotation() == Direction.WEST)
-//              {
-//                mover.setRotation(Direction.EAST);
-//              }
-//              else if (mover.getRotation() == Direction.NORTH)
-//              {
-//                mover.setRotation(Direction.SOUTH);
-//              }
-//              else if (mover.getRotation() == Direction.SOUTH)
-//              {
-//                mover.setRotation(Direction.NORTH);
-//              }
-            }
-            else
-            {
-              if (DEBUG) System.out.println("\tDetected");
-              if (DEBUG) System.out.println("\tNo collision");
-            } */
           }
         }
         else // If player is not detected
@@ -186,7 +157,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           wanderX = (float) (mover.getCurrentX() + zombie.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
           wanderY = (float) (mover.getCurrentY() + zombie.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
 
-          if (zombie.getStrategy() instanceof RandomMoveStrategy)
+          if (zombie.getStrategy() instanceof RandomMoveStrategy) // Random Mover
           {
             if (time == 0 || time % (Duration.ZOMBIE_UPDATE * 60) == 0)
             {
@@ -210,7 +181,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 ////              stopMoving();
 //            }
           }
-          else // Zombie is Line Mover
+          else // Line Mover
           {
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
@@ -230,7 +201,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   public boolean checkCollision (Move moveToCheck)
   {
     boolean collision = super.checkCollision(moveToCheck);
-    float direction = mover.getRotation();
     if (collision)
     {
       if (DEBUG) System.out.println("\tCollision");

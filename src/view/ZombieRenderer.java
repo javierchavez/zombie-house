@@ -73,14 +73,11 @@ public class ZombieRenderer extends Renderer
   // check direction... need a AnimationFactoryClass
   private Animation animation;
   private Animation animationSuper;
-  Sound2D sound2D;
 
 
   public ZombieRenderer(House house)
   {
     this.house = house;
-    sound2D = new Sound2D();
-
 
   }
 
@@ -98,15 +95,6 @@ public class ZombieRenderer extends Renderer
 //      {
         g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT)), (int) ((y * TILE_HEIGHT)), null);
 //      }
-
-      if (zombie.getVolume() >0)
-      {
-        Point p = new Point(((int) zombie.getX()), ((int) zombie.getY()));
-        Player pl = house.getPlayer();
-        Point p2 = new Point(((int) pl.getX()), ((int) pl.getY()));
-        sound2D.playDistSound(p, p2, (int) pl.getRotation(), true);
-
-      }
     }
 //    if (house.getPlayer().senseSight(house.getCharacterTile(house.getSuperZombie())))
 //    {

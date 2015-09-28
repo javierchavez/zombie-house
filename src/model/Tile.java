@@ -1,6 +1,8 @@
 package model;
 
 
+import common.Duration;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -203,7 +205,7 @@ public class Tile implements Object2D, Combustible
   public boolean setCurrentTime (int time)
   {
     this.time = time;
-    if (this.time >= 300)
+    if (this.time >= (Duration.BURN_DURATION*60))
     {
       setCombustedState(CombustedState.BURNED);
       setPassable(true);

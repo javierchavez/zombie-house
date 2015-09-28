@@ -7,7 +7,7 @@ import model.*;
 import model.Character;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+//import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
 

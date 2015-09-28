@@ -1,5 +1,8 @@
 package model;
 
+import common.Duration;
+import common.Speed;
+
 import java.util.List;
 
 public class Zombie extends Character implements Deadly
@@ -20,9 +23,9 @@ public class Zombie extends Character implements Deadly
    */
   public Zombie(FindStrategy<Tile> findStrategy)
   {
-    zombieDecisionRate = 2f;
+    zombieDecisionRate = Duration.ZOMBIE_UPDATE;
     rotation = 0;
-    speed = .5f;
+    speed = Speed.STAGGER;
     height = .65f;
     width = .5f;
     this.findStrategy = findStrategy;
@@ -62,6 +65,4 @@ public class Zombie extends Character implements Deadly
   {
     return findStrategy;
   }
-
-
 }

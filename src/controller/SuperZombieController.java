@@ -1,6 +1,7 @@
 package controller;
 
 
+import common.Duration;
 import common.Speed;
 import model.House;
 import model.Move;
@@ -38,7 +39,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
   public void update (float deltaTime)
   {
     secIncrement++;
-    if (secIncrement == 200)
+    if (secIncrement == Duration.SUPER_ZOMBIE_UPDATE)
     {
       mover.getStrategy().find(house, house.getCharacterTile(house.getSuperZombie()), house
               .getCharacterTile(house.getPlayer()));
@@ -49,7 +50,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
 
     Tile current = house.getCharacterTile(mover);
     tiles.remove(current);
-    mover.setSpeed((Speed.WALK+.25f) * deltaTime);
+    mover.setSpeed(Speed.FAST_WALK * deltaTime);
     if (tiles.size() > 0)
     {
       Tile next = tiles.get(0);

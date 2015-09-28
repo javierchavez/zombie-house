@@ -46,7 +46,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
 
   private Rectangle2D viewPort;
   private boolean DEBUG = false;
-  private boolean rendering = true;
 
   public GameEngine ()
   {

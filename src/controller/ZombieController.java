@@ -2,6 +2,7 @@ package controller;
 
 
 import common.Direction;
+import common.Duration;
 import common.Speed;
 import model.*;
 import model.Move;
@@ -81,7 +82,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       zombieSpeed = Speed.STAGGER; // Default zombie speed
       if (idling) zombieSpeed = Speed.IDLE;
-      if (running) zombieSpeed = 0.75f;
+      if (running) zombieSpeed = Speed.STAGGER_RUN;
 
       if (isMoving)
       {
@@ -89,7 +90,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         if (playerDetected)
         {
           running = true;
-          zombieSpeed = 0.75f;
+          zombieSpeed = Speed.STAGGER_RUN;
 
           // Get path to player
           mover.getStrategy().find(house,
@@ -149,7 +150,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (zombie.getStrategy() instanceof RandomMoveStrategy)
           {
-            if (time == 0 || time % 120 == 0)
+            if (time == 0 || time % (Duration.ZOMBIE_UPDATE*60) == 0)
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               wanderXDir = move.col;

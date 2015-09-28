@@ -308,6 +308,11 @@ public class House extends Area
     {
       col = (int) Math.ceil(character.getCurrentX());
     }
+    else if (dir == Direction.SOUTHWEST)
+    {
+      row = (int) Math.ceil(character.getCurrentY());
+      col = (int) Math.ceil(character.getCurrentX());
+    }
     return getTile(row, col);
   }
 

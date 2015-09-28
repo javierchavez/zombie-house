@@ -53,7 +53,7 @@ public class Player extends Character
 
   public enum PlayerState
   {
-    ALIVE, DEAD
+    ALIVE, DEAD, WINNER
 
   }
 

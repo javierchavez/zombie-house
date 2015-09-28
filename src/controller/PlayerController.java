@@ -158,8 +158,7 @@ public class PlayerController extends AbstractCharacterController<Player>
 
     if (house.getCharacterTile(mover) == house.getExit())
     {
-      // We have a winner!!!!
-      // not sure what flag to set here
+      mover.setState(Player.PlayerState.WINNER);
     }
 
     if (super.checkCollision(moveToCheck))

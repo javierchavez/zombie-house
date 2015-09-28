@@ -216,7 +216,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
           tripTrap = true;
         }
       }
-      else if (mover instanceof Zombie && !(mover instanceof SuperZombie))
+      else if (mover instanceof Zombie)
       {
         tripTrap = true;
       }

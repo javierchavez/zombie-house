@@ -40,7 +40,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
   public void update (float deltaTime)
   {
     secIncrement++;
-    Tile current = house.getCharacterTile(mover);
+    Tile current = getCurrentTile();
     if (mover.sense(house.getCharacterTile(house.getPlayer())))
     {
       if (secIncrement >= (Duration.SUPER_ZOMBIE_UPDATE * 60))
@@ -60,7 +60,16 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
 
         float xDir = next.getX() - current.getX();
         float yDir = next.getY() - current.getY();
-        setDirection(xDir, yDir);
+        if (xDir == 0 && yDir == 0) stopMoving();
+        else if(xDir == 0 && yDir > 0) moveUp();
+        else if (xDir == 0 && yDir < 0) moveDown();
+        else if (xDir < 0 && yDir == 0) moveLeft();
+        else if (xDir > 0 && yDir == 0) moveRight();
+        else if (xDir < 0 && yDir > 0) moveUpLeft();
+        else if (xDir > 0 && yDir > 0) moveUpRight();
+        else if (xDir < 0 && yDir < 0) moveDownLeft();
+        else if (xDir > 0 && yDir < 0) moveDownRight();
+        else stopMoving();
       }
       else
       {
@@ -69,32 +78,28 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
 
       float y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
       float x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
-      if (checkCollision(new Move(x, y, mover.getRotation())))
-      {
-        mover.move(current.getX(), current.getY());
-      }
+      checkCollision(new Move(x, y, mover.getRotation()));
     }
   }
 
-  private void setDirection(float xDir, float yDir)
+  private Tile getCurrentTile()
   {
-    if (xDir == 0 && yDir == 0) stopMoving();
-    else if(xDir == 0 && yDir > 0) moveUp();
-    else if (xDir == 0 && yDir < 0) moveDown();
-    else if (xDir < 0 && yDir == 0) moveLeft();
-    else if (xDir > 0 && yDir == 0) moveRight();
-    else if (xDir < 0 && yDir > 0) moveUpLeft();
-    else if (xDir > 0 && yDir > 0) moveUpRight();
-    else if (xDir < 0 && yDir < 0) moveDownLeft();
-    else if (xDir > 0 && yDir < 0) moveDownRight();
-    else stopMoving();
-  }
-
-  private void changeDirection()
-  {
-    if (mover.getRotation() == Direction.EAST) mover.setRotation(Direction.WEST);
-    else if (mover.getRotation() == Direction.WEST) mover.setRotation(Direction.EAST);
-    else if (mover.getRotation() == Direction.NORTH) mover.setRotation(Direction.SOUTH);
-    else if (mover.getRotation() == Direction.SOUTH) mover.setRotation(Direction.NORTH);
+    int row = (int) mover.getCurrentY();
+    int col = (int) mover.getCurrentX();
+    if (mover.getRotation() == Direction.SOUTH)
+    {
+      if (!house.getTile(row, col).getBoundingRectangle().contains(mover.getBoundingRectangle()))
+      {
+        row = (int) Math.ceil(mover.getCurrentY());
+      }
+    }
+    else if (mover.getRotation() == Direction.WEST)
+    {
+      if (!house.getTile(row, col).getBoundingRectangle().contains(mover.getBoundingRectangle()))
+      {
+        col = (int) Math.ceil(mover.getCurrentX());
+      }
+    }
+    return house.getTile(row, col);
   }
 }

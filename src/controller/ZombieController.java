@@ -122,7 +122,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
           zombie.setSpeed(zombieSpeed * deltaTime);
-          Tile currentTile = house.getCharacterTile(zombie);
+          Tile currentTile = getCurrentTile();
           path.remove(currentTile);
           if (path.size() > 0)
           {
@@ -256,5 +256,26 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       mover.move(moveToCheck.col, moveToCheck.row);
     }
     return false;
+  }
+
+  private Tile getCurrentTile()
+  {
+    int row = (int) mover.getCurrentY();
+    int col = (int) mover.getCurrentX();
+    if (mover.getRotation() == Direction.SOUTH)
+    {
+      if (!house.getTile(row, col).getBoundingRectangle().contains(mover.getBoundingRectangle()))
+      {
+        row = (int) Math.ceil(mover.getCurrentY());
+      }
+    }
+    else if (mover.getRotation() == Direction.WEST)
+    {
+      if (!house.getTile(row, col).getBoundingRectangle().contains(mover.getBoundingRectangle()))
+      {
+        col = (int) Math.ceil(mover.getCurrentX());
+      }
+    }
+    return house.getTile(row, col);
   }
 }

@@ -8,7 +8,7 @@ public class SuperZombie extends Zombie
 {
   public SuperZombie()
   {
-    findStrategy = new RandomMoveStrategy();
+    findStrategy = new AStarFindStrategy();
   }
 
   private Zombie zombie;

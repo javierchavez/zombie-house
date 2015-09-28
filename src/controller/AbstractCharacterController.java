@@ -220,7 +220,6 @@ public abstract class AbstractCharacterController<T extends Character> implement
       else if (mover instanceof Zombie && !(mover instanceof SuperZombie))
       {
         tripTrap = true;
-        house.getZombies().remove(mover);
       }
 
       if (tripTrap)

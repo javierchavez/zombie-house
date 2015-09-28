@@ -110,29 +110,31 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             zombieDirection(xDir, yDir);
             x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
             y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
-            checkCollision(new Move(x, y, mover.getRotation()));
 
-            /*if (checkCollision(new Move(x, y, mover.getRotation())))
+            if(checkCollision(new Move(x, y, mover.getRotation())))
             {
-              if (mover.getRotation() == Direction.EAST)
-              {
-                mover.setRotation(Direction.NORTH);
-              }
-              else if (mover.getRotation() == Direction.WEST)
-              {
-                mover.setRotation(Direction.NORTH);
-              }
-              else if (mover.getRotation() == Direction.SOUTH)
-              {
-                mover.setRotation(Direction.EAST);
-              }
-              else if (mover.getRotation() == Direction.NORTH)
-              {
-                mover.setRotation(Direction.WEST);
-              }
-
-//              mover.move((int) currentTile.getX(), (int) currentTile.getY());
-            }*/
+              mover.move((int) currentTile.getX(), (int) currentTile.getY());
+//            checkCollision(new Move(x, y, mover.getRotation()));
+//
+//            if (checkCollision(new Move(x, y, mover.getRotation())))
+//            {
+//              if (mover.getRotation() == Direction.EAST)
+//              {
+//                mover.setRotation(Direction.NORTH);
+//              }
+//              else if (mover.getRotation() == Direction.WEST)
+//              {
+//                mover.setRotation(Direction.NORTH);
+//              }
+//              else if (mover.getRotation() == Direction.SOUTH)
+//              {
+//                mover.setRotation(Direction.EAST);
+//              }
+//              else if (mover.getRotation() == Direction.NORTH)
+//              {
+//                mover.setRotation(Direction.WEST);
+//              }
+            }
           }
 //          else stopMoving();
         }

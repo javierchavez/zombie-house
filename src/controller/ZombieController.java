@@ -8,7 +8,6 @@ import model.*;
 import model.Move;
 
 import java.util.List;
-import java.util.Random;
 
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
@@ -21,7 +20,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   private Tile zombieTile;
   private List<Tile> path;
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
   public ZombieController (House house)
   {
@@ -29,7 +28,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   }
 
   /**
-   *
+   * Tells zombie which way to move
    */
   private void zombieDirection(float xDir, float yDir)
   {
@@ -38,15 +37,13 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     if (xDir < 0 && yDir == 0) moveLeft();
     if (xDir < 0 && yDir < 0) moveLeft();
     if (xDir < 0 && yDir > 0) moveLeft();
-//    if (xDir < 0 && yDir < 0) moveDownLeft();
-//    if (xDir < 0 && yDir > 0) moveDownRight();
+
     if (xDir > 0 && yDir == 0) moveRight();
     if (xDir < 0 && yDir > 0) moveRight();
     if (xDir > 0 && yDir > 0) moveRight();
+
     if (yDir > 0 && xDir == 0) moveUp();
-//    if (xDir > 0 && yDir > 0) moveUpRight();
     if (yDir < 0 && xDir == 0) moveDown();
-//    if (xDir < 0 && yDir > 0) moveUpLeft();
   }
 
   /**
@@ -84,7 +81,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       float zombieSpeed;
       // The values of these floats can be either -1, 0, or 1
       float xDir, yDir; // Depending on what their value is, the zombie will know which direction to go
-      float x, y;
+      float x, y; // Zombie's position in the tile
       Tile playerTile = house.getCharacterTile(house.getPlayer()); // Get player's current tile
 
       isMoving = true;
@@ -134,11 +131,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
             y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
 
-//            checkCollision(new Move(x, y, mover.getRotation()));
-            if (checkCollision(new Move(x, y, mover.getRotation())))
-            {
-              mover.move(currentTile.getX(), currentTile.getY());
-            }
+            checkCollision(new Move(x, y, mover.getRotation()));
           }
         }
         else // If player is not detected
@@ -190,16 +183,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               wanderYDir = move.row;
               zombieDirection(wanderXDir, wanderYDir);
             }
-//            checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
-//            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
-//            {
-//              if (DEBUG) System.out.println("\tNot detected");
-//              if (DEBUG) System.out.println("\tCollision");
-//              System.out.println("wander x:" + wanderX);
-//              System.out.println("wander y: " + wanderY);
-//              changeDirection();
-////              stopMoving();
-//            }
           }
           else // Line Mover
           {
@@ -226,29 +209,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     {
       if (DEBUG) System.out.println("\tCollision");
       stopMoving();
-//      changeDirection();
-//      if (!playerDetected)
-//      {
-////        changeDirection();
-////        if (direction == Direction.EAST)
-////        {
-////          mover.move(moveToCheck.col - 0.1f, moveToCheck.row);
-////        }
-////        if (direction == Direction.WEST)
-////        {
-////          mover.move(moveToCheck.col + 0.1f, moveToCheck.row);
-////        }
-////        if (direction == Direction.NORTH)
-////        {
-////          mover.move(moveToCheck.col, moveToCheck.row + 0.1f);
-////        }
-////        if (direction == Direction.SOUTH)
-////        {
-////          mover.move(moveToCheck.col, moveToCheck.row - 0.1f);
-////        }
-//        stopMoving();
-//      }
-
       return true;
     }
     else

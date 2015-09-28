@@ -45,6 +45,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
 
   private Rectangle2D viewPort;
   private boolean DEBUG = false;
+  private boolean rendering = true;
 
   public GameEngine ()
   {
@@ -77,13 +78,15 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     if (player.getState() == Player.PlayerState.WINNER)
     {
       menuController.setActive(true);
-      options.setState(GameOptions.GAME_STATE.LEVEL1);
+      options.setState(options.getNextLevel(house.getLevel()));
+      rendering = false;
       return;
     }
     else if (player.getState() == Player.PlayerState.DEAD)
     {
       //menuController.setActive(true);
       //options.setState(GameOptions.GAME_STATE.RESTART);
+      //rendering = false;
       //return;
     }
 
@@ -129,6 +132,11 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       return;
     }
 
+    if (!rendering)
+    {
+      return;
+    }
+
     graphics.setTransform(getTransform());
     //houseRenderer.translateAbsolute(player.getCurrentX(), player.getCurrentY
       //    ());
@@ -158,37 +166,14 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
           {
             System.exit(0);
           }
-          else if (options.getState() == GameOptions.GAME_STATE.LEVEL1)
-          {
-            house.generateRandomHouse(options.getState());
-            MenuController.setActive(false);
-          }
-          else if (options.getState() == GameOptions.GAME_STATE.LEVEL2)
-          {
-            house.generateRandomHouse(options.getState());
-            MenuController.setActive(false);
-          }
-          else if (options.getState() == GameOptions.GAME_STATE.LEVEL3)
-          {
-            house.generateRandomHouse(options.getState());
-            MenuController.setActive(false);
-          }
-          else if (options.getState() == GameOptions.GAME_STATE.LEVEL4)
-          {
-            house.generateRandomHouse(options.getState());
-            MenuController.setActive(false);
-          }
-          else if (options.getState() == GameOptions.GAME_STATE.LEVEL5)
-          {
-            house.generateRandomHouse(options.getState());
-            MenuController.setActive(false);
-          }
           else
           {
-            //house.generateRandomHouse(options.getState());
+            house.generateRandomHouse(options.getState());
+            ss = new SuperZombieController(house, house.getSuperZombie());
             MenuController.toggleActive();
           }
           player.setState(Player.PlayerState.ALIVE);
+          rendering = true;
         }
         else
         {

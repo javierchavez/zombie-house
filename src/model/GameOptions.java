@@ -6,6 +6,7 @@ public class GameOptions
 {
   private static House house;
   private static GAME_STATE state = GAME_STATE.PLAY;
+  private static GAME_STATUS status = GAME_STATUS.PAUSED;
 
   public GameOptions(House house)
   {
@@ -20,6 +21,20 @@ public class GameOptions
   public GAME_STATE getState ()
   {
     return state;
+  }
+
+  public void setStatus(GAME_STATUS status)
+  {
+    this.status = status;
+  }
+
+  public GAME_STATUS getStatus()
+  {
+    return status;
+  }
+
+  public enum GAME_STATUS {
+    PLAYING, PAUSED, LOADING
   }
 
   public enum GAME_STATE {
@@ -53,6 +68,10 @@ public class GameOptions
   {
     String message = "";
     Player player = house.getPlayer();
+    if (status == GAME_STATUS.LOADING)
+    {
+      message = "Loading...";
+    }
     if (player.getState() == Player.PlayerState.WINNER)
     {
       message = "Level Complete";
@@ -60,6 +79,10 @@ public class GameOptions
     else if (player.getState() == Player.PlayerState.DEAD)
     {
       message = "Game Over";
+    }
+    else if (status == GAME_STATUS.PAUSED)
+    {
+      message = "Paused";
     }
     return message;
   }

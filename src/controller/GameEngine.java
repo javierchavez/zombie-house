@@ -70,7 +70,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   @Override
   public void update(float deltaTime)
   {
-    if (MenuController.isActive())
+    if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
     {
       menuController.update(deltaTime);
       return;
@@ -79,9 +79,9 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     if (player.getState() == Player.PlayerState.WINNER)
     {
       //house.slowReset();
-      menuController.setActive(true);
+      //menuController.setActive(true);
       options.setState(options.getNextLevel(house.getLevel()));
-      rendering = false;
+      options.setStatus(GameOptions.GAME_STATUS.PAUSED);
       return;
     }
     else if (player.getState() == Player.PlayerState.DEAD)
@@ -89,7 +89,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       //house.slowReset();
       //menuController.setActive(true);
       //options.setState(GameOptions.GAME_STATE.RESTART);
-      //rendering = false;
+      //options.setStatus(GameOptions.GAME_STATUS.PAUSED);
       //return;
     }
 
@@ -129,14 +129,9 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   @Override
   public void render (Graphics2D graphics)
   {
-    if (MenuController.isActive())
+    if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
     {
       menuRenderer.render(graphics);
-      return;
-    }
-
-    if (!rendering)
-    {
       return;
     }
 
@@ -158,29 +153,36 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     {
       // menu screen
       case KeyEvent.VK_SPACE:
-        if (MenuController.isActive())
+        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED)
         {
           if (options.getState() == GameOptions.GAME_STATE.RESTART)
           {
             house.reset();
-            MenuController.setActive(false);
           }
           else if (options.getState() == GameOptions.GAME_STATE.EXIT)
           {
             System.exit(0);
           }
+          else if (options.getState() == GameOptions.GAME_STATE.PLAY)
+          {
+            options.setStatus(GameOptions.GAME_STATUS.PLAYING);
+          }
           else
           {
-            house.generateRandomHouse(options.getState());
-            ss = new SuperZombieController(house, house.getSuperZombie());
-            MenuController.toggleActive();
+            if (options.getStatus() != GameOptions.GAME_STATUS.LOADING)
+            {
+              options.setStatus(GameOptions.GAME_STATUS.LOADING);
+              house.generateRandomHouse(options.getState());
+              ss = new SuperZombieController(house, house.getSuperZombie());
+            }
           }
           player.setState(Player.PlayerState.ALIVE);
-          rendering = true;
+          options.setStatus(GameOptions.GAME_STATUS.PLAYING);
         }
         else
         {
-          MenuController.toggleActive();
+          options.setStatus(GameOptions.GAME_STATUS.PAUSED);
+          options.setState(GameOptions.GAME_STATE.PLAY);
         }
         break;
       // Player movement direction
@@ -201,6 +203,12 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = true;
         break;
       case KeyEvent.VK_LEFT:
+        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
+        {
+          leftPressed = false;
+          moving = false;
+          return;
+        }
         leftPressed = true;
         moving = true;
         break;
@@ -209,6 +217,12 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = true;
         break;
       case KeyEvent.VK_RIGHT:
+        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
+        {
+          rightPressed = false;
+          moving = false;
+          return;
+        }
         rightPressed = true;
         moving = true;
         break;
@@ -257,10 +271,10 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         downPressed = false;
         break;
       case KeyEvent.VK_LEFT:
-        if (MenuController.isActive())
+        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED)
         {
-          menuController.next();
-          return;
+          menuController.previous();
+          //return;
         }
         leftPressed = false;
         moving = false;
@@ -270,10 +284,10 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = false;
         break;
       case KeyEvent.VK_RIGHT:
-        if (MenuController.isActive())
+        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED)
         {
           menuController.next();
-          return;
+          //return;
         }
         rightPressed = false;
         moving = false;

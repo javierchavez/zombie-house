@@ -84,8 +84,8 @@ public class MenuRenderer extends Renderer
 
     // add text or variable to render here
     g.drawString(options.getMessage(),
-                 ((int)((viewBounds.getWidth() - image.getWidth())/2)+ 250),
-                 ((int)(viewBounds.getHeight() - image.getHeight())/2) +150);
+                 ((int)((viewBounds.getWidth() - image.getWidth())/2)+ 300),
+                 ((int)(viewBounds.getHeight() - image.getHeight())/2) + 180);
 
     g.setColor(new Color(252,0,12));
     g.setFont(new Font("Verdana", Font.PLAIN, 30));

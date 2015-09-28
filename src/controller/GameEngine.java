@@ -73,6 +73,20 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       menuController.update(deltaTime);
       return;
     }
+
+    if (player.getState() == Player.PlayerState.WINNER)
+    {
+      menuController.setActive(true);
+      options.setState(GameOptions.GAME_STATE.LEVEL1);
+      return;
+    }
+    else if (player.getState() == Player.PlayerState.DEAD)
+    {
+      //menuController.setActive(true);
+      //options.setState(GameOptions.GAME_STATE.RESTART);
+      //return;
+    }
+
     CombustibleController.getInstance().update(deltaTime);
     controller.update(deltaTime);
     zombieController.update(deltaTime);
@@ -114,6 +128,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       menuRenderer.render(graphics);
       return;
     }
+
     graphics.setTransform(getTransform());
     //houseRenderer.translateAbsolute(player.getCurrentX(), player.getCurrentY
       //    ());
@@ -170,13 +185,14 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
           }
           else
           {
+            //house.generateRandomHouse(options.getState());
             MenuController.toggleActive();
           }
+          player.setState(Player.PlayerState.ALIVE);
         }
         else
         {
           MenuController.toggleActive();
-
         }
         break;
       // Player movement direction

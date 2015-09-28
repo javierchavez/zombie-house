@@ -60,14 +60,7 @@ public class Zombie extends Character implements Deadly
 
     float dx = (zx - px) * (zx - px);
     float dy = (zy - py) * (zy - py);
-    if (Math.sqrt(dx+dy) <= smell)
-    {
-      smellsPlayer = true;
-    }
-    else
-    {
-      smellsPlayer = false;
-    }
+    smellsPlayer = Math.sqrt(dx + dy) <= smell;
     return smellsPlayer;
   }
 

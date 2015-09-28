@@ -4,7 +4,7 @@ package model;
 import java.util.Random;
 
 /**
- *
+ * Empty tile
  */
 public class Empty extends Tile
 {

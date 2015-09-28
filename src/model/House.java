@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * Can be considered House or Level
+ */
 public class House extends Area
 {
   private Tile[][] house;

@@ -3,6 +3,10 @@ package model;
 
 import java.awt.geom.Rectangle2D;
 
+
+/**
+ * Generic tile
+ */
 public class Tile implements Object2D, Combustible
 {
   // row and col are the tiles location in the house array

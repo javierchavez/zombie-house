@@ -1,12 +1,13 @@
 package model;
 
-import java.util.List;
 
+/**
+ * Zombie character
+ */
 public class Zombie extends Character implements Deadly
 {
   protected float zombieDecisionRate;
   protected FindStrategy findStrategy;
-  int intelligence;
 
   public Zombie()
   {
@@ -42,6 +43,7 @@ public class Zombie extends Character implements Deadly
 
   /**
    * Checks if player is within distance of zombie's smell.
+   *
    * @return true if the player is within the zombie's smell radius
    *         otherwise false
    */
@@ -58,6 +60,11 @@ public class Zombie extends Character implements Deadly
     return (Math.sqrt(dx+dy) <= smell);
   }
 
+  /**
+   * Returns the strategy used to find anther character
+   *
+   * @return class for finding a tile
+   */
   public FindStrategy getStrategy ()
   {
     return findStrategy;

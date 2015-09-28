@@ -5,6 +5,9 @@ import common.Direction;
 
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Generic Character in the game. (Includes Player)
+ */
 public class Character implements Mover, Object2D, Combustible, Sound
 {
 

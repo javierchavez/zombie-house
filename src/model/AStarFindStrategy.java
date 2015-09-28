@@ -4,6 +4,9 @@ package model;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Find using A* algorithm
+ */
 public class AStarFindStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
 

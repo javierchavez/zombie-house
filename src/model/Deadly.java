@@ -1,6 +1,9 @@
 package model;
 
 
+/**
+ * Anything that is deadly
+ */
 public interface Deadly
 {
 

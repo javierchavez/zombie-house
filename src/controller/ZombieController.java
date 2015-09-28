@@ -39,13 +39,17 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     if (xDir == 0 && yDir == 0) resting();
 
     if (xDir < 0 && yDir == 0) moveLeft();
-    if (xDir < 0 && yDir < 0) moveDownLeft();
-    if (xDir < 0 && yDir > 0) moveDownRight();
+    if (xDir < 0 && yDir < 0) moveLeft();
+    if (xDir < 0 && yDir > 0) moveLeft();
+//    if (xDir < 0 && yDir < 0) moveDownLeft();
+//    if (xDir < 0 && yDir > 0) moveDownRight();
     if (xDir > 0 && yDir == 0) moveRight();
+    if (xDir < 0 && yDir > 0) moveRight();
+    if (xDir > 0 && yDir > 0) moveRight();
     if (yDir > 0 && xDir == 0) moveUp();
-    if (xDir > 0 && yDir > 0) moveUpRight();
+//    if (xDir > 0 && yDir > 0) moveUpRight();
     if (yDir < 0 && xDir == 0) moveDown();
-    if (xDir < 0 && yDir > 0) moveUpLeft();
+//    if (xDir < 0 && yDir > 0) moveUpLeft();
   }
 
   /**
@@ -100,7 +104,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         zombies.remove(i);
         continue;
       }
-      
+
       if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
       playerDetected = zombie.sense(playerTile); // Detect player
@@ -184,14 +188,18 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (zombie.getStrategy() instanceof RandomMoveStrategy)
           {
-            if (time == 0 || time % (Duration.ZOMBIE_UPDATE*60) == 0)
+            if (time == 0 || time % (Duration.ZOMBIE_UPDATE * 60) == 0)
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               wanderXDir = move.col;
               wanderYDir = move.row;
               zombieDirection(wanderXDir, wanderYDir);
             }
-            checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
+//            checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
+            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
+            {
+              changeDirection();
+            }
 //            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
 //            {
 //              if (DEBUG) System.out.println("\tNot detected");
@@ -225,30 +233,30 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     float direction = mover.getRotation();
     if (collision)
     {
-//      mover.setSpeed(0);
       if (DEBUG) System.out.println("\tCollision");
+      mover.setSpeed(0);
 //      changeDirection();
-      if (!playerDetected)
-      {
-        changeDirection();
-//        if (direction == Direction.EAST)
-//        {
-//          mover.move(moveToCheck.col - 0.1f, moveToCheck.row);
-//        }
-//        if (direction == Direction.WEST)
-//        {
-//          mover.move(moveToCheck.col + 0.1f, moveToCheck.row);
-//        }
-//        if (direction == Direction.NORTH)
-//        {
-//          mover.move(moveToCheck.col, moveToCheck.row + 0.1f);
-//        }
-//        if (direction == Direction.SOUTH)
-//        {
-//          mover.move(moveToCheck.col, moveToCheck.row - 0.1f);
-//        }
-        stopMoving();
-      }
+//      if (!playerDetected)
+//      {
+////        changeDirection();
+////        if (direction == Direction.EAST)
+////        {
+////          mover.move(moveToCheck.col - 0.1f, moveToCheck.row);
+////        }
+////        if (direction == Direction.WEST)
+////        {
+////          mover.move(moveToCheck.col + 0.1f, moveToCheck.row);
+////        }
+////        if (direction == Direction.NORTH)
+////        {
+////          mover.move(moveToCheck.col, moveToCheck.row + 0.1f);
+////        }
+////        if (direction == Direction.SOUTH)
+////        {
+////          mover.move(moveToCheck.col, moveToCheck.row - 0.1f);
+////        }
+//        stopMoving();
+//      }
 
       return true;
     }

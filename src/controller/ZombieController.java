@@ -15,7 +15,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   List<Zombie> zombies;
   private boolean isMoving = true;
   private boolean playerDetected = false;
-//  private boolean running = false;
 
   // An incrementer to keep track of when 120 frames (2 seconds) have passed
   private int time = 0;
@@ -161,8 +160,26 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
           if (zombie.getStrategy() instanceof RandomMoveStrategy) // Random Mover
           {
+            if (DEBUG) System.out.println("\tRandom zombie");
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
+              // If the random mover zombie hits an obstacle, it moves back a bit and stops moving
+              if (mover.getRotation() == Direction.NORTH)
+              {
+                mover.move(wanderX, wanderY - 0.02f);
+              }
+              if (mover.getRotation() == Direction.SOUTH)
+              {
+                mover.move(wanderX, wanderY + 0.02f);
+              }
+              if (mover.getRotation() == Direction.EAST)
+              {
+                mover.move(wanderX - 0.05f, wanderY);
+              }
+              if (mover.getRotation() == Direction.WEST)
+              {
+                mover.move(wanderX + 0.05f, wanderY);
+              }
               stopMoving();
             }
 
@@ -186,6 +203,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           }
           else // Line Mover
           {
+            if (DEBUG) System.out.println("\tLine zombie");
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));

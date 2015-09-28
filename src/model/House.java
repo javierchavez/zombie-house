@@ -1,6 +1,7 @@
 package model;
 
 import common.Direction;
+import model.GameOptions.GAME_STATE;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class House extends Area
 
   private HouseGenerator generator;
   private String savedHouse;
+  private GAME_STATE level;
 
 
   /**
@@ -80,6 +82,7 @@ public class House extends Area
   public void generateRandomHouse()
   {
     generator.generateHouse(this);
+    this.level = GAME_STATE.PLAY;
     save();
   }
 
@@ -88,9 +91,10 @@ public class House extends Area
    *
    * @param level GAME_STATE level for the house layout difficulty
    */
-  public void generateRandomHouse(GameOptions.GAME_STATE level)
+  public void generateRandomHouse(GAME_STATE level)
   {
     generator.generateHouse(this, level);
+    this.level = level;
     save();
   }
 
@@ -202,6 +206,16 @@ public class House extends Area
   public int getCols()
   {
     return (int) getWidth();
+  }
+
+  /**
+   * Gets the level of the house
+   *
+   * @return level
+   */
+  public GAME_STATE getLevel()
+  {
+    return level;
   }
 
   /**

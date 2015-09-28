@@ -40,7 +40,6 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
     secIncrement++;
     if (secIncrement == 200)
     {
-
       mover.getStrategy().find(house, house.getCharacterTile(house.getSuperZombie()), house
               .getCharacterTile(house.getPlayer()));
       tiles.clear();

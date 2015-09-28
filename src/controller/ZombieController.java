@@ -128,10 +128,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               // TODO: make zombie go back one tile?
 //              System.out.println("CHASING COLLISION: ");
 //              System.out.println("Move (x, y): (" + x + ", " + y + ")");
-              System.out.println("Current (x, y): (" + currentTile.getX() + ", " + currentTile.getY() + ")");
+//              System.out.println("Current (x, y): (" + currentTile.getX() + ", " + currentTile.getY() + ")");
               float dx = currentTile.getX() - x;
               float dy = currentTile.getY() - y;
-              System.out.println("Next (x, y): " + nextTile.getX() + ", " + nextTile.getY());
+//              System.out.println("Next (x, y): " + nextTile.getX() + ", " + nextTile.getY());
               mover.move((int) currentTile.getX(), (int) currentTile.getY());
             }
           }

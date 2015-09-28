@@ -53,7 +53,7 @@ public class MenuController implements GameController, KeyListener
   public void next ()
   {
     choice++;
-    if (choice == 5) choice = 0;
+    if (choice == GameOptions.GAME_STATE.values().length) choice = 0;
     options.setState(GameOptions.GAME_STATE.values()[choice]);
   }
 

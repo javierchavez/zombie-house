@@ -47,15 +47,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     if (xDir < 0 && yDir > 0) moveUpLeft();
   }
 
-  /*
-  private void newXY(Zombie zombie, float direction)
-  {
-    if (moveUp || moveDown) y = (float) (y + (zombie.getSpeed() * Math
-        .sin(Math.toRadians(direction))));
-    if (moveLeft || moveRight) x = (float) (x + (zombie.getSpeed() * Math
-        .cos(Math.toRadians(direction))));
-  }*/
-
   @Override
   public void update(float deltaTime)
   {
@@ -119,8 +110,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             zombieDirection(xDir, yDir);
             x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
             y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
+            checkCollision(new Move(x, y, mover.getRotation()));
 
-            if (checkCollision(new Move(x, y, mover.getRotation())))
+            /*if (checkCollision(new Move(x, y, mover.getRotation())))
             {
               if (mover.getRotation() == Direction.EAST)
               {
@@ -140,7 +132,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               }
 
 //              mover.move((int) currentTile.getX(), (int) currentTile.getY());
-            }
+            }*/
           }
 //          else stopMoving();
         }

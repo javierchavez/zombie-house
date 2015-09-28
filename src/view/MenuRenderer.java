@@ -84,8 +84,8 @@ public class MenuRenderer extends Renderer
 
     // add text or variable to render here
     g.drawString("Level Complete",
-                 ((int)((viewBounds.getWidth() - image.getWidth())/2)*1.5f),
-                 ((int)(viewBounds.getHeight() - image.getHeight())/2) * 2.25f);
+                 ((int)((viewBounds.getWidth() - image.getWidth())/2)+ 250),
+                 ((int)(viewBounds.getHeight() - image.getHeight())/2) +150);
 
     g.drawImage(selections[options.getState().ordinal()],
                 ((int)(viewBounds.getWidth() - image.getWidth())/2) + 341,

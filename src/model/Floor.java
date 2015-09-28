@@ -1,6 +1,9 @@
 package model;
 
 
+/**
+ * Floor Tile
+ */
 public class Floor extends Tile
 {
 

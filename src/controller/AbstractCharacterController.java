@@ -69,6 +69,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
   {
     if (DEBUG) System.out.println("I can't move like that!");
     isMoving = false;
+    idling = true;
     running = false;
     mover.setSpeed(Speed.IDLE);
   }

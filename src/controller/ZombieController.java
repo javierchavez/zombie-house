@@ -24,7 +24,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
   Random random = new Random();
 
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   public ZombieController (House house)
   {
@@ -46,6 +46,29 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     if (xDir > 0 && yDir > 0) moveUpRight();
     if (yDir < 0 && xDir == 0) moveDown();
     if (xDir < 0 && yDir > 0) moveUpLeft();
+  }
+
+  /**
+   * Changes zombie's direction so that they don't constantly collide with wall and idle until the next update.
+   */
+  private void changeDirection()
+  {
+    if (mover.getRotation() == Direction.EAST)
+    {
+      mover.setRotation(Direction.WEST);
+    }
+    else if (mover.getRotation() == Direction.WEST)
+    {
+      mover.setRotation(Direction.EAST);
+    }
+    else if (mover.getRotation() == Direction.NORTH)
+    {
+      mover.setRotation(Direction.SOUTH);
+    }
+    else if (mover.getRotation() == Direction.SOUTH)
+    {
+      mover.setRotation(Direction.NORTH);
+    }
   }
 
   @Override
@@ -78,11 +101,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         continue;
       }
 
-//      if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
-
-      zombieSpeed = Speed.STAGGER; // Default zombie speed
-      if (idling) zombieSpeed = Speed.IDLE;
-      if (running) zombieSpeed = Speed.STAGGER_RUN;
+      if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
       if (isMoving)
       {
@@ -114,36 +133,37 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
             if(checkCollision(new Move(x, y, mover.getRotation())))
             {
-//              mover.move((int) currentTile.getX(), (int) currentTile.getY());
-//            checkCollision(new Move(x, y, mover.getRotation()));
-
-              if (mover.getRotation() == Direction.EAST)
-              {
-                mover.setRotation(Direction.WEST);
-              }
-              else if (mover.getRotation() == Direction.WEST)
-              {
-                mover.setRotation(Direction.EAST);
-              }
-              else if (mover.getRotation() == Direction.NORTH)
-              {
-                mover.setRotation(Direction.SOUTH);
-              }
-              else if (mover.getRotation() == Direction.SOUTH)
-              {
-                mover.setRotation(Direction.NORTH);
-              }
+              changeDirection();
               stopMoving();
+//              if (mover.getRotation() == Direction.EAST)
+//              {
+//                mover.setRotation(Direction.WEST);
+//              }
+//              else if (mover.getRotation() == Direction.WEST)
+//              {
+//                mover.setRotation(Direction.EAST);
+//              }
+//              else if (mover.getRotation() == Direction.NORTH)
+//              {
+//                mover.setRotation(Direction.SOUTH);
+//              }
+//              else if (mover.getRotation() == Direction.SOUTH)
+//              {
+//                mover.setRotation(Direction.NORTH);
+//              }
             }
           }
         }
         else // If player is not detected
         {
           running = false;
-          zombieSpeed = Speed.STAGGER;
+          if (idling) zombieSpeed = Speed.IDLE;
+          else zombieSpeed = Speed.STAGGER;
+
           float wanderXDir, wanderYDir;
           float wanderX, wanderY;
 
+          if (DEBUG) System.out.println("zombie speed: " + zombieSpeed);
           zombie.setSpeed(zombieSpeed * deltaTime);
           wanderX = (float) (mover.getCurrentX() + zombie.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
           wanderY = (float) (mover.getCurrentY() + zombie.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
@@ -157,7 +177,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               wanderYDir = move.row;
               zombieDirection(wanderXDir, wanderYDir);
             }
-            checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
+            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
+            {
+              changeDirection();
+              stopMoving();
+            }
           }
           else // Zombie is Line Mover
           {
@@ -169,7 +193,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               zombieDirection(wanderXDir, wanderYDir);
             }
           }
-
         }
         isMoving = false;
       }

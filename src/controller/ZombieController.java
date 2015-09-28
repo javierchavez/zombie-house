@@ -23,7 +23,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
   Random random = new Random();
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
   public ZombieController (House house)
   {
@@ -100,8 +100,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         continue;
       }
 
-      if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
-
       if (isMoving)
       {
         playerDetected = zombie.sense(playerTile); // Detect player
@@ -116,6 +114,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               house.getCharacterTile(house.getPlayer()));
 
           path = mover.getStrategy().getPath();
+          if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
           zombie.setSpeed(zombieSpeed * deltaTime);
           Tile currentTile = house.getCharacterTile(zombie);
@@ -130,10 +129,17 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
             y = (float) (mover.getCurrentY() + mover.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
 
-            if(checkCollision(new Move(x, y, mover.getRotation())))
+//            checkCollision(new Move(x, y, mover.getRotation()));
+            if (checkCollision(new Move(x, y, mover.getRotation())))
             {
+              mover.move(currentTile.getX(), currentTile.getY());
+            }
+            /*if(checkCollision(new Move(x, y, mover.getRotation())))
+            {
+              if (DEBUG) System.out.println("\tDetected");
+              if (DEBUG) System.out.println("\tCollision");
               changeDirection();
-              stopMoving();
+//              stopMoving();
 //              if (mover.getRotation() == Direction.EAST)
 //              {
 //                mover.setRotation(Direction.WEST);
@@ -151,6 +157,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 //                mover.setRotation(Direction.NORTH);
 //              }
             }
+            else
+            {
+              if (DEBUG) System.out.println("\tDetected");
+              if (DEBUG) System.out.println("\tNo collision");
+            } */
           }
         }
         else // If player is not detected
@@ -162,7 +173,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           float wanderXDir, wanderYDir;
           float wanderX, wanderY;
 
-          if (DEBUG) System.out.println("zombie speed: " + zombieSpeed);
           zombie.setSpeed(zombieSpeed * deltaTime);
           wanderX = (float) (mover.getCurrentX() + zombie.getSpeed() * Math.cos(Math.toRadians(mover.getRotation())));
           wanderY = (float) (mover.getCurrentY() + zombie.getSpeed() * Math.sin(Math.toRadians(mover.getRotation())));
@@ -176,11 +186,16 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               wanderYDir = move.row;
               zombieDirection(wanderXDir, wanderYDir);
             }
-            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
-            {
-              changeDirection();
-              stopMoving();
-            }
+            checkCollision(new Move(wanderX, wanderY, mover.getRotation()));
+//            if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
+//            {
+//              if (DEBUG) System.out.println("\tNot detected");
+//              if (DEBUG) System.out.println("\tCollision");
+//              System.out.println("wander x:" + wanderX);
+//              System.out.println("wander y: " + wanderY);
+//              changeDirection();
+////              stopMoving();
+//            }
           }
           else // Zombie is Line Mover
           {
@@ -202,9 +217,34 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   public boolean checkCollision (Move moveToCheck)
   {
     boolean collision = super.checkCollision(moveToCheck);
+    float direction = mover.getRotation();
     if (collision)
     {
-      mover.setSpeed(0);
+//      mover.setSpeed(0);
+      if (DEBUG) System.out.println("\tCollision");
+//      changeDirection();
+      if (!playerDetected)
+      {
+        changeDirection();
+//        if (direction == Direction.EAST)
+//        {
+//          mover.move(moveToCheck.col - 0.1f, moveToCheck.row);
+//        }
+//        if (direction == Direction.WEST)
+//        {
+//          mover.move(moveToCheck.col + 0.1f, moveToCheck.row);
+//        }
+//        if (direction == Direction.NORTH)
+//        {
+//          mover.move(moveToCheck.col, moveToCheck.row + 0.1f);
+//        }
+//        if (direction == Direction.SOUTH)
+//        {
+//          mover.move(moveToCheck.col, moveToCheck.row - 0.1f);
+//        }
+        stopMoving();
+      }
+
       return true;
     }
     else

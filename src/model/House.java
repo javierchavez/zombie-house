@@ -577,28 +577,22 @@ public class House extends Area
    */
   public void slowReset()
   {
-    new Thread(() -> {
-      // zombies.clear();
-      while(true)
+    for (int i = 0; i < house.length; i++)
+    {
+      for (int j = 0; j < house[i].length; j++)
       {
-        for (int i = 0; i < house.length; i++)
-        {
-          for (int j = 0; j < house[i].length; j++)
-          {
-            house[i][j] = new Empty(i, j);
-          }
-
-          try
-          {
-            Thread.sleep(110);
-          }
-          catch (InterruptedException e)
-          {
-            e.printStackTrace();
-          }
-        }
+        house[i][j] = new Empty(i, j);
       }
-    }).start();
+
+      try
+      {
+        Thread.currentThread().sleep(110);
+      }
+      catch (InterruptedException e)
+      {
+        e.printStackTrace();
+      }
+    }
   }
 
   @Override

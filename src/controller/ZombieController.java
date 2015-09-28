@@ -125,16 +125,27 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
             if (checkCollision(new Move(x, y, mover.getRotation())))
             {
-              // TODO: make zombie go back one tile?
-//              System.out.println("CHASING COLLISION: ");
-//              System.out.println("Move (x, y): (" + x + ", " + y + ")");
-//              System.out.println("Current (x, y): (" + currentTile.getX() + ", " + currentTile.getY() + ")");
-              float dx = currentTile.getX() - x;
-              float dy = currentTile.getY() - y;
-//              System.out.println("Next (x, y): " + nextTile.getX() + ", " + nextTile.getY());
-              mover.move((int) currentTile.getX(), (int) currentTile.getY());
+              if (mover.getRotation() == Direction.EAST)
+              {
+                mover.setRotation(Direction.NORTH);
+              }
+              else if (mover.getRotation() == Direction.WEST)
+              {
+                mover.setRotation(Direction.NORTH);
+              }
+              else if (mover.getRotation() == Direction.SOUTH)
+              {
+                mover.setRotation(Direction.EAST);
+              }
+              else if (mover.getRotation() == Direction.NORTH)
+              {
+                mover.setRotation(Direction.WEST);
+              }
+
+//              mover.move((int) currentTile.getX(), (int) currentTile.getY());
             }
           }
+          else stopMoving();
         }
         else // If player is not detected
         {

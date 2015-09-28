@@ -7,6 +7,7 @@ import model.*;
 import model.Character;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
 
@@ -157,9 +158,7 @@ public abstract class AbstractCharacterController<T extends Character> implement
   public void resting ()
   {
     if (DEBUG) System.out.println("\tResting...");
-    // Sometimes the zombie is resting, sometimes it isn't
     idling = random.nextBoolean();
-//    idling = true;
   }
 
   @Override
@@ -214,7 +213,6 @@ public abstract class AbstractCharacterController<T extends Character> implement
         if (running)
         {
           tripTrap = true;
-          ((Player) mover).setState(Player.PlayerState.DEAD);
         }
       }
       else if (mover instanceof Zombie && !(mover instanceof SuperZombie))
@@ -237,13 +235,6 @@ public abstract class AbstractCharacterController<T extends Character> implement
       }
     }
 
-    if (house.isZombieTile(current))
-    {
-      if (house.getCharacterTile(house.getPlayer()) == current)
-      {
-        house.getPlayer().setState(Player.PlayerState.DEAD);
-      }
-    }
     return false;
   }
 

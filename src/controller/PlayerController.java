@@ -24,10 +24,17 @@ public class PlayerController extends AbstractCharacterController<Player>
   public void update (float deltaTime)
   {
     float playerSpeed;
-    // we are inheriting mover from AbstractCharacterController
-    // it was set in the Constructor
     mover = house.getPlayer();
     playerTile = house.getCharacterTile(mover);
+
+    if (playerTile.getCombustedState() == Combustible.CombustedState.IGNITED)
+    {
+      mover.setState(Player.PlayerState.DEAD);
+    }
+    else if (house.isZombieTile(playerTile))
+    {
+      mover.setState(Player.PlayerState.DEAD);
+    }
 
     float direction = mover.getRotation();
     float stamina = mover.getStamina();
@@ -140,6 +147,7 @@ public class PlayerController extends AbstractCharacterController<Player>
     if (super.checkCollision(moveToCheck))
     {
       mover.setSpeed(0);
+      return true;
     }
     else
     {

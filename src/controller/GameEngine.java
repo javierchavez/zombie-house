@@ -272,7 +272,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         downPressed = false;
         break;
       case KeyEvent.VK_LEFT:
-        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED)
+        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
         {
           menuController.previous();
           //return;
@@ -285,7 +285,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = false;
         break;
       case KeyEvent.VK_RIGHT:
-        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED)
+        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
         {
           menuController.next();
           //return;

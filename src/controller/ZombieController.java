@@ -159,11 +159,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               // If the random mover zombie hits an obstacle, it moves back a bit and stops moving
               if (mover.getRotation() == Direction.NORTH)
               {
-                mover.move(wanderX, wanderY - 0.02f);
+                mover.move(wanderX, wanderY - 0.05f);
               }
               if (mover.getRotation() == Direction.SOUTH)
               {
-                mover.move(wanderX, wanderY + 0.02f);
+                mover.move(wanderX, wanderY + 0.05f);
               }
               if (mover.getRotation() == Direction.EAST)
               {
@@ -179,6 +179,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             if (time == 0 || time % (Duration.ZOMBIE_UPDATE * 60) == 0)
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
+
               wanderXDir = move.col;
               wanderYDir = move.row;
               zombieDirection(wanderXDir, wanderYDir);
@@ -189,6 +190,26 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             if (DEBUG) System.out.println("\tLine zombie");
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
+              // Line mover bumps into wall, turns around, then moves again
+              if (mover.getRotation() == Direction.NORTH)
+              {
+                mover.move(wanderX, wanderY - 0.05f);
+              }
+              if (mover.getRotation() == Direction.SOUTH)
+              {
+                mover.move(wanderX, wanderY + 0.05f);
+              }
+              if (mover.getRotation() == Direction.EAST)
+              {
+                mover.move(wanderX - 0.05f, wanderY);
+              }
+              if (mover.getRotation() == Direction.WEST)
+              {
+                mover.move(wanderX + 0.05f, wanderY);
+              }
+
+//              changeDirection();
+
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));
               wanderXDir = move.col;
               wanderYDir = move.row;

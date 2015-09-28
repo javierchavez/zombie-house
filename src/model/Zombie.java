@@ -10,6 +10,7 @@ public class Zombie extends Character implements Deadly
 {
   protected float zombieDecisionRate;
   protected FindStrategy findStrategy;
+  private boolean smellsPlayer;
 
   public Zombie()
   {
@@ -59,7 +60,15 @@ public class Zombie extends Character implements Deadly
 
     float dx = (zx - px) * (zx - px);
     float dy = (zy - py) * (zy - py);
-    return (Math.sqrt(dx+dy) <= smell);
+    if (Math.sqrt(dx+dy) <= smell)
+    {
+      smellsPlayer = true;
+    }
+    else
+    {
+      smellsPlayer = false;
+    }
+    return smellsPlayer;
   }
 
   /**
@@ -70,5 +79,14 @@ public class Zombie extends Character implements Deadly
   public FindStrategy getStrategy ()
   {
     return findStrategy;
+  }
+
+  /**
+   *
+   * @return true if player was sensed
+   */
+  public boolean sensesPlayer()
+  {
+    return smellsPlayer;
   }
 }

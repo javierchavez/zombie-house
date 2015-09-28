@@ -103,11 +103,15 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
+
+      playerDetected = zombie.sense(playerTile); // Detect player
+
       if (isMoving)
       {
-        playerDetected = zombie.sense(playerTile); // Detect player
+
         if (playerDetected)
         {
+          house.getSuperZombie().setZombie(zombie);
           running = true;
           zombieSpeed = Speed.STAGGER_RUN;
 

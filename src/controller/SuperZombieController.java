@@ -47,6 +47,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
       tiles = mover.getStrategy().getPath();
       secIncrement = 0;
     }
+    System.out.println(mover.sense(house.getCharacterTile(house.getPlayer())));
 
     Tile current = house.getCharacterTile(mover);
     tiles.remove(current);

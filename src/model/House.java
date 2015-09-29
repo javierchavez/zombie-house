@@ -19,6 +19,7 @@ public class House extends Area
   private SuperZombie superZombie = new SuperZombie();
 
   private HouseGenerator generator;
+  private HouseParameters params;
   private String savedHouse;
   private GAME_STATE level;
 
@@ -32,6 +33,7 @@ public class House extends Area
   {
     this.player = player;
     this.generator = new HouseGenerator();
+    params = generator.getParams();
     this.initHouse();
   }
 
@@ -178,6 +180,26 @@ public class House extends Area
       col = 0;
       row++;
     }
+  }
+
+  public float getZombieSpawn()
+  {
+    return params.zombieSpawn;
+  }
+
+  public void setZombieSpawn(float zombieSpawn)
+  {
+    params.zombieSpawn = zombieSpawn;
+  }
+
+  public float getTrapSpawn()
+  {
+    return params.trapSpawn;
+  }
+
+  public void setTrapSpawn(float trapSpawn)
+  {
+    params.trapSpawn = trapSpawn;
   }
 
   /**

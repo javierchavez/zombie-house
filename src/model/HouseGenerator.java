@@ -45,8 +45,33 @@ public class HouseGenerator
    */
   public void generateHouse(House house)
   {
-    // just a random game state to build default house
-    generateHouse(house, GameOptions.GAME_STATE.PLAY);
+    this.house = house;
+    numHallways = 0;
+    rand = new Random();
+    rooms = new ArrayList<>();
+    this.house.setSize(params.rows, params.cols);
+
+    addRooms();
+    addHallways();
+    addWalls();
+    countHallways();
+    addObstacles();
+    addExit();
+    placePlayer();
+    generateZombies();
+    addSuperZombie();
+    generateTraps();
+
+    // make sure the house is valid, if it is not then keep trying until maxTries is reached
+    if (generationAttempts <= maxTries && !isHouseValid())
+    {
+      generationAttempts++;
+      generateHouse(house);
+    }
+    else
+    {
+      generationAttempts = 0;
+    }
   }
 
   /**
@@ -85,6 +110,11 @@ public class HouseGenerator
     {
       generationAttempts = 0;
     }
+  }
+
+  public HouseParameters getParams()
+  {
+    return params;
   }
 
   private void addRooms()

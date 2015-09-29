@@ -119,8 +119,8 @@ public class HouseParameters
         minHallways = 4;
         minObstacles = 5;
         minHallwayLength = 3;
-        zombieSpawn = 0.05f;
-        trapSpawn = 0.05f;
+        zombieSpawn = 0.01f;
+        trapSpawn = 0.01f;
         minZombieDistance = 10;
         minTravelDistance = 10;
         Empty.minCost = 15;

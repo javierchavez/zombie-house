@@ -3,14 +3,13 @@ package view;
 import common.CharacterAttributes;
 import common.Duration;
 import common.Speed;
-import model.House;
-import model.Player;
-import model.SuperZombie;
-import model.Zombie;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Arc2D;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,22 +29,28 @@ public class AttributeOptions extends JFrame
   {
     Player player = house.getPlayer();
     SuperZombie superZombie = house.getSuperZombie();
+    List<Zombie> zombies = house.getZombies();
+
+    if (zombies.size() == 0)
+    {
+      zombies.add(new Zombie());
+    }
 
     JButton saveButton = new JButton("Save");
     JButton cancelButton = new JButton("Cancel");
 
-    JTextField playerSight = new JTextField(String.valueOf(CharacterAttributes.SIGHT), 3);
-    JTextField playerHearing = new JTextField(String.valueOf(CharacterAttributes.HEARING), 3);
+    JTextField playerSight = new JTextField(String.valueOf(player.getSight()), 3);
+    JTextField playerHearing = new JTextField(String.valueOf(player.getHearing()), 3);
     JTextField playerSpeed = new JTextField((String.valueOf(Speed.WALK)), 3);
-    JTextField playerStamina = new JTextField(String.valueOf(CharacterAttributes.MAX_STAMINA), 3);
-    JTextField playerRegen = new JTextField(String.valueOf(CharacterAttributes.STAMINA_REGEN), 3);
-    JTextField zombieSpawn = new JTextField(String.valueOf(.01), 4);
+    JTextField playerStamina = new JTextField(String.valueOf(player.getStamina()), 3);
+    JTextField playerRegen = new JTextField(String.valueOf(player.getRegen()), 3);
+    JTextField zombieSpawn = new JTextField(String.valueOf(house.getZombieSpawn()), 4);
     JTextField zombieSpeed = new JTextField(String.valueOf(Speed.STAGGER), 3);
     JTextField superZombieSpeed = new JTextField(String.valueOf(Speed.FAST_WALK), 3);
     JTextField zombieDecisionRate = new JTextField(String.valueOf(Duration.ZOMBIE_UPDATE), 3);
     JTextField superZombieDecisionRate = new JTextField(String.valueOf(Duration.SUPER_ZOMBIE_UPDATE), 3);
-    JTextField zombieSmell = new JTextField(String.valueOf(CharacterAttributes.SMELL), 3);
-    JTextField fireTrapSpawn = new JTextField(String.valueOf(.01));
+    JTextField zombieSmell = new JTextField(String.valueOf(zombies.get(0).getSmell()), 3);
+    JTextField fireTrapSpawn = new JTextField(String.valueOf(house.getTrapSpawn()));
 
     setSize(500, 600);
     setLayout(new GridLayout(13, 2, 5, 5));
@@ -81,6 +86,26 @@ public class AttributeOptions extends JFrame
     setVisible(true);
 
     saveButton.addActionListener(e -> {
+      player.setSight(Float.parseFloat(playerSight.getText()));
+      player.setHearing(Float.parseFloat(playerHearing.getText()));
+      float newSpeed = Float.parseFloat(playerSpeed.getText());
+      Speed.WALK = newSpeed;
+      Speed.RUN = 2*newSpeed;
+      player.setStamina(Float.parseFloat(playerStamina.getText()));
+      player.setRegen(Float.parseFloat(playerRegen.getText()));
+      newSpeed = Float.parseFloat(zombieSpeed.getText());
+      Speed.STAGGER = newSpeed;
+      Speed.STAGGER_RUN = 1.25f*newSpeed;
+      Speed.FAST_WALK = Float.parseFloat(superZombieSpeed.getText());
+      Duration.ZOMBIE_UPDATE = Float.parseFloat(zombieDecisionRate.getText());
+      Duration.SUPER_ZOMBIE_UPDATE = Float.parseFloat(superZombieDecisionRate.getText());
+      float newSmell = Float.parseFloat(zombieSmell.getText());
+      for (Zombie zombie : zombies)
+      {
+        zombie.setSmell(newSmell);
+      }
+      house.setZombieSpawn(Float.parseFloat(zombieSpawn.getText()));
+      house.setTrapSpawn(Float.parseFloat(fireTrapSpawn.getText()));
       dispose();
     });
 

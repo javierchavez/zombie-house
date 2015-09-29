@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Abstract class for finding paths between two tile in the house
  */
 
 import java.util.ArrayList;

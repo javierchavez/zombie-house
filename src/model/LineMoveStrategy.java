@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * The strategy line walk zombies use
  */
 
 import java.util.Random;

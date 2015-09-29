@@ -9,6 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
+ * A list of parameters which help define the house
  */
 
 import common.CharacterAttributes;

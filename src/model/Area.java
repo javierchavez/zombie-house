@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Wrapper class for Object2D. Specifies an area on the board
  */
 
 import java.awt.geom.Rectangle2D;

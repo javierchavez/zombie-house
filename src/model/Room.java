@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Describes an area of floor tiles in a house which make up a room
  */
 
 /**

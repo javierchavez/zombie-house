@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Defines a tile that is blank (no floor, wall, etc...)
  */
 
 import java.util.Random;

@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Defines a generic character including the player and zombies
  */
 
 import common.CharacterAttributes;

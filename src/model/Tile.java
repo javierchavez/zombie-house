@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * A class defining funtionality of all tiles in the house
  */
 
 import common.Duration;

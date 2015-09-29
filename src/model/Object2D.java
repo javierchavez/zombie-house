@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Describes any rectangular object
  */
 
 import java.awt.geom.Rectangle2D;

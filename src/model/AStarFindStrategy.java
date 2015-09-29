@@ -9,7 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Implements the A* search algorithm for finding a path between two house tiles
  */
 
 

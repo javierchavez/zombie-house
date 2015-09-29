@@ -9,6 +9,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
+ * Defines the main house the user and characters interact with
  */
 
 import common.Direction;

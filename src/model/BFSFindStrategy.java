@@ -10,7 +10,7 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Find a path between two tile in the house using BFS
  */
 
 import java.util.*;

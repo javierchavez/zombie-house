@@ -59,6 +59,7 @@ public class Zombie extends Character implements Deadly
   /**
    * Checks if player is within distance of zombie's smell.
    *
+   * @param playerTile check if this can sense playerTile
    * @return true if the player is within the zombie's smell radius
    * otherwise false
    */

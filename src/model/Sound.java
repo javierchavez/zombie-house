@@ -32,12 +32,22 @@ public interface Sound
 
 
   /**
-   * @return
+   * Get the set channel
+   *
+   * @return Channel that sound will be played
    */
   AudioChannel getChannel ();
 
+  /**
+   * Set the channel for audio to be played
+   *
+   * @param audioChannel set the Channel
+   */
   void setChannel (AudioChannel audioChannel);
 
+  /**
+   * Channels for playback
+   */
   enum AudioChannel
   {
     LEFT, RIGHT, STEREO

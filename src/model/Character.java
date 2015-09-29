@@ -107,9 +107,29 @@ public class Character implements Mover, Object2D, Combustible, Sound
   }
 
   /**
+   * Get regeneration rate
+   *
+   * @return rate at which health is generated
+   */
+  public float getRegen ()
+  {
+    return regen;
+  }
+
+  /**
+   * Speed that a character will regenerate health
+   *
+   * @param regen rate health units per update
+   */
+  public void setRegen (float regen)
+  {
+    this.regen = regen;
+  }
+
+  /**
    * Euclidean distance of tiles
    *
-   * @return
+   * @return distance a character can see in tiles
    */
   public float getSight ()
   {
@@ -119,16 +139,42 @@ public class Character implements Mover, Object2D, Combustible, Sound
   /**
    * Euclidean distance of tiles
    *
-   * @return
+   * @return distance of tiles a character can hear
    */
   public float getHearing ()
   {
     return hearing;
   }
 
+  /**
+   * Set the hearing of the character
+   *
+   * @param hearing distance of tiles a character can hear
+   */
+  public void setHearing (float hearing)
+  {
+    this.hearing = hearing;
+  }
+
+  /**
+   * How far can a character smell
+   *
+   * @return number of tiles a character can smell away
+   */
+
   public float getSmell ()
   {
     return smell;
+  }
+
+  /**
+   * Set the number of tiles a character can smell
+   *
+   * @param smell tiles away character can smell
+   */
+  public void setSmell (float smell)
+  {
+    this.smell = smell;
   }
 
   @Override
@@ -255,6 +301,11 @@ public class Character implements Mover, Object2D, Combustible, Sound
     this.channel = audioChannel;
   }
 
+  /**
+   * Set the channel that the character is making noise in
+   *
+   * @param direction direction of noise
+   */
   public void setChannel (float direction)
   {
     if (direction == Direction.NORTH || direction == Direction.SOUTH)
@@ -271,6 +322,12 @@ public class Character implements Mover, Object2D, Combustible, Sound
     }
   }
 
+  /**
+   * Get the angle betweem two characters
+   *
+   * @param character other character
+   * @return angle theta between character and this character
+   */
   public float getAngleBetween (Character character)
   {
     float theta = (float) Math.toDegrees(
@@ -284,6 +341,12 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return theta;
   }
 
+  /**
+   * Get the cardinal direction N,S,E,W (more coarse)
+   *
+   * @param character direction
+   * @return direction of the other character
+   */
   public float getCardinalDirectionBetween (Character character)
   {
     float theta = getAngleBetween(character);

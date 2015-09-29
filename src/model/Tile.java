@@ -114,6 +114,7 @@ public class Tile implements Object2D, Combustible
    * Set the trap on this tile
    *
    * @param trap can either be NONE or FIRE
+   * @return trap that was placed
    */
   public Tile setTrap (Trap trap)
   {

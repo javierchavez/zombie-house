@@ -238,23 +238,23 @@ public class House extends Area
   }
 
   /**
-   * sets the number of rooms that will be generated in the next house
-   *
-   * @param numRooms number of rooms present in the house
-   */
-  public void setNumRooms(int numRooms)
-  {
-    params.minRooms = numRooms;
-  }
-
-  /**
    * Gets the number of rooms in the house
    *
    * @return numRooms
    */
-  public int getNumRooms()
+  public int getNumRooms ()
   {
     return params.minRooms;
+  }
+
+  /**
+   * sets the number of rooms that will be generated in the next house
+   *
+   * @param numRooms number of rooms present in the house
+   */
+  public void setNumRooms (int numRooms)
+  {
+    params.minRooms = numRooms;
   }
 
   /**
@@ -288,16 +288,6 @@ public class House extends Area
   }
 
   /**
-   * Sets the number of columns in the house
-   *
-   * @param cols width of the house
-   */
-  public void setCols(int cols)
-  {
-    params.cols = cols;
-  }
-
-  /**
    * Gets the number of columns in the house array
    *
    * @return Number of columns
@@ -305,6 +295,16 @@ public class House extends Area
   public int getCols ()
   {
     return (int) getWidth();
+  }
+
+  /**
+   * Sets the number of columns in the house
+   *
+   * @param cols width of the house
+   */
+  public void setCols (int cols)
+  {
+    params.cols = cols;
   }
 
   /**
@@ -367,11 +367,11 @@ public class House extends Area
   /**
    * Gets all of the obstacles in the house
    *
-   * @return List<Obstacle>
+   * @return List of Obstacles
    */
-  public List<Tile> getObstacles ()
+  public List<Obstacle> getObstacles ()
   {
-    List<Tile> obstacles = new ArrayList<>();
+    List<Obstacle> obstacles = new ArrayList<>();
     Tile tile;
     for (int row = 0; row < getRows(); row++)
     {
@@ -380,7 +380,7 @@ public class House extends Area
         tile = house[row][col];
         if (tile instanceof Obstacle)
         {
-          obstacles.add(tile);
+          obstacles.add(Obstacle.class.cast(tile));
         }
       }
     }
@@ -413,7 +413,7 @@ public class House extends Area
   /**
    * Gets all of the zombies inside the house
    *
-   * @return List<Zombie>
+   * @return List Zombie
    */
   public List<Zombie> getZombies ()
   {
@@ -478,7 +478,7 @@ public class House extends Area
    * i.e. tiles which are touching the current tile
    *
    * @param current The tile to get neighbors around
-   * @return List<Tile>
+   * @return List Tile
    */
   public List<Tile> neighbors (Tile current)
   {
@@ -511,7 +511,7 @@ public class House extends Area
    * i.e. tiles which are touching the current tile
    *
    * @param current The tile to get neighbors around
-   * @return List<Tile>
+   * @return List Tile
    */
   public List<Tile> getAllNeighbors (Tile current)
   {

@@ -40,7 +40,7 @@ public interface Object2D
   /**
    * Set the objects width
    *
-   * @param width
+   * @param width of the object
    */
   void setWidth (float width);
 
@@ -54,7 +54,7 @@ public interface Object2D
   /**
    * Set the object height
    *
-   * @param height
+   * @param height of the object
    */
   void setHeight (float height);
 

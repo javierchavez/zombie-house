@@ -75,7 +75,8 @@ public interface Mover
   /**
    * Set the stamina of the object.
    *
-   * @return
+   * @param stamina amount of energy a character holds
+   * @return stamina that currently available
    */
   float setStamina (float stamina);
 

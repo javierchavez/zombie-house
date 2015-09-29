@@ -14,8 +14,8 @@ package common;
 
 public class Duration
 {
-  public static final float BURN_DURATION = 15f; // seconds
-  public static final float PICKIP_TIME = 5f; // seconds
+  public static float BURN_DURATION = 15f; // seconds
+  public static float PICKUP_TIME = 5f; // seconds
   public static float ZOMBIE_UPDATE = 2f; // seconds
   public static float SUPER_ZOMBIE_UPDATE = 2.5f; // seconds
 }

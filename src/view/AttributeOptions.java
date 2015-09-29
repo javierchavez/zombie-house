@@ -9,23 +9,21 @@ package view;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * This class is for changing game settings from the menu
  */
 
 
+import common.CharacterAttributes;
 import common.Duration;
 import common.Speed;
 import model.House;
 import model.Player;
-import model.SuperZombie;
-import model.Zombie;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 /**
- *
+ * This class changes game settings from the menu
  */
 public class AttributeOptions extends JFrame
 {
@@ -45,58 +43,85 @@ public class AttributeOptions extends JFrame
 
   private void initFrame()
   {
-    Player player = house.getPlayer();
-    SuperZombie superZombie = house.getSuperZombie();
-    List<Zombie> zombies = house.getZombies();
-
-    if (zombies.size() == 0)
-    {
-      zombies.add(new Zombie());
-    }
-
     JButton saveButton = new JButton("Save");
     JButton cancelButton = new JButton("Cancel");
 
-    JTextField playerSight = new JTextField(String.valueOf(player.getSight()), 3);
-    JTextField playerHearing = new JTextField(String.valueOf(player.getHearing()), 3);
+    JTextField playerSight = new JTextField(String.valueOf(CharacterAttributes.SIGHT), 3);
+    JTextField playerHearing = new JTextField(String.valueOf(CharacterAttributes.HEARING), 3);
     JTextField playerSpeed = new JTextField((String.valueOf(Speed.WALK)), 3);
-    JTextField playerStamina = new JTextField(String.valueOf(player.getStamina()), 3);
-    JTextField playerRegen = new JTextField(String.valueOf(player.getRegen()), 3);
+    JTextField playerStamina = new JTextField(String.valueOf(CharacterAttributes.MAX_STAMINA), 3);
+    JTextField playerRegen = new JTextField(String.valueOf(CharacterAttributes.STAMINA_REGEN), 3);
     JTextField zombieSpawn = new JTextField(String.valueOf(house.getZombieSpawn()), 4);
     JTextField zombieSpeed = new JTextField(String.valueOf(Speed.STAGGER), 3);
     JTextField superZombieSpeed = new JTextField(String.valueOf(Speed.FAST_WALK), 3);
     JTextField zombieDecisionRate = new JTextField(String.valueOf(Duration.ZOMBIE_UPDATE), 3);
     JTextField superZombieDecisionRate = new JTextField(String.valueOf(Duration.SUPER_ZOMBIE_UPDATE), 3);
-    JTextField zombieSmell = new JTextField(String.valueOf(zombies.get(0).getSmell()), 3);
+    JTextField zombieSmell = new JTextField(String.valueOf(CharacterAttributes.SMELL), 3);
     JTextField fireTrapSpawn = new JTextField(String.valueOf(house.getTrapSpawn()));
+    JTextField houseRows = new JTextField(String.valueOf(house.getRows()), 3);
+    JTextField houseCols = new JTextField(String.valueOf(house.getCols()), 3);
+    JTextField houseRooms = new JTextField(String.valueOf(house.getNumRooms()), 3);
+    JTextField pickupTime = new JTextField(String.valueOf(Duration.PICKUP_TIME));
+    JTextField burnDuration = new JTextField(String.valueOf(Duration.BURN_DURATION));
 
-    setSize(500, 600);
-    setLayout(new GridLayout(13, 2, 5, 5));
+    setSize(500, 800);
+    setLayout(new GridLayout(25, 2, 5, 5));
 
-    add(new JLabel("Player Sight:"));
+    add(new JLabel("Player Settings:"));
+    add(new JLabel());
+    add(new JLabel("Sight:"));
     add(playerSight);
-    add(new JLabel("Player Hearing:"));
+    add(new JLabel("Hearing:"));
     add(playerHearing);
-    add(new JLabel("Player Speed:"));
+    add(new JLabel("Speed:"));
     add(playerSpeed);
-    add(new JLabel("Player Stamina:"));
+    add(new JLabel("Stamina:"));
     add(playerStamina);
-    add(new JLabel("Player Stamina Regen:"));
+    add(new JLabel("Stamina Regen:"));
     add(playerRegen);
-    add(new JLabel("Zombie Spawn:"));
-    add(zombieSpawn);
+    add(new JLabel("Trap Pickup Time:"));
+    add(pickupTime);
+
+    add(new JLabel());
+    add(new JLabel());
+
+    add(new JLabel("Zombie Settings:"));
+    add(new JLabel());
     add(new JLabel("Zombie Speed:"));
     add(zombieSpeed);
-    add(new JLabel("Super Zombie Speed:"));
-    add(superZombieSpeed);
-    add(new JLabel("Zombie Decision Rate (sec):"));
-    add(zombieDecisionRate);
-    add(new JLabel("Super Zombie Decision Rate (sec):"));
-    add(superZombieDecisionRate);
     add(new JLabel("Zombie Smell:"));
     add(zombieSmell);
+    add(new JLabel("Zombie Decision Rate (sec):"));
+    add(zombieDecisionRate);
+
+    add(new JLabel());
+    add(new JLabel());
+
+    add(new JLabel("Super Zombie Settings:"));
+    add(new JLabel());
+    add(new JLabel("Super Zombie Speed:"));
+    add(superZombieSpeed);
+    add(new JLabel("Super Zombie Decision Rate (sec):"));
+    add(superZombieDecisionRate);
+
+    add(new JLabel());
+    add(new JLabel());
+
+    add(new JLabel("House Settings:"));
+    add(new JLabel());
+    add(new JLabel("Rows:"));
+    add(houseRows);
+    add(new JLabel("Columns:"));
+    add(houseCols);
+    add(new JLabel("Zombie Spawn:"));
+    add(zombieSpawn);
     add(new JLabel("Fire Trap Spawn:"));
     add(fireTrapSpawn);
+    add(new JLabel("Rooms:"));
+    add(houseRooms);
+    add(new JLabel("Trap Burn Duration:"));
+    add(burnDuration);
+
     add(saveButton);
     add(cancelButton);
 
@@ -104,85 +129,32 @@ public class AttributeOptions extends JFrame
     setVisible(true);
 
     saveButton.addActionListener(e -> {
-      player.setSight(Float.parseFloat(playerSight.getText()));
-      player.setHearing(Float.parseFloat(playerHearing.getText()));
+      CharacterAttributes.SIGHT = Float.parseFloat(playerSight.getText());
+      CharacterAttributes.HEARING = Float.parseFloat(playerHearing.getText());
       float newSpeed = Float.parseFloat(playerSpeed.getText());
       Speed.WALK = newSpeed;
-      Speed.RUN = 2*newSpeed;
-      player.setStamina(Float.parseFloat(playerStamina.getText()));
-      player.setRegen(Float.parseFloat(playerRegen.getText()));
+      Speed.RUN = 2 * newSpeed;
+      CharacterAttributes.MAX_STAMINA = Float.parseFloat(playerStamina.getText());
+      CharacterAttributes.STAMINA_REGEN = Float.parseFloat(playerRegen.getText());
       newSpeed = Float.parseFloat(zombieSpeed.getText());
       Speed.STAGGER = newSpeed;
-      Speed.STAGGER_RUN = 1.25f*newSpeed;
+      Speed.STAGGER_RUN = 1.25f * newSpeed;
       Speed.FAST_WALK = Float.parseFloat(superZombieSpeed.getText());
       Duration.ZOMBIE_UPDATE = Float.parseFloat(zombieDecisionRate.getText());
       Duration.SUPER_ZOMBIE_UPDATE = Float.parseFloat(superZombieDecisionRate.getText());
-      float newSmell = Float.parseFloat(zombieSmell.getText());
-      for (Zombie zombie : zombies)
-      {
-        zombie.setSmell(newSmell);
-      }
+      CharacterAttributes.SMELL = Float.parseFloat(zombieSmell.getText());
       house.setZombieSpawn(Float.parseFloat(zombieSpawn.getText()));
       house.setTrapSpawn(Float.parseFloat(fireTrapSpawn.getText()));
+      house.setNumRooms(Integer.parseInt(houseRooms.getText()));
+      house.setCols(Integer.parseInt(houseCols.getText()));
+      house.setRows(Integer.parseInt(houseRows.getText()));
+      Duration.PICKUP_TIME = Float.parseFloat(pickupTime.getText());
+      Duration.BURN_DURATION = Float.parseFloat(burnDuration.getText());
       dispose();
     });
 
     cancelButton.addActionListener(e -> {
       dispose();
-    });
-  }
-
-  private void showOptionFrame ()
-  {
-
-
-
-    JButton button = new JButton("Save");
-    JTextField threadNumberTextField = new JTextField("4", 3);
-    JTextField gridXTextField = new JTextField(String.valueOf(11),
-                                               3);
-    JTextField gridYTextField = new JTextField(String.valueOf(11),
-                                               3);
-
-    JComboBox presets = new JComboBox();
-
-    final JFrame optionFrame = new JFrame("Options");
-    optionFrame.setPreferredSize(new Dimension(300, 150));
-    GridLayout experimentLayout = new GridLayout(0, 3, 5, 0);
-
-    optionFrame.setLayout(experimentLayout);
-
-    optionFrame.add(new JLabel("Threads: "));
-    optionFrame.add(threadNumberTextField);
-    optionFrame.add(new JLabel(" "));
-    optionFrame.add(new JLabel("Grid size: "));
-    optionFrame.add(gridXTextField);
-    optionFrame.add(gridYTextField);
-    optionFrame.add(new JLabel("Preset: "));
-    optionFrame.add(presets);
-    optionFrame.add(new JLabel(" "));
-    optionFrame.add(button);
-    optionFrame.pack();
-    optionFrame.setVisible(true);
-    optionFrame.setLocationRelativeTo(null); //center on screen
-
-    button.addActionListener(e -> {
-
-
-      // get the input
-      String userThreadsInput = threadNumberTextField.getText();
-      String userGridXInput = gridXTextField.getText();
-      String userGridYInput = gridYTextField.getText();
-
-      int gridCols = Integer.parseInt(userGridXInput);
-      int gridRows = Integer.parseInt(userGridYInput);
-      int itemIndex = presets.getSelectedIndex();
-
-        optionFrame.setTitle("Conway Game of Life");
-
-
-      // get rid of the dialog
-      optionFrame.dispose();
     });
   }
 }

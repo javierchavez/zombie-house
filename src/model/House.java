@@ -218,6 +218,16 @@ public class House extends Area
     params.trapSpawn = trapSpawn;
   }
 
+  public void setNumRooms(int numRooms)
+  {
+    params.minRooms = numRooms;
+  }
+
+  public int getNumRooms()
+  {
+    return params.minRooms;
+  }
+
   /**
    * Get the current house layout
    *
@@ -236,6 +246,16 @@ public class House extends Area
   public int getRows ()
   {
     return (int) getHeight();
+  }
+
+  public void setRows(int rows)
+  {
+    params.rows = rows;
+  }
+
+  public void setCols(int cols)
+  {
+    params.cols = cols;
   }
 
   /**

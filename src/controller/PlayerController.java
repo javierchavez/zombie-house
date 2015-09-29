@@ -149,7 +149,7 @@ public class PlayerController extends AbstractCharacterController<Player>
   public void trapInteraction ()
   {
     Tile tile = house.getCharacterTile(house.getPlayer());
-    int TRAP_SET_TIME = (int) (60 * Duration.PICKIP_TIME);
+    int TRAP_SET_TIME = (int) (60 * Duration.PICKUP_TIME);
     if (house.isTrap(tile))
     {
       //      if (DEBUG) System.out.println("PICKING UP TRAP");

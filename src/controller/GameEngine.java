@@ -222,6 +222,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
           }
           else if (options.getState() == GameOptions.GAME_STATE.GENERATE)
           {
+            options.getStatus(GameOptions.GAME_STATUS.LOADING);
             house.generateRandomHouse();
           }
           else

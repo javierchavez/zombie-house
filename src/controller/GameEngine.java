@@ -31,7 +31,6 @@ import java.awt.geom.Rectangle2D;
  * Main Controller. Its job is to delegate actions to other controllers and
  * to send data to the renders as needed
  */
-// TODO: ignore key presses outside of our controls
 public class GameEngine implements KeyListener, MouseInputListener, GameController
 {
   private final MenuRenderer menuRenderer;
@@ -46,9 +45,11 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   private final Renderer zombieRenderer;
   private final Renderer lights;
   private final Converter converter;
-  private final boolean DEBUG = false;
+
   private SuperZombieController ss;
   private Point2D dragFrom;
+
+  // Key presses
   private boolean moving = false;
   private boolean upPressed = false;
   private boolean leftPressed = false;
@@ -73,7 +74,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     houseRenderer = new HouseRenderer(house, converter);
     menuRenderer = new MenuRenderer(options);
     lights = new LightSourceRenderer(house);
-
   }
 
   @Override
@@ -198,7 +198,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   {
     switch (e.getKeyCode())
     {
-      // menu screen
+      // Menu screen
       case KeyEvent.VK_SPACE:
         if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED || options.getStatus() == GameOptions.GAME_STATUS.STARTUP)
         {
@@ -243,7 +243,8 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
           options.setState(GameOptions.GAME_STATE.PLAY);
         }
         break;
-      // Player movement direction
+
+      // Player directional movement
       case KeyEvent.VK_UP:
         upPressed = true;
         moving = true;
@@ -261,7 +262,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = true;
         break;
       case KeyEvent.VK_LEFT:
-        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
+        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING) // Game menu control
         {
           leftPressed = false;
           moving = false;
@@ -275,7 +276,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         moving = true;
         break;
       case KeyEvent.VK_RIGHT:
-        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
+        if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING) // Game menu control
         {
           rightPressed = false;
           moving = false;
@@ -298,10 +299,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       case KeyEvent.VK_R:
         if (moving)
         {
-          if (DEBUG)
-          {
-            System.out.println("Running");
-          }
           // Character can only run if they're actually moving
           controller.run();
         }
@@ -362,16 +359,11 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       case KeyEvent.VK_R:
         if (moving)
         {
-          if (DEBUG)
-          {
-            System.out.println("Not running");
-          }
           controller.walk();
         }
         break;
       case KeyEvent.VK_P:
         pKeyPressed = false;
-        //        controller.trapInteraction();
         break;
 
     }

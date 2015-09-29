@@ -125,10 +125,15 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
               Math.toRadians(mover.getRotation())));
       float x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(
               Math.toRadians(mover.getRotation())));
+
       checkCollision(new Move(x, y, mover.getRotation()));
     }
   }
 
+  /**
+   * Gets the current tile that the super zombie is on.
+   * @return the super zombie's current tile.
+   */
   private Tile getCurrentTile ()
   {
     int row = (int) mover.getCurrentY();

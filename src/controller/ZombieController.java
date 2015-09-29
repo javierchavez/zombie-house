@@ -22,16 +22,15 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
-
-  private final boolean DEBUG = false;
   // An incrementer to keep track of when zombie decision rate should fire
   private int time = 0;
+
+  private final boolean DEBUG = false;
 
   public ZombieController (House house)
   {
     super(house);
   }
-
 
   @Override
   public void update (float deltaTime)
@@ -43,11 +42,14 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     {
       Zombie zombie;
       float zombieSpeed;
-      // The values of these floats can be either -1, 0, or 1
+
+      // The values of the direction floats can be either -1, 0, or 1
       float xDir, yDir; // Depending on what their value is, the zombie will know which direction to go
       float x, y; // Zombie's position in the tile
+
+      // Get player's current tile
       Tile playerTile = house.getCharacterTile(
-              house.getPlayer()); // Get player's current tile
+              house.getPlayer());
 
       boolean isMoving = true;
       mover = zombie = zombies.get(i);
@@ -84,6 +86,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
                                    house.getCharacterTile(house.getPlayer()));
 
           List<Tile> path = mover.getStrategy().getPath();
+
           if (DEBUG)
           {
             System.out.println(
@@ -141,7 +144,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             }
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
-              //              changeDirection();
               stopMoving();
 
               // If the random mover zombie hits an obstacle, it moves back a bit and stops moving
@@ -163,7 +165,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               }
             }
 
-            // Random walker updates position every decision update
+            // Random walker updates position every decision update (every 2 seconds by default)
             if (time == 0 || time % (Duration.ZOMBIE_UPDATE * 60) == 0)
             {
               Move move = zombie.getStrategy().getNextMove(house,
@@ -220,6 +222,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
     return false;
   }
 
+  /**
+   * Gets the current tile that the zombie is on.
+   * @return the zombie's current tile
+   */
   private Tile getCurrentTile ()
   {
     int row = (int) mover.getCurrentY();
@@ -248,11 +254,13 @@ public class ZombieController extends AbstractCharacterController<Zombie>
    */
   private void zombieDirection (float xDir, float yDir)
   {
+    // Idling
     if (xDir == 0 && yDir == 0)
     {
       resting();
     }
 
+    // Left cases
     if (xDir < 0 && yDir == 0)
     {
       moveLeft();
@@ -266,6 +274,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       moveLeft();
     }
 
+    // Right cases
     if (xDir > 0 && yDir == 0)
     {
       moveRight();
@@ -279,6 +288,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       moveRight();
     }
 
+    // Up/down cases
     if (yDir > 0 && xDir == 0)
     {
       moveUp();

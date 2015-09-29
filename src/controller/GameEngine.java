@@ -167,6 +167,11 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
           {
             options.setStatus(GameOptions.GAME_STATUS.PLAYING);
           }
+          else if (options.getState() == GameOptions.GAME_STATE.SETTINGS)
+          {
+            AttributeOptions ao = new AttributeOptions(house);
+            return;
+          }
           else
           {
             if (options.getStatus() != GameOptions.GAME_STATUS.LOADING)

@@ -2,8 +2,10 @@ package controller;
 
 
 import model.Combustible;
+import model.Tile;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
@@ -13,8 +15,6 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class CombustibleController implements GameController
 {
   private ConcurrentLinkedDeque<Combustible> combustibles = new ConcurrentLinkedDeque<>();
-//  private ArrayBlockingQueue<Combustible> combustibles = new
-// ArrayBlockingQueue<>(25); // best bet but hard to tune
 
   private static CombustibleController instance = null;
 

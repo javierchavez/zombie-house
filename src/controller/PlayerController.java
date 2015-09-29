@@ -9,7 +9,6 @@ package controller;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
  */
 
 import common.CharacterAttributes;
@@ -137,6 +136,9 @@ public class PlayerController extends AbstractCharacterController<Player>
     trapSetTimer++;
   }
 
+  /**
+   * If 'P' is released
+   */
   public void trapKeyReleased ()
   {
     pKeyPressed = false;

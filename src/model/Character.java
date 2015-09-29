@@ -106,16 +106,6 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return rotation;
   }
 
-  public float getRegen ()
-  {
-    return regen;
-  }
-
-  public void setRegen (float regen)
-  {
-    this.regen = regen;
-  }
-
   /**
    * Euclidean distance of tiles
    *
@@ -124,11 +114,6 @@ public class Character implements Mover, Object2D, Combustible, Sound
   public float getSight ()
   {
     return sight;
-  }
-
-  public void setSight (float sight)
-  {
-    this.sight = sight;
   }
 
   /**
@@ -141,19 +126,9 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return hearing;
   }
 
-  public void setHearing (float hearing)
-  {
-    this.hearing = hearing;
-  }
-
   public float getSmell ()
   {
     return smell;
-  }
-
-  public void setSmell (float smell)
-  {
-    this.smell = smell;
   }
 
   @Override

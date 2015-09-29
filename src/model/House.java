@@ -9,7 +9,6 @@ package model;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
  */
 
 import common.Direction;
@@ -198,31 +197,61 @@ public class House extends Area
     }
   }
 
+  /**
+   * Gets the current zombie spawn setting for the house
+   *
+   * @return zombieSpawn
+   */
   public float getZombieSpawn ()
   {
     return params.zombieSpawn;
   }
 
+  /**
+   * Sets the zombieSpawn setting for the house
+   *
+   * @param zombieSpawn spawn 0 <= spawn < 1
+   */
   public void setZombieSpawn (float zombieSpawn)
   {
     params.zombieSpawn = zombieSpawn;
   }
 
+  /**
+   * Gets the trapSpawn setting from the house
+   *
+   * @return trapSpawn
+   */
   public float getTrapSpawn ()
   {
     return params.trapSpawn;
   }
 
+  /**
+   * Sets the trap spawn setting for the house generation
+   *
+   * @param trapSpawn chance to spawn a trap on a tile
+   */
   public void setTrapSpawn (float trapSpawn)
   {
     params.trapSpawn = trapSpawn;
   }
 
+  /**
+   * sets the number of rooms that will be generated in the next house
+   *
+   * @param numRooms number of rooms present in the house
+   */
   public void setNumRooms(int numRooms)
   {
     params.minRooms = numRooms;
   }
 
+  /**
+   * Gets the number of rooms in the house
+   *
+   * @return numRooms
+   */
   public int getNumRooms()
   {
     return params.minRooms;
@@ -248,11 +277,21 @@ public class House extends Area
     return (int) getHeight();
   }
 
+  /**
+   * Sets the number of rows in the house
+   *
+   * @param rows height of the house
+   */
   public void setRows(int rows)
   {
     params.rows = rows;
   }
 
+  /**
+   * Sets the number of columns in the house
+   *
+   * @param cols width of the house
+   */
   public void setCols(int cols)
   {
     params.cols = cols;

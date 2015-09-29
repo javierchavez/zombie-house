@@ -9,7 +9,6 @@ package view;
  * CS 351
  * Zombie House
  * <p>
- * This class is for changing game settings from the menu
  */
 
 

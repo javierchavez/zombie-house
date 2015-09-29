@@ -11,6 +11,9 @@ package view;
  * <p>
  */
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 import common.CharacterAttributes;
 import common.Duration;
@@ -18,15 +21,13 @@ import common.Speed;
 import model.House;
 import model.Player;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * This class changes game settings from the menu
  */
 public class AttributeOptions extends JFrame
 {
   private final House house;
+  private final Color BORDER_COLOR = new Color(122, 121, 120);
 
   public AttributeOptions(House house)
   {
@@ -42,11 +43,12 @@ public class AttributeOptions extends JFrame
 
   private void initFrame()
   {
+    setSize(500, 800);
+    setLayout(new BorderLayout());
+
     Player player = house.getPlayer();
 
-    JButton saveButton = new JButton("Save");
-    JButton cancelButton = new JButton("Cancel");
-
+    // Player attributes
     JTextField playerSight = new JTextField(String.valueOf(player.getSight()), 3);
     JTextField playerHearing = new JTextField(String.valueOf(player.getHearing()), 3);
     JTextField playerSpeed = new JTextField((String.valueOf(Speed.WALK)), 3);
@@ -65,70 +67,91 @@ public class AttributeOptions extends JFrame
     JTextField pickupTime = new JTextField(String.valueOf(Duration.PICKUP_TIME));
     JTextField burnDuration = new JTextField(String.valueOf(Duration.BURN_DURATION));
 
-    setSize(500, 800);
-    setLayout(new GridLayout(25, 2, 5, 5));
+    // Player attributes panel
+    JPanel attrPanel = new JPanel(new GridLayout(24, 2));
+    attrPanel.setBackground(new Color(228, 228, 228));
+    attrPanel.setBorder(new EmptyBorder(5, 10, 10, 10));
+    attrPanel.add(new JLabel("PLAYER SETTINGS:"));
+    attrPanel.add(new JLabel());
+    attrPanel.add(new JLabel("Sight:"));
+    attrPanel.add(playerSight);
+    attrPanel.add(new JLabel("Hearing:"));
+    attrPanel.add(playerHearing);
+    attrPanel.add(new JLabel("Speed:"));
+    attrPanel.add(playerSpeed);
+    attrPanel.add(new JLabel("Stamina:"));
+    attrPanel.add(playerStamina);
+    attrPanel.add(new JLabel("Stamina Regen:"));
+    attrPanel.add(playerRegen);
+    attrPanel.add(new JLabel("Trap Pick-up Time:"));
+    attrPanel.add(pickupTime);
 
-    add(new JLabel("Player Settings:"));
-    add(new JLabel());
-    add(new JLabel("Sight:"));
-    add(playerSight);
-    add(new JLabel("Hearing:"));
-    add(playerHearing);
-    add(new JLabel("Speed:"));
-    add(playerSpeed);
-    add(new JLabel("Stamina:"));
-    add(playerStamina);
-    add(new JLabel("Stamina Regen:"));
-    add(playerRegen);
-    add(new JLabel("Trap Pickup Time:"));
-    add(pickupTime);
+    attrPanel.add(new JLabel());
+    attrPanel.add(new JLabel());
 
-    add(new JLabel());
-    add(new JLabel());
+    attrPanel.add(new JLabel("ZOMBIE SETTINGS"));
+    attrPanel.add(new JLabel());
+    attrPanel.add(new JLabel("Zombie speed:"));
+    attrPanel.add(zombieSpeed);
+    attrPanel.add(new JLabel("Zombie smell:"));
+    attrPanel.add(zombieSmell);
+    attrPanel.add(new JLabel("Zombie Decision Rate (sec):"));
+    attrPanel.add(zombieDecisionRate);
 
-    add(new JLabel("Zombie Settings:"));
-    add(new JLabel());
-    add(new JLabel("Zombie Speed:"));
-    add(zombieSpeed);
-    add(new JLabel("Zombie Smell:"));
-    add(zombieSmell);
-    add(new JLabel("Zombie Decision Rate (sec):"));
-    add(zombieDecisionRate);
+    attrPanel.add(new JLabel());
+    attrPanel.add(new JLabel());
 
-    add(new JLabel());
-    add(new JLabel());
+    attrPanel.add(new JLabel("SUPER ZOMBIE SETTINGS:"));
+    attrPanel.add(new JLabel());
+    attrPanel.add(new JLabel("Super Zombie Speed:"));
+    attrPanel.add(superZombieSpeed);
+    attrPanel.add(new JLabel("Super Zombie Decision Rate (sec):"));
+    attrPanel.add(superZombieDecisionRate);
 
-    add(new JLabel("Super Zombie Settings:"));
-    add(new JLabel());
-    add(new JLabel("Super Zombie Speed:"));
-    add(superZombieSpeed);
-    add(new JLabel("Super Zombie Decision Rate (sec):"));
-    add(superZombieDecisionRate);
+    attrPanel.add(new JLabel());
+    attrPanel.add(new JLabel());
 
-    add(new JLabel());
-    add(new JLabel());
+    attrPanel.add(new JLabel("HOUSE SETTINGS:"));
+    attrPanel.add(new JLabel());
+    attrPanel.add(new JLabel("Rows:"));
+    attrPanel.add(houseRows);
+    attrPanel.add(new JLabel("Columns:"));
+    attrPanel.add(houseCols);
+    attrPanel.add(new JLabel("Zombie Spawn:"));
+    attrPanel.add(zombieSpawn);
+    attrPanel.add(new JLabel("Fire Trap Spawn:"));
+    attrPanel.add(fireTrapSpawn);
+    attrPanel.add(new JLabel("Rooms:"));
+    attrPanel.add(houseRooms);
+    attrPanel.add(new JLabel("Trap Burn Duration:"));
+    attrPanel.add(burnDuration);
 
-    add(new JLabel("House Settings:"));
-    add(new JLabel());
-    add(new JLabel("Rows:"));
-    add(houseRows);
-    add(new JLabel("Columns:"));
-    add(houseCols);
-    add(new JLabel("Zombie Spawn:"));
-    add(zombieSpawn);
-    add(new JLabel("Fire Trap Spawn:"));
-    add(fireTrapSpawn);
-    add(new JLabel("Rooms:"));
-    add(houseRooms);
-    add(new JLabel("Trap Burn Duration:"));
-    add(burnDuration);
+    // Button panel
+    JButton saveButton = new JButton("Save");
+    JButton cancelButton = new JButton("Cancel");
+    JPanel buttonPanel = new JPanel();
+    buttonPanel.setBackground(new Color(241, 241, 241));
+    buttonPanel.add(saveButton);
+    buttonPanel.add(cancelButton);
 
-    add(saveButton);
-    add(cancelButton);
+    // Bottom panel
+    JPanel bottomPanel = new JPanel(new GridBagLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.anchor = GridBagConstraints.SOUTH;
+    gbc.weighty = 1;
+    bottomPanel.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
+    bottomPanel.add(buttonPanel, gbc);
 
-    setLocationRelativeTo(null);
-    setVisible(true);
+    // Main panel
+    JPanel mainPanel = new JPanel(new BorderLayout());
+    mainPanel.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
+    mainPanel.add(attrPanel, BorderLayout.CENTER);
 
+    // Add JPanels to JFrame
+    add(bottomPanel, BorderLayout.SOUTH);
+    add(mainPanel);
+
+    // Add action listeners to buttons
     saveButton.addActionListener(e -> {
       CharacterAttributes.SIGHT = Float.parseFloat(playerSight.getText());
       CharacterAttributes.HEARING = Float.parseFloat(playerHearing.getText());
@@ -157,5 +180,9 @@ public class AttributeOptions extends JFrame
     cancelButton.addActionListener(e -> {
       dispose();
     });
+
+    setLocationRelativeTo(null);
+    setVisible(true);
   }
+
 }

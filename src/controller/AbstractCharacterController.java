@@ -16,6 +16,7 @@ import common.Direction;
 import common.Speed;
 import model.*;
 import model.Character;
+import model.Sound.SoundType;
 
 import java.awt.*;
 //import java.awt.geom.Rectangle2D;
@@ -59,26 +60,39 @@ public abstract class AbstractCharacterController<T extends Character> implement
                              mover.getHeight());
     List<Tile> neighbors = house.neighborsInDirection(current,
                                                       moveToCheck.direction);
-
+    boolean canHear = false;
+    Player player = null;
     for (Tile neighbor : neighbors)
     {
+      boolean isZombie =  mover instanceof Zombie;
       if (neighbor.intersects(testArea.getBoundingRectangle()))
       {
+        if (isZombie)
+        {
+          player = house.getPlayer();
+          canHear = player.senseHear(house.getCharacterTile(mover));
+        }
+        if (canHear)
+        {
+          float theta = player.getCardinalDirectionBetween(mover);
+          mover.setChannel(theta);
+          mover.setSoundType(SoundType.WALK);
+          mover.setVolume(1f);
+        }
+        else
+        {
+          mover.setVolume(0f);
+        }
         if (!neighbor.isPassable())
         {
-          if (neighbor instanceof Wall && mover instanceof Zombie)
+          if (neighbor instanceof Wall && isZombie)
           {
-            Player player = house.getPlayer();
-            boolean canHear = player.senseHear(house.getCharacterTile(mover));
             if (canHear)
             {
               float theta = player.getCardinalDirectionBetween(mover);
               mover.setChannel(theta);
+              mover.setSoundType(SoundType.HIT);
               mover.setVolume(1f);
-            }
-            else
-            {
-              mover.setVolume(0f);
             }
           }
           return true;

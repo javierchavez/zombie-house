@@ -9,7 +9,7 @@ package view;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Creating a sprite for zombie
  */
 
 

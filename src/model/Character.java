@@ -31,6 +31,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   private CombustedState combustedState = CombustedState.NONE;
   private float volume;
   private int time = 0;
+  private SoundType soundType;
 
   public Character ()
   {
@@ -303,6 +304,18 @@ public class Character implements Mover, Object2D, Combustible, Sound
   public void setChannel (AudioChannel audioChannel)
   {
     this.channel = audioChannel;
+  }
+
+  @Override
+  public void setSoundType (SoundType soundType)
+  {
+    this.soundType = soundType;
+  }
+
+  @Override
+  public SoundType getSoundType ()
+  {
+    return this.soundType;
   }
 
   /**

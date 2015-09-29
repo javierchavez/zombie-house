@@ -46,6 +46,23 @@ public interface Sound
   void setChannel (AudioChannel audioChannel);
 
   /**
+   * Set the channel for audio to be played
+   *
+   * @param soundType set the type of sound
+   */
+  void setSoundType (SoundType soundType);
+
+  /**
+   *  Get the type of sound
+   */
+  SoundType getSoundType ();
+
+  enum SoundType
+  {
+    HIT, WALK, NONE
+  }
+
+  /**
    * Channels for playback
    */
   enum AudioChannel

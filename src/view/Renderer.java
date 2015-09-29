@@ -44,6 +44,8 @@ public abstract class Renderer
     float offsetMaxY = MAX_SCREEN_HEIGHT - y;
     int offsetMinX = 0;
     int offsetMinY = 0;
+    // offsetX = (playerWorldX * tileWidth) - (screenWidth / 2);
+    // screenX = (worldX * tileWidth) - offsetX;
   }
 
   protected Renderer ()

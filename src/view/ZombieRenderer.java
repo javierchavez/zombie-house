@@ -9,16 +9,22 @@ package view;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Rendering zombies
  */
 
 
 import common.Direction;
 import common.Size;
+import controller.MenuController;
 import model.*;
+import model.Sound.SoundType;
 
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -85,16 +91,77 @@ public class ZombieRenderer extends Renderer
   // check direction... need a AnimationFactoryClass
   private Animation animation;
   private Animation animationSuper;
-  // final Sound2D sound2D;
+  private Clip walkLeft = null;
+  private Clip walkRight = null;
+  private Clip walkStereo = null;
+
+  private Clip hit = null;
+  private Clip hitLeft = null;
+  private Clip hitRight = null;
+
+  private Clip sound = null;
+  private Clip soundWalk = null;
 
 
   public ZombieRenderer (House house)
   {
     this.house = house;
-    //    sound2D = new Sound2D();
+    try
+    {
+
+      AudioInputStream asHit = AudioSystem.getAudioInputStream(
+              new File("resources/wall-hit.wav"));
+      AudioInputStream asL = AudioSystem.getAudioInputStream(
+              new File("resources/wall-hit-L.wav"));
+      AudioInputStream asR = AudioSystem.getAudioInputStream(
+              new File("resources/wall-hit-R.wav"));
+
+      AudioInputStream asStereo = AudioSystem.getAudioInputStream(
+              new File("resources/zombie-walk.wav"));
+      AudioInputStream asLW = AudioSystem.getAudioInputStream(
+              new File("resources/zombie-walk-L.wav"));
+      AudioInputStream asRW = AudioSystem.getAudioInputStream(
+              new File("resources/zombie-walk-R.wav"));
+
+      walkStereo = AudioSystem.getClip();
+      walkStereo.open(asStereo);
+
+      walkLeft = AudioSystem.getClip();
+      walkLeft.open(asLW);
+
+      walkRight = AudioSystem.getClip();
+      walkRight.open(asRW);
+
+      hit = AudioSystem.getClip();
+      hit.open(asHit);
+
+      hitLeft = AudioSystem.getClip();
+      hitLeft.open(asL);
+
+      hitRight = AudioSystem.getClip();
+      hitRight.open(asR);
+    }
+    catch (FileNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    catch (UnsupportedAudioFileException e)
+    {
+      e.printStackTrace();
+    }
+    catch (LineUnavailableException e)
+    {
+      e.printStackTrace();
+    }
 
 
   }
+
+  private Zombie zombieC = null;
 
   @Override
   public void render (Graphics2D g2)
@@ -108,8 +175,8 @@ public class ZombieRenderer extends Renderer
 
       float x = zombie.getCurrentX();
       float y = zombie.getCurrentY();
-
-      if (!player.senseSight(house.getTile((int) y, (int) x)))
+      Tile t = house.getTile((int) y, (int) x);
+      if (t != null && !player.senseSight(t))
       {
         continue;
       }
@@ -117,15 +184,41 @@ public class ZombieRenderer extends Renderer
       setAnimation(zombie);
       g2.drawImage(animation.getSprite(), (int) ((x * Size.TILE)),
                    (int) ((y * Size.TILE)), null);
-      if (zombie.getVolume() > 0)
+      if (zombie.getVolume() == 1f)
       {
-        //        Point p = new Point(((int) zombie.getX()), ((int) zombie.getY()));
-        //        Player pl = house.getPlayer();
-        //        Point p2 = new Point(((int) pl.getX()), ((int) pl.getY()));
-        //        sound2D.playDistSound(p, p2, (int) pl.getRotation(), true);
+        setSound(zombie);
+        setWalkSound(zombie);
 
+        if (zombie.getSoundType() == SoundType.HIT)
+        {
+          if (!sound.isRunning())
+          {
+            sound.start();
+          }
+          else
+          {
+            sound.setFramePosition(0);
+            sound.stop();
+          }
+        }
+        else if (zombie.getSoundType() == SoundType.WALK)
+        {
+          if (!soundWalk.isRunning())
+          {
+            zombieC = zombie;
+            soundWalk.start();
+            soundWalk.loop(Clip.LOOP_CONTINUOUSLY);
+          }
+//          }
+//          else
+//          {
+//            soundWalk.setFramePosition(0);
+//            soundWalk.stop();
+//          }
+        }
       }
     }
+
     SuperZombie superZombie = house.getSuperZombie();
     setSuperAnimation(superZombie);
     g2.drawImage(animationSuper.getSprite(),
@@ -143,6 +236,16 @@ public class ZombieRenderer extends Renderer
       animationSuper.update();
     }
 
+    if(sound != null && MenuController.isActive())
+    {
+
+      sound.stop();
+    }
+    if (soundWalk != null && MenuController.isActive())
+    {
+
+      soundWalk.stop();
+    }
   }
 
   private void setAnimation (Zombie zombie)
@@ -160,6 +263,38 @@ public class ZombieRenderer extends Renderer
         break;
       case (int) Direction.WEST:
         animation = west;
+        break;
+    }
+  }
+
+  private void setSound (Zombie zombie)
+  {
+    switch (zombie.getChannel())
+    {
+      case LEFT:
+        sound = hitLeft;
+        break;
+      case RIGHT:
+        sound = hitRight;
+        break;
+      case STEREO:
+        sound = hit;
+        break;
+    }
+  }
+
+  private void setWalkSound (Zombie zombie)
+  {
+    switch (zombie.getChannel())
+    {
+      case LEFT:
+        soundWalk = walkLeft;
+        break;
+      case RIGHT:
+        soundWalk = walkRight;
+        break;
+      case STEREO:
+        soundWalk = walkStereo;
         break;
     }
   }
@@ -183,5 +318,23 @@ public class ZombieRenderer extends Renderer
     }
   }
 
+  private void setSuperSoud (SuperZombie zombie)
+  {
+    switch ((int) zombie.getRotation())
+    {
+      case (int) Direction.EAST:
+        animationSuper = superEast;
+        break;
+      case (int) Direction.NORTH:
+        animationSuper = superSouth;
+        break;
+      case (int) Direction.SOUTH:
+        animationSuper = superNorth;
+        break;
+      case (int) Direction.WEST:
+        animationSuper = superWest;
+        break;
+    }
+  }
 
 }

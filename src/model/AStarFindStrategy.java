@@ -12,7 +12,6 @@ package model;
  * This is the interface for Combustible objects
  */
 
-import com.sun.istack.internal.NotNull;
 
 import java.util.*;
 
@@ -95,7 +94,6 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
       return cost;
     }
 
-    @NotNull
     public int compareTo (TilePriority obj)
     {
       if (this.getCost() < obj.getCost())

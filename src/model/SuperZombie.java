@@ -26,6 +26,13 @@ public class SuperZombie extends Zombie
     findStrategy = new AStarFindStrategy();
   }
 
+  /**
+   * Set the zombie as a dependency injection informally, the super zombie is
+   * reading from this zombies mind... Kinda like the super zombie is inside
+   * the head of this zombie.
+   *
+   * @param zombie reference that will be used for sensing smell
+   */
   public void setZombie (Zombie zombie)
   {
     this.zombie = zombie;

@@ -24,8 +24,8 @@ run () {
 
 run_opt () {
     build
-    java -XX:+AggressiveOpts -XX:+UseFastAccessorMethods -Xms128m -Xmx2g -classpath ./dist ZombieHouse
-
+    java -XX:+AggressiveOpts -XX:+UseFastAccessorMethods -Xms128m -Xmx2g -Xcomp -classpath ./dist ZombieHouse
+#    javap -v -p -classpath ./dist ZombieHouse
 }
 
 clean () {

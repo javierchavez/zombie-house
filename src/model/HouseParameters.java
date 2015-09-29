@@ -54,8 +54,6 @@ public class HouseParameters
    */
   public void setLevel (GameOptions.GAME_STATE level)
   {
-
-
     switch (level)
     {
       case LEVEL1:

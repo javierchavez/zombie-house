@@ -42,14 +42,16 @@ public class AttributeOptions extends JFrame
 
   private void initFrame()
   {
+    Player player = house.getPlayer();
+
     JButton saveButton = new JButton("Save");
     JButton cancelButton = new JButton("Cancel");
 
-    JTextField playerSight = new JTextField(String.valueOf(CharacterAttributes.SIGHT), 3);
-    JTextField playerHearing = new JTextField(String.valueOf(CharacterAttributes.HEARING), 3);
+    JTextField playerSight = new JTextField(String.valueOf(player.getSight()), 3);
+    JTextField playerHearing = new JTextField(String.valueOf(player.getHearing()), 3);
     JTextField playerSpeed = new JTextField((String.valueOf(Speed.WALK)), 3);
     JTextField playerStamina = new JTextField(String.valueOf(CharacterAttributes.MAX_STAMINA), 3);
-    JTextField playerRegen = new JTextField(String.valueOf(CharacterAttributes.STAMINA_REGEN), 3);
+    JTextField playerRegen = new JTextField(String.valueOf(player.getRegen()), 3);
     JTextField zombieSpawn = new JTextField(String.valueOf(house.getZombieSpawn()), 4);
     JTextField zombieSpeed = new JTextField(String.valueOf(Speed.STAGGER), 3);
     JTextField superZombieSpeed = new JTextField(String.valueOf(Speed.FAST_WALK), 3);

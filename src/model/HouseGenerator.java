@@ -12,6 +12,8 @@ package model;
  * This is the interface for Combustible objects
  */
 
+import common.CharacterAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -499,6 +501,11 @@ public class HouseGenerator
     while ((tries < maxTries) && (!(tile instanceof Floor) || (house.getDistance(
             tile, exit) < params.minTravelDistance)));
     house.getPlayer().move(col, row);
+
+    house.getPlayer().setSight(CharacterAttributes.SIGHT);
+    house.getPlayer().setHearing(CharacterAttributes.HEARING);
+    house.getPlayer().setStamina(CharacterAttributes.MAX_STAMINA);
+    house.getPlayer().setRegen(CharacterAttributes.STAMINA_REGEN);
   }
 
   private void generateZombies ()

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
-  List<Zombie> zombies;
+  private List<Zombie> zombies;
   private boolean isMoving = true;
   private boolean playerDetected = false;
 

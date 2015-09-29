@@ -36,8 +36,8 @@ The menu can be opened any time in game by pressing SPACE. Cycle through the men
 arrow keys.
 
 
-## Other
-
+# Running
+## Preferable over jar file
 
 Permission fix (if not already set)
 ```bash

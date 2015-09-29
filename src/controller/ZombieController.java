@@ -155,6 +155,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             if (DEBUG) System.out.println("\tRandom zombie");
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
+//              changeDirection();
+              stopMoving();
+
               // If the random mover zombie hits an obstacle, it moves back a bit and stops moving
               if (mover.getRotation() == Direction.NORTH)
               {
@@ -172,7 +175,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               {
                 mover.move(wanderX + 0.05f, wanderY);
               }
-              stopMoving();
             }
 
             // Random walker updates position every decision update

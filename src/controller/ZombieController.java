@@ -1,6 +1,5 @@
 package controller;
 
-
 import common.Direction;
 import common.Duration;
 import common.Speed;
@@ -20,7 +19,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   private Tile zombieTile;
   private List<Tile> path;
 
-  private boolean DEBUG = true;
+  private boolean DEBUG = false;
 
   public ZombieController (House house)
   {
@@ -28,7 +27,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   }
 
   /**
-   * Tells zombie which way to move
+   * Determines which way the zombie will move.
    */
   private void zombieDirection(float xDir, float yDir)
   {
@@ -47,7 +46,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   }
 
   /**
-   * Changes zombie's direction so that they don't constantly collide with wall and idle until the next update.
+   * Changes a zombie's direction so that they don't constantly collide with wall and idle until the next update.
    */
   private void changeDirection()
   {
@@ -176,6 +175,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               stopMoving();
             }
 
+            // Random walker updates position every decision update
             if (time == 0 || time % (Duration.ZOMBIE_UPDATE * 60) == 0)
             {
               Move move = zombie.getStrategy().getNextMove(house, house.getCharacterTile(zombie));

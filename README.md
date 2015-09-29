@@ -1,7 +1,8 @@
 # Zombie House
 
-This is a game where a player is placed in a dark house with zombies and only one exit. The player must navigate through
-the house to the exit before their brains are eaten!
+This is a game in which the player is placed in a dark, unfamiliar, and zombie-infested house and only one way to escape.
+The player must navigate through the house's dangerous hallways and find the one exit before the zombies catch them and
+eat their brains!
 
 ## Documentation
 The JavaDocs can be found [here](http://javierchavez.github.io/zombie-house/)
@@ -10,18 +11,18 @@ The Project specification can be found [here](http://cs.unm
 ## Models
 - The character controlled by the player
 - The house where the character moves
-- obstacles
-- zombies
+- Obstacles
+- Zombies
 
 ## Controllers
-- player input
+- Player input
 - Controller to perform actions on the player’s character (move, attack)
 
 ## Views
 - Renderer – Render the objects onto the screen
 
 ## Main
-- Main loop is in `ZombieHouse.java` events are passed from here to controller
+- Main loop is in `ZombieHouse.java`. Events are passed from here to controller
 
 ## Menu Options
 - Play - Resumes a game
@@ -29,9 +30,10 @@ The Project specification can be found [here](http://cs.unm
 - Exit - Quits the game
 - Settings - Opens a settings menu to change the current game settings
 - Generate - Generates a house using the current game settings
-- Level1-5 - Generates a house based on pre-defined settings
+- Level 1 through 5 - Generates a house based on pre-defined settings
 
-The menu can be opened any time in game by pressing SPACE
+The menu can be opened any time in game by pressing SPACE. Cycle through the menu's options by using the left and right
+arrow keys.
 
 
 ## Other

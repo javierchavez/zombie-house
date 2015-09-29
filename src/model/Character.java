@@ -136,6 +136,11 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return sight;
   }
 
+  public void setSight(float sight)
+  {
+    this.sight = sight;
+  }
+
   /**
    * Euclidean distance of tiles
    *
@@ -161,7 +166,6 @@ public class Character implements Mover, Object2D, Combustible, Sound
    *
    * @return number of tiles a character can smell away
    */
-
   public float getSmell ()
   {
     return smell;

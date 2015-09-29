@@ -32,15 +32,14 @@ public interface Sound
 
 
   /**
-   *
    * @return
    */
-  AudioChannel getChannel();
+  AudioChannel getChannel ();
 
-  void setChannel(AudioChannel audioChannel);
+  void setChannel (AudioChannel audioChannel);
 
   enum AudioChannel
   {
-      LEFT, RIGHT, STEREO
+    LEFT, RIGHT, STEREO
   }
 }

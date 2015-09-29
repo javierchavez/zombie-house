@@ -15,7 +15,7 @@ package model;
 import java.awt.geom.Rectangle2D;
 
 /**
- *  Wrapper class for a general 2D object
+ * Wrapper class for a general 2D object
  */
 public class Area implements Object2D
 {
@@ -24,7 +24,7 @@ public class Area implements Object2D
   private float width;
   private float height;
 
-  public Area(float x, float y, float width, float height)
+  public Area (float x, float y, float width, float height)
   {
     this.x = x;
     this.y = y;
@@ -32,25 +32,25 @@ public class Area implements Object2D
     this.height = height;
   }
 
-  public Area()
+  public Area ()
   {
-    this(0,0,0,0);
+    this(0, 0, 0, 0);
   }
 
   @Override
-  public float getX()
+  public float getX ()
   {
     return x;
   }
 
   @Override
-  public float getY()
+  public float getY ()
   {
     return y;
   }
 
   @Override
-  public float getWidth()
+  public float getWidth ()
   {
     return width;
   }
@@ -68,25 +68,25 @@ public class Area implements Object2D
   }
 
   @Override
-  public void setHeight(float height)
+  public void setHeight (float height)
   {
     this.height = height;
   }
 
   @Override
-  public Rectangle2D getBoundingRectangle()
+  public Rectangle2D getBoundingRectangle ()
   {
     return new Rectangle2D.Float(x, y, width, height);
   }
 
   @Override
-  public boolean intersects(Rectangle2D other)
+  public boolean intersects (Rectangle2D other)
   {
     return other.intersects(this.getBoundingRectangle());
   }
 
   @Override
-  public boolean isOutOfBounds()
+  public boolean isOutOfBounds ()
   {
     return false;
   }

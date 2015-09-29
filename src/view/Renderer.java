@@ -26,7 +26,8 @@ public abstract class Renderer
   private static final double ASPECT_RATIO = 1.78;
   private static final double BASE_W = 320;
   private static final double BASE_H = BASE_W / ASPECT_RATIO;
-  static protected Rectangle2D viewBounds = new Rectangle2D.Float(0,0,Size.SCREEN_WIDTH,
+  static protected Rectangle2D viewBounds = new Rectangle2D.Float(0, 0,
+                                                                  Size.SCREEN_WIDTH,
                                                                   Size.SCREEN_HEIGHT);
   final int TILE_HEIGHT = Size.TILE;
   final int MAX_SCREEN_WIDTH = Size.SCREEN_WIDTH;
@@ -37,7 +38,7 @@ public abstract class Renderer
   private double scale;
 
 
-  public Renderer(float x, float y, Converter converter)
+  public Renderer (float x, float y, Converter converter)
   {
     float offsetMaxX = MAX_SCREEN_WIDTH - x;
     float offsetMaxY = MAX_SCREEN_HEIGHT - y;
@@ -50,12 +51,12 @@ public abstract class Renderer
   }
 
   //  public Renderer()
-//  {
-//
-//  }
+  //  {
+  //
+  //  }
 
 
-  public abstract void render(Graphics2D g);
+  public abstract void render (Graphics2D g);
 
   public void setViewBounds (Rectangle2D viewBounds)
   {

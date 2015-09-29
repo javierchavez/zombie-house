@@ -57,6 +57,7 @@ public class PlayerRenderer extends Renderer
   // check direction... need a AnimationFactoryClass
   private Animation animation;
   private Clip c = null;
+
   public PlayerRenderer (Player player)
   {
     this.player = player;
@@ -96,7 +97,10 @@ public class PlayerRenderer extends Renderer
     setAnimation();
     if (player.getSpeed() > 0)
     {
-      if (!c.isRunning()) c.start();
+      if (!c.isRunning())
+      {
+        c.start();
+      }
       animation.start();
       animation.update();
     }
@@ -112,13 +116,12 @@ public class PlayerRenderer extends Renderer
     float y = player.getCurrentY();
 
     // note the minus signs
-    g2.drawImage(animation.getSprite(),
-                 (int) ((x * Size.TILE)),
+    g2.drawImage(animation.getSprite(), (int) ((x * Size.TILE)),
                  (int) ((y * Size.TILE)), null);
 
   }
 
-  private void setAnimation()
+  private void setAnimation ()
   {
     switch ((int) player.getRotation())
     {

@@ -24,11 +24,11 @@ import java.util.Random;
 
 /**
  * This class does most of the work for setting the character speed and rotation
+ *
  * @param <T> type of mover you are wanting to move... it must extend Mover
- *           in the model.
+ *            in the model.
  */
-public abstract class AbstractCharacterController<T extends Character> implements
-        MoverController<T>
+public abstract class AbstractCharacterController<T extends Character> implements MoverController<T>
 {
 
   protected static House house;
@@ -129,7 +129,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   public void run ()
   {
     isMoving = true;
-    if (mover.getStamina() > 0) running = true;
+    if (mover.getStamina() > 0)
+    {
+      running = true;
+    }
   }
 
   @Override
@@ -153,7 +156,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void stopMoving () // TODO: get rid of this method later? probably don't need it
   {
-    if (DEBUG) System.out.println("I can't move like that!");
+    if (DEBUG)
+    {
+      System.out.println("I can't move like that!");
+    }
     isMoving = false;
     idling = true;
     running = false;
@@ -163,7 +169,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void moveUp ()
   {
-    if (DEBUG) System.out.println("Moving up");
+    if (DEBUG)
+    {
+      System.out.println("Moving up");
+    }
     isMoving = true;
     idling = false;
     moveUp = true;
@@ -174,7 +183,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void moveDown ()
   {
-    if (DEBUG) System.out.println("Moving down");
+    if (DEBUG)
+    {
+      System.out.println("Moving down");
+    }
     isMoving = true;
     idling = false;
     moveDown = true;
@@ -185,7 +197,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void moveLeft ()
   {
-    if (DEBUG) System.out.println("Moving left");
+    if (DEBUG)
+    {
+      System.out.println("Moving left");
+    }
     isMoving = true;
     idling = false;
     moveLeft = true;
@@ -196,7 +211,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void moveRight ()
   {
-    if (DEBUG) System.out.println("Moving right");
+    if (DEBUG)
+    {
+      System.out.println("Moving right");
+    }
     isMoving = true;
     idling = false;
     moveRight = true;
@@ -207,7 +225,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void moveUpRight ()
   {
-    if (DEBUG) System.out.println("Moving up right");
+    if (DEBUG)
+    {
+      System.out.println("Moving up right");
+    }
     isMoving = true;
     idling = false;
     //direction = NORTHEAST;
@@ -244,7 +265,10 @@ public abstract class AbstractCharacterController<T extends Character> implement
   @Override
   public void resting ()
   {
-    if (DEBUG) System.out.println("\tResting...");
+    if (DEBUG)
+    {
+      System.out.println("\tResting...");
+    }
     idling = random.nextBoolean();
   }
 

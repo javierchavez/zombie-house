@@ -85,12 +85,12 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
       this.cost = cost;
     }
 
-    public Tile getTile()
+    public Tile getTile ()
     {
       return tile;
     }
 
-    public int getCost()
+    public int getCost ()
     {
       return cost;
     }

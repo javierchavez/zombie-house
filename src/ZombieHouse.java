@@ -2,11 +2,11 @@
  * @author Javier Chavez
  * @author Alex Baker
  * @author Erin Sosebee
- *
+ * <p>
  * Date September 28, 2015
  * CS 351
  * Zombie House
- *
+ * <p>
  * Main enterence of the game
  */
 
@@ -80,7 +80,9 @@ public class ZombieHouse
             {
               Thread.sleep((20000000L - delta) / 1000000L);
             }
-            catch (Exception e) { }
+            catch (Exception e)
+            {
+            }
           }
 
         }
@@ -102,7 +104,8 @@ public class ZombieHouse
 
     jPanel.setBackground(Color.black);
     jPanel.setIgnoreRepaint(true);
-    jPanel.setPreferredSize(new Dimension(Size.SCREEN_WIDTH, Size.SCREEN_HEIGHT));
+    jPanel.setPreferredSize(
+            new Dimension(Size.SCREEN_WIDTH, Size.SCREEN_HEIGHT));
     jPanel.addComponentListener(new ComponentAdapter()
     {
       public void componentResized (ComponentEvent arg0)

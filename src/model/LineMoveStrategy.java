@@ -36,8 +36,14 @@ public class LineMoveStrategy extends AbstractFindStrategy implements FindStrate
     int yDir = 0;
 
     boolean changeDir = rand.nextBoolean();
-    if (changeDir) xDir = rand.nextInt(3) - 1;
-    else yDir = rand.nextInt(3) - 1;
+    if (changeDir)
+    {
+      xDir = rand.nextInt(3) - 1;
+    }
+    else
+    {
+      yDir = rand.nextInt(3) - 1;
+    }
     return new Move(xDir, yDir, 0);
   }
 }

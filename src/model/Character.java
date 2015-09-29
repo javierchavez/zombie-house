@@ -26,22 +26,13 @@ public class Character implements Mover, Object2D, Combustible, Sound
 {
 
   // attributes about a character (measure is in tiles)
-  protected float
-          stamina,
-          hearing,
-          sight,
-          speed,
-          regen,
-          x, y,
-          width, height,
-          smell,
-          rotation;
+  protected float stamina, hearing, sight, speed, regen, x, y, width, height, smell, rotation;
   AudioChannel channel = AudioChannel.STEREO;
   private CombustedState combustedState = CombustedState.NONE;
   private float volume;
   private int time = 0;
 
-  public Character()
+  public Character ()
   {
     height = .80f;
     width = .5f;
@@ -75,7 +66,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   }
 
   @Override
-  public float getStamina()
+  public float getStamina ()
   {
     return stamina;
   }
@@ -102,7 +93,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   }
 
   @Override
-  public float setStamina(float stamina)
+  public float setStamina (float stamina)
   {
     this.stamina = stamina;
     return stamina;
@@ -127,6 +118,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
 
   /**
    * Euclidean distance of tiles
+   *
    * @return
    */
   public float getSight ()
@@ -134,13 +126,14 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return sight;
   }
 
-  public void setSight(float sight)
+  public void setSight (float sight)
   {
     this.sight = sight;
   }
 
   /**
    * Euclidean distance of tiles
+   *
    * @return
    */
   public float getHearing ()
@@ -148,17 +141,17 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return hearing;
   }
 
-  public void setHearing(float hearing)
+  public void setHearing (float hearing)
   {
     this.hearing = hearing;
   }
 
-  public float getSmell()
+  public float getSmell ()
   {
     return smell;
   }
 
-  public void setSmell(float smell)
+  public void setSmell (float smell)
   {
     this.smell = smell;
   }
@@ -202,9 +195,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   @Override
   public Rectangle2D getBoundingRectangle ()
   {
-    return new Rectangle2D.Float(getCurrentX(),
-                                 getCurrentY(),
-                                 getWidth(),
+    return new Rectangle2D.Float(getCurrentX(), getCurrentY(), getWidth(),
                                  getHeight());
   }
 
@@ -245,7 +236,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   public boolean setCurrentTime (int time)
   {
     this.time = time;
-    if (this.time >= (Duration.BURN_DURATION*60))
+    if (this.time >= (Duration.BURN_DURATION * 60))
     {
       setCombustedState(CombustedState.BURNED);
       return false;
@@ -305,11 +296,12 @@ public class Character implements Mover, Object2D, Combustible, Sound
     }
   }
 
-  public float getAngleBetween(Character character) {
-    float theta = (float) Math.toDegrees(Math.atan2(character.getY() - y,
-                                                    character.getX() - x));
+  public float getAngleBetween (Character character)
+  {
+    float theta = (float) Math.toDegrees(
+            Math.atan2(character.getY() - y, character.getX() - x));
 
-    if(theta < 0)
+    if (theta < 0)
     {
       theta += 360;
     }

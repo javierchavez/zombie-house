@@ -29,8 +29,8 @@ public class TrapGraphic
     try
     {
       TrapGraphic.image = ImageIO.read(new File("resources/firetrap.png"));
-      TrapGraphic.imageBurned = ImageIO.read(new File("resources/floor-burned" +
-                                                          ".png"));
+      TrapGraphic.imageBurned = ImageIO.read(
+              new File("resources/floor-burned" + ".png"));
 
     }
     catch (IOException e)
@@ -46,16 +46,16 @@ public class TrapGraphic
     // double scaleX = (double)40/image.getWidth();
     // double scaleY = (double)40/image.getHeight();
     AffineTransform scaleTransform = AffineTransform.getScaleInstance(.5, .5);
-    AffineTransformOp bilinearScaleOp = new AffineTransformOp(scaleTransform, AffineTransformOp.TYPE_BILINEAR);
+    AffineTransformOp bilinearScaleOp = new AffineTransformOp(scaleTransform,
+                                                              AffineTransformOp.TYPE_BILINEAR);
 
-    return bilinearScaleOp.filter(
-            image,
-            new BufferedImage(70, 70, image.getType()));
+    return bilinearScaleOp.filter(image,
+                                  new BufferedImage(70, 70, image.getType()));
   }
 
   public BufferedImage getImageBurned ()
   {
-     return imageBurned;
+    return imageBurned;
   }
 
 }

@@ -19,7 +19,7 @@ public class Player extends Character
   protected float traps = 0;
   protected PlayerState state = PlayerState.ALIVE;
 
-  public Player()
+  public Player ()
   {
     height = .60f;
     width = .50f;
@@ -36,12 +36,12 @@ public class Player extends Character
   }
 
 
-  public int trapsAvailable()
+  public int trapsAvailable ()
   {
     return (int) traps;
   }
 
-  public void pickupTrap(Tile tile)
+  public void pickupTrap (Tile tile)
   {
     if (tile.getTrap() == Trap.FIRE)
     {
@@ -50,7 +50,7 @@ public class Player extends Character
     }
   }
 
-  public void dropTrap(Tile tile)
+  public void dropTrap (Tile tile)
   {
     if (traps > 0)
     {
@@ -87,7 +87,7 @@ public class Player extends Character
 
     float dx = (zx - px) * (zx - px);
     float dy = (zy - py) * (zy - py);
-    return  Math.sqrt(dx+dy) <= hearing;
+    return Math.sqrt(dx + dy) <= hearing;
   }
 
   public boolean senseSight (Tile playerTile)
@@ -100,7 +100,7 @@ public class Player extends Character
 
     float dx = (zx - px) * (zx - px);
     float dy = (zy - py) * (zy - py);
-    return (Math.sqrt(dx+dy) <= smell);
+    return (Math.sqrt(dx + dy) <= smell);
   }
 
   public enum PlayerState

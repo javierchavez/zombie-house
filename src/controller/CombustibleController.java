@@ -8,14 +8,15 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * This is a Singleton! So treat it as such.
- *
  */
 public class CombustibleController implements GameController
 {
   private static CombustibleController instance = null;
   private final ConcurrentLinkedDeque<Combustible> combustibles = new ConcurrentLinkedDeque<>();
 
-  protected CombustibleController () { }
+  protected CombustibleController ()
+  {
+  }
 
   public static CombustibleController getInstance ()
   {
@@ -43,7 +44,7 @@ public class CombustibleController implements GameController
           combustibles.add(c);
         }
         // counter to force only iterating through the loop once.
-        if (i == len-1)
+        if (i == len - 1)
         {
           return;
         }

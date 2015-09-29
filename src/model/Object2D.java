@@ -21,28 +21,28 @@ public interface Object2D
    *
    * @return x coordinate of upper left corner of object
    */
-  float getX();
+  float getX ();
 
   /**
    * Get the object y/row position
    *
    * @return y coordinate of upper left corner of object
    */
-  float getY();
+  float getY ();
 
   /**
    * Get the object width
    *
    * @return width of the object
    */
-  float getWidth();
+  float getWidth ();
 
   /**
    * Set the objects width
    *
    * @param width
    */
-  void setWidth(float width);
+  void setWidth (float width);
 
   /**
    * Get the object height
@@ -56,14 +56,14 @@ public interface Object2D
    *
    * @param height
    */
-  void setHeight(float height);
+  void setHeight (float height);
 
   /**
    * Get the bounding rectangle for the object.
    *
    * @return Bounding rectangle.
    */
-  Rectangle2D getBoundingRectangle();
+  Rectangle2D getBoundingRectangle ();
 
   /**
    * Check if one object intersects another
@@ -71,12 +71,12 @@ public interface Object2D
    * @param other The other object to check.
    * @return True if objects intersect.
    */
-  boolean intersects(Rectangle2D other);
+  boolean intersects (Rectangle2D other);
 
   /**
    * Is the object outside of the game area
    *
    * @return True if part of object is out of bounds.
    */
-  boolean isOutOfBounds();
+  boolean isOutOfBounds ();
 }

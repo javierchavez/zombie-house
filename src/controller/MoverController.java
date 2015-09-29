@@ -14,9 +14,8 @@ package controller;
 
 import model.*;
 
-public interface MoverController <T extends Mover> extends GameController
+public interface MoverController<T extends Mover> extends GameController
 {
-
 
 
   boolean checkCollision (Move moveToCheck);
@@ -39,7 +38,7 @@ public interface MoverController <T extends Mover> extends GameController
   /**
    * If two incompatible directions are pressed; or stop moving the character
    */
-  void stopMoving();
+  void stopMoving ();
 
   /**
    * If 'W' or up arrow is pressed, orient the character
@@ -69,28 +68,28 @@ public interface MoverController <T extends Mover> extends GameController
    * If 'up' and 'right' are pressed at the same time, orient the character
    * up and right
    */
-  void moveUpRight();
+  void moveUpRight ();
 
   /**
    * If 'up' and 'left' are pressed at the same time, orient the character
    * up and left
    */
-  void moveUpLeft();
+  void moveUpLeft ();
 
   /**
    * If 'down' and 'right' are pressed at the same time, orient the character
    * down and right
    */
-  void moveDownRight();
+  void moveDownRight ();
 
   /**
    * If 'down' and 'left' are pressed at the same time, orient the character
    * down and left.
    */
-  void moveDownLeft();
+  void moveDownLeft ();
 
   /**
    * If the player is not moving.. Due to stamina
    */
-  void resting();
+  void resting ();
 }

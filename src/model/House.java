@@ -39,7 +39,7 @@ public class House extends Area
    *
    * @param player Player object to be stored in the house
    */
-  public House(Player player)
+  public House (Player player)
   {
     this.player = player;
     this.generator = new HouseGenerator();
@@ -61,7 +61,7 @@ public class House extends Area
    * @param rows number of rows for the new house
    * @param cols number of columns for the new house
    */
-  public void setSize(int rows, int cols)
+  public void setSize (int rows, int cols)
   {
     setHeight(rows);
     setWidth(cols);
@@ -72,7 +72,7 @@ public class House extends Area
    * Initialize the house to all empty Tiles
    * Resets zombies
    */
-  public void initHouse()
+  public void initHouse ()
   {
     house = new Tile[getRows()][getCols()];
     zombies = new ArrayList<>();
@@ -83,7 +83,7 @@ public class House extends Area
     {
       for (int col = 0; col < getCols(); col++)
       {
-        if (row == 0 || row == getRows()-1 || col == 0 || col == getCols()-1)
+        if (row == 0 || row == getRows() - 1 || col == 0 || col == getCols() - 1)
         {
           // Tile is on the boarder so set high cost so hallways aren't drawn there
           house[row][col] = new Empty(col, row, 999999999);
@@ -100,7 +100,7 @@ public class House extends Area
   /**
    * Generates a random house with default settings
    */
-  public void generateRandomHouse()
+  public void generateRandomHouse ()
   {
     generator.generateHouse(this);
     this.level = GAME_STATE.PLAY;
@@ -112,7 +112,7 @@ public class House extends Area
    *
    * @param level GAME_STATE level for the house layout difficulty
    */
-  public void generateRandomHouse(GAME_STATE level)
+  public void generateRandomHouse (GAME_STATE level)
   {
     generator.generateHouse(this, level);
     this.level = level;
@@ -122,7 +122,7 @@ public class House extends Area
   /**
    * Saves the current house state
    */
-  public void save()
+  public void save ()
   {
     savedHouse = toString();
   }
@@ -130,7 +130,7 @@ public class House extends Area
   /**
    * Resets the house to the previous save state
    */
-  public void reset()
+  public void reset ()
   {
     int row = 0;
     int col = 0;
@@ -198,22 +198,22 @@ public class House extends Area
     }
   }
 
-  public float getZombieSpawn()
+  public float getZombieSpawn ()
   {
     return params.zombieSpawn;
   }
 
-  public void setZombieSpawn(float zombieSpawn)
+  public void setZombieSpawn (float zombieSpawn)
   {
     params.zombieSpawn = zombieSpawn;
   }
 
-  public float getTrapSpawn()
+  public float getTrapSpawn ()
   {
     return params.trapSpawn;
   }
 
-  public void setTrapSpawn(float trapSpawn)
+  public void setTrapSpawn (float trapSpawn)
   {
     params.trapSpawn = trapSpawn;
   }
@@ -223,7 +223,7 @@ public class House extends Area
    *
    * @return House array of tiles
    */
-  public Tile[][] getHouse()
+  public Tile[][] getHouse ()
   {
     return house;
   }
@@ -233,7 +233,7 @@ public class House extends Area
    *
    * @return Number of rows
    */
-  public int getRows()
+  public int getRows ()
   {
     return (int) getHeight();
   }
@@ -243,7 +243,7 @@ public class House extends Area
    *
    * @return Number of columns
    */
-  public int getCols()
+  public int getCols ()
   {
     return (int) getWidth();
   }
@@ -253,7 +253,7 @@ public class House extends Area
    *
    * @return level
    */
-  public GAME_STATE getLevel()
+  public GAME_STATE getLevel ()
   {
     return level;
   }
@@ -265,7 +265,7 @@ public class House extends Area
    * @param col column
    * @return Tile retrieved from matrix
    */
-  public Tile getTile(int row, int col)
+  public Tile getTile (int row, int col)
   {
     return validate(row, col) ? house[row][col] : null;
   }
@@ -273,11 +273,11 @@ public class House extends Area
   /**
    * Places a tile in the house
    *
-   * @param row row in the house array
-   * @param col col in the house array
+   * @param row  row in the house array
+   * @param col  col in the house array
    * @param tile Tile to add the the row and col in the house array
    */
-  public void setTile(int row, int col, Tile tile)
+  public void setTile (int row, int col, Tile tile)
   {
     if (validate(row, col))
     {
@@ -290,7 +290,7 @@ public class House extends Area
    *
    * @return Tile where whe exit is
    */
-  public Tile getExit()
+  public Tile getExit ()
   {
     for (int row = 0; row < getRows(); row++)
     {
@@ -310,7 +310,7 @@ public class House extends Area
    *
    * @return List<Obstacle>
    */
-  public List<Tile> getObstacles()
+  public List<Tile> getObstacles ()
   {
     List<Tile> obstacles = new ArrayList<>();
     Tile tile;
@@ -334,10 +334,10 @@ public class House extends Area
    * @param character Character object
    * @return Tile from the house array where the character is standing
    */
-  public Tile getCharacterTile(Character character)
+  public Tile getCharacterTile (Character character)
   {
-    float midX = character.getCurrentX() + (character.getWidth()/2f);
-    float midY = character.getCurrentY() + (character.getHeight()/2f);
+    float midX = character.getCurrentX() + (character.getWidth() / 2f);
+    float midY = character.getCurrentY() + (character.getHeight() / 2f);
     return getTile((int) midY, (int) midX);
   }
 
@@ -346,7 +346,7 @@ public class House extends Area
    *
    * @return player
    */
-  public Player getPlayer()
+  public Player getPlayer ()
   {
     return player;
   }
@@ -356,7 +356,7 @@ public class House extends Area
    *
    * @return List<Zombie>
    */
-  public List<Zombie> getZombies()
+  public List<Zombie> getZombies ()
   {
     return zombies;
   }
@@ -366,7 +366,7 @@ public class House extends Area
    *
    * @param zombie Zombie to add to the house
    */
-  public void addZombie(Zombie zombie)
+  public void addZombie (Zombie zombie)
   {
     zombies.add(zombie);
   }
@@ -376,7 +376,7 @@ public class House extends Area
    *
    * @return SuperZombie
    */
-  public SuperZombie getSuperZombie()
+  public SuperZombie getSuperZombie ()
   {
     return superZombie;
   }
@@ -386,7 +386,7 @@ public class House extends Area
    *
    * @param superZombie SuperZombie
    */
-  public void setSuperZombie(SuperZombie superZombie)
+  public void setSuperZombie (SuperZombie superZombie)
   {
     this.superZombie = superZombie;
   }
@@ -397,7 +397,7 @@ public class House extends Area
    * @param tile Tile
    * @return True if a zombie is standing on the tile, false otherwise
    */
-  public boolean isZombieTile(Tile tile)
+  public boolean isZombieTile (Tile tile)
   {
     if (tile == getCharacterTile(superZombie))
     {
@@ -421,17 +421,29 @@ public class House extends Area
    * @param current The tile to get neighbors around
    * @return List<Tile>
    */
-  public List<Tile> neighbors(Tile current)
+  public List<Tile> neighbors (Tile current)
   {
     List<Tile> neighbors = new ArrayList<>(4);
     int row = current.getRow();
     int col = current.getCol();
     Tile neighbor;
 
-    if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row - 1, col)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row, col + 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row + 1, col)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row, col - 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
     return neighbors;
   }
 
@@ -442,22 +454,46 @@ public class House extends Area
    * @param current The tile to get neighbors around
    * @return List<Tile>
    */
-  public List<Tile> getAllNeighbors(Tile current)
+  public List<Tile> getAllNeighbors (Tile current)
   {
     List<Tile> neighbors = new ArrayList<>(8);
     int row = current.getRow();
     int col = current.getCol();
     Tile neighbor;
 
-    if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row - 1, col)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row, col + 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row + 1, col)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row, col - 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
 
-    if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
-    if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
+    if ((neighbor = getTile(row - 1, col - 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row - 1, col + 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row + 1, col - 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
+    if ((neighbor = getTile(row + 1, col + 1)) != null)
+    {
+      neighbors.add(neighbor);
+    }
     return neighbors;
   }
 
@@ -465,10 +501,10 @@ public class House extends Area
    * Gets the neighbors only in the specified direction of the current tile
    *
    * @param current Tile to get neighbors around
-   * @param dir A direction specifying which side of the current tile to get neighbors from
+   * @param dir     A direction specifying which side of the current tile to get neighbors from
    * @return A List of tiles neighboring current in the specified direction
    */
-  public List<Tile> neighborsInDirection(Tile current, float dir)
+  public List<Tile> neighborsInDirection (Tile current, float dir)
   {
     List<Tile> neighbors = new ArrayList<>(4);
     int row = current.getRow();
@@ -476,51 +512,123 @@ public class House extends Area
     Tile neighbor;
     if (dir == Direction.NORTH)
     {
-      if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row + 1, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row + 1, col)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row + 1, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else if (dir == Direction.SOUTH)
     {
-      if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row - 1, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row - 1, col)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row - 1, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else if (dir == Direction.EAST)
     {
-      if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row - 1, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row + 1, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else if (dir == Direction.WEST)
     {
-      if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row - 1, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row + 1, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else if (dir == Direction.SOUTHEAST)
     {
-      if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row-1, col+1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row - 1, col)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row - 1, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else if (dir == Direction.SOUTHWEST)
     {
-      if ((neighbor = getTile(row-1, col)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row-1, col-1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row - 1, col)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row - 1, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else if (dir == Direction.NORTHEAST)
     {
-      if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row+1, col+1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row, col+1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row + 1, col)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row + 1, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row, col + 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else if (dir == Direction.NORTHWEST)
     {
-      if ((neighbor = getTile(row+1, col)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row+1, col-1)) != null) neighbors.add(neighbor);
-      if ((neighbor = getTile(row, col-1)) != null) neighbors.add(neighbor);
+      if ((neighbor = getTile(row + 1, col)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row + 1, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
+      if ((neighbor = getTile(row, col - 1)) != null)
+      {
+        neighbors.add(neighbor);
+      }
     }
     else
     {
@@ -536,7 +644,7 @@ public class House extends Area
    * @param tile Tile to get neighbors around
    * @return A List of tiles which can ignite around tile
    */
-  public List<Combustible> getCombustibleNeighbors(Tile tile)
+  public List<Combustible> getCombustibleNeighbors (Tile tile)
   {
     List<Combustible> neighbors = new ArrayList<>();
     List<Zombie> _zList = new ArrayList<>();
@@ -574,7 +682,7 @@ public class House extends Area
    * @param tile Tile to set the trap on
    * @param trap Type of trap to place on the tile (NONE, FIRE)
    */
-  public void placeTrap(Tile tile, Trap trap)
+  public void placeTrap (Tile tile, Trap trap)
   {
     tile.setTrap(trap);
   }
@@ -585,7 +693,7 @@ public class House extends Area
    * @param tile Must be a Tile retrieved from model.
    * @return True if trap present
    */
-  public boolean isTrap(Tile tile)
+  public boolean isTrap (Tile tile)
   {
     return tile.getTrap() == Trap.FIRE;
   }
@@ -594,18 +702,20 @@ public class House extends Area
    * Get the Euclidean distance between two tiles
    *
    * @param start Starting tile
-   * @param end Ending tile
+   * @param end   Ending tile
    * @return Euclidean distance between start and end tiles
    */
-  public float getDistance(Tile start, Tile end)
+  public float getDistance (Tile start, Tile end)
   {
-    return (float) Math.sqrt(Math.pow((end.getCol()-start.getCol()),2) + Math.pow((end.getRow()-start.getRow()),2));
+    return (float) Math.sqrt(
+            Math.pow((end.getCol() - start.getCol()), 2) + Math.pow(
+                    (end.getRow() - start.getRow()), 2));
   }
 
   /**
    * Slowly resets the board
    */
-  public void slowReset()
+  public void slowReset ()
   {
     for (int i = 0; i < house.length; i++)
     {
@@ -626,7 +736,7 @@ public class House extends Area
   }
 
   @Override
-  public String toString()
+  public String toString ()
   {
     String board = "";
     Tile current;
@@ -697,9 +807,8 @@ public class House extends Area
     return board;
   }
 
-  private boolean validate(int row, int col)
+  private boolean validate (int row, int col)
   {
-    return (col >= 0 && col < this.getWidth())
-            && (row >= 0 && row < this.getHeight());
+    return (col >= 0 && col < this.getWidth()) && (row >= 0 && row < this.getHeight());
   }
 }

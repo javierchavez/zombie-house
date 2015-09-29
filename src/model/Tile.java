@@ -41,7 +41,7 @@ public class Tile implements Object2D, Combustible
    * @param col column/X
    * @param row row/Y
    */
-  public Tile(int col, int row)
+  public Tile (int col, int row)
   {
     this(col, row, 1);
   }
@@ -49,11 +49,11 @@ public class Tile implements Object2D, Combustible
   /**
    * Create a Tile
    *
-   * @param col column/X
-   * @param row row/Y
+   * @param col  column/X
+   * @param row  row/Y
    * @param cost amount it take to pass this tile.
    */
-  public Tile(int col, int row, int cost)
+  public Tile (int col, int row, int cost)
   {
     this.col = col;
     this.row = row;
@@ -85,7 +85,7 @@ public class Tile implements Object2D, Combustible
    *
    * @return cost
    */
-  public int getCost()
+  public int getCost ()
   {
     return cost;
   }
@@ -95,7 +95,7 @@ public class Tile implements Object2D, Combustible
    *
    * @param cost cost to travel over the tile
    */
-  public void setCost(int cost)
+  public void setCost (int cost)
   {
     this.cost = cost;
   }
@@ -105,7 +105,7 @@ public class Tile implements Object2D, Combustible
    *
    * @return trap
    */
-  public Trap getTrap()
+  public Trap getTrap ()
   {
     return trap;
   }
@@ -126,19 +126,19 @@ public class Tile implements Object2D, Combustible
    *
    * @return trap
    */
-  public Trap popTrap()
+  public Trap popTrap ()
   {
     Trap t = trap;
     trap = Trap.NONE;
     return t;
   }
 
-  public boolean isPassable()
+  public boolean isPassable ()
   {
     return passable;
   }
 
-  public void setPassable(boolean isPassable)
+  public void setPassable (boolean isPassable)
   {
     this.passable = isPassable;
   }
@@ -182,7 +182,7 @@ public class Tile implements Object2D, Combustible
   @Override
   public Rectangle2D getBoundingRectangle ()
   {
-    return new Rectangle2D.Float(getCol(), getRow(), getWidth(),getHeight());
+    return new Rectangle2D.Float(getCol(), getRow(), getWidth(), getHeight());
   }
 
   @Override
@@ -219,7 +219,7 @@ public class Tile implements Object2D, Combustible
   public boolean setCurrentTime (int time)
   {
     this.time = time;
-    if (this.time >= (Duration.BURN_DURATION*60))
+    if (this.time >= (Duration.BURN_DURATION * 60))
     {
       setCombustedState(CombustedState.BURNED);
       setPassable(true);

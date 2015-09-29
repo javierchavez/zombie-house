@@ -25,7 +25,7 @@ public class Zombie extends Character implements Deadly
   protected FindStrategy findStrategy;
   private boolean smellsPlayer;
 
-  public Zombie()
+  public Zombie ()
   {
     this(new AStarFindStrategy());
   }
@@ -35,7 +35,7 @@ public class Zombie extends Character implements Deadly
    *
    * @param findStrategy the algorithm the zombie shall use for finding Character
    */
-  public Zombie(FindStrategy<Tile> findStrategy)
+  public Zombie (FindStrategy<Tile> findStrategy)
   {
     zombieDecisionRate = Duration.ZOMBIE_UPDATE;
     rotation = 0;
@@ -60,7 +60,7 @@ public class Zombie extends Character implements Deadly
    * Checks if player is within distance of zombie's smell.
    *
    * @return true if the player is within the zombie's smell radius
-   *         otherwise false
+   * otherwise false
    */
   public boolean sense (Tile playerTile)
   {
@@ -87,10 +87,9 @@ public class Zombie extends Character implements Deadly
   }
 
   /**
-   *
    * @return true if player was sensed
    */
-  public boolean sensesPlayer()
+  public boolean sensesPlayer ()
   {
     return smellsPlayer;
   }

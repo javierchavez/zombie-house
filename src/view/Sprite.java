@@ -25,17 +25,17 @@ public interface Sprite
 
   /**
    * Get the sprite
+   *
    * @param fileName name of the image file
-   * @param x this is a multiplier in x direction i.e. x*TILE_SIZE(40)
-   * @param y this is a multiplier in y direction i.e. y*TILE_SIZE(40)
+   * @param x        this is a multiplier in x direction i.e. x*TILE_SIZE(40)
+   * @param y        this is a multiplier in y direction i.e. y*TILE_SIZE(40)
    * @return image cropped to sprite
    */
-  static BufferedImage getSprite (String fileName, int x, int y, int
-          SZ_X, int SZ_Y)
+  static BufferedImage getSprite (String fileName, int x, int y, int SZ_X,
+                                  int SZ_Y)
   {
     BufferedImage image = loadSprite(fileName);
-    return image.getSubimage(x * SZ_X, y * SZ_Y, SZ_X,
-                             SZ_Y);
+    return image.getSubimage(x * SZ_X, y * SZ_Y, SZ_X, SZ_Y);
   }
 
   static BufferedImage loadSprite (String file)
@@ -44,7 +44,7 @@ public interface Sprite
 
     try
     {
-       sprite = ImageIO.read(new File("resources/" + file));
+      sprite = ImageIO.read(new File("resources/" + file));
     }
     catch (IOException e)
     {

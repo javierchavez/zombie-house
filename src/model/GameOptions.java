@@ -18,7 +18,7 @@ public class GameOptions
   private static GAME_STATE state = GAME_STATE.LEVEL1;
   private static GAME_STATUS status = GAME_STATUS.STARTUP;
 
-  public GameOptions(House house)
+  public GameOptions (House house)
   {
     GameOptions.house = house;
   }
@@ -43,7 +43,7 @@ public class GameOptions
     GameOptions.status = status;
   }
 
-  public GAME_STATE getNextLevel(GAME_STATE level)
+  public GAME_STATE getNextLevel (GAME_STATE level)
   {
     GAME_STATE nextLevel;
     switch (level)
@@ -66,7 +66,7 @@ public class GameOptions
     return nextLevel;
   }
 
-  public String getMessage()
+  public String getMessage ()
   {
     String message = "";
     Player player = house.getPlayer();

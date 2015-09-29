@@ -16,7 +16,6 @@ package model;
 /**
  * Wrapper class for holding a move. which is just a Point.float without
  * extra super classes
- *
  */
 public class Move
 {

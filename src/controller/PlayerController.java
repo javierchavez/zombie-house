@@ -62,12 +62,18 @@ public class PlayerController extends AbstractCharacterController<Player>
       if (stamina < CharacterAttributes.MAX_STAMINA)
       {
         stamina += (CharacterAttributes.STAMINA_REGEN * deltaTime) + 0.01; // Stamina regenerates faster if mover is not moving
-        if (stamina > CharacterAttributes.MAX_STAMINA) stamina = CharacterAttributes.MAX_STAMINA;
+        if (stamina > CharacterAttributes.MAX_STAMINA)
+        {
+          stamina = CharacterAttributes.MAX_STAMINA;
+        }
         mover.setStamina(stamina);
       }
 
       // Trap interaction
-      if (pKeyPressed) trapInteraction();
+      if (pKeyPressed)
+      {
+        trapInteraction();
+      }
     }
 
     if (isMoving)
@@ -78,7 +84,10 @@ public class PlayerController extends AbstractCharacterController<Player>
         if (stamina > 0)
         {
           stamina -= deltaTime;
-          if (stamina < 0) stamina = 0;
+          if (stamina < 0)
+          {
+            stamina = 0;
+          }
           if (stamina == 0)
           {
             running = false;
@@ -92,7 +101,10 @@ public class PlayerController extends AbstractCharacterController<Player>
         if (stamina < CharacterAttributes.MAX_STAMINA)
         {
           stamina += CharacterAttributes.STAMINA_REGEN * deltaTime;
-          if (stamina > CharacterAttributes.MAX_STAMINA) stamina = 5;
+          if (stamina > CharacterAttributes.MAX_STAMINA)
+          {
+            stamina = 5;
+          }
           mover.setStamina(stamina);
         }
       }
@@ -100,10 +112,18 @@ public class PlayerController extends AbstractCharacterController<Player>
       mover.setSpeed(playerSpeed * deltaTime);
       mover.setRotation(direction);
 
-      if (moveUp || moveDown) y = (float) (y + mover.getSpeed() * Math.sin(Math.toRadians(direction)));
-      if (moveLeft || moveRight) x = (float) (x + mover.getSpeed() * Math.cos(Math.toRadians(direction)));
+      if (moveUp || moveDown)
+      {
+        y = (float) (y + mover.getSpeed() * Math.sin(
+                Math.toRadians(direction)));
+      }
+      if (moveLeft || moveRight)
+      {
+        x = (float) (x + mover.getSpeed() * Math.cos(
+                Math.toRadians(direction)));
+      }
 
-      checkCollision(new Move(x,y, (int) direction));
+      checkCollision(new Move(x, y, (int) direction));
       isMoving = false;
     }
   }
@@ -111,13 +131,13 @@ public class PlayerController extends AbstractCharacterController<Player>
   /**
    * If 'P' is pressed.
    */
-  public void trapKeyPressed()
+  public void trapKeyPressed ()
   {
     pKeyPressed = true;
     trapSetTimer++;
   }
 
-  public void trapKeyReleased()
+  public void trapKeyReleased ()
   {
     pKeyPressed = false;
     trapSetTimer = 0;
@@ -126,28 +146,34 @@ public class PlayerController extends AbstractCharacterController<Player>
   /**
    * If 'P' key is held down for long enough for player to pick up/set trap.
    */
-  public void trapInteraction()
+  public void trapInteraction ()
   {
     Tile tile = house.getCharacterTile(house.getPlayer());
     int TRAP_SET_TIME = (int) (60 * Duration.PICKIP_TIME);
     if (house.isTrap(tile))
     {
-//      if (DEBUG) System.out.println("PICKING UP TRAP");
-      if (trapSetTimer % TRAP_SET_TIME == 0) mover.pickupTrap(tile);
+      //      if (DEBUG) System.out.println("PICKING UP TRAP");
+      if (trapSetTimer % TRAP_SET_TIME == 0)
+      {
+        mover.pickupTrap(tile);
+      }
     }
     else
     {
-//      if (DEBUG) System.out.println("SETTING TRAP");
+      //      if (DEBUG) System.out.println("SETTING TRAP");
       int numTraps = mover.trapsAvailable();
       if (trapSetTimer % TRAP_SET_TIME == 0)
       {
-        if (numTraps > 0) mover.dropTrap(tile);
+        if (numTraps > 0)
+        {
+          mover.dropTrap(tile);
+        }
       }
     }
   }
 
   @Override
-  public boolean checkCollision(Move moveToCheck)
+  public boolean checkCollision (Move moveToCheck)
   {
     if (house.getCharacterTile(mover) == house.getExit())
     {

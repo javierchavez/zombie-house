@@ -24,8 +24,8 @@ public abstract class AbstractFindStrategy implements FindStrategy<Tile>
 {
   protected List<Tile> path;
 
-  protected List<Tile> reconstructPath (Map<Tile, Tile> cameFrom,
-                                        Tile start, Tile end)
+  protected List<Tile> reconstructPath (Map<Tile, Tile> cameFrom, Tile start,
+                                        Tile end)
   {
     Tile current = end;
     path = new ArrayList<>();

@@ -4,11 +4,11 @@ package model;
  * @author Javier Chavez
  * @author Alex Baker
  * @author Erin Sosebee
- *
+ * <p>
  * Date September 28, 2015
  * CS 351
  * Zombie House
- *
+ * <p>
  * This is the interface for Combustible objects
  */
 
@@ -19,10 +19,11 @@ package model;
 public class Wall extends Tile
 {
   private WallType type;
+
   /**
    * set the x, y coordinates of wall.
    * The cost is already set to something absurd so A* never chooses it
-   * 
+   *
    * @param x column
    * @param y row
    */
@@ -33,12 +34,12 @@ public class Wall extends Tile
     setPassable(false);
   }
 
-  public WallType getWallType()
+  public WallType getWallType ()
   {
     return type;
   }
 
-  public void setWallType(WallType type)
+  public void setWallType (WallType type)
   {
     this.type = type;
   }

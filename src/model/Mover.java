@@ -37,7 +37,7 @@ public interface Mover
    *
    * @return tiles
    */
-  float getSpeed();
+  float getSpeed ();
 
   /**
    * Get the current stamina of the object. Stamina decreases when the
@@ -45,7 +45,7 @@ public interface Mover
    *
    * @return stamina
    */
-  float getStamina();
+  float getStamina ();
 
   /**
    * Get the rotation of the object. N = 90, S = 270, W = 180, E = 0
@@ -54,7 +54,7 @@ public interface Mover
    *
    * @return degree of movement
    */
-  float getRotation();
+  float getRotation ();
 
   /**
    * Move object from current location to new location
@@ -62,7 +62,7 @@ public interface Mover
    * @param x column
    * @param y row
    */
-  void move(float x, float y);
+  void move (float x, float y);
 
   /**
    * Set the speed at which to move the object
@@ -70,13 +70,14 @@ public interface Mover
    * @param speed tile
    * @return new speed
    */
-  float setSpeed(float speed);
+  float setSpeed (float speed);
 
   /**
    * Set the stamina of the object.
+   *
    * @return
    */
-  float setStamina(float stamina);
+  float setStamina (float stamina);
 
   /**
    * Set the rotation of the object. N = 90, S = 270, W = 180, E = 0

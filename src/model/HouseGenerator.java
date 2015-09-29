@@ -38,7 +38,7 @@ public class HouseGenerator
   /**
    * Creates a HouseGenerator object
    */
-  public HouseGenerator()
+  public HouseGenerator ()
   {
     rooms = new ArrayList<>();
     params = new HouseParameters();
@@ -54,7 +54,7 @@ public class HouseGenerator
    *
    * @param house House object where the generated house will be held
    */
-  public void generateHouse(House house)
+  public void generateHouse (House house)
   {
     this.house = house;
     numHallways = 0;
@@ -91,7 +91,7 @@ public class HouseGenerator
    * @param house House object to generate from
    * @param level Difficulty level of the house layout defined in HouseParameters
    */
-  public void generateHouse(House house, GameOptions.GAME_STATE level)
+  public void generateHouse (House house, GameOptions.GAME_STATE level)
   {
     this.house = house;
     numHallways = 0;
@@ -123,12 +123,12 @@ public class HouseGenerator
     }
   }
 
-  public HouseParameters getParams()
+  public HouseParameters getParams ()
   {
     return params;
   }
 
-  private void addRooms()
+  private void addRooms ()
   {
     int row;
     int col;
@@ -147,24 +147,24 @@ public class HouseGenerator
 
     if (maxWidth <= minWidth)
     {
-      maxWidth = minWidth+1;
+      maxWidth = minWidth + 1;
     }
 
     if (maxHeight <= minHeight)
     {
-      maxHeight = minHeight+1;
+      maxHeight = minHeight + 1;
     }
 
     // Create the minimum number of rooms
     while ((tries < maxTries) && (rooms.size() < params.minRooms))
     {
       // don't put room on the boarder
-      row = rand.nextInt(house.getRows()-2) + 1;
-      col = rand.nextInt(house.getCols()-2) + 1;
+      row = rand.nextInt(house.getRows() - 2) + 1;
+      col = rand.nextInt(house.getCols() - 2) + 1;
 
       // creates the width and height a random value between minWidth/Height and maxWidth/Height
-      width = minWidth + rand.nextInt(maxWidth-minWidth);
-      height = minHeight + rand.nextInt(maxHeight-minHeight);
+      width = minWidth + rand.nextInt(maxWidth - minWidth);
+      height = minHeight + rand.nextInt(maxHeight - minHeight);
       Room room = new Room(row, col, width, height);
       if (validRoom(room))
       {
@@ -175,7 +175,7 @@ public class HouseGenerator
     }
   }
 
-  private void addHallways()
+  private void addHallways ()
   {
     Tile startTile;
     Tile endTile;
@@ -187,25 +187,28 @@ public class HouseGenerator
     for (Room fromRoom : rooms)
     {
       // get the approximate center of the room
-      startTile = house.getTile(fromRoom.row()+(fromRoom.height()/2), fromRoom.col()+(fromRoom.width()/2));
+      startTile = house.getTile(fromRoom.row() + (fromRoom.height() / 2),
+                                fromRoom.col() + (fromRoom.width() / 2));
       for (Room toRoom : rooms)
       {
         if (fromRoom != toRoom)
         {
-          endTile = house.getTile(toRoom.row()+(toRoom.height()/2), toRoom.col()+(toRoom.width()/2));
+          endTile = house.getTile(toRoom.row() + (toRoom.height() / 2),
+                                  toRoom.col() + (toRoom.width() / 2));
           pathfinder.find(house, startTile, endTile);
           path = pathfinder.getPath();
           for (Tile tile : path)
           {
             // Draw floor tiles on the path between the two rooms
-            house.setTile(tile.getRow(), tile.getCol(), new Floor(tile.getCol(), tile.getRow()));
+            house.setTile(tile.getRow(), tile.getCol(),
+                          new Floor(tile.getCol(), tile.getRow()));
           }
         }
       }
     }
   }
 
-  private void addWalls()
+  private void addWalls ()
   {
     // Adds a wall to a tile if the tile is Empty
     // and is touching a Floor tile
@@ -245,7 +248,7 @@ public class HouseGenerator
     }
   }
 
-  private void addObstacles()
+  private void addObstacles ()
   {
     Random rand = new Random();
     int row;
@@ -253,13 +256,13 @@ public class HouseGenerator
 
     for (Room room : rooms)
     {
-      row = (room.row()+1) + rand.nextInt(room.height()-1);
-      col = (room.col()+1) + rand.nextInt(room.width()-1);
+      row = (room.row() + 1) + rand.nextInt(room.height() - 1);
+      col = (room.col() + 1) + rand.nextInt(room.width() - 1);
       house.setTile(row, col, new Obstacle(col, row));
     }
   }
 
-  private void addExit()
+  private void addExit ()
   {
     Random rand = new Random();
     List<Tile> walls = getWalls();
@@ -278,15 +281,15 @@ public class HouseGenerator
     house.setTile(row, col, exit);
   }
 
-  private boolean validRoom(Room room)
+  private boolean validRoom (Room room)
   {
     // First, check if the room if in bounds of the house
     // and not right at the edge (leave space for a wall)
-    if ((room.row() < 1) || ((room.row()+room.height()) >= (house.getRows()-1)))
+    if ((room.row() < 1) || ((room.row() + room.height()) >= (house.getRows() - 1)))
     {
       return false;
     }
-    else if ((room.col() < 1) || ((room.col()+room.width()) >= (house.getCols()-1)))
+    else if ((room.col() < 1) || ((room.col() + room.width()) >= (house.getCols() - 1)))
     {
       return false;
     }
@@ -295,11 +298,11 @@ public class HouseGenerator
       // Make sure there is at least one space for a wall between rooms
       // (two rooms adjacent would just look like one big room)
       // Make sure the room isn't overlapping any other rooms or obstacles
-      for (int row = (room.row()-1); row <= (room.row()+room.height()+1); row++)
+      for (int row = (room.row() - 1); row <= (room.row() + room.height() + 1); row++)
       {
         if ((row > 0) && (row < house.getRows()))
         {
-          for (int col = (room.col()-1); col <= (room.col()+room.width()+1); col++)
+          for (int col = (room.col() - 1); col <= (room.col() + room.width() + 1); col++)
           {
             if ((col > 0) && (col < house.getCols()))
             {
@@ -315,28 +318,34 @@ public class HouseGenerator
     return true;
   }
 
-  private boolean validExit(Tile wall)
+  private boolean validExit (Tile wall)
   {
     boolean touchesEmpty = false;
     boolean touchesFloor = false;
 
-    for (Tile tile: house.neighbors(wall))
+    for (Tile tile : house.neighbors(wall))
     {
-      if (tile instanceof Empty) touchesEmpty = true;
-      if (tile instanceof Floor) touchesFloor = true;
+      if (tile instanceof Empty)
+      {
+        touchesEmpty = true;
+      }
+      if (tile instanceof Floor)
+      {
+        touchesFloor = true;
+      }
     }
     return touchesEmpty && touchesFloor;
   }
 
-  private void countHallways()
+  private void countHallways ()
   {
     numHallways = 0;
     int hallwayLength = 0;
 
     // check horizontal hallways
-    for (int row = 1; row < house.getRows()-1; row++)
+    for (int row = 1; row < house.getRows() - 1; row++)
     {
-      for (int col = 1; col < house.getCols()-1; col++)
+      for (int col = 1; col < house.getCols() - 1; col++)
       {
         if (isHorizontalHallway(house.getTile(row, col)))
         {
@@ -355,9 +364,9 @@ public class HouseGenerator
     }
 
     // check vertical hallways
-    for (int col = 1; col < house.getCols()-1; col++)
+    for (int col = 1; col < house.getCols() - 1; col++)
     {
-      for (int row = 1; row < house.getRows()-1; row++)
+      for (int row = 1; row < house.getRows() - 1; row++)
       {
         if (isVerticalHallway(house.getTile(row, col)))
         {
@@ -376,7 +385,7 @@ public class HouseGenerator
     }
   }
 
-  private boolean isHorizontalHallway(Tile tile)
+  private boolean isHorizontalHallway (Tile tile)
   {
     Tile topTile;
     Tile bottomTile;
@@ -386,8 +395,8 @@ public class HouseGenerator
       return false;
     }
 
-    topTile = house.getTile(tile.getRow()-1, tile.getCol());
-    bottomTile = house.getTile(tile.getRow()+1, tile.getCol());
+    topTile = house.getTile(tile.getRow() - 1, tile.getCol());
+    bottomTile = house.getTile(tile.getRow() + 1, tile.getCol());
 
     if (topTile == null || bottomTile == null)
     {
@@ -399,7 +408,7 @@ public class HouseGenerator
     }
   }
 
-  private boolean isVerticalHallway(Tile tile)
+  private boolean isVerticalHallway (Tile tile)
   {
     Tile leftTile;
     Tile rightTile;
@@ -409,8 +418,8 @@ public class HouseGenerator
       return false;
     }
 
-    leftTile = house.getTile(tile.getRow(), tile.getCol()-1);
-    rightTile = house.getTile(tile.getRow(), tile.getCol()+1);
+    leftTile = house.getTile(tile.getRow(), tile.getCol() - 1);
+    rightTile = house.getTile(tile.getRow(), tile.getCol() + 1);
 
     if (leftTile == null || rightTile == null)
     {
@@ -422,7 +431,7 @@ public class HouseGenerator
     }
   }
 
-  private List<Tile> getWalls()
+  private List<Tile> getWalls ()
   {
     List<Tile> walls = new ArrayList<>();
     for (int row = 0; row < house.getRows(); row++)
@@ -439,7 +448,7 @@ public class HouseGenerator
   }
 
 
-  private boolean touchesFloor(Tile current)
+  private boolean touchesFloor (Tile current)
   {
     for (Tile tile : house.getAllNeighbors(current))
     {
@@ -451,7 +460,7 @@ public class HouseGenerator
     return false;
   }
 
-  private boolean touchesEmpty(Tile current)
+  private boolean touchesEmpty (Tile current)
   {
     for (Tile tile : house.getAllNeighbors(current))
     {
@@ -463,14 +472,14 @@ public class HouseGenerator
     return false;
   }
 
- private boolean onBoarder(Tile tile)
- {
-   int row = tile.getRow();
-   int col = tile.getCol();
-   return row <= 0 || col <= 0 || row >= house.getRows() - 1 || col >= house.getCols() - 1;
- }
+  private boolean onBoarder (Tile tile)
+  {
+    int row = tile.getRow();
+    int col = tile.getCol();
+    return row <= 0 || col <= 0 || row >= house.getRows() - 1 || col >= house.getCols() - 1;
+  }
 
-  private void placePlayer()
+  private void placePlayer ()
   {
     Random rand = new Random();
     Room room;
@@ -482,15 +491,17 @@ public class HouseGenerator
     do
     {
       room = rooms.get(rand.nextInt(rooms.size()));
-      row = room.row() + rand.nextInt(room.height()+1);
-      col = room.col() + rand.nextInt(room.width()+1);
+      row = room.row() + rand.nextInt(room.height() + 1);
+      col = room.col() + rand.nextInt(room.width() + 1);
       tile = house.getTile(row, col);
       tries++;
-    } while ((tries<maxTries)&&(!(tile instanceof Floor)||(house.getDistance(tile, exit)<params.minTravelDistance)));
+    }
+    while ((tries < maxTries) && (!(tile instanceof Floor) || (house.getDistance(
+            tile, exit) < params.minTravelDistance)));
     house.getPlayer().move(col, row);
   }
 
-  private void generateZombies()
+  private void generateZombies ()
   {
     Random rand = new Random();
     Zombie zombie;
@@ -499,12 +510,13 @@ public class HouseGenerator
     // zombies only spawn in rooms and not in hallways
     for (Room room : rooms)
     {
-      for (int row = room.row(); row <= room.row()+room.height(); row++)
+      for (int row = room.row(); row <= room.row() + room.height(); row++)
       {
-        for (int col = room.col(); col <= room.col()+room.width(); col++)
+        for (int col = room.col(); col <= room.col() + room.width(); col++)
         {
           tile = house.getTile(row, col);
-          if (tile instanceof Floor && tile != house.getCharacterTile(house.getPlayer()))
+          if (tile instanceof Floor && tile != house.getCharacterTile(
+                  house.getPlayer()))
           {
             if (rand.nextFloat() < params.zombieSpawn)
             {
@@ -517,7 +529,8 @@ public class HouseGenerator
                 zombie = new Zombie(new LineMoveStrategy());
               }
 
-              if (house.getDistance(tile, house.getCharacterTile(house.getPlayer())) > zombie.getSmell())
+              if (house.getDistance(tile, house.getCharacterTile(
+                      house.getPlayer())) > zombie.getSmell())
               {
                 zombie.move(col, row);
                 house.addZombie(zombie);
@@ -529,7 +542,7 @@ public class HouseGenerator
     }
   }
 
-  private void addSuperZombie()
+  private void addSuperZombie ()
   {
     Random rand = new Random();
     int row;
@@ -543,17 +556,20 @@ public class HouseGenerator
     do
     {
       room = rooms.get(rand.nextInt(rooms.size()));
-      row = room.row() + rand.nextInt(room.height()+1);
-      col = room.col() + rand.nextInt(room.width()+1);
+      row = room.row() + rand.nextInt(room.height() + 1);
+      col = room.col() + rand.nextInt(room.width() + 1);
       tile = house.getTile(row, col);
-      distance = house.getDistance(tile, house.getCharacterTile(house.getPlayer()));
+      distance = house.getDistance(tile,
+                                   house.getCharacterTile(house.getPlayer()));
       tries++;
-    } while ((tries<maxTries)&&(!(tile instanceof Floor)||house.isZombieTile(tile)||(distance<(2*params.minZombieDistance))));
+    }
+    while ((tries < maxTries) && (!(tile instanceof Floor) || house.isZombieTile(
+            tile) || (distance < (2 * params.minZombieDistance))));
     superZombie.move(tile.getCol(), tile.getRow());
     house.setSuperZombie(superZombie);
   }
 
-  private void generateTraps()
+  private void generateTraps ()
   {
     Random rand = new Random();
     Tile tile;
@@ -563,7 +579,8 @@ public class HouseGenerator
       for (int col = 0; col < house.getCols(); col++)
       {
         tile = house.getTile(row, col);
-        if (tile instanceof Floor && tile != house.getCharacterTile(house.getPlayer()) && !house.isZombieTile(tile))
+        if (tile instanceof Floor && tile != house.getCharacterTile(
+                house.getPlayer()) && !house.isZombieTile(tile))
         {
           if (rand.nextFloat() < params.trapSpawn)
           {
@@ -578,14 +595,15 @@ public class HouseGenerator
     }
   }
 
-  private boolean isHouseValid()
+  private boolean isHouseValid ()
   {
     try
     {
       assertion(rooms.size() >= params.minRooms);
       assertion(house.getObstacles().size() >= params.minObstacles);
       assertion(numHallways >= params.minHallways);
-      assertion(house.getDistance(house.getCharacterTile(house.getPlayer()), exit) >= params.minTravelDistance);
+      assertion(house.getDistance(house.getCharacterTile(house.getPlayer()),
+                                  exit) >= params.minTravelDistance);
       assertion(!isPlayerTooCloseToZombies());
     }
     catch (AssertionError ex)
@@ -595,16 +613,19 @@ public class HouseGenerator
     return true;
   }
 
-  private boolean isPlayerTooCloseToZombies()
+  private boolean isPlayerTooCloseToZombies ()
   {
-    if (house.getDistance(house.getCharacterTile(house.getPlayer()),house.getCharacterTile(house.getSuperZombie()))<2*params.minZombieDistance)
+    if (house.getDistance(house.getCharacterTile(house.getPlayer()),
+                          house.getCharacterTile(
+                                  house.getSuperZombie())) < 2 * params.minZombieDistance)
     {
       return true;
     }
 
     for (Zombie zombie : house.getZombies())
     {
-      if (house.getDistance(house.getCharacterTile(house.getPlayer()), house.getCharacterTile(zombie)) < zombie.getSmell())
+      if (house.getDistance(house.getCharacterTile(house.getPlayer()),
+                            house.getCharacterTile(zombie)) < zombie.getSmell())
       {
         return true;
       }
@@ -612,8 +633,11 @@ public class HouseGenerator
     return false;
   }
 
-  private void assertion(boolean expr) throws AssertionError
+  private void assertion (boolean expr) throws AssertionError
   {
-    if (!expr) throw new AssertionError();
+    if (!expr)
+    {
+      throw new AssertionError();
+    }
   }
 }

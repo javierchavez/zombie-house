@@ -4,12 +4,12 @@ package common;
  * @author Javier Chavez
  * @author Alex Baker
  * @author Erin Sosebee
- *
- * Date September 28, 2015
- * CS 351
- * Zombie House
- *
- * This is the interface for Combustible objects
+ *         <p>
+ *         Date September 28, 2015
+ *         CS 351
+ *         Zombie House
+ *         <p>
+ *         This is the interface for Combustible objects
  */
 
 

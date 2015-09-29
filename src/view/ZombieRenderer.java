@@ -91,7 +91,7 @@ public class ZombieRenderer extends Renderer
   public ZombieRenderer (House house)
   {
     this.house = house;
-//    sound2D = new Sound2D();
+    //    sound2D = new Sound2D();
 
 
   }

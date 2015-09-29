@@ -43,7 +43,7 @@ public class MenuRenderer extends Renderer
     {
       e.printStackTrace();
     }
-     return image;
+    return image;
   }
 
   private int oscillator (double opacity)
@@ -53,7 +53,7 @@ public class MenuRenderer extends Renderer
 
   private int blinker (double opacity)
   {
-    return (int) ((int) 127f + 127f * Math.sin( opacity * 2.0 * Math.PI));
+    return (int) ((int) 127f + 127f * Math.sin(opacity * 2.0 * Math.PI));
   }
 
   @Override
@@ -65,17 +65,14 @@ public class MenuRenderer extends Renderer
     {
       currentOpacity = 0;
     }
-    g.drawImage(getImage("background-menu.png"),
-                0,
-                0,
-                 null);
+    g.drawImage(getImage("background-menu.png"), 0, 0, null);
 
-    g.fillRect(0,0, ((int) viewBounds.getWidth()),
+    g.fillRect(0, 0, ((int) viewBounds.getWidth()),
                ((int) viewBounds.getHeight()));
 
     g.drawImage(getImage("main-screen.png"),
-                (int)(viewBounds.getWidth() - image.getWidth())/2,
-                (int)(viewBounds.getHeight() - image.getHeight())/2, null);
+                (int) (viewBounds.getWidth() - image.getWidth()) / 2,
+                (int) (viewBounds.getHeight() - image.getHeight()) / 2, null);
 
 
     g.setColor(new Color(255, 255, 255, this.blinker(currentOpacity)));
@@ -83,16 +80,15 @@ public class MenuRenderer extends Renderer
 
     // add text or variable to render here
     g.drawString(options.getMessage(),
-                 ((int)((viewBounds.getWidth() - image.getWidth())/2)+ 300),
-                 ((int)(viewBounds.getHeight() - image.getHeight())/2) + 180);
+                 ((int) ((viewBounds.getWidth() - image.getWidth()) / 2) + 300),
+                 ((int) (viewBounds.getHeight() - image.getHeight()) / 2) + 180);
 
-    g.setColor(new Color(252,0,12));
+    g.setColor(new Color(252, 0, 12));
     g.setFont(new Font("Verdana", Font.PLAIN, 30));
 
-    g.drawString(options.getState().toString() ,
+    g.drawString(options.getState().toString(),
                  ((int) (viewBounds.getWidth() - image.getWidth()) / 2) + 350,
-                 ((int) (viewBounds.getHeight() - image.getHeight()) / 2) +
-                         294);
+                 ((int) (viewBounds.getHeight() - image.getHeight()) / 2) + 294);
 
   }
 }

@@ -21,12 +21,12 @@ public class Room extends Area
    * Creates a Room with upper left corner at (row, col)
    * and with a size of (width, height)
    *
-   * @param row Row of the top edge of the room
-   * @param col Column of the left edge of the room
-   * @param width How many columns the room spans
+   * @param row    Row of the top edge of the room
+   * @param col    Column of the left edge of the room
+   * @param width  How many columns the room spans
    * @param height How many rows the room spans
    */
-  public Room(int row, int col, int width, int height)
+  public Room (int row, int col, int width, int height)
   {
     super(col, row, width, height);
   }
@@ -37,7 +37,7 @@ public class Room extends Area
    *
    * @return row
    */
-  public int row()
+  public int row ()
   {
     return (int) getY();
   }
@@ -47,7 +47,7 @@ public class Room extends Area
    *
    * @return col
    */
-  public int col()
+  public int col ()
   {
     return (int) getX();
   }
@@ -57,7 +57,7 @@ public class Room extends Area
    *
    * @return width
    */
-  public int width()
+  public int width ()
   {
     return (int) getWidth();
   }
@@ -67,7 +67,7 @@ public class Room extends Area
    *
    * @return height
    */
-  public int height()
+  public int height ()
   {
     return (int) getHeight();
   }
@@ -78,11 +78,11 @@ public class Room extends Area
    *
    * @param house House to place the room in
    */
-  public void addRoom(House house)
+  public void addRoom (House house)
   {
-    for (int row = row(); row <= row()+height(); row++)
+    for (int row = row(); row <= row() + height(); row++)
     {
-      for (int col = col(); col <= col()+width(); col++)
+      for (int col = col(); col <= col() + width(); col++)
       {
         house.setTile(row, col, new Floor(col, row));
       }

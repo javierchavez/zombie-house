@@ -20,18 +20,11 @@ import java.util.List;
 public class Animation
 {
 
-  private int
-          frameCount,
-          frameDelay,
-          currentFrame,
-          animationDirection,
-          totalFrames;
+  private int frameCount, frameDelay, currentFrame, animationDirection, totalFrames;
 
-  private boolean
-          stopped;
+  private boolean stopped;
 
-  private List<Frame>
-          frames = new ArrayList<>();
+  private List<Frame> frames = new ArrayList<>();
 
   public Animation (BufferedImage[] frames, int frameDelay)
   {

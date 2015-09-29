@@ -39,7 +39,7 @@ public class HouseParameters
    * Parameters changed in this object do
    * not change other instances
    */
-  public HouseParameters()
+  public HouseParameters ()
   {
     setLevel(GameOptions.GAME_STATE.PLAY);
   }
@@ -49,7 +49,7 @@ public class HouseParameters
    *
    * @param level GAME_STATE level
    */
-  public void setLevel(GameOptions.GAME_STATE level)
+  public void setLevel (GameOptions.GAME_STATE level)
   {
     switch (level)
     {

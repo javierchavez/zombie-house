@@ -298,9 +298,9 @@ public class House extends Area
    */
   public Tile getCharacterTile(Character character)
   {
-    float midx = character.getCurrentX() + (character.getWidth()/2f);
-    float midy = character.getCurrentY() + (character.getHeight()/2f);
-    return getTile((int) midy, (int) midx);
+    float midX = character.getCurrentX() + (character.getWidth()/2f);
+    float midY = character.getCurrentY() + (character.getHeight()/2f);
+    return getTile((int) midY, (int) midX);
   }
 
   /**

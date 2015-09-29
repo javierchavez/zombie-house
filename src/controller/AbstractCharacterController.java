@@ -177,7 +177,8 @@ public abstract class AbstractCharacterController<T extends Character> implement
     idling = false;
     moveUp = true;
     //direction = Mover.NORTH; // Change mover's direction
-    mover.setRotation(Direction.NORTH);
+    // mover.setRotation(Direction.NORTH);
+    mover.setRotation(Direction.SOUTH);
   }
 
   @Override
@@ -191,7 +192,8 @@ public abstract class AbstractCharacterController<T extends Character> implement
     idling = false;
     moveDown = true;
     //direction = Mover.SOUTH;
-    mover.setRotation(Direction.SOUTH);
+    // mover.setRotation(Direction.SOUTH);
+    mover.setRotation(Direction.NORTH);
   }
 
   @Override
@@ -232,7 +234,8 @@ public abstract class AbstractCharacterController<T extends Character> implement
     isMoving = true;
     idling = false;
     //direction = NORTHEAST;
-    mover.setRotation(Direction.NORTHEAST);
+    // mover.setRotation(Direction.NORTHEAST);
+    mover.setRotation(Direction.SOUTHEAST);
   }
 
   @Override
@@ -241,7 +244,8 @@ public abstract class AbstractCharacterController<T extends Character> implement
     isMoving = true;
     idling = false;
     //direction = NORTHWEST;
-    mover.setRotation(Direction.NORTHWEST);
+    // mover.setRotation(Direction.NORTHWEST);
+    mover.setRotation(Direction.SOUTHWEST);
   }
 
   @Override
@@ -250,7 +254,8 @@ public abstract class AbstractCharacterController<T extends Character> implement
     isMoving = true;
     idling = false;
     //direction = SOUTHEAST;
-    mover.setRotation(Direction.SOUTHEAST);
+    // mover.setRotation(Direction.SOUTHEAST);
+    mover.setRotation(Direction.NORTHEAST);
   }
 
   @Override
@@ -259,7 +264,8 @@ public abstract class AbstractCharacterController<T extends Character> implement
     isMoving = true;
     idling = false;
     //direction = SOUTHWEST;
-    mover.setRotation(Direction.SOUTHWEST);
+    // mover.setRotation(Direction.SOUTHWEST);
+    mover.setRotation(Direction.NORTHWEST);
   }
 
   @Override

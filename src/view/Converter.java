@@ -39,9 +39,9 @@ public class Converter
   public Point charCenter (float x, float y)
   {
     return new Point(
-            (int) (((x * 80) + (x * Size.TILE)) + ((x * 80) - (x * Size.TILE)))
+            (int) (((x * Size.TILE) + (x * Size.TILE)) + ((x * Size.TILE) - (x * Size.TILE)))
                     / 2,
-            (int) (((y * 80) + (y * Size.TILE)) + ((y * 80) - (y * Size.TILE))) / 2);
+            (int) (((y * Size.TILE) + (y * Size.TILE)) + ((y * Size.TILE) - (y * Size.TILE))) / 2);
   }
 
 

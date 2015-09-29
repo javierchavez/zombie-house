@@ -34,6 +34,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
 
   private Renderer playerRenderer;
   private Renderer zombieRenderer;
+  private Renderer lights;
   private Point2D dragFrom;
   private Converter converter;
 
@@ -63,11 +64,12 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     converter = new Converter(house);
     houseRenderer = new HouseRenderer(house, converter);
     menuRenderer = new MenuRenderer(options);
+    lights = new LightSourceRenderer(house);
 
   }
 
   @Override
-  public void update(float deltaTime)
+  public void update (float deltaTime)
   {
     if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
     {
@@ -97,31 +99,64 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     zombieController.update(deltaTime);
     ss.update(deltaTime);
 
-    if (pKeyPressed) controller.trapKeyPressed();
-    if (!pKeyPressed) controller.trapKeyReleased();
+    if (pKeyPressed)
+    {
+      controller.trapKeyPressed();
+    }
+    if (!pKeyPressed)
+    {
+      controller.trapKeyReleased();
+    }
 
     // Ordinal direction
-    if (upPressed && rightPressed) controller.moveUpRight();
-    else if (upPressed && leftPressed) controller.moveUpLeft();
-    else if (downPressed && rightPressed) controller.moveDownRight();
-    else if (downPressed && leftPressed) controller.moveDownLeft();
+    if (upPressed && rightPressed)
+    {
+      controller.moveUpRight();
+    }
+    else if (upPressed && leftPressed)
+    {
+      controller.moveUpLeft();
+    }
+    else if (downPressed && rightPressed)
+    {
+      controller.moveDownRight();
+    }
+    else if (downPressed && leftPressed)
+    {
+      controller.moveDownLeft();
+    }
 
     // Cardinal directions
-    else if (upPressed) controller.moveUp();
-    else if (rightPressed) controller.moveRight();
-    else if (downPressed) controller.moveDown();
-    else if (leftPressed)controller.moveLeft();
+    else if (upPressed)
+    {
+      controller.moveUp();
+    }
+    else if (rightPressed)
+    {
+      controller.moveRight();
+    }
+    else if (downPressed)
+    {
+      controller.moveDown();
+    }
+    else if (leftPressed)
+    {
+      controller.moveLeft();
+    }
 
-    if (!moving) controller.idle();
+    if (!moving)
+    {
+      controller.idle();
+    }
   }
 
-  public AffineTransform getTransform()
+  public AffineTransform getTransform ()
   {
     AffineTransform at = new AffineTransform();
-//    double shiftX = -player.getCurrentX() * 60;
-//    double shiftY = -player.getCurrentY() * 60;
-    at.scale(1 / 1.78, 1 / 1.78);
-//    at.translate(shiftX, shiftY);
+    double shiftX = -player.getCurrentX() * 60;
+    double shiftY = -player.getCurrentY() * 60;
+    //    at.scale(1 / 1.78, 1 / 1.78);
+    at.translate(shiftX, shiftY);
     return at;
   }
 
@@ -136,14 +171,19 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
 
     graphics.setTransform(getTransform());
     //houseRenderer.translateAbsolute(player.getCurrentX(), player.getCurrentY
-      //    ());
+    //    ());
     houseRenderer.render(graphics);
     playerRenderer.render(graphics);
     zombieRenderer.render(graphics);
+
+    //light should be render last
+    lights.render(graphics);
   }
 
   @Override
-  public void keyTyped (KeyEvent e) { }
+  public void keyTyped (KeyEvent e)
+  {
+  }
 
   @Override
   public void keyPressed (KeyEvent e)
@@ -152,8 +192,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     {
       // menu screen
       case KeyEvent.VK_SPACE:
-        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED
-                || options.getStatus() == GameOptions.GAME_STATUS.STARTUP)
+        if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED || options.getStatus() == GameOptions.GAME_STATUS.STARTUP)
         {
           if (options.getState() == GameOptions.GAME_STATE.RESTART)
           {
@@ -245,7 +284,10 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       case KeyEvent.VK_R:
         if (moving)
         {
-          if (DEBUG) System.out.println("Running");
+          if (DEBUG)
+          {
+            System.out.println("Running");
+          }
           // Character can only run if they're actually moving
           controller.run();
         }
@@ -306,13 +348,16 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
       case KeyEvent.VK_R:
         if (moving)
         {
-          if (DEBUG) System.out.println("Not running");
+          if (DEBUG)
+          {
+            System.out.println("Not running");
+          }
           controller.walk();
         }
         break;
       case KeyEvent.VK_P:
         pKeyPressed = false;
-//        controller.trapInteraction();
+        //        controller.trapInteraction();
         break;
 
     }
@@ -357,13 +402,15 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   }
 
   @Override
-  public void mouseMoved (MouseEvent e) { }
+  public void mouseMoved (MouseEvent e)
+  {
+  }
 
   public void setViewPort (Rectangle2D rectangle)
   {
     this.viewPort = rectangle;
-     houseRenderer.setViewBounds(rectangle);
+    houseRenderer.setViewBounds(rectangle);
 
-//    houseRenderer.translateAbsolute();
+    //    houseRenderer.translateAbsolute();
   }
 }

@@ -1,6 +1,7 @@
 package view;
 
 import common.Direction;
+import common.Size;
 import model.*;
 
 import java.awt.*;
@@ -35,7 +36,6 @@ public class ZombieRenderer extends Renderer
           SuperZombieSprite.getSprite(0, 0),
           SuperZombieSprite.getSprite(1, 0),
           SuperZombieSprite.getSprite(2, 0)};
-
 
 
   private BufferedImage[] walkingWest = {
@@ -73,42 +73,56 @@ public class ZombieRenderer extends Renderer
   // check direction... need a AnimationFactoryClass
   private Animation animation;
   private Animation animationSuper;
+  Sound2D sound2D;
 
 
-  public ZombieRenderer(House house)
+  public ZombieRenderer (House house)
   {
     this.house = house;
+    sound2D = new Sound2D();
+
 
   }
 
   @Override
   public void render (Graphics2D g2)
   {
-    List<Zombie> zombies =  house.getZombies();
+    List<Zombie> zombies = house.getZombies();
+    Player player = house.getPlayer();
+
     for (int i = 0; i < zombies.size(); i++)
     {
       Zombie zombie = zombies.get(i);
+
       float x = zombie.getCurrentX();
       float y = zombie.getCurrentY();
+
+      if (!player.senseSight(house.getTile((int) y, (int) x)))
+      {
+        continue;
+      }
+
       setAnimation(zombie);
-//      if (house.getPlayer().senseSight(house.getCharacterTile(zombie)))
-//      {
-        g2.drawImage(animation.getSprite(), (int) ((x * TILE_HEIGHT)), (int) ((y * TILE_HEIGHT)), null);
-//      }
+      g2.drawImage(animation.getSprite(), (int) ((x * Size.TILE)),
+                   (int) ((y * Size.TILE)), null);
+      if (zombie.getVolume() > 0)
+      {
+        //        Point p = new Point(((int) zombie.getX()), ((int) zombie.getY()));
+        //        Player pl = house.getPlayer();
+        //        Point p2 = new Point(((int) pl.getX()), ((int) pl.getY()));
+        //        sound2D.playDistSound(p, p2, (int) pl.getRotation(), true);
+
+      }
     }
-//    if (house.getPlayer().senseSight(house.getCharacterTile(house.getSuperZombie())))
-//    {
     SuperZombie superZombie = house.getSuperZombie();
     setSuperAnimation(superZombie);
     g2.drawImage(animationSuper.getSprite(),
-                 (int) ((superZombie.getCurrentX() * TILE_HEIGHT)),
-                 (int) ((superZombie.getCurrentY() * TILE_HEIGHT)), null);
-
-//    }
+                 (int) ((superZombie.getCurrentX() * Size.TILE)),
+                 (int) ((superZombie.getCurrentY() * Size.TILE)), null);
 
   }
 
-  private void setAnimation(Zombie zombie)
+  private void setAnimation (Zombie zombie)
   {
     switch ((int) zombie.getRotation())
     {
@@ -127,7 +141,7 @@ public class ZombieRenderer extends Renderer
     }
   }
 
-  private void setSuperAnimation(SuperZombie zombie)
+  private void setSuperAnimation (SuperZombie zombie)
   {
     switch ((int) zombie.getRotation())
     {
@@ -145,4 +159,6 @@ public class ZombieRenderer extends Renderer
         break;
     }
   }
+
+
 }

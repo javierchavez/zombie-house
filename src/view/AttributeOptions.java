@@ -30,7 +30,6 @@ public class AttributeOptions extends JFrame
   {
     Player player = house.getPlayer();
     SuperZombie superZombie = house.getSuperZombie();
-    Array zombies = house.getZombies();
 
     JButton saveButton = new JButton("Save");
     JButton cancelButton = new JButton("Cancel");

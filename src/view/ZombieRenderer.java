@@ -73,13 +73,13 @@ public class ZombieRenderer extends Renderer
   // check direction... need a AnimationFactoryClass
   private Animation animation;
   private Animation animationSuper;
-  //Sound2D sound2D;
+//  Sound2D sound2D;
 
 
   public ZombieRenderer (House house)
   {
     this.house = house;
-    //sound2D = new Sound2D();
+//    sound2D = new Sound2D();
 
 
   }

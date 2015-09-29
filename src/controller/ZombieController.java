@@ -10,63 +10,22 @@ import java.util.List;
 
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
-  List<Zombie> zombies;
+  private List<Zombie> zombies;
   private boolean isMoving = true;
   private boolean playerDetected = false;
 
-  // An incrementer to keep track of when 120 frames (2 seconds) have passed
+  // An incrementer to keep track of when zombie decision rate should fire
   private int time = 0;
   private Tile zombieTile;
   private List<Tile> path;
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
   public ZombieController (House house)
   {
     super(house);
   }
 
-  /**
-   * Determines which way the zombie will move.
-   */
-  private void zombieDirection(float xDir, float yDir)
-  {
-    if (xDir == 0 && yDir == 0) resting();
-
-    if (xDir < 0 && yDir == 0) moveLeft();
-    if (xDir < 0 && yDir < 0) moveLeft();
-    if (xDir < 0 && yDir > 0) moveLeft();
-
-    if (xDir > 0 && yDir == 0) moveRight();
-    if (xDir < 0 && yDir > 0) moveRight();
-    if (xDir > 0 && yDir > 0) moveRight();
-
-    if (yDir > 0 && xDir == 0) moveUp();
-    if (yDir < 0 && xDir == 0) moveDown();
-  }
-
-  /**
-   * Changes a zombie's direction so that they don't constantly collide with wall and idle until the next update.
-   */
-  private void changeDirection()
-  {
-    if (mover.getRotation() == Direction.EAST)
-    {
-      mover.setRotation(Direction.WEST);
-    }
-    else if (mover.getRotation() == Direction.WEST)
-    {
-      mover.setRotation(Direction.EAST);
-    }
-    else if (mover.getRotation() == Direction.NORTH)
-    {
-      mover.setRotation(Direction.SOUTH);
-    }
-    else if (mover.getRotation() == Direction.SOUTH)
-    {
-      mover.setRotation(Direction.NORTH);
-    }
-  }
 
   @Override
   public void update(float deltaTime)
@@ -155,6 +114,9 @@ public class ZombieController extends AbstractCharacterController<Zombie>
             if (DEBUG) System.out.println("\tRandom zombie");
             if (checkCollision(new Move(wanderX, wanderY, mover.getRotation())))
             {
+//              changeDirection();
+              stopMoving();
+
               // If the random mover zombie hits an obstacle, it moves back a bit and stops moving
               if (mover.getRotation() == Direction.NORTH)
               {
@@ -172,7 +134,6 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               {
                 mover.move(wanderX + 0.05f, wanderY);
               }
-              stopMoving();
             }
 
             // Random walker updates position every decision update
@@ -241,5 +202,47 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       }
     }
     return house.getTile(row, col);
+  }
+
+  /**
+   * Determines which way the zombie will move.
+   */
+  private void zombieDirection(float xDir, float yDir)
+  {
+    if (xDir == 0 && yDir == 0) resting();
+
+    if (xDir < 0 && yDir == 0) moveLeft();
+    if (xDir < 0 && yDir < 0) moveLeft();
+    if (xDir < 0 && yDir > 0) moveLeft();
+
+    if (xDir > 0 && yDir == 0) moveRight();
+    if (xDir < 0 && yDir > 0) moveRight();
+    if (xDir > 0 && yDir > 0) moveRight();
+
+    if (yDir > 0 && xDir == 0) moveUp();
+    if (yDir < 0 && xDir == 0) moveDown();
+  }
+
+  /**
+   * Changes a zombie's direction so that they don't constantly collide with wall and idle until the next update.
+   */
+  private void changeDirection()
+  {
+    if (mover.getRotation() == Direction.EAST)
+    {
+      mover.setRotation(Direction.WEST);
+    }
+    else if (mover.getRotation() == Direction.WEST)
+    {
+      mover.setRotation(Direction.EAST);
+    }
+    else if (mover.getRotation() == Direction.NORTH)
+    {
+      mover.setRotation(Direction.SOUTH);
+    }
+    else if (mover.getRotation() == Direction.SOUTH)
+    {
+      mover.setRotation(Direction.NORTH);
+    }
   }
 }

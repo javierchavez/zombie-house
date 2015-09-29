@@ -74,7 +74,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
         Tile next = tiles.get(0);
 
         float xDir = next.getX() - current.getX();
-        float yDir = next.getY() - current.getY();
+        float yDir = (next.getY() - current.getY()) * -1;
         if (xDir == 0 && yDir == 0)
         {
           stopMoving();

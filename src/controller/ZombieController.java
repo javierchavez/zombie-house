@@ -72,9 +72,10 @@ public class ZombieController extends AbstractCharacterController<Zombie>
                 "Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
       }
 
-      boolean playerDetected = zombie.sense(playerTile);
+//      boolean playerDetected = zombie.sense(playerTile);
       if (isMoving)
       {
+        boolean playerDetected = zombie.sense(playerTile);
         if (playerDetected)
         {
           house.getSuperZombie().setZombie(zombie);
@@ -100,7 +101,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
           {
             Tile nextTile = path.get(0);
             xDir = (currentTile.getX() - nextTile.getX()) * -1;
-            yDir = (currentTile.getY() - nextTile.getY()) * -1;
+            yDir = (currentTile.getY() - nextTile.getY());
 
             zombieDirection(xDir, yDir);
             x = (float) (mover.getCurrentX() + mover.getSpeed() * Math.cos(
@@ -149,11 +150,11 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               // If the random mover zombie hits an obstacle, it moves back a bit and stops moving
               if (mover.getRotation() == Direction.NORTH)
               {
-                mover.move(wanderX, wanderY - 0.05f);
+                mover.move(wanderX, wanderY + 0.05f);
               }
               if (mover.getRotation() == Direction.SOUTH)
               {
-                mover.move(wanderX, wanderY + 0.05f);
+                mover.move(wanderX, wanderY - 0.05f);
               }
               if (mover.getRotation() == Direction.EAST)
               {

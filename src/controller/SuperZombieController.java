@@ -1,5 +1,16 @@
 package controller;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import common.Duration;
 import common.Speed;
@@ -12,6 +23,7 @@ import model.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class SuperZombieController extends AbstractCharacterController<SuperZombie>
 {
   private int secIncrement = 0;
@@ -36,6 +48,7 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
     return false;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void update (float deltaTime)
   {
@@ -45,8 +58,9 @@ public class SuperZombieController extends AbstractCharacterController<SuperZomb
     {
       if (secIncrement >= (Duration.SUPER_ZOMBIE_UPDATE * 60))
       {
-        mover.getStrategy().find(house, house.getCharacterTile(house.getSuperZombie()), house
-                .getCharacterTile(house.getPlayer()));
+        mover.getStrategy().find(house,
+                                 house.getCharacterTile(house.getSuperZombie()),
+                                 house.getCharacterTile(house.getPlayer()));
         tiles.clear();
         tiles = mover.getStrategy().getPath();
         secIncrement = 0;

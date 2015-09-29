@@ -1,21 +1,27 @@
 package controller;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import common.CharacterAttributes;
 import common.Speed;
 import common.Duration;
 import model.*;
-import model.Character;
-import model.Move;
 
 public class PlayerController extends AbstractCharacterController<Player>
 {
-  private int trapSetTimer = 0;
-  private final int TRAP_SET_TIME = (int) (60 * Duration.PICKIP_TIME); // Takes 5 seconds to set/pick up traps
-  private boolean pKeyPressed = false;
-
   Tile playerTile;
-
+  private int trapSetTimer = 0;
+  private boolean pKeyPressed = false;
   private boolean DEBUG = false;
 
   public PlayerController (House house)
@@ -123,6 +129,7 @@ public class PlayerController extends AbstractCharacterController<Player>
   public void trapInteraction()
   {
     Tile tile = house.getCharacterTile(house.getPlayer());
+    int TRAP_SET_TIME = (int) (60 * Duration.PICKIP_TIME);
     if (house.isTrap(tile))
     {
 //      if (DEBUG) System.out.println("PICKING UP TRAP");

@@ -1,5 +1,18 @@
 package view;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
+
 import model.*;
 import model.Combustible.CombustedState;
 
@@ -8,19 +21,17 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import common.Size;
-
 
 public class HouseRenderer extends Renderer
 {
   private final House house;
-  FloorGraphic floor = new FloorGraphic();
-  WallGraphic wall = new WallGraphic();
-  TrapGraphic trap = new TrapGraphic();
-  ExitGraphic exit = new ExitGraphic();
-  ObstacleGraphic obstacle = new ObstacleGraphic();
+  private final FloorGraphic floor = new FloorGraphic();
+  private final WallGraphic wall = new WallGraphic();
+  private final TrapGraphic trap = new TrapGraphic();
+  private final ExitGraphic exit = new ExitGraphic();
+  private final ObstacleGraphic obstacle = new ObstacleGraphic();
 
-  private BufferedImage[] burn = {
+  private final BufferedImage[] burn = {
           FireSprite.getSprite(4, 0),
           FireSprite.getSprite(0, 1),
           FireSprite.getSprite(1, 1),
@@ -31,16 +42,15 @@ public class HouseRenderer extends Renderer
           FireSprite.getSprite(1, 2)};
 
 
-  private Animation burning = new Animation(burn, 2);
-
   // check direction... need a AnimationFactoryClass
-  private Animation animation;
+  private final Animation animation;
 
   public HouseRenderer (House house, Converter converter)
   {
     super(house.getCharacterTile(house.getPlayer()).getCol(),
           house.getCharacterTile(house.getPlayer()).getRow(), converter);
     this.house = house;
+    Animation burning = new Animation(burn, 2);
     animation = burning;
     animation.start();
     // center the renderer on the player tile

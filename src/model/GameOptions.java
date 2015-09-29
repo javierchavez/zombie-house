@@ -1,6 +1,16 @@
 package model;
 
-
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ *         <p>
+ *         Date September 28, 2015
+ *         CS 351
+ *         Zombie House
+ *         <p>
+ *         This is the interface for Combustible objects
+ */
 
 public class GameOptions
 {
@@ -10,12 +20,7 @@ public class GameOptions
 
   public GameOptions(House house)
   {
-    this.house = house;
-  }
-
-  public void setState (GAME_STATE state)
-  {
-    GameOptions.state = state;
+    GameOptions.house = house;
   }
 
   public GAME_STATE getState ()
@@ -23,22 +28,19 @@ public class GameOptions
     return state;
   }
 
-  public void setStatus(GAME_STATUS status)
+  public void setState (GAME_STATE state)
   {
-    this.status = status;
+    GameOptions.state = state;
   }
 
-  public GAME_STATUS getStatus()
+  public GAME_STATUS getStatus ()
   {
     return status;
   }
 
-  public enum GAME_STATUS {
-    PLAYING, PAUSED, LOADING, STARTUP
-  }
-
-  public enum GAME_STATE {
-    PLAY, RESTART, EXIT, SETTINGS, GENERATE, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5
+  public void setStatus (GAME_STATUS status)
+  {
+    GameOptions.status = status;
   }
 
   public GAME_STATE getNextLevel(GAME_STATE level)
@@ -85,6 +87,16 @@ public class GameOptions
       message = "Paused";
     }
     return message;
+  }
+
+  public enum GAME_STATUS
+  {
+    PLAYING, PAUSED, LOADING, STARTUP
+  }
+
+  public enum GAME_STATE
+  {
+    PLAY, RESTART, EXIT, SETTINGS, GENERATE, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5
   }
 
 }

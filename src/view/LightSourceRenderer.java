@@ -1,5 +1,18 @@
 package view;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
+
 import model.*;
 
 import java.awt.*;
@@ -9,18 +22,16 @@ import java.util.ArrayList;
 
 public class LightSourceRenderer extends Renderer
 {
-  private final House house;
   protected final static float GRADIENT_SIZE = 200f;
-  protected java.util.List<Tile> entities = new ArrayList<>();
   protected final static Polygon POLYGON = new Polygon();
-
   protected final static Color[] GRADIENT_COLORS = new Color[] {
           new Color(0f, 0f, 0f, 0f),
           Color.black};
-
   protected final static float[] GRADIENT_FRACTIONS = new float[] {
           0f,
           1f};
+  private final House house;
+  protected java.util.List<Tile> entities = new ArrayList<>();
 
   public LightSourceRenderer (House house)
   {

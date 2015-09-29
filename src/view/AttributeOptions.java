@@ -1,14 +1,27 @@
 package view;
 
-import common.CharacterAttributes;
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
+
 import common.Duration;
 import common.Speed;
-import model.*;
+import model.House;
+import model.Player;
+import model.SuperZombie;
+import model.Zombie;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,13 +29,18 @@ import java.util.List;
  */
 public class AttributeOptions extends JFrame
 {
-  private House house;
+  private final House house;
 
   public AttributeOptions(House house)
   {
     super("Zombie House Settings");
     this.house = house;
     initFrame();
+  }
+
+  public static void main (String[] args)
+  {
+    AttributeOptions ao = new AttributeOptions(new House(new Player()));
   }
 
   private void initFrame()
@@ -114,8 +132,6 @@ public class AttributeOptions extends JFrame
     });
   }
 
-
-
   private void showOptionFrame ()
   {
 
@@ -168,10 +184,5 @@ public class AttributeOptions extends JFrame
       // get rid of the dialog
       optionFrame.dispose();
     });
-  }
-
-  public static void main(String[] args)
-  {
-    AttributeOptions ao = new AttributeOptions(new House(new Player()));
   }
 }

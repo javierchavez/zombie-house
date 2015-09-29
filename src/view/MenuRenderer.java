@@ -1,5 +1,17 @@
 package view;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
 
 import model.GameOptions;
 
@@ -14,19 +26,6 @@ public class MenuRenderer extends Renderer
   private static BufferedImage image;
   private final GameOptions options;
   private double currentOpacity = 0.0;
-
-  MenuSprite menuSprite = new MenuSprite();
-
-
-  private BufferedImage[] selections = {
-          MenuSprite.getSprite(0, 0),
-          MenuSprite.getSprite(0, 1),
-          MenuSprite.getSprite(0, 2),
-          MenuSprite.getSprite(0, 3),
-          MenuSprite.getSprite(0, 4)};
-
-  // check direction... need a AnimationFactoryClass
-  private Animation animation;
 
   public MenuRenderer (GameOptions options)
   {

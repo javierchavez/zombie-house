@@ -1,8 +1,18 @@
 package view;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -31,7 +41,7 @@ public class TrapGraphic
 
   public BufferedImage getImage ()
   {
-    // return image.getSubimage(0, 0, 32, 32);
+    // return image.getSubImage(0, 0, 32, 32);
     // return image;
     // double scaleX = (double)40/image.getWidth();
     // double scaleY = (double)40/image.getHeight();
@@ -45,7 +55,6 @@ public class TrapGraphic
 
   public BufferedImage getImageBurned ()
   {
-    // return image.getSubimage(0, 0, 32, 32);
      return imageBurned;
   }
 

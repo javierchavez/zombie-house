@@ -1,5 +1,16 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import java.util.Random;
 
@@ -25,11 +36,11 @@ public class Empty extends Tile
 
   /**
    * Sets the minimum cost of the tile when using a random cost
-   * @param minCost minumum allowable cost
+   * @param minCost minimum allowable cost
    */
   public void setMinCost(int minCost)
   {
-    this.minCost = minCost;
+    Empty.minCost = minCost;
   }
 
   /**
@@ -38,7 +49,7 @@ public class Empty extends Tile
    */
   public void setMaxCost(int maxCost)
   {
-    this.maxCost = maxCost;
+    Empty.maxCost = maxCost;
   }
 
   /**

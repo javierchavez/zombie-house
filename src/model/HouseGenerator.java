@@ -1,5 +1,17 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,15 +24,14 @@ import java.util.Random;
  */
 public class HouseGenerator
 {
+  private final HouseParameters params;
+  private final AStarFindStrategy pathfinder;
+  private final int maxTries;
   private House house;
   private List<Room> rooms;
   private Tile exit;
-  private HouseParameters params;
   private Random rand;
-  private AStarFindStrategy pathfinder;
-
   private int numHallways;
-  private int maxTries;
   private int generationAttempts;
 
 
@@ -382,13 +393,9 @@ public class HouseGenerator
     {
       return false;
     }
-    else if ((topTile instanceof Wall) && (bottomTile instanceof Wall))
-    {
-      return true;
-    }
     else
     {
-      return false;
+      return (topTile instanceof Wall) && (bottomTile instanceof Wall);
     }
   }
 
@@ -409,13 +416,9 @@ public class HouseGenerator
     {
       return false;
     }
-    else if ((leftTile instanceof Wall) && (rightTile instanceof Wall))
-    {
-      return true;
-    }
     else
     {
-      return false;
+      return (leftTile instanceof Wall) && (rightTile instanceof Wall);
     }
   }
 
@@ -464,11 +467,7 @@ public class HouseGenerator
  {
    int row = tile.getRow();
    int col = tile.getCol();
-   if (row <= 0 || col <= 0 || row >= house.getRows()-1 || col >= house.getCols()-1)
-   {
-     return true;
-   }
-   return false;
+   return row <= 0 || col <= 0 || row >= house.getRows() - 1 || col >= house.getCols() - 1;
  }
 
   private void placePlayer()

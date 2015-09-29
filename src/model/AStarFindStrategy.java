@@ -1,8 +1,20 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
+import com.sun.istack.internal.NotNull;
 
 import java.util.*;
-import java.util.List;
 
 /**
  * Find using A* algorithm
@@ -43,7 +55,9 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
         if (!costSoFar.containsKey(next) || (new_cost < costSoFar.get(next)))
         {
           costSoFar.put(next, new_cost);
-          int priority = (int) (new_cost+(Math.abs(end.getRow()-next.getRow())+Math.abs(end.getCol()-next.getCol())));
+          int priority = new_cost + (Math.abs(
+                  end.getRow() - next.getRow()) + Math.abs(
+                  end.getCol() - next.getCol()));
           frontier.add(new TilePriority(next, priority));
           cameFrom.put(next, current);
         }
@@ -62,8 +76,8 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
 
   private class TilePriority implements Comparable<TilePriority>
   {
-    private Tile tile;
-    private int cost;
+    private final Tile tile;
+    private final int cost;
 
     public TilePriority (Tile tile, int cost)
     {
@@ -81,6 +95,7 @@ public class AStarFindStrategy extends AbstractFindStrategy implements FindStrat
       return cost;
     }
 
+    @NotNull
     public int compareTo (TilePriority obj)
     {
       if (this.getCost() < obj.getCost())

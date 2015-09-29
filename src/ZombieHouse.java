@@ -1,7 +1,14 @@
 /**
- * Entrance of the program.
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ *
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ *
+ * Main enterence of the game
  */
-
 
 import common.Size;
 import controller.GameEngine;
@@ -15,10 +22,10 @@ import java.awt.image.BufferedImage;
 
 public class ZombieHouse
 {
-  private GameEngine game = new GameEngine();
   private static int width = Size.SCREEN_WIDTH, height = Size.SCREEN_HEIGHT;
-  protected JFrame frame = new JFrame("Zombie House");
-  protected JPanel jPanel = new JPanel();
+  protected final JFrame frame = new JFrame("Zombie House");
+  protected final JPanel jPanel = new JPanel();
+  private final GameEngine game = new GameEngine();
   private boolean running = false;
   private AffineTransform oldXForm;
   private BufferedImage screen;
@@ -27,6 +34,11 @@ public class ZombieHouse
   public ZombieHouse ()
   {
     init();
+  }
+
+  public static void main (String[] args)
+  {
+    new ZombieHouse().run();
   }
 
   public boolean isRunning ()
@@ -74,11 +86,6 @@ public class ZombieHouse
         }
       }
     }).start();
-  }
-
-  public static void main (String[] args)
-  {
-    new ZombieHouse().run();
   }
 
   protected void update (double deltaTime)

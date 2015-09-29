@@ -1,5 +1,16 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import java.awt.geom.Rectangle2D;
 
@@ -50,17 +61,20 @@ public class Player extends Character
     tile.setTrap(Trap.NONE);
   }
 
-
-  public enum PlayerState
-  {
-    ALIVE, DEAD, WINNER
-
-  }
-
   @Override
   public Rectangle2D getBoundingRectangle ()
   {
     return super.getBoundingRectangle();
+  }
+
+  @Override
+  public void setCombustedState (CombustedState s)
+  {
+    super.setCombustedState(s);
+    if (getCombustedState() == CombustedState.IGNITED)
+    {
+      state = PlayerState.DEAD;
+    }
   }
 
   public boolean senseHear (Tile zombieTile)
@@ -88,13 +102,10 @@ public class Player extends Character
     float dy = (zy - py) * (zy - py);
     return (Math.sqrt(dx+dy) <= smell);
   }
-  @Override
-  public void setCombustedState (CombustedState s)
+
+  public enum PlayerState
   {
-    super.setCombustedState(s);
-    if (getCombustedState() == CombustedState.IGNITED)
-    {
-      state = PlayerState.DEAD;
-    }
+    ALIVE, DEAD, WINNER
+
   }
 }

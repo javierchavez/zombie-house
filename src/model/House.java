@@ -1,5 +1,17 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
 import common.Direction;
 import model.GameOptions.GAME_STATE;
 
@@ -12,13 +24,11 @@ import java.util.Scanner;
  */
 public class House extends Area
 {
+  private final Player player;
+  private final HouseGenerator generator;
   private Tile[][] house;
-
   private List<Zombie> zombies = new ArrayList<>();
-  private Player player;
   private SuperZombie superZombie = new SuperZombie();
-
-  private HouseGenerator generator;
   private HouseParameters params;
   private String savedHouse;
   private GAME_STATE level;
@@ -35,6 +45,13 @@ public class House extends Area
     this.generator = new HouseGenerator();
     params = generator.getParams();
     this.initHouse();
+  }
+
+  public static void main (String[] args)
+  {
+    House house = new House(new Player());
+    house.generateRandomHouse(GameOptions.GAME_STATE.LEVEL5);
+    System.out.println(house);
   }
 
   /**
@@ -101,7 +118,6 @@ public class House extends Area
     this.level = level;
     save();
   }
-
 
   /**
    * Saves the current house state
@@ -348,7 +364,7 @@ public class House extends Area
   /**
    * Adds a zombie to the house
    *
-   * @param zombie Zombie to add to the hosue
+   * @param zombie Zombie to add to the house
    */
   public void addZombie(Zombie zombie)
   {
@@ -515,10 +531,10 @@ public class House extends Area
   }
 
   /**
-   * Gets all of the tiles around tile which can combuest
+   * Gets all of the tiles around tile which can ignite
    *
    * @param tile Tile to get neighbors around
-   * @return A List of tiles which can combust around tile
+   * @return A List of tiles which can ignite around tile
    */
   public List<Combustible> getCombustibleNeighbors(Tile tile)
   {
@@ -600,7 +616,7 @@ public class House extends Area
 
       try
       {
-        Thread.currentThread().sleep(110);
+        Thread.sleep(110);
       }
       catch (InterruptedException e)
       {
@@ -685,12 +701,5 @@ public class House extends Area
   {
     return (col >= 0 && col < this.getWidth())
             && (row >= 0 && row < this.getHeight());
-  }
-
-  public static void main(String[] args)
-  {
-    House house = new House(new Player());
-    house.generateRandomHouse(GameOptions.GAME_STATE.LEVEL5);
-    System.out.println(house);
   }
 }

@@ -1,5 +1,18 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
+
 import common.Duration;
 import common.Speed;
 
@@ -8,7 +21,7 @@ import common.Speed;
  */
 public class Zombie extends Character implements Deadly
 {
-  protected float zombieDecisionRate;
+  protected final float zombieDecisionRate;
   protected FindStrategy findStrategy;
   private boolean smellsPlayer;
 
@@ -33,15 +46,14 @@ public class Zombie extends Character implements Deadly
   }
 
   @Override
-  public void setTakePoints (float points)
-  {
-    return;
-  }
-
-  @Override
   public float getTakePoints ()
   {
     return 0;
+  }
+
+  @Override
+  public void setTakePoints (float points)
+  {
   }
 
   /**

@@ -1,5 +1,16 @@
 package controller;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import common.Direction;
 import common.Speed;
@@ -21,11 +32,11 @@ public abstract class AbstractCharacterController<T extends Character> implement
 {
 
   protected static House house;
+  private final boolean DEBUG = false;
+  private final Random random = new Random();
   protected T mover;
   protected boolean isMoving = false, running = false, idling = true;
   protected boolean moveUp, moveDown, moveLeft, moveRight;
-  private boolean DEBUG = false;
-  private Random random = new Random();
 
   public AbstractCharacterController (House house, T mover)
   {
@@ -37,6 +48,81 @@ public abstract class AbstractCharacterController<T extends Character> implement
   public AbstractCharacterController (House house)
   {
     this(house, null);
+  }
+
+  @Override
+  public boolean checkCollision (Move moveToCheck)
+  {
+    boolean tripTrap = false;
+    Tile current = house.getCharacterTile(mover);
+    Area testArea = new Area(moveToCheck.col, moveToCheck.row, mover.getWidth(),
+                             mover.getHeight());
+    List<Tile> neighbors = house.neighborsInDirection(current,
+                                                      moveToCheck.direction);
+
+    for (Tile neighbor : neighbors)
+    {
+      if (neighbor.intersects(testArea.getBoundingRectangle()))
+      {
+        if (!neighbor.isPassable())
+        {
+          if (neighbor instanceof Wall && mover instanceof Zombie)
+          {
+            Player player = house.getPlayer();
+            boolean canHear = player.senseHear(house.getCharacterTile(mover));
+            if (canHear)
+            {
+              float theta = player.getCardinalDirectionBetween(mover);
+              mover.setChannel(theta);
+              mover.setVolume(1f);
+            }
+            else
+            {
+              mover.setVolume(0f);
+            }
+          }
+          return true;
+        }
+        else if (house.isZombieTile(neighbor))
+        {
+          if (mover instanceof Zombie)
+          {
+            return true;
+          }
+        }
+      }
+    }
+
+    if (current.getTrap() == Trap.FIRE)
+    {
+      if (mover instanceof Player)
+      {
+        if (running)
+        {
+          tripTrap = true;
+        }
+      }
+      else if (mover instanceof Zombie)
+      {
+        tripTrap = true;
+      }
+
+      if (tripTrap)
+      {
+        List<Combustible> explode = house.getCombustibleNeighbors(current);
+        for (Combustible item : explode)
+        {
+          // need to remove the trap from the tiles in the explosion and/or
+          // set those off too. that means 'getCombustibleNeighbors' of the trap in
+          // the explosion and set those on fire too.
+          CombustibleController.getInstance().addCombustible(item);
+        }
+        CombustibleController.getInstance().addCombustible(current);
+        current.setTrap(Trap.NONE);
+      }
+    }
+
+    return false;
   }
 
   @Override
@@ -160,83 +246,6 @@ public abstract class AbstractCharacterController<T extends Character> implement
   {
     if (DEBUG) System.out.println("\tResting...");
     idling = random.nextBoolean();
-  }
-
-  @Override
-  public boolean checkCollision(Move moveToCheck)
-  {
-    boolean tripTrap = false;
-    Tile current = house.getCharacterTile(mover);
-    Area testArea = new Area(moveToCheck.col,
-                             moveToCheck.row,
-                             mover.getWidth(),
-                             mover.getHeight());
-    List<Tile> neighbors = house.neighborsInDirection(current,
-                                                      moveToCheck.direction);
-
-    for (Tile neighbor : neighbors)
-    {
-      if (neighbor.intersects(testArea.getBoundingRectangle()))
-      {
-        if (!neighbor.isPassable())
-        {
-          if (neighbor instanceof Wall && mover instanceof Zombie)
-          {
-            Player player = house.getPlayer();
-            boolean canHear = player.senseHear(house.getCharacterTile(mover));
-            if (canHear)
-            {
-              float theta = player.getCardinalDirectionBetween(mover);
-              mover.setChannel(theta);
-              mover.setVolume(1f);
-            }
-            else
-            {
-              mover.setVolume(0f);
-            }
-          }
-          return true;
-        }
-        else if (house.isZombieTile(neighbor))
-        {
-          if (mover instanceof Zombie)
-          {
-            return true;
-          }
-        }
-      }
-    }
-
-    if (current.getTrap() == Trap.FIRE)
-    {
-      if (mover instanceof Player)
-      {
-        if (running)
-        {
-          tripTrap = true;
-        }
-      }
-      else if (mover instanceof Zombie)
-      {
-        tripTrap = true;
-      }
-
-      if (tripTrap)
-      {
-        List<Combustible> explode = house.getCombustibleNeighbors(current);
-        for (Combustible item : explode)
-        {
-          // need to remove the trap from the tiles in the explosion and/or
-          // set those off too. that means 'getCombustibleNeighbors' of the trap in
-          // the explosion and set those on fire too.
-          CombustibleController.getInstance().addCombustible(item);
-        }
-        CombustibleController.getInstance().addCombustible(current);
-        current.setTrap(Trap.NONE);
-      }
-    }
-
-    return false;
   }
 
   @Override

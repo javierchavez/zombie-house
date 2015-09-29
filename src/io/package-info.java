@@ -1,4 +1,4 @@
 /**
- * Classes thats purposes are to read in/out data
+ * Classes that's purposes are to read in/out data
  */
 package io;

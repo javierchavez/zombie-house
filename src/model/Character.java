@@ -1,5 +1,16 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import common.CharacterAttributes;
 import common.Direction;
@@ -25,8 +36,8 @@ public class Character implements Mover, Object2D, Combustible, Sound
           width, height,
           smell,
           rotation;
-  private CombustedState combustedState = CombustedState.NONE;
   AudioChannel channel = AudioChannel.STEREO;
+  private CombustedState combustedState = CombustedState.NONE;
   private float volume;
   private int time = 0;
 
@@ -64,20 +75,15 @@ public class Character implements Mover, Object2D, Combustible, Sound
   }
 
   @Override
-  public float getRotation ()
-  {
-    return rotation;
-  }
-
-  @Override
   public float getStamina()
   {
     return stamina;
   }
 
-  public float getRegen()
+  @Override
+  public float getRotation ()
   {
-    return regen;
+    return rotation;
   }
 
   @Override
@@ -102,16 +108,21 @@ public class Character implements Mover, Object2D, Combustible, Sound
     return stamina;
   }
 
-  public void setRegen(float regen)
-  {
-    this.regen = regen;
-  }
-
   @Override
   public float setRotation (float rotation)
   {
     this.rotation = rotation;
     return rotation;
+  }
+
+  public float getRegen ()
+  {
+    return regen;
+  }
+
+  public void setRegen (float regen)
+  {
+    this.regen = regen;
   }
 
   /**
@@ -171,15 +182,15 @@ public class Character implements Mover, Object2D, Combustible, Sound
   }
 
   @Override
-  public float getHeight ()
-  {
-    return height;
-  }
-
-  @Override
   public void setWidth (float width)
   {
     this.width = width;
+  }
+
+  @Override
+  public float getHeight ()
+  {
+    return height;
   }
 
   @Override
@@ -219,15 +230,15 @@ public class Character implements Mover, Object2D, Combustible, Sound
   }
 
   @Override
-  public void setCombustedState (CombustedState s)
-  {
-    this.combustedState = s;
-  }
-
-  @Override
   public CombustedState getCombustedState ()
   {
     return combustedState;
+  }
+
+  @Override
+  public void setCombustedState (CombustedState s)
+  {
+    this.combustedState = s;
   }
 
   @Override
@@ -253,6 +264,7 @@ public class Character implements Mover, Object2D, Combustible, Sound
   {
     return time;
   }
+
   @Override
   public float getVolume ()
   {
@@ -327,4 +339,6 @@ public class Character implements Mover, Object2D, Combustible, Sound
 
     return theta;
   }
+
+
 }

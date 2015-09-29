@@ -1,25 +1,31 @@
 package controller;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
 import common.Direction;
 import common.Duration;
 import common.Speed;
 import model.*;
-import model.Move;
 
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class ZombieController extends AbstractCharacterController<Zombie>
 {
-  private List<Zombie> zombies;
-  private boolean isMoving = true;
-  private boolean playerDetected = false;
 
+  private final boolean DEBUG = false;
   // An incrementer to keep track of when zombie decision rate should fire
   private int time = 0;
-  private Tile zombieTile;
-  private List<Tile> path;
-
-  private boolean DEBUG = true;
 
   public ZombieController (House house)
   {
@@ -30,7 +36,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   @Override
   public void update(float deltaTime)
   {
-    zombies = house.getZombies();
+    List<Zombie> zombies = house.getZombies();
 
     time++;
     for (int i = 0; i < zombies.size(); i++)
@@ -42,7 +48,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
       float x, y; // Zombie's position in the tile
       Tile playerTile = house.getCharacterTile(house.getPlayer()); // Get player's current tile
 
-      isMoving = true;
+      boolean isMoving = true;
       mover = zombie = zombies.get(i);
       if (zombie.getCombustedState() == Combustible.CombustedState.IGNITED)
       {
@@ -50,7 +56,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
         continue;
       }
 
-      zombieTile = house.getCharacterTile(zombie);
+      Tile zombieTile = house.getCharacterTile(zombie);
       if (zombieTile == null || zombieTile.getCombustedState() == Combustible.CombustedState.IGNITED)
       {
         zombies.remove(i);
@@ -59,7 +65,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
 
       if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
-      playerDetected = zombie.sense(playerTile); // Detect player
+      boolean playerDetected = zombie.sense(playerTile);
       if (isMoving)
       {
         if (playerDetected)
@@ -73,7 +79,7 @@ public class ZombieController extends AbstractCharacterController<Zombie>
               house.getCharacterTile(zombie),
               house.getCharacterTile(house.getPlayer()));
 
-          path = mover.getStrategy().getPath();
+          List<Tile> path = mover.getStrategy().getPath();
           if (DEBUG) System.out.println("Zombie " + i + ": (" + zombie.getCurrentX() + ", " + zombie.getCurrentY() + ")");
 
           zombie.setSpeed(zombieSpeed * deltaTime);

@@ -1,5 +1,16 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import java.util.Random;
 
@@ -8,8 +19,8 @@ import java.util.Random;
  */
 public class RandomMoveStrategy extends AbstractFindStrategy implements FindStrategy<Tile>
 {
-  Random rand = new Random();
-  protected AStarFindStrategy defaultFinder = new AStarFindStrategy();
+  protected final AStarFindStrategy defaultFinder = new AStarFindStrategy();
+  final Random rand = new Random();
 
   @Override
   public void find (House board, Tile start, Tile end)

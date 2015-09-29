@@ -1,5 +1,16 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import java.awt.geom.Rectangle2D;
 
@@ -8,8 +19,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class Area implements Object2D
 {
-  private float x;
-  private float y;
+  private final float x;
+  private final float y;
   private float width;
   private float height;
 
@@ -45,15 +56,15 @@ public class Area implements Object2D
   }
 
   @Override
-  public float getHeight()
+  public void setWidth (float width)
   {
-    return height;
+    this.width = width;
   }
 
   @Override
-  public void setWidth(float width)
+  public float getHeight ()
   {
-    this.width = width;
+    return height;
   }
 
   @Override

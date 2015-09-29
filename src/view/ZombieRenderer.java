@@ -1,12 +1,24 @@
 package view;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
+
 import common.Direction;
 import common.Size;
 import model.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
 import java.util.List;
 
 
@@ -14,66 +26,66 @@ public class ZombieRenderer extends Renderer
 {
 
   private final House house;
-  ZombieSprite zombieSprite = new ZombieSprite();
-  SuperZombieSprite superZombieSprite = new SuperZombieSprite();
+  private final ZombieSprite zombieSprite = new ZombieSprite();
+  private final SuperZombieSprite superZombieSprite = new SuperZombieSprite();
 
-  private BufferedImage[] superWalkingWest = {
+  private final BufferedImage[] superWalkingWest = {
           SuperZombieSprite.getSprite(0, 3),
           SuperZombieSprite.getSprite(1, 3),
           SuperZombieSprite.getSprite(2, 3)};
 
-  private BufferedImage[] superWalkingEast = {
+  private final BufferedImage[] superWalkingEast = {
           SuperZombieSprite.getSprite(0, 1),
           SuperZombieSprite.getSprite(1, 1),
           SuperZombieSprite.getSprite(2, 1)};
 
-  private BufferedImage[] superWalkingNorth = {
+  private final BufferedImage[] superWalkingNorth = {
           SuperZombieSprite.getSprite(0, 2),
           SuperZombieSprite.getSprite(1, 2),
           SuperZombieSprite.getSprite(2, 2)};
 
-  private BufferedImage[] superWalkingSouth = {
+  private final BufferedImage[] superWalkingSouth = {
           SuperZombieSprite.getSprite(0, 0),
           SuperZombieSprite.getSprite(1, 0),
           SuperZombieSprite.getSprite(2, 0)};
 
 
-  private BufferedImage[] walkingWest = {
+  private final BufferedImage[] walkingWest = {
           ZombieSprite.getSprite(0, 3),
           ZombieSprite.getSprite(1, 3),
           ZombieSprite.getSprite(2, 3)};
 
-  private BufferedImage[] walkingEast = {
+  private final BufferedImage[] walkingEast = {
           ZombieSprite.getSprite(0, 1),
           ZombieSprite.getSprite(1, 1),
           ZombieSprite.getSprite(2, 1)};
 
-  private BufferedImage[] walkingNorth = {
+  private final BufferedImage[] walkingNorth = {
           ZombieSprite.getSprite(0, 2),
           ZombieSprite.getSprite(1, 2),
           ZombieSprite.getSprite(2, 2)};
 
-  private BufferedImage[] walkingSouth = {
+  private final BufferedImage[] walkingSouth = {
           ZombieSprite.getSprite(0, 0),
           ZombieSprite.getSprite(1, 0),
           ZombieSprite.getSprite(2, 0)};
 
 
-  private Animation west = new Animation(walkingWest, 1);
-  private Animation east = new Animation(walkingEast, 1);
-  private Animation north = new Animation(walkingNorth, 1);
-  private Animation south = new Animation(walkingSouth, 1);
+  private final Animation west = new Animation(walkingWest, 1);
+  private final Animation east = new Animation(walkingEast, 1);
+  private final Animation north = new Animation(walkingNorth, 1);
+  private final Animation south = new Animation(walkingSouth, 1);
 
-  private Animation superWest = new Animation(superWalkingWest, 1);
-  private Animation superEast = new Animation(superWalkingEast, 1);
-  private Animation superNorth = new Animation(superWalkingNorth, 1);
-  private Animation superSouth = new Animation(superWalkingSouth, 1);
+  private final Animation superWest = new Animation(superWalkingWest, 1);
+  private final Animation superEast = new Animation(superWalkingEast, 1);
+  private final Animation superNorth = new Animation(superWalkingNorth, 1);
+  private final Animation superSouth = new Animation(superWalkingSouth, 1);
 
 
   // check direction... need a AnimationFactoryClass
   private Animation animation;
   private Animation animationSuper;
-//  Sound2D sound2D;
+  // final Sound2D sound2D;
 
 
   public ZombieRenderer (House house)
@@ -119,6 +131,17 @@ public class ZombieRenderer extends Renderer
     g2.drawImage(animationSuper.getSprite(),
                  (int) ((superZombie.getCurrentX() * Size.TILE)),
                  (int) ((superZombie.getCurrentY() * Size.TILE)), null);
+
+    if (animation != null)
+    {
+      animation.start();
+      animation.update();
+    }
+    if (animationSuper != null)
+    {
+      animationSuper.start();
+      animationSuper.update();
+    }
 
   }
 

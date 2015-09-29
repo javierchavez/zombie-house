@@ -1,5 +1,18 @@
 package view;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
+
 import common.Direction;
 import common.Size;
 import model.*;
@@ -15,35 +28,34 @@ public class PlayerRenderer extends Renderer
   private final Player player;
 
 
-  private BufferedImage[] walkingWest = {
+  private final BufferedImage[] walkingWest = {
           PlayerSprite.getSprite(0, 3),
           PlayerSprite.getSprite(1, 3),
           PlayerSprite.getSprite(2, 3)};
 
-  private BufferedImage[] walkingEast = {
+  private final BufferedImage[] walkingEast = {
           PlayerSprite.getSprite(0, 1),
           PlayerSprite.getSprite(1, 1),
           PlayerSprite.getSprite(2, 1)};
 
-  private BufferedImage[] walkingNorth = {
+  private final BufferedImage[] walkingNorth = {
           PlayerSprite.getSprite(0, 2),
           PlayerSprite.getSprite(1, 2),
           PlayerSprite.getSprite(2, 2)};
 
-  private BufferedImage[] walkingSouth = {
+  private final BufferedImage[] walkingSouth = {
           PlayerSprite.getSprite(0, 0),
           PlayerSprite.getSprite(1, 0),
           PlayerSprite.getSprite(2, 0)};
 
 
-  private Animation west = new Animation(walkingWest, 1);
-  private Animation east = new Animation(walkingEast, 1);
-  private Animation north = new Animation(walkingNorth, 1);
-  private Animation south = new Animation(walkingSouth, 1);
+  private final Animation west = new Animation(walkingWest, 1);
+  private final Animation east = new Animation(walkingEast, 1);
+  private final Animation north = new Animation(walkingNorth, 1);
+  private final Animation south = new Animation(walkingSouth, 1);
 
   // check direction... need a AnimationFactoryClass
   private Animation animation;
-  private AudioInputStream as = null;
   private Clip c = null;
   public PlayerRenderer (Player player)
   {
@@ -52,7 +64,7 @@ public class PlayerRenderer extends Renderer
     try
     {
 
-      as = AudioSystem.getAudioInputStream(
+      AudioInputStream as = AudioSystem.getAudioInputStream(
               new File("resources/character-walking.wav"));
 
       c = AudioSystem.getClip();

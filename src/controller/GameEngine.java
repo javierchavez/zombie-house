@@ -1,5 +1,17 @@
 package controller;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
+
 import model.GameOptions;
 import model.House;
 import model.Player;
@@ -23,30 +35,26 @@ import java.awt.geom.Rectangle2D;
 public class GameEngine implements KeyListener, MouseInputListener, GameController
 {
   private final MenuRenderer menuRenderer;
-  private House house;
-  private Player player;
-  private Renderer houseRenderer;
-  private PlayerController controller;
-  private ZombieController zombieController;
+  private final House house;
+  private final Player player;
+  private final Renderer houseRenderer;
+  private final PlayerController controller;
+  private final ZombieController zombieController;
+  private final MenuController menuController;
+  private final GameOptions options;
+  private final Renderer playerRenderer;
+  private final Renderer zombieRenderer;
+  private final Renderer lights;
+  private final Converter converter;
+  private final boolean DEBUG = false;
   private SuperZombieController ss;
-  private MenuController menuController;
-  private GameOptions options;
-
-  private Renderer playerRenderer;
-  private Renderer zombieRenderer;
-  private Renderer lights;
   private Point2D dragFrom;
-  private Converter converter;
-
   private boolean moving = false;
   private boolean upPressed = false;
   private boolean leftPressed = false;
   private boolean downPressed = false;
   private boolean rightPressed = false;
   private boolean pKeyPressed = false;
-
-  private Rectangle2D viewPort;
-  private boolean DEBUG = false;
 
   public GameEngine ()
   {
@@ -150,16 +158,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     }
   }
 
-  public AffineTransform getTransform ()
-  {
-    AffineTransform at = new AffineTransform();
-    double shiftX = -player.getCurrentX() * 60;
-    double shiftY = -player.getCurrentY() * 60;
-    //    at.scale(1 / 1.78, 1 / 1.78);
-    at.translate(shiftX, shiftY);
-    return at;
-  }
-
   @Override
   public void render (Graphics2D graphics)
   {
@@ -178,6 +176,16 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
 
     //light should be render last
     lights.render(graphics);
+  }
+
+  public AffineTransform getTransform ()
+  {
+    AffineTransform at = new AffineTransform();
+    double shiftX = -player.getCurrentX() * 60;
+    double shiftY = -player.getCurrentY() * 60;
+    //    at.scale(1 / 1.78, 1 / 1.78);
+    at.translate(shiftX, shiftY);
+    return at;
   }
 
   @Override
@@ -401,8 +409,8 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   @Override
   public void mouseDragged (MouseEvent e)
   {
-    double dx = -(e.getPoint().getX() - dragFrom.getX());
-    double dy = -(e.getPoint().getY() - dragFrom.getY());
+    // double dx = -(e.getPoint().getX() - dragFrom.getX());
+    // double dy = -(e.getPoint().getY() - dragFrom.getY());
     dragFrom = e.getPoint();
   }
 
@@ -413,7 +421,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
 
   public void setViewPort (Rectangle2D rectangle)
   {
-    this.viewPort = rectangle;
+    Rectangle2D viewPort = rectangle;
     houseRenderer.setViewBounds(rectangle);
 
     //    houseRenderer.translateAbsolute();

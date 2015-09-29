@@ -1,5 +1,16 @@
 package model;
 
+/**
+ * @author Javier Chavez
+ * @author Alex Baker
+ * @author Erin Sosebee
+ * <p>
+ * Date September 28, 2015
+ * CS 351
+ * Zombie House
+ * <p>
+ * This is the interface for Combustible objects
+ */
 
 import common.Duration;
 
@@ -18,7 +29,7 @@ public class Tile implements Object2D, Combustible
   private float height = 1f;
   private int time = 0;
 
-  // The cost to travel over a tile (for pathfinding algorithms)
+  // The cost to travel over a tile (for path finding algorithms)
   private int cost;
   private Trap trap = Trap.NONE;
   private CombustedState combustedState = CombustedState.NONE;
@@ -133,18 +144,6 @@ public class Tile implements Object2D, Combustible
   }
 
   @Override
-  public void setWidth (float width)
-  {
-    this.width = width;
-  }
-
-  @Override
-  public void setHeight (float height)
-  {
-    this.height = height;
-  }
-
-  @Override
   public float getX ()
   {
     return col;
@@ -163,9 +162,21 @@ public class Tile implements Object2D, Combustible
   }
 
   @Override
+  public void setWidth (float width)
+  {
+    this.width = width;
+  }
+
+  @Override
   public float getHeight ()
   {
     return height;
+  }
+
+  @Override
+  public void setHeight (float height)
+  {
+    this.height = height;
   }
 
   @Override
@@ -193,15 +204,15 @@ public class Tile implements Object2D, Combustible
   }
 
   @Override
-  public void setCombustedState (CombustedState s)
-  {
-    this.combustedState = s;
-  }
-
-  @Override
   public CombustedState getCombustedState ()
   {
     return combustedState;
+  }
+
+  @Override
+  public void setCombustedState (CombustedState s)
+  {
+    this.combustedState = s;
   }
 
   @Override
@@ -230,24 +241,35 @@ public class Tile implements Object2D, Combustible
   }
 
   @Override
-  public boolean equals (Object o)
-  {
-    if (this == o) return true;
-    if (!(o instanceof Tile)) return false;
-
-    Tile tile = (Tile) o;
-
-
-    if (getRow() != tile.getRow()) return false;
-    return getCol() == tile.getCol();
-
-  }
-
-  @Override
   public int hashCode ()
   {
     int result = getRow();
     result = 31 * result + getCol();
     return result;
   }
+
+  @Override
+  public boolean equals (Object o)
+  {
+    if (this == o)
+    {
+      return true;
+    }
+    if (!(o instanceof Tile))
+    {
+      return false;
+    }
+
+    Tile tile = (Tile) o;
+
+
+    if (getRow() != tile.getRow())
+    {
+      return false;
+    }
+    return getCol() == tile.getCol();
+
+  }
+
+
 }

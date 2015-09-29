@@ -9,7 +9,7 @@ package controller;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * This is the interface for moveable objects
  */
 
 import model.*;

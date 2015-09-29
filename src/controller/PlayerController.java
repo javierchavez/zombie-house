@@ -9,6 +9,7 @@ package controller;
  * CS 351
  * Zombie House
  * <p>
+ * Player controller. This is the class for setting the player's speed and rotation
  */
 
 import common.CharacterAttributes;
@@ -21,7 +22,6 @@ public class PlayerController extends AbstractCharacterController<Player>
   Tile playerTile;
   private int trapSetTimer = 0;
   private boolean pKeyPressed = false;
-  private boolean DEBUG = false;
 
   public PlayerController (House house)
   {
@@ -154,7 +154,6 @@ public class PlayerController extends AbstractCharacterController<Player>
     int TRAP_SET_TIME = (int) (60 * Duration.PICKUP_TIME);
     if (house.isTrap(tile))
     {
-      //      if (DEBUG) System.out.println("PICKING UP TRAP");
       if (trapSetTimer % TRAP_SET_TIME == 0)
       {
         mover.pickupTrap(tile);
@@ -162,7 +161,6 @@ public class PlayerController extends AbstractCharacterController<Player>
     }
     else
     {
-      //      if (DEBUG) System.out.println("SETTING TRAP");
       int numTraps = mover.trapsAvailable();
       if (trapSetTimer % TRAP_SET_TIME == 0)
       {

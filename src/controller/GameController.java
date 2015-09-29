@@ -9,7 +9,7 @@ package controller;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * This is the interface for objects that are updated throughout the game
  */
 
 import java.awt.*;

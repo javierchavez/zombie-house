@@ -9,9 +9,8 @@ package controller;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * This is the class that allows users to use the game menu
  */
-
 
 import model.GameOptions;
 import model.House;

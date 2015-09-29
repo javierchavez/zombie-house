@@ -9,7 +9,7 @@ package controller;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Super zombie controller. This is the class for setting the super zombie's speed and rotation
  */
 
 import common.Duration;

@@ -9,7 +9,8 @@ package controller;
  * CS 351
  * Zombie House
  * <p>
- * This is the interface for Combustible objects
+ * Main controller. This is the class that delegates actions to the other
+ * controllers and sends data to the renders as needed
  */
 
 import model.GameOptions;
@@ -26,11 +27,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-
-/**
- * Main Controller. Its job is to delegate actions to other controllers and
- * to send data to the renders as needed
- */
 public class GameEngine implements KeyListener, MouseInputListener, GameController
 {
   private final MenuRenderer menuRenderer;
@@ -332,7 +328,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
         {
           menuController.previous();
-          //return;
         }
         leftPressed = false;
         moving = false;
@@ -345,7 +340,6 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
         if (options.getStatus() != GameOptions.GAME_STATUS.PLAYING)
         {
           menuController.next();
-          //return;
         }
         rightPressed = false;
         moving = false;

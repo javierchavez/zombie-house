@@ -17,6 +17,7 @@ import common.Direction;
 import common.Size;
 import controller.MenuController;
 import model.*;
+import model.GameOptions.GAME_STATUS;
 import model.Sound.SoundType;
 
 import javax.sound.sampled.*;
@@ -102,9 +103,12 @@ public class ZombieRenderer extends Renderer
   private Clip sound = null;
   private Clip soundWalk = null;
 
+  private GameOptions options;
 
-  public ZombieRenderer (House house)
+
+  public ZombieRenderer (House house, GameOptions options)
   {
+    this.options = options;
     this.house = house;
     try
     {
@@ -236,14 +240,17 @@ public class ZombieRenderer extends Renderer
       animationSuper.update();
     }
 
-    if(sound != null && MenuController.isActive())
-    {
 
+  }
+
+  public void stopSounds()
+  {
+    if(sound != null)
+    {
       sound.stop();
     }
-    if (soundWalk != null && MenuController.isActive())
+    if (soundWalk != null)
     {
-
       soundWalk.stop();
     }
   }

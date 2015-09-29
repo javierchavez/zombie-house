@@ -38,7 +38,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
   private final MenuController menuController;
   private final GameOptions options;
   private final Renderer playerRenderer;
-  private final Renderer zombieRenderer;
+  private final ZombieRenderer zombieRenderer;
   private final Renderer lights;
   private final Converter converter;
 
@@ -65,7 +65,7 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     house.generateRandomHouse();
     ss = new SuperZombieController(house, house.getSuperZombie());
     playerRenderer = new PlayerRenderer(player);
-    zombieRenderer = new ZombieRenderer(house);
+    zombieRenderer = new ZombieRenderer(house, options);
     converter = new Converter(house);
     houseRenderer = new HouseRenderer(house, converter);
     menuRenderer = new MenuRenderer(options);
@@ -196,8 +196,10 @@ public class GameEngine implements KeyListener, MouseInputListener, GameControll
     {
       // Menu screen
       case KeyEvent.VK_SPACE:
+        zombieRenderer.stopSounds();
         if (options.getStatus() == GameOptions.GAME_STATUS.PAUSED || options.getStatus() == GameOptions.GAME_STATUS.STARTUP)
         {
+
           if (options.getState() == GameOptions.GAME_STATE.RESTART)
           {
             house.reset();

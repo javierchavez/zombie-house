@@ -14,12 +14,12 @@ public class ZombieController extends AbstractCharacterController<Zombie>
   private boolean isMoving = true;
   private boolean playerDetected = false;
 
-  // An incrementer to keep track of when 120 frames (2 seconds) have passed
+  // An incrementer to keep track of when zombie decision rate should fire
   private int time = 0;
   private Tile zombieTile;
   private List<Tile> path;
 
-  private boolean DEBUG = false;
+  private boolean DEBUG = true;
 
   public ZombieController (House house)
   {
